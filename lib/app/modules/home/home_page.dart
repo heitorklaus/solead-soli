@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
+class _HomePageState extends ModularState<HomePage, HomeController>
     with SingleTickerProviderStateMixin {
   String _lastSelected = 'TAB: 0';
 
@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage>
                                                     MainAxisAlignment.start,
                                                 children: <Widget>[
                                                   Text(
-                                                    'Olá, Heitor Klaus!',
+                                                    'Olá, Heitsssor Klaus!',
                                                     style: ubuntu16WhiteBold500,
                                                   )
                                                 ],
@@ -317,7 +317,7 @@ class _HomePageState extends State<HomePage>
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/simulator');
+          controller.logoff();
         },
         tooltip: 'Incrsdement',
         child: Icon(Icons.add),

@@ -16,14 +16,23 @@ abstract class _AuthControllerBase with Store {
   @observable
   FirebaseUser user;
 
+  @observable
+  String token;
+
   @action
   setUser(FirebaseUser value) {
     user = value;
-    status = user == null ? AuthStatus.logoff : AuthStatus.login;
+    status = AuthStatus.login;
+  }
+
+  @action
+  auth(value) {
+    token = value;
+    status = token == null ? AuthStatus.logoff : AuthStatus.login;
   }
 
   _AuthControllerBase() {
-    _authRepository.getUser().then(setUser).catchError((e) {
+    _authRepository.getUser().then(auth).catchError((e) {
       print('ERRORRRRRR');
     });
   }

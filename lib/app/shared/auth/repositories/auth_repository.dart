@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:login/app/shared/auth/entities/auth.dart';
+import 'package:login/app/shared/utils/prefs.dart';
 import 'auth_repository_interface.dart';
 
 class AuthRepository implements IAuthRepository {
@@ -61,8 +62,10 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
-  Future<FirebaseUser> getUser() {
-    return _auth.currentUser();
+  Future getUser() async {
+    final valor = "123";
+    print(valor);
+    return valor;
   }
 
   @override

@@ -257,7 +257,7 @@ packages:
   framework:
     dependency: "direct main"
     description:
-      path: "../framework"
+      path: "..\\framework"
       relative: true
     source: path
     version: "0.0.1"

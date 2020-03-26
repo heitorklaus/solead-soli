@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:login/app/shared/auth/auth_controller.dart';
+import 'package:login/app/shared/utils/prefs.dart';
 import 'package:mobx/mobx.dart';
 
 class SplashPage extends StatefulWidget {
@@ -17,7 +18,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    disposer = autorun((_) {
+    disposer = autorun((_) async {
       final auth = Modular.get<AuthController>();
       if (auth.status == AuthStatus.login) {
         Modular.to.pushReplacementNamed('/home');
