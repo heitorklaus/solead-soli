@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "126844097805",
+    "firebase_url": "https://soleadsoli.firebaseio.com",
+    "project_id": "soleadsoli",
+    "storage_bucket": "soleadsoli.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126844097805:android:0ac815d60670bc5238cc44",
+        "android_client_info": {
+          "package_name": "br.soleadsoli.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126844097805-su7og9iisb0l3qsmkt9t90l5dq3mebsb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.soleadsoli.app",
+            "certificate_hash": "e2817d07be6c4a9b7d92bb3c0e32358698c5d6eb"
+          }
+        },
+        {
+          "client_id": "126844097805-qpldia3ujbeentv8lmi5hn29hl083bcg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOncCBSeGiuquPWcf9TJ3aOaG0pxAgjsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126844097805-qpldia3ujbeentv8lmi5hn29hl083bcg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
