@@ -100,8 +100,13 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                                     MainAxisAlignment.start,
                                                 children: <Widget>[
                                                   Text(
-                                                    'Olá, Heitsssor Klaus!',
+                                                    'Olá, Heitor Klaus!',
                                                     style: ubuntu16WhiteBold500,
+                                                  ),
+                                                  FlatButton(
+                                                    child: Text('Sair'),
+                                                    onPressed:
+                                                        controller.logoff,
                                                   )
                                                 ],
                                               ),
@@ -317,7 +322,7 @@ class _HomePageState extends ModularState<HomePage, HomeController>
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          controller.logoff();
+          Modular.to.pushNamed('/simulator');
         },
         tooltip: 'Incrsdement',
         child: Icon(Icons.add),

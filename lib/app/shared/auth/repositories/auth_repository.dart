@@ -41,7 +41,9 @@ class AuthRepository implements IAuthRepository {
         body: body);
 
     final data = Auth.fromJson(json.decode(auth.body));
-    // print(data["accessToken"]);
+    // Set Token
+    Prefs.setString("TOKEN", data.accessToken);
+
     return data;
   }
 
@@ -63,13 +65,13 @@ class AuthRepository implements IAuthRepository {
 
   @override
   Future getUser() async {
-    final valor = "123";
-    print(valor);
+    final valor = await Prefs.getString("TOKEN");
     return valor;
   }
 
   @override
   Future getLogout() {
+    Prefs.setString("TOKEN", "");
     return _auth.signOut();
   }
 }

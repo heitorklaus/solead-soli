@@ -43,6 +43,23 @@ mixin _$AuthController on _AuthControllerBase, Store {
     }, _$userAtom, name: '${_$userAtom.name}_set');
   }
 
+  final _$tokenAtom = Atom(name: '_AuthControllerBase.token');
+
+  @override
+  String get token {
+    _$tokenAtom.context.enforceReadPolicy(_$tokenAtom);
+    _$tokenAtom.reportObserved();
+    return super.token;
+  }
+
+  @override
+  set token(String value) {
+    _$tokenAtom.context.conditionallyRunInAction(() {
+      super.token = value;
+      _$tokenAtom.reportChanged();
+    }, _$tokenAtom, name: '${_$tokenAtom.name}_set');
+  }
+
   final _$loginWithGoogleAsyncAction = AsyncAction('loginWithGoogle');
 
   @override
@@ -65,6 +82,16 @@ mixin _$AuthController on _AuthControllerBase, Store {
     final _$actionInfo = _$_AuthControllerBaseActionController.startAction();
     try {
       return super.setUser(value);
+    } finally {
+      _$_AuthControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic auth(dynamic value) {
+    final _$actionInfo = _$_AuthControllerBaseActionController.startAction();
+    try {
+      return super.auth(value);
     } finally {
       _$_AuthControllerBaseActionController.endAction(_$actionInfo);
     }

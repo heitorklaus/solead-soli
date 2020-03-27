@@ -1,0 +1,5 @@
+lib/app/modules/simulator/simulator_module.dart
+lib/app/modules/simulator/simulator_page.dart
+test/app/modules/simulator/simulator_page_test.dart
+lib/app/modules/simulator/simulator_controller.dart
+test/app/modules/simulator/simulator_controller_test.dart
