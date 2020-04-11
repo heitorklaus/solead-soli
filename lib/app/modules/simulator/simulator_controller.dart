@@ -1,4 +1,6 @@
-import 'package:mobx/mobx.dart';
+ import 'package:mobx/mobx.dart';
+
+ 
 
 part 'simulator_controller.g.dart';
 
