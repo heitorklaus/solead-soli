@@ -1,12 +1,18 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:framework/ui/bottomnavigation/fab_bottom_app_bar.dart';
 import 'package:framework/ui/bottomnavigation/fab_with_icons.dart';
 import 'package:framework/ui/bottomnavigation/layout.dart';
+import 'package:login/app/shared/auth/repositories/auth_repository.dart';
 import 'package:login/app/shared/styles/main_style.dart';
+import 'package:login/app/shared/utils/database_helper.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/sqflite.dart';
 
-import 'components/item/item_widget.dart';
 import 'home_controller.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,12 +43,82 @@ class _HomePageState extends ModularState<HomePage, HomeController>
 
   static TabController tabController;
   static int tabIndex = 0;
+  Future<Database> get db => DatabaseHelper.getInstance().db;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     tabController = TabController(vsync: this, length: 4);
+  }
+
+  var httpClient = new HttpClient();
+  Future<File> _downloadFile(String url, String filename) async {
+    print('[CALL DOWNLOAD FILE FUNCTION]');
+    var request = await httpClient.getUrl(Uri.parse(url));
+    var response = await request.close();
+    var bytes = await consolidateHttpClientResponseBytes(response);
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    File file = new File('$dir/$filename');
+    await file.writeAsBytes(bytes);
+    openFile();
+
+    print('Finalizado');
+
+    return file;
+  }
+
+  openFile() async {
+
+
+        
+
+    String dir = (await getApplicationDocumentsDirectory()).path;
+
+    final File file = new File('$dir/file50.csv');
+
+    Stream<List> inputStream = file.openRead();
+
+    inputStream
+        .transform(utf8.decoder) // Decode bytes to UTF-8.
+        .transform(new LineSplitter()) // Convert stream to individual lines.
+        .listen((String line) {
+      try {
+        List row = line.split(';'); // split by ponto e virgula
+
+        String id = row[0].replaceAll('"', '');
+        String area = row[1].replaceAll('"', '');
+        String codigo = row[2].replaceAll('"', '');
+        String dados = row[3].replaceAll('"', '');
+        String inversor = row[4].replaceAll('"', '');
+        String marca_do_modulo = row[5].replaceAll('"', '');
+        String numero_de_modulo = row[6].replaceAll('"', '');
+        String peso = row[7].replaceAll('"', '');
+        String potencia = row[8].replaceAll('"', '');
+        String potencia_do_modulo = row[9].replaceAll('"', '');
+        String valor = row[10].replaceAll('"', '');
+        String potencia_novo = row[11].replaceAll('"', '');
+
+
+if(id == "id") {
+
+  DatabaseHelper().deleteOldData();
+
+} else {
+        DatabaseHelper().populateDadosKits(id,area,codigo,dados,inversor,marca_do_modulo,numero_de_modulo,peso,potencia,potencia_do_modulo,valor,potencia_novo);
+
+}
+
+
+        // print('$id, $area, $codigo');
+      } catch (e) {
+        //print('THIS NEVER GETS PRINTED');
+      }
+    }, onDone: () {
+      print('File is now closed.');
+    }, onError: (e) {
+      print(e.toString());
+    });
   }
 
   @override
@@ -107,7 +183,20 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                                     child: Text('Sair'),
                                                     onPressed:
                                                         controller.logoff,
-                                                  )
+                                                  ),
+                                                  FlatButton(
+                                                      child: Text('Set DATA'),
+                                                      onPressed: () {
+                                                        _downloadFile(
+                                                            "http://www.klausmetal.com.br/file50.csv",
+                                                            "file50.csv");
+                                                      }),
+                                                  FlatButton(
+                                                      child: Text('Get DATA'),
+                                                      onPressed: () {
+                                                               DatabaseHelper().populateDadosKits(2,'area','codigo','dados','inversor','marca_do_modulo','numero_de_modulo','peso','potencia','potencia_do_modulo','valor','potencia_novo');
+
+                                                      })
                                                 ],
                                               ),
                                             ),
@@ -321,7 +410,7 @@ class _HomePageState extends ModularState<HomePage, HomeController>
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
           Modular.to.pushNamed('/simulator');
         },
         tooltip: 'Incrsdement',

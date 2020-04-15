@@ -52,9 +52,27 @@ abstract class _AuthControllerBase with Store {
     return r;
   }
 
+  
+  @action
+  Future getCitiesIrradiation() async {
+    final r = await _authRepository.getCitiesIrradiation();
+    return r;
+  }
+
+
+
+  
+
   Future logout() {
     return _authRepository.getLogout();
   }
+
+  Future getDataLogin() {
+    return _authRepository.getDataLogin();
+  }
+
+
+  
 }
 
 enum AuthStatus { loading, login, logoff }

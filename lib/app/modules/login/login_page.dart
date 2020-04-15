@@ -4,6 +4,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import 'package:framework/ui/form/buttons/primary_button.dart';
 import 'package:framework/ui/form/inputs/outlined_text_edit.dart';
+import 'package:login/app/modules/home/home_controller.dart';
 import 'package:login/app/shared/styles/main_style.dart';
 //controller.loginWithGoogle
 
@@ -180,7 +181,9 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                                       }
                                     }),
                                     InkWell(
-                                      onTap: () async {},
+                                      onTap: () async {
+                                           HomeController().getDataLogin();
+                                      },
                                       child: Container(
                                           child: Text(
                                         'Esqueceu sua senha?',

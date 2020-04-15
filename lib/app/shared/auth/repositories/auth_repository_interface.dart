@@ -7,4 +7,6 @@ abstract class IAuthRepository {
   Future getEmailPasswordLogin();
   Future getToken(user, pass);
   Future getLogout();
+  Future getCitiesIrradiation();
+  Future getDataLogin();
 }

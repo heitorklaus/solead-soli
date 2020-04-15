@@ -74,6 +74,14 @@ mixin _$AuthController on _AuthControllerBase, Store {
     return _$loginAsyncAction.run(() => super.login(user, pass));
   }
 
+  final _$getCitiesIrradiationAsyncAction = AsyncAction('getCitiesIrradiation');
+
+  @override
+  Future<dynamic> getCitiesIrradiation() {
+    return _$getCitiesIrradiationAsyncAction
+        .run(() => super.getCitiesIrradiation());
+  }
+
   final _$_AuthControllerBaseActionController =
       ActionController(name: '_AuthControllerBase');
 

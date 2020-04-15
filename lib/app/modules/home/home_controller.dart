@@ -55,4 +55,10 @@ abstract class _HomeBase with Store {
     await Modular.get<AuthController>().logout();
     Modular.to.pushReplacementNamed('/login');
   }
+  getDataLogin() async {
+    await Modular.get<AuthController>().getDataLogin();
+  }
+
+
+  
 }
