@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:login/app/shared/auth/auth_controller.dart';
+import 'package:login/app/shared/utils/database_helper.dart';
 import 'package:login/app/shared/utils/prefs.dart';
 import 'package:mobx/mobx.dart';
 
@@ -21,6 +22,8 @@ class _SplashPageState extends State<SplashPage> {
     disposer = autorun((_) async {
       final auth = Modular.get<AuthController>();
       if (auth.status == AuthStatus.login) {
+      await DatabaseHelper().downloadFile("http://www.klausmetal.com.br/file55.csv",
+                                                            "file55.csv");
         Modular.to.pushReplacementNamed('/home');
       } else if (auth.status == AuthStatus.logoff) {
         Modular.to.pushReplacementNamed('/login');

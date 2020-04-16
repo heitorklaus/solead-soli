@@ -178,9 +178,9 @@ class _SimulatorPageState
               print(day1);
 
               strings.token = token;
-              strings.session = 'SESSAO';
-              strings.width = '300';
-              strings.height = '400';
+              strings.session = 'XUXU';
+              strings.width = 'XUXU';
+              strings.height = 'XUXU';
 
               proposalStrings.save(strings);
             }).getLarge());

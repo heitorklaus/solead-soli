@@ -52,74 +52,7 @@ class _HomePageState extends ModularState<HomePage, HomeController>
     tabController = TabController(vsync: this, length: 4);
   }
 
-  var httpClient = new HttpClient();
-  Future<File> _downloadFile(String url, String filename) async {
-    print('[CALL DOWNLOAD FILE FUNCTION]');
-    var request = await httpClient.getUrl(Uri.parse(url));
-    var response = await request.close();
-    var bytes = await consolidateHttpClientResponseBytes(response);
-    String dir = (await getApplicationDocumentsDirectory()).path;
-    File file = new File('$dir/$filename');
-    await file.writeAsBytes(bytes);
-    openFile();
-
-    print('Finalizado');
-
-    return file;
-  }
-
-  openFile() async {
-
-
-        
-
-    String dir = (await getApplicationDocumentsDirectory()).path;
-
-    final File file = new File('$dir/file50.csv');
-
-    Stream<List> inputStream = file.openRead();
-
-    inputStream
-        .transform(utf8.decoder) // Decode bytes to UTF-8.
-        .transform(new LineSplitter()) // Convert stream to individual lines.
-        .listen((String line) {
-      try {
-        List row = line.split(';'); // split by ponto e virgula
-
-        String id = row[0].replaceAll('"', '');
-        String area = row[1].replaceAll('"', '');
-        String codigo = row[2].replaceAll('"', '');
-        String dados = row[3].replaceAll('"', '');
-        String inversor = row[4].replaceAll('"', '');
-        String marca_do_modulo = row[5].replaceAll('"', '');
-        String numero_de_modulo = row[6].replaceAll('"', '');
-        String peso = row[7].replaceAll('"', '');
-        String potencia = row[8].replaceAll('"', '');
-        String potencia_do_modulo = row[9].replaceAll('"', '');
-        String valor = row[10].replaceAll('"', '');
-        String potencia_novo = row[11].replaceAll('"', '');
-
-
-if(id == "id") {
-
-  DatabaseHelper().deleteOldData();
-
-} else {
-        DatabaseHelper().populateDadosKits(id,area,codigo,dados,inversor,marca_do_modulo,numero_de_modulo,peso,potencia,potencia_do_modulo,valor,potencia_novo);
-
-}
-
-
-        // print('$id, $area, $codigo');
-      } catch (e) {
-        //print('THIS NEVER GETS PRINTED');
-      }
-    }, onDone: () {
-      print('File is now closed.');
-    }, onError: (e) {
-      print(e.toString());
-    });
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -187,15 +120,26 @@ if(id == "id") {
                                                   FlatButton(
                                                       child: Text('Set DATA'),
                                                       onPressed: () {
-                                                        _downloadFile(
-                                                            "http://www.klausmetal.com.br/file50.csv",
-                                                            "file50.csv");
+                                                       DatabaseHelper().downloadFile("http://www.klausmetal.com.br/file55.csv",
+                                                            "file55.csv");
                                                       }),
                                                   FlatButton(
                                                       child: Text('Get DATA'),
                                                       onPressed: () {
-                                                               DatabaseHelper().populateDadosKits(2,'area','codigo','dados','inversor','marca_do_modulo','numero_de_modulo','peso','potencia','potencia_do_modulo','valor','potencia_novo');
-
+                                                        DatabaseHelper()
+                                                            .populateDadosKits(
+                                                                2,
+                                                                'area',
+                                                                'codigo',
+                                                                'dados',
+                                                                'inversor',
+                                                                'marca_do_modulo',
+                                                                'numero_de_modulo',
+                                                                'peso',
+                                                                'potencia',
+                                                                'potencia_do_modulo',
+                                                                'valor',
+                                                                'potencia_novo');
                                                       })
                                                 ],
                                               ),

@@ -1,6 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
+import 'dart:convert';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
@@ -22,7 +28,7 @@ class DatabaseHelper {
 
   Future _initDb() async {
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'solead-50.db');
+    String path = join(databasesPath, 'solead-55.db');
     print("db $path");
 
     var db = await openDatabase(path,
@@ -53,7 +59,7 @@ class DatabaseHelper {
 
   void deleteOldData() async {
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'solead-50.db');
+    String path = join(databasesPath, 'solead-55.db');
     var db = await openDatabase(path, version: 2);
     await db.rawDelete('delete from tb_dados_kits');
   }
@@ -73,7 +79,7 @@ class DatabaseHelper {
       potencia_novo) async {
     print('[Populate data on tb_dados_kits]');
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'solead-50.db');
+    String path = join(databasesPath, 'solead-55.db');
     var db = await openDatabase(path, version: 2);
 
     try {
@@ -98,5 +104,83 @@ class DatabaseHelper {
   Future close() async {
     var dbClient = await db;
     return dbClient.close();
+  }
+
+    // DOWNLOAD CSV TO DEVICE
+   var httpClient = new HttpClient();
+   downloadFile(String url, String filename) async {
+
+  await DatabaseHelper.getInstance().db;
+     
+    print('[CALL DOWNLOAD FILE FUNCTION]');
+    var request = await httpClient.getUrl(Uri.parse(url));
+    var response = await request.close();
+    var bytes = await consolidateHttpClientResponseBytes(response);
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    File file = new File('$dir/$filename');
+    await file.writeAsBytes(bytes);
+    
+
+    print('[OK!... open File Downloaded..]');
+    openFile(filename);
+    return file;
+  }
+
+  openFile(filename) async {
+    String dir = (await getApplicationDocumentsDirectory()).path;
+
+    final File file = new File('$dir/$filename');
+
+    Stream<List> inputStream = file.openRead();
+
+    inputStream
+        .transform(utf8.decoder) // Decode bytes to UTF-8.
+        .transform(new LineSplitter()) // Convert stream to individual lines.
+        .listen((String line) {
+      try {
+        List row = line.split(';'); // split by ponto e virgula
+
+        String id = row[0].replaceAll('"', '');
+        String area = row[1].replaceAll('"', '');
+        String codigo = row[2].replaceAll('"', '');
+        String dados = row[3].replaceAll('"', '');
+        String inversor = row[4].replaceAll('"', '');
+        String marca_do_modulo = row[5].replaceAll('"', '');
+        String numero_de_modulo = row[6].replaceAll('"', '');
+        String peso = row[7].replaceAll('"', '');
+        String potencia = row[8].replaceAll('"', '').replaceAll(',', '.');
+        String potencia_do_modulo = row[9].replaceAll('"', '');
+        String valor = row[10].replaceAll('"', '');
+        String potencia_novo = row[11].replaceAll('"', '');
+
+        if (id == "id") {
+          print('[DELETING OLD DATA]');
+          DatabaseHelper().deleteOldData();
+        } else {
+          DatabaseHelper().populateDadosKits(
+              id,
+              area,
+              codigo,
+              dados,
+              inversor,
+              marca_do_modulo,
+              numero_de_modulo,
+              peso,
+              potencia,
+              potencia_do_modulo,
+              valor,
+              potencia_novo);
+        }
+        print('[EXECUTED LINE]');
+        print('[$codigo] '  + ' [$potencia] ' + ' [$potencia_novo] ');
+      } catch (e) {
+        print('[ERROR] ' + e.toString());
+        //print('THIS NEVER GETS PRINTED');
+      }
+    }, onDone: () {
+      print('File is now closed.');
+    }, onError: (e) {
+      print(e.toString());
+    });
   }
 }
