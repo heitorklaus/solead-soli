@@ -6,142 +6,140 @@ part of 'auth.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$Auth on _Auth, Store {
   final _$avatarAtom = Atom(name: '_Auth.avatar');
 
   @override
   String get avatar {
-    _$avatarAtom.context.enforceReadPolicy(_$avatarAtom);
-    _$avatarAtom.reportObserved();
+    _$avatarAtom.reportRead();
     return super.avatar;
   }
 
   @override
   set avatar(String value) {
-    _$avatarAtom.context.conditionallyRunInAction(() {
+    _$avatarAtom.reportWrite(value, super.avatar, () {
       super.avatar = value;
-      _$avatarAtom.reportChanged();
-    }, _$avatarAtom, name: '${_$avatarAtom.name}_set');
+    });
   }
 
   final _$emailAtom = Atom(name: '_Auth.email');
 
   @override
   String get email {
-    _$emailAtom.context.enforceReadPolicy(_$emailAtom);
-    _$emailAtom.reportObserved();
+    _$emailAtom.reportRead();
     return super.email;
   }
 
   @override
   set email(String value) {
-    _$emailAtom.context.conditionallyRunInAction(() {
+    _$emailAtom.reportWrite(value, super.email, () {
       super.email = value;
-      _$emailAtom.reportChanged();
-    }, _$emailAtom, name: '${_$emailAtom.name}_set');
+    });
   }
 
   final _$nameAtom = Atom(name: '_Auth.name');
 
   @override
   String get name {
-    _$nameAtom.context.enforceReadPolicy(_$nameAtom);
-    _$nameAtom.reportObserved();
+    _$nameAtom.reportRead();
     return super.name;
   }
 
   @override
   set name(String value) {
-    _$nameAtom.context.conditionallyRunInAction(() {
+    _$nameAtom.reportWrite(value, super.name, () {
       super.name = value;
-      _$nameAtom.reportChanged();
-    }, _$nameAtom, name: '${_$nameAtom.name}_set');
+    });
   }
 
   final _$tokenTypeAtom = Atom(name: '_Auth.tokenType');
 
   @override
   String get tokenType {
-    _$tokenTypeAtom.context.enforceReadPolicy(_$tokenTypeAtom);
-    _$tokenTypeAtom.reportObserved();
+    _$tokenTypeAtom.reportRead();
     return super.tokenType;
   }
 
   @override
   set tokenType(String value) {
-    _$tokenTypeAtom.context.conditionallyRunInAction(() {
+    _$tokenTypeAtom.reportWrite(value, super.tokenType, () {
       super.tokenType = value;
-      _$tokenTypeAtom.reportChanged();
-    }, _$tokenTypeAtom, name: '${_$tokenTypeAtom.name}_set');
+    });
   }
 
   final _$accessTokenAtom = Atom(name: '_Auth.accessToken');
 
   @override
   String get accessToken {
-    _$accessTokenAtom.context.enforceReadPolicy(_$accessTokenAtom);
-    _$accessTokenAtom.reportObserved();
+    _$accessTokenAtom.reportRead();
     return super.accessToken;
   }
 
   @override
   set accessToken(String value) {
-    _$accessTokenAtom.context.conditionallyRunInAction(() {
+    _$accessTokenAtom.reportWrite(value, super.accessToken, () {
       super.accessToken = value;
-      _$accessTokenAtom.reportChanged();
-    }, _$accessTokenAtom, name: '${_$accessTokenAtom.name}_set');
+    });
   }
 
   final _$passwordAtom = Atom(name: '_Auth.password');
 
   @override
   String get password {
-    _$passwordAtom.context.enforceReadPolicy(_$passwordAtom);
-    _$passwordAtom.reportObserved();
+    _$passwordAtom.reportRead();
     return super.password;
   }
 
   @override
   set password(String value) {
-    _$passwordAtom.context.conditionallyRunInAction(() {
+    _$passwordAtom.reportWrite(value, super.password, () {
       super.password = value;
-      _$passwordAtom.reportChanged();
-    }, _$passwordAtom, name: '${_$passwordAtom.name}_set');
+    });
   }
 
   final _$roleAtom = Atom(name: '_Auth.role');
 
   @override
   String get role {
-    _$roleAtom.context.enforceReadPolicy(_$roleAtom);
-    _$roleAtom.reportObserved();
+    _$roleAtom.reportRead();
     return super.role;
   }
 
   @override
   set role(String value) {
-    _$roleAtom.context.conditionallyRunInAction(() {
+    _$roleAtom.reportWrite(value, super.role, () {
       super.role = value;
-      _$roleAtom.reportChanged();
-    }, _$roleAtom, name: '${_$roleAtom.name}_set');
+    });
   }
 
   final _$usernameAtom = Atom(name: '_Auth.username');
 
   @override
   String get username {
-    _$usernameAtom.context.enforceReadPolicy(_$usernameAtom);
-    _$usernameAtom.reportObserved();
+    _$usernameAtom.reportRead();
     return super.username;
   }
 
   @override
   set username(String value) {
-    _$usernameAtom.context.conditionallyRunInAction(() {
+    _$usernameAtom.reportWrite(value, super.username, () {
       super.username = value;
-      _$usernameAtom.reportChanged();
-    }, _$usernameAtom, name: '${_$usernameAtom.name}_set');
+    });
+  }
+
+  @override
+  String toString() {
+    return '''
+avatar: ${avatar},
+email: ${email},
+name: ${name},
+tokenType: ${tokenType},
+accessToken: ${accessToken},
+password: ${password},
+role: ${role},
+username: ${username}
+    ''';
   }
 }

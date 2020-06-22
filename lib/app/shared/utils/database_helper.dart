@@ -28,7 +28,7 @@ class DatabaseHelper {
 
   Future _initDb() async {
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'solead-55.db');
+    String path = join(databasesPath, 'solead-62.db');
     print("db $path");
 
     var db = await openDatabase(path,
@@ -42,9 +42,9 @@ class DatabaseHelper {
         'CREATE TABLE PROPOSAL_STRINGS(ID INTEGER PRIMARY KEY, TOKEN TEXT, SESSION TEXT'
         ', WIDTH TEXT, HEIGHT TEXT)');
     await db.execute(
-        'CREATE TABLE CITIES_IRRADIATION(ID INTEGER PRIMARY KEY, CITY TEXT, DEF TEXT , N TEXT, L TEXT, O TEXT, S TEXT, NE TEXT, NO TEXT, SE TEXT, SO TEXT)');
+        'CREATE TABLE CITIES_IRRADIATION(ID INTEGER PRIMARY KEY, CITY TEXT, DEF TEXT , N TEXT, L TEXT, O TEXT, S TEXT, NE TEXT, NO TEXT, SE TEXT, SO TEXT, PRICE TEXT)');
     await db.execute(
-        "insert  into CITIES_IRRADIATION (ID,CITY,DEF,N,L,O,S,NE,NO,SE,SO) VALUES (1,'CUIABÁ','5,11','5,25','4,95','4,96','4,53','5,21','5,22','4,66','4,68')");
+        "insert  into CITIES_IRRADIATION (ID,CITY,DEF,N,L,O,S,NE,NO,SE,SO,PRICE) VALUES (1,'CUIABÁ','5,11','5,25','4,95','4,96','4,53','5,21','5,22','4,66','4,68','0,91')");
 
     await db.execute(
         'CREATE TABLE tb_dados_kits (id int8 NOT NULL, area varchar(255) NULL, codigo varchar(255) NULL,dados text NULL,inversor varchar(255) NULL,marca_do_modulo varchar(255) NULL,numero_de_modulo int4 NULL,peso varchar(255) NULL,potencia varchar(255) NULL,potencia_do_modulo int4 NULL,valor varchar(255) NULL,potencia_novo numeric(5,2) NULL,CONSTRAINT tb_dados_kits_pkey PRIMARY KEY (id))');
@@ -59,7 +59,7 @@ class DatabaseHelper {
 
   void deleteOldData() async {
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'solead-55.db');
+    String path = join(databasesPath, 'solead-62.db');
     var db = await openDatabase(path, version: 2);
     await db.rawDelete('delete from tb_dados_kits');
   }
@@ -79,7 +79,7 @@ class DatabaseHelper {
       potencia_novo) async {
     print('[Populate data on tb_dados_kits]');
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'solead-55.db');
+    String path = join(databasesPath, 'solead-62.db');
     var db = await openDatabase(path, version: 2);
 
     try {

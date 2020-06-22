@@ -12,8 +12,8 @@ class LoginController = _LoginBase with _$LoginController;
 abstract class _LoginBase with Store {
   AuthController auth = Modular.get();
 
-  final username = TextEditingController(text: 'heitorklaus@hotmail.com');
-  final password = TextEditingController(text: 'amesma');
+  final username = TextEditingController();
+  final password = TextEditingController();
 
   @observable
   bool disableAdd = true;
@@ -59,7 +59,7 @@ abstract class _LoginBase with Store {
     try {
       loading = true;
       final respose = await auth.login(username.text, password.text);
-      print('[RESPONSTA PARA LOGIN CONTROLLER]');
+      print('[RESPONSE PARA LOGIN CONTROLLER]');
 
       
       if (respose.accessToken != null) {

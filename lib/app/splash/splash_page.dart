@@ -22,6 +22,7 @@ class _SplashPageState extends State<SplashPage> {
     disposer = autorun((_) async {
       final auth = Modular.get<AuthController>();
       if (auth.status == AuthStatus.login) {
+        print("[ SPLASH ]");
       await DatabaseHelper().downloadFile("http://www.klausmetal.com.br/file55.csv",
                                                             "file55.csv");
         Modular.to.pushReplacementNamed('/home');

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:login/app/shared/repositories/entities/dados_kits.dart';
 import 'package:login/app/shared/repositories/entities/proposal_strings.dart';
 import 'package:login/app/shared/utils/database_helper.dart';
 import 'package:sqflite/sqflite.dart';
@@ -27,14 +28,35 @@ class ProposalStringsDao {
     return strings;
   }
 
-  Future<List<ProposalStrings>> findAllByTipo(String tipo) async {
+    Future findPotenciaKitMenor(tipo) async {
     final dbClient = await db;
 
-    final list = await dbClient.rawQuery('select * from PROPOSAL_STRINGS where tipo =? ',[tipo]);
+    final list = await dbClient.rawQuery("select * from tb_dados_kits where potencia_novo < '$tipo' order by potencia_novo DESC limit 1");
 
-    final strings = list.map<ProposalStrings>((json) => ProposalStrings.fromJson(json)).toList();
+    if (list.length > 0) {
 
-    return strings;
+      final valor =  new DadosKits.fromJson(list.first);
+
+      return valor;
+    }
+
+    return null;
+  }
+
+
+  Future findPotenciaKit(tipo) async {
+    final dbClient = await db;
+
+    final list = await dbClient.rawQuery("select * from tb_dados_kits where potencia_novo > '$tipo' order by potencia_novo asc limit 1");
+
+    if (list.length > 0) {
+
+      final valor =  new DadosKits.fromJson(list.first);
+
+      return valor;
+    }
+
+    return null;
   }
 
   Future<ProposalStrings> findById(int id) async {

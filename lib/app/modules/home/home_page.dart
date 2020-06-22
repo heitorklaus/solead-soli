@@ -8,6 +8,7 @@ import 'package:framework/ui/bottomnavigation/fab_bottom_app_bar.dart';
 import 'package:framework/ui/bottomnavigation/fab_with_icons.dart';
 import 'package:framework/ui/bottomnavigation/layout.dart';
 import 'package:login/app/shared/auth/repositories/auth_repository.dart';
+import 'package:login/app/shared/repositories/proposal_strings.dart';
 import 'package:login/app/shared/styles/main_style.dart';
 import 'package:login/app/shared/utils/database_helper.dart';
 import 'package:path_provider/path_provider.dart';
@@ -126,20 +127,21 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                                   FlatButton(
                                                       child: Text('Get DATA'),
                                                       onPressed: () {
-                                                        DatabaseHelper()
-                                                            .populateDadosKits(
-                                                                2,
-                                                                'area',
-                                                                'codigo',
-                                                                'dados',
-                                                                'inversor',
-                                                                'marca_do_modulo',
-                                                                'numero_de_modulo',
-                                                                'peso',
-                                                                'potencia',
-                                                                'potencia_do_modulo',
-                                                                'valor',
-                                                                'potencia_novo');
+                                                        ProposalStringsDao().findPotenciaKit('10.53');
+                                                        // DatabaseHelper()
+                                                        //     .populateDadosKits(
+                                                        //         2,
+                                                        //         'area',
+                                                        //         'codigo',
+                                                        //         'dados',
+                                                        //         'inversor',
+                                                        //         'marca_do_modulo',
+                                                        //         'numero_de_modulo',
+                                                        //         'peso',
+                                                        //         'potencia',
+                                                        //         'potencia_do_modulo',
+                                                        //         'valor',
+                                                        //         'potencia_novo');
                                                       })
                                                 ],
                                               ),

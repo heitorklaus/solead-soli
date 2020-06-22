@@ -27,8 +27,33 @@ class _SimulatorPageState
     extends ModularState<SimulatorPage, SimulatorController> {
   //use 'controller' variable to access controller
   bool isChecked = false;
+  bool isVisible = false;
+
+  static var dateUtility = DateUtil();
+
+// The entire multilevel list displayed by this app.
+// final List<Entry> data = <Entry>[
+//   Entry(
+//     'Geração Kwh/Mês',
+//     <Entry>[
+//       Entry('Janeiro: ' + dateUtility.daysInMonth(1, 2020).toString()),
+//       Entry('Fevereiro: ' + dateUtility.daysInMonth(2, 2020).toString()),
+//       Entry('Março: ' + dateUtility.daysInMonth(3, 2020).toString()),
+//       Entry('Abril: ' + dateUtility.daysInMonth(4, 2020).toString()),
+//       Entry('Maio: ' + dateUtility.daysInMonth(5, 2020).toString()),
+//       Entry('Junho: ' + dateUtility.daysInMonth(6, 2020).toString()),
+//       Entry('Julho: ' + dateUtility.daysInMonth(7, 2020).toString()),
+//       Entry('Agosto: ' + dateUtility.daysInMonth(8, 2020).toString()),
+//       Entry('Setembro: ' + dateUtility.daysInMonth(9, 2020).toString()),
+//       Entry('Outubro: ' + dateUtility.daysInMonth(10, 2020).toString()),
+//       Entry('Novembro: ' + dateUtility.daysInMonth(11, 2020).toString()),
+//       Entry('Dezembro: ' + dateUtility.daysInMonth(12, 2020).toString()),
+//     ],
+//   ),
+// ];
 
 
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,124 +62,324 @@ class _SimulatorPageState
         ),
         body: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-            child:        Observer(builder: (BuildContext context) {
-              return Column(
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: Row(
-                      children: <Widget>[Text('Informe a média de consumo',style: TextStyle(fontWeight: FontWeight.bold),)],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                          child: OutlinedTextEdit(
-                            keyboardType: TextInputType.number,
-                            onChanged: (value) => {},
-                            prefixIcon: Icon(Icons.pie_chart),
-                            controller: controller.media,
-                            label: "Média KWp",
+              margin: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+              child: Observer(builder: (BuildContext context) {
+                return Column(
+                  children: <Widget>[
+                    
+                   
+                    Container(
+                      margin: EdgeInsets.only(top: 20),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: OutlinedTextEdit(
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) => {},
+                              prefixIcon: Icon(Icons.pie_chart),
+                              controller: controller.media,
+                              label: "Média KWp",
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: Row(
-                      children: <Widget>[Text('Tipo de entrada',style: TextStyle(fontWeight: FontWeight.bold),)],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 0),
-                    child: Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Checkbox(
-                          value: isChecked,
-                          onChanged: (value) {
-                            setState(() {
-                              isChecked = value;
-                            });
-                          },
-                        ),
-                        Text('Bifasico'),
-                        SizedBox(width: 50,),
-                         Checkbox(
-                          value: isChecked,
-                          onChanged: (value) {
-                            setState(() {
-                              isChecked = value;
-                            });
-                          },
-                        ),
-                        Text('Trifasico'),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: Row(
-                      children: <Widget>[Text('Custo KWh / Mês',style: TextStyle(fontWeight: FontWeight.bold),)],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                          child: OutlinedTextEdit(
-                            initialValue: 'R\$ 0,91',
-                            prefixIcon: Icon(Icons.monetization_on),
-                            keyboardType: TextInputType.number,
-                            onChanged: (value) => {},
-                            label: "Custo por KWp",
+                          SizedBox(
+                            width: 22,
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                         Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: Row(
-                      children: <Widget>[Text('Potência necessária KWp',style: TextStyle(fontWeight: FontWeight.bold),)],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                          child: OutlinedTextEdit(
-                            controller: controller.potencia,
-                             prefixIcon: Icon(Icons.equalizer),
-                            keyboardType: TextInputType.number,
-                            onChanged: (value) => {},
-                            label: "Custo por KWp",
+                          Expanded(
+                            child: OutlinedTextEdit(
+                              controller: controller.mediaMoney,
+                              prefixIcon: Icon(Icons.monetization_on),
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) => {},
+                              label: "Média R\$",
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              );
-            })
-          ),
+                    // Container(
+                    //   margin: EdgeInsets.only(top: 20),
+                    //   child: Row(
+                    //     children: <Widget>[
+                    //       Text(
+                    //         'Tipo de entrada',
+                    //         style: TextStyle(fontWeight: FontWeight.bold),
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(top: 0),
+                    //   child: Row(
+                    //     children: <Widget>[
+                    //       SizedBox(
+                    //         width: 20,
+                    //       ),
+                    //       Checkbox(
+                    //         value: isChecked,
+                    //         onChanged: (value) {
+                    //           setState(() {
+                    //             isChecked = value;
+                    //           });
+                    //         },
+                    //       ),
+                    //       Text('Bifasico'),
+                    //       SizedBox(
+                    //         width: 50,
+                    //       ),
+                    //       Checkbox(
+                    //         value: isChecked,
+                    //         onChanged: (value) {
+                    //           setState(() {
+                    //             isChecked = value;
+                    //           });
+                    //         },
+                    //       ),
+                    //       Text('Trifasico'),
+                    //     ],
+                    //   ),
+                    // ),
+                    // InkWell(
+                    //   child: Text('Geração Mes a Mes'),
+                    //   onTap: () {
+                    //     setState(() {
+                    //       isVisible = !isVisible;
+                    //     });
+                    //   },
+                    // ),
+                    // SingleChildScrollView(
+                    //   physics: ScrollPhysics(),
+                    //   child: Visibility(
+                    //     visible: isVisible,
+                    //     child: Column(
+                    //       children: <Widget>[
+                    //         SizedBox(
+                    //           height: 20,
+                    //         ),
+                    //         Row(
+                    //           mainAxisAlignment: MainAxisAlignment.center,
+                    //           children: <Widget>[
+                    //             Text('Janeiro: Dias '),
+                    //             Text(dateUtility
+                    //                 .daysInMonth(1, 2020)
+                    //                 .toString()),
+                    //           ],
+                    //         )
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(top: 20),
+                    //   child: Row(
+                    //     children: <Widget>[
+                    //       Text(
+                    //         'Custo KWh / Mês',
+                    //         style: TextStyle(fontWeight: FontWeight.bold),
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(top: 20),
+                    //   child: Row(
+                    //     children: <Widget>[
+                    //       SizedBox(
+                    //         width: 20,
+                    //       ),
+                    //       Expanded(
+                    //         child: OutlinedTextEdit(
+                    //           initialValue: 'R\$ 0,91',
+                    //           prefixIcon: Icon(Icons.monetization_on),
+                    //           keyboardType: TextInputType.number,
+                    //           onChanged: (value) => {},
+                    //           label: "Custo por KWp",
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(top: 20),
+                    //   child: Row(
+                    //     children: <Widget>[
+                    //       Text(
+                    //         'Potência necessária KWp',
+                    //         style: TextStyle(fontWeight: FontWeight.bold),
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
+
+                    Container(
+                      margin: EdgeInsets.only(top:30),
+                      child: Row(children: <Widget>[
+                         Expanded(
+                            child: OutlinedTextEdit(
+                              controller: controller.potencia,
+                              prefixIcon: Icon(Icons.equalizer),
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) => {},
+                              label: "Potência necessária",
+                            ),
+                          ),
+                      ],),
+                    ),
+
+                    Container(
+                      margin: EdgeInsets.only(top: 20),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            'Potência/Kit indicado (Opção 1)',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 20),
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            width: 130,
+                            child: OutlinedTextEdit(
+                              controller: controller.potenciaIndicada1,
+                              prefixIcon: Icon(Icons.equalizer),
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) => {},
+                              label: "Potência",
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Expanded(
+                            child: OutlinedTextEdit(
+                              controller: controller.valorKit1,
+                              prefixIcon: Icon(Icons.monetization_on),
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) => {},
+                              label: "R\$ Valor",
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Container(
+                            width: 65,
+                            child:  Observer(
+                                  builder: (BuildContext context) {
+                                  if(controller.disableAdd) {
+                                      return PrimaryButton(
+                                      child: Text(
+                                        'Ver',
+                                        style: buttonLargeWhite,
+                                      ),
+                                        onPressed:null ,
+                                      //onPressed:controller.loginWithGoogle,
+                                    ).getLarge();
+                                  } else {
+                                    return     PrimaryButton(
+                                      child: Text(
+                                        'ver',
+                                        style: buttonLargeWhite,
+                                      ),
+                                        onPressed: (){
+
+                                          controller.showDialogController(context);
+                                        },
+                                      //onPressed:controller.loginWithGoogle,
+                                    ).getLarge();
+                                  }
+                                  },
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+
+                    Container(
+                      margin: EdgeInsets.only(top: 20),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            'Potência/Kit indicado (Opção 2)',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 20),
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            width: 130,
+                            child: OutlinedTextEdit(
+                              controller: controller.potenciaIndicada2,
+                              prefixIcon: Icon(Icons.equalizer),
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) => {},
+                              label: "Potência",
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Expanded(
+                            child: OutlinedTextEdit(
+                              controller: controller.valorKit2,
+                              prefixIcon: Icon(Icons.monetization_on),
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) => {},
+                              label: "R\$ Valor",
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+
+                           Container(
+                             width:65,
+                             child: Observer(
+                                  builder: (BuildContext context) {
+                                  if(controller.disableAdd) {
+                                      return PrimaryButton(
+                                      child: Text(
+                                        'Ver',
+                                        style: buttonLargeWhite,
+                                      ),
+                                        onPressed:null ,
+                                      //onPressed:controller.loginWithGoogle,
+                                    ).getLarge();
+                                  } else {
+                                    return     PrimaryButton(
+                                      child: Text(
+                                        'ver',
+                                        style: buttonLargeWhite,
+                                      ),
+                                        onPressed: (){
+                                          controller.showDialogController(context);
+                                        },
+                                      //onPressed:controller.loginWithGoogle,
+                                    ).getLarge();
+                                  }
+                                  },
+                                ),
+                           ),
+                          
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                );
+              })),
         ),
         bottomNavigationBar: PrimaryButton(
             child: Text(
