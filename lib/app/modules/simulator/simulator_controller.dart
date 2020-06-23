@@ -62,15 +62,13 @@ abstract class _SimulatorControllerBase with Store {
         var potenciaProximaMenor = await ProposalStringsDao()
             .findPotenciaKitMenor(result.toStringAsFixed(2));
 
-        //  print(valor.id.toString());
-        //  print(valor.potencia);
+        print('NOVO RETORNO AQUI 2: ' + potenciaProximaMaior.id.toString());
 
         potenciaIndicada1.text = potenciaProximaMenor.potencia;
         valorKit1.text = potenciaProximaMenor.valor;
         potenciaIndicada2.text = potenciaProximaMaior.potencia;
         valorKit2.text = potenciaProximaMaior.valor;
       } else {
-
         potencia.text = '';
         potenciaIndicada1.text = '';
         valorKit1.text = '';
