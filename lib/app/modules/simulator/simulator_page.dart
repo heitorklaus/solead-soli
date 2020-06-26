@@ -286,7 +286,7 @@ class _SimulatorPageState
                                       ),
                                         onPressed: (){
 
-                                          controller.showDialogController(context);
+                                          controller.showDialogKitMenor(context);
                                         },
                                       //onPressed:controller.loginWithGoogle,
                                     ).getLarge();
@@ -362,7 +362,7 @@ class _SimulatorPageState
                                         style: buttonLargeWhite,
                                       ),
                                         onPressed: (){
-                                          controller.showDialogController(context);
+                                          controller.showDialogKitMaior(context);
                                         },
                                       //onPressed:controller.loginWithGoogle,
                                     ).getLarge();

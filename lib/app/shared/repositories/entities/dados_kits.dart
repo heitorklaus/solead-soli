@@ -16,6 +16,7 @@ class DadosKits extends _DadosKits with _$DadosKits {
       String potencia,
       int potencia_do_modulo,
       String valor,
+      double potencia_novo,
    
 
       
@@ -32,6 +33,7 @@ class DadosKits extends _DadosKits with _$DadosKits {
             potencia:potencia,
             potencia_do_modulo:potencia_do_modulo,
             valor:valor,
+            potencia_novo:potencia_novo
           
             
             );
@@ -49,6 +51,8 @@ class DadosKits extends _DadosKits with _$DadosKits {
       "potencia":potencia,
       "potencia_do_modulo":potencia_do_modulo,
       "valor":valor,
+      "potencia_novo":potencia_novo
+
    
     };
   }
@@ -66,6 +70,7 @@ class DadosKits extends _DadosKits with _$DadosKits {
       potencia: json['potencia'],
       potencia_do_modulo: json['potencia_do_modulo'],
       valor: json['valor'],
+      potencia_novo: json['potencia_novo'],
 
 
         );
@@ -95,6 +100,9 @@ abstract class _DadosKits with Store {
   int potencia_do_modulo;
   @observable
   String valor;
+  @observable
+  double potencia_novo;
+  
 
  
   _DadosKits(
@@ -110,6 +118,7 @@ abstract class _DadosKits with Store {
             this.potencia,
             this.potencia_do_modulo,
             this.valor,
+            this.potencia_novo
          
 });
 }

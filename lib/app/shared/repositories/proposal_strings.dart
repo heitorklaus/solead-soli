@@ -54,8 +54,7 @@ class ProposalStringsDao {
       final valor = new DadosKits.fromJson(list.first);
 
 
-      print("RETORNO AQUI: "+ valor.id.toString());
-
+   
       return valor;
     }
 

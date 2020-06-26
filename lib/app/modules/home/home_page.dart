@@ -118,31 +118,31 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                                     onPressed:
                                                         controller.logoff,
                                                   ),
-                                                  FlatButton(
-                                                      child: Text('Set DATA'),
-                                                      onPressed: () {
-                                                       DatabaseHelper().downloadFile("http://www.klausmetal.com.br/file55.csv",
-                                                            "file55.csv");
-                                                      }),
-                                                  FlatButton(
-                                                      child: Text('Get DATA'),
-                                                      onPressed: () {
-                                                        ProposalStringsDao().findPotenciaKit('10.53');
-                                                        // DatabaseHelper()
-                                                        //     .populateDadosKits(
-                                                        //         2,
-                                                        //         'area',
-                                                        //         'codigo',
-                                                        //         'dados',
-                                                        //         'inversor',
-                                                        //         'marca_do_modulo',
-                                                        //         'numero_de_modulo',
-                                                        //         'peso',
-                                                        //         'potencia',
-                                                        //         'potencia_do_modulo',
-                                                        //         'valor',
-                                                        //         'potencia_novo');
-                                                      })
+                                                  // FlatButton(
+                                                  //     child: Text('Set DATA'),
+                                                  //     onPressed: () {
+                                                  //      DatabaseHelper().downloadFile("http://www.klausmetal.com.br/file55.csv",
+                                                  //           "file55.csv");
+                                                  //     }),
+                                                  // FlatButton(
+                                                  //     child: Text('Get DATA'),
+                                                  //     onPressed: () {
+                                                  //       ProposalStringsDao().findPotenciaKit('10.53');
+                                                  //       // DatabaseHelper()
+                                                  //       //     .populateDadosKits(
+                                                  //       //         2,
+                                                  //       //         'area',
+                                                  //       //         'codigo',
+                                                  //       //         'dados',
+                                                  //       //         'inversor',
+                                                  //       //         'marca_do_modulo',
+                                                  //       //         'numero_de_modulo',
+                                                  //       //         'peso',
+                                                  //       //         'potencia',
+                                                  //       //         'potencia_do_modulo',
+                                                  //       //         'valor',
+                                                  //       //         'potencia_novo');
+                                                  //     })
                                                 ],
                                               ),
                                             ),

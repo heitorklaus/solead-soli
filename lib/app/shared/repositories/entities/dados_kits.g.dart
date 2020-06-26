@@ -174,6 +174,21 @@ mixin _$DadosKits on _DadosKits, Store {
     });
   }
 
+  final _$potencia_novoAtom = Atom(name: '_DadosKits.potencia_novo');
+
+  @override
+  double get potencia_novo {
+    _$potencia_novoAtom.reportRead();
+    return super.potencia_novo;
+  }
+
+  @override
+  set potencia_novo(double value) {
+    _$potencia_novoAtom.reportWrite(value, super.potencia_novo, () {
+      super.potencia_novo = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
@@ -187,7 +202,8 @@ numero_de_modulo: ${numero_de_modulo},
 potencia: ${potencia},
 peso: ${peso},
 potencia_do_modulo: ${potencia_do_modulo},
-valor: ${valor}
+valor: ${valor},
+potencia_novo: ${potencia_novo}
     ''';
   }
 }

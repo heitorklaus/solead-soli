@@ -102,8 +102,7 @@ class AuthRepository implements IAuthRepository {
   @override
   Future getDataLogin()async {
     
-    print('RETORNAR VALORES');
-
+ 
     final valor = await Prefs.getString("IRRADIATION");
 
    //2 print(valor);

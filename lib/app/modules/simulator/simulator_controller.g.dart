@@ -28,11 +28,22 @@ mixin _$SimulatorController on _SimulatorControllerBase, Store {
       ActionController(name: '_SimulatorControllerBase');
 
   @override
-  dynamic showDialogController(dynamic context) {
+  dynamic showDialogKitMenor(dynamic context) {
     final _$actionInfo = _$_SimulatorControllerBaseActionController.startAction(
-        name: '_SimulatorControllerBase.showDialogController');
+        name: '_SimulatorControllerBase.showDialogKitMenor');
     try {
-      return super.showDialogController(context);
+      return super.showDialogKitMenor(context);
+    } finally {
+      _$_SimulatorControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic showDialogKitMaior(dynamic context) {
+    final _$actionInfo = _$_SimulatorControllerBaseActionController.startAction(
+        name: '_SimulatorControllerBase.showDialogKitMaior');
+    try {
+      return super.showDialogKitMaior(context);
     } finally {
       _$_SimulatorControllerBaseActionController.endAction(_$actionInfo);
     }
