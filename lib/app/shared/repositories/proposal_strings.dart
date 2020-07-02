@@ -44,6 +44,22 @@ class ProposalStringsDao {
     return null;
   }
 
+  Future selectTest() async {
+    final dbClient = await db;
+
+    final list = await dbClient.rawQuery("select * from tb_dados_kits");
+
+    if (list.length > 0) {
+      final valor = new DadosKits.fromJson(list.first);
+
+      // print(valor.dados);
+
+      return valor;
+    }
+
+    return null;
+  }
+
   Future findPotenciaKit(tipo) async {
     final dbClient = await db;
 
@@ -53,8 +69,6 @@ class ProposalStringsDao {
     if (list.length > 0) {
       final valor = new DadosKits.fromJson(list.first);
 
-
-   
       return valor;
     }
 

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:framework/ui/form/buttons/primary_button.dart';
 import 'package:login/app/modules/home/home_controller.dart';
 import 'package:login/app/shared/auth/repositories/auth_repository.dart';
 import 'package:login/app/shared/repositories/entities/dados_kits.dart';
 import 'package:login/app/shared/repositories/entities/power_plants.dart';
+import 'package:login/app/shared/styles/main_style.dart';
 import 'package:mobx/mobx.dart';
 
 import 'package:login/app/shared/repositories/proposal_strings.dart';
@@ -20,10 +22,15 @@ abstract class _SimulatorControllerBase with Store {
   final valorKit1 = TextEditingController();
   final valorKit2 = TextEditingController();
 
+  final testValue = TextEditingController();
+
   final p1 = Object();
 
   @observable
   bool disableAdd = true;
+
+  @observable
+  String typePlant;
 
   final powerPlantsMenor = PowerPlants();
 
@@ -57,8 +64,8 @@ abstract class _SimulatorControllerBase with Store {
                   var height = MediaQuery.of(context).size.height;
                   var width = MediaQuery.of(context).size.width;
 
-                  return Container(
-                    child: Text(powerPlantsMenor.valor),
+                  return SingleChildScrollView(
+                    child: buildDialog(context, powerPlantsMenor),
                   );
                 },
               ),
@@ -79,8 +86,8 @@ abstract class _SimulatorControllerBase with Store {
                   var height = MediaQuery.of(context).size.height;
                   var width = MediaQuery.of(context).size.width;
 
-                  return Container(
-                    child: Text(powerPlantsMenor.valor),
+                  return SingleChildScrollView(
+                    child: buildDialog(context, powerPlantsMaior),
                   );
                 },
               ),
@@ -173,6 +180,36 @@ abstract class _SimulatorControllerBase with Store {
         valorKit1.text = potenciaProximaMenor.valor;
         potenciaIndicada2.text = potenciaProximaMaior.potencia;
         valorKit2.text = potenciaProximaMaior.valor;
+
+        powerPlantsMenor.id = potenciaProximaMenor.id;
+        powerPlantsMenor.inversor = potenciaProximaMenor.inversor;
+        powerPlantsMenor.codigo = potenciaProximaMenor.codigo;
+        powerPlantsMenor.area = potenciaProximaMenor.area;
+        powerPlantsMenor.marcaDoModulo = potenciaProximaMenor.marca_do_modulo;
+        powerPlantsMenor.numeroDeModulo = potenciaProximaMenor.numero_de_modulo;
+        powerPlantsMenor.peso = potenciaProximaMenor.peso;
+        powerPlantsMenor.potencia = potenciaProximaMenor.potencia;
+        powerPlantsMenor.potenciaDoModulo =
+            potenciaProximaMenor.potencia_do_modulo.toString();
+        powerPlantsMenor.potenciaNovo =
+            potenciaProximaMenor.potencia_novo.toString();
+        powerPlantsMenor.valor = potenciaProximaMenor.valor;
+        powerPlantsMenor.dados = potenciaProximaMenor.dados;
+
+        powerPlantsMaior.id = potenciaProximaMaior.id;
+        powerPlantsMaior.inversor = potenciaProximaMaior.inversor;
+        powerPlantsMaior.codigo = potenciaProximaMaior.codigo;
+        powerPlantsMaior.area = potenciaProximaMaior.area;
+        powerPlantsMaior.numeroDeModulo = potenciaProximaMaior.numero_de_modulo;
+        powerPlantsMaior.marcaDoModulo = potenciaProximaMaior.marca_do_modulo;
+        powerPlantsMaior.peso = potenciaProximaMaior.peso;
+        powerPlantsMaior.potencia = potenciaProximaMaior.potencia;
+        powerPlantsMaior.potenciaDoModulo =
+            potenciaProximaMaior.potencia_do_modulo.toString();
+        powerPlantsMaior.potenciaNovo =
+            potenciaProximaMaior.potencia_novo.toString();
+        powerPlantsMaior.valor = potenciaProximaMaior.valor;
+        powerPlantsMaior.dados = potenciaProximaMaior.dados;
       } else {
         potencia.text = '';
         potenciaIndicada1.text = '';
@@ -195,4 +232,152 @@ abstract class _SimulatorControllerBase with Store {
       value++;
     }
   }
+}
+
+@override
+Widget buildDialog(context, pw) {
+  return SingleChildScrollView(
+    child: Container(
+      // height: 900,
+      margin: EdgeInsets.only(left: 0.0, right: 0.0),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              RichText(
+                text: TextSpan(
+                  style: DefaultTextStyle.of(context).style,
+                  children: <TextSpan>[
+                    TextSpan(text: 'Código do sistema: '),
+                    TextSpan(
+                        text: pw.codigo,
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              RichText(
+                text: TextSpan(
+                  style: DefaultTextStyle.of(context).style,
+                  children: <TextSpan>[
+                    TextSpan(text: 'Marca do inversor: '),
+                    TextSpan(
+                        text: pw.inversor,
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              RichText(
+                text: TextSpan(
+                  style: DefaultTextStyle.of(context).style,
+                  children: <TextSpan>[
+                    TextSpan(text: 'Marca das placas: '),
+                    TextSpan(
+                        text: pw.marcaDoModulo,
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              RichText(
+                text: TextSpan(
+                  style: DefaultTextStyle.of(context).style,
+                  children: <TextSpan>[
+                    TextSpan(text: 'Numero de Placas: '),
+                    TextSpan(
+                        text: pw.numeroDeModulo.toString(),
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              RichText(
+                text: TextSpan(
+                  style: DefaultTextStyle.of(context).style,
+                  children: <TextSpan>[
+                    TextSpan(text: 'Área: '),
+                    TextSpan(
+                        text: pw.area.toString(),
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              RichText(
+                text: TextSpan(
+                  style: DefaultTextStyle.of(context).style,
+                  children: <TextSpan>[
+                    TextSpan(text: 'Potência do sistema: '),
+                    TextSpan(
+                        text: pw.potencia.toString(),
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              RichText(
+                text: TextSpan(
+                  style: DefaultTextStyle.of(context).style,
+                  children: <TextSpan>[
+                    TextSpan(text: 'Valor do sistema: '),
+                    TextSpan(
+                        text: pw.valor.toString(),
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 40,
+          ),
+          SelectableText.rich(
+            TextSpan(
+              style: DefaultTextStyle.of(context).style,
+              children: <TextSpan>[
+                TextSpan(
+                    text: pw.dados.replaceAll('<BR>', '\n'),
+                    style: TextStyle(fontSize: 12)),
+              ],
+            ),
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: PrimaryButton(
+                    child: Text(
+                      'Gerar Proposta',
+                      style: buttonLargeWhite,
+                    ),
+                    //onPressed:controller.loginWithGoogle,
+
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    }).getLarge(),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+  );
 }

@@ -3,15 +3,14 @@ import 'package:mobx/mobx.dart';
 part 'proposal_strings.g.dart';
 
 class ProposalStrings extends _ProposalStrings with _$ProposalStrings {
-  ProposalStrings(
-      {
-      int id, 
-      String token,
-      String session,
-      String width,
-      String height,})
-      : super(
-            id:id,
+  ProposalStrings({
+    int id,
+    String token,
+    String session,
+    String width,
+    String height,
+  }) : super(
+            id: id,
             token: token,
             session: session,
             width: width,
@@ -29,11 +28,11 @@ class ProposalStrings extends _ProposalStrings with _$ProposalStrings {
 
   factory ProposalStrings.fromJson(Map json) {
     return ProposalStrings(
-        id: json['id'],
-        token: json['token'],
-        session: json['session'],
-        width: json['width'],
-        height: json['height']);
+        id: json['ID'],
+        token: json['TOKEN'],
+        session: json['SESSION'],
+        width: json['WIDTH'],
+        height: json['HEIGHT']);
   }
 }
 
@@ -48,13 +47,7 @@ abstract class _ProposalStrings with Store {
   String width;
   @observable
   String height;
- 
+
   _ProposalStrings(
-      {
-      this.id,
-      this.token,
-      this.session,
-      this.width,
-      this.height
-});
+      {this.id, this.token, this.session, this.width, this.height});
 }

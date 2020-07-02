@@ -28,7 +28,7 @@ class DatabaseHelper {
 
   Future _initDb() async {
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'solead-62.db');
+    String path = join(databasesPath, 'solead-67.db');
     print("db $path");
 
     var db = await openDatabase(path,
@@ -59,7 +59,7 @@ class DatabaseHelper {
 
   void deleteOldData() async {
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'solead-62.db');
+    String path = join(databasesPath, 'solead-67.db');
     var db = await openDatabase(path, version: 2);
     await db.rawDelete('delete from tb_dados_kits');
   }
@@ -79,7 +79,7 @@ class DatabaseHelper {
       potencia_novo) async {
     print('[Populate data on tb_dados_kits]');
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'solead-62.db');
+    String path = join(databasesPath, 'solead-67.db');
     var db = await openDatabase(path, version: 2);
 
     try {
@@ -106,12 +106,11 @@ class DatabaseHelper {
     return dbClient.close();
   }
 
-    // DOWNLOAD CSV TO DEVICE
-   var httpClient = new HttpClient();
-   downloadFile(String url, String filename) async {
+  // DOWNLOAD CSV TO DEVICE
+  var httpClient = new HttpClient();
+  downloadFile(String url, String filename) async {
+    await DatabaseHelper.getInstance().db;
 
-  await DatabaseHelper.getInstance().db;
-     
     print('[CALL DOWNLOAD FILE FUNCTION]');
     var request = await httpClient.getUrl(Uri.parse(url));
     var response = await request.close();
@@ -119,7 +118,6 @@ class DatabaseHelper {
     String dir = (await getApplicationDocumentsDirectory()).path;
     File file = new File('$dir/$filename');
     await file.writeAsBytes(bytes);
-    
 
     print('[OK!... open File Downloaded..]');
     openFile(filename);
@@ -134,7 +132,7 @@ class DatabaseHelper {
     Stream<List> inputStream = file.openRead();
 
     inputStream
-        .transform(utf8.decoder) // Decode bytes to UTF-8.
+        .transform(utf8.decoder) // Dezcode bytes to UTF-8.
         .transform(new LineSplitter()) // Convert stream to individual lines.
         .listen((String line) {
       try {
@@ -144,6 +142,9 @@ class DatabaseHelper {
         String area = row[1].replaceAll('"', '');
         String codigo = row[2].replaceAll('"', '');
         String dados = row[3].replaceAll('"', '');
+
+        print(dados);
+
         String inversor = row[4].replaceAll('"', '');
         String marca_do_modulo = row[5].replaceAll('"', '');
         String numero_de_modulo = row[6].replaceAll('"', '');
@@ -172,7 +173,7 @@ class DatabaseHelper {
               potencia_novo);
         }
         print('[EXECUTED LINE]');
-        print('[$codigo] '  + ' [$potencia] ' + ' [$potencia_novo] ');
+        print('[$codigo] ' + ' [$potencia] ' + ' [$potencia_novo] ');
       } catch (e) {
         print('[ERROR] ' + e.toString());
         //print('THIS NEVER GETS PRINTED');

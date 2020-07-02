@@ -52,8 +52,6 @@ class _SimulatorPageState
 //   ),
 // ];
 
-
- 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,8 +64,6 @@ class _SimulatorPageState
               child: Observer(builder: (BuildContext context) {
                 return Column(
                   children: <Widget>[
-                    
-                   
                     Container(
                       margin: EdgeInsets.only(top: 20),
                       child: Row(
@@ -211,9 +207,10 @@ class _SimulatorPageState
                     // ),
 
                     Container(
-                      margin: EdgeInsets.only(top:30),
-                      child: Row(children: <Widget>[
-                         Expanded(
+                      margin: EdgeInsets.only(top: 30),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
                             child: OutlinedTextEdit(
                               controller: controller.potencia,
                               prefixIcon: Icon(Icons.equalizer),
@@ -222,7 +219,8 @@ class _SimulatorPageState
                               label: "Potência necessária",
                             ),
                           ),
-                      ],),
+                        ],
+                      ),
                     ),
 
                     Container(
@@ -267,32 +265,31 @@ class _SimulatorPageState
                           ),
                           Container(
                             width: 65,
-                            child:  Observer(
-                                  builder: (BuildContext context) {
-                                  if(controller.disableAdd) {
-                                      return PrimaryButton(
-                                      child: Text(
-                                        'Ver',
-                                        style: buttonLargeWhite,
-                                      ),
-                                        onPressed:null ,
-                                      //onPressed:controller.loginWithGoogle,
-                                    ).getLarge();
-                                  } else {
-                                    return     PrimaryButton(
-                                      child: Text(
-                                        'ver',
-                                        style: buttonLargeWhite,
-                                      ),
-                                        onPressed: (){
-
-                                          controller.showDialogKitMenor(context);
-                                        },
-                                      //onPressed:controller.loginWithGoogle,
-                                    ).getLarge();
-                                  }
-                                  },
-                                ),
+                            child: Observer(
+                              builder: (BuildContext context) {
+                                if (controller.disableAdd) {
+                                  return PrimaryButton(
+                                    child: Text(
+                                      'Ver',
+                                      style: buttonLargeWhite,
+                                    ),
+                                    onPressed: null,
+                                    //onPressed:controller.loginWithGoogle,
+                                  ).getLarge();
+                                } else {
+                                  return PrimaryButton(
+                                    child: Text(
+                                      'ver',
+                                      style: buttonLargeWhite,
+                                    ),
+                                    onPressed: () {
+                                      controller.showDialogKitMenor(context);
+                                    },
+                                    //onPressed:controller.loginWithGoogle,
+                                  ).getLarge();
+                                }
+                              },
+                            ),
                           ),
                         ],
                       ),
@@ -341,36 +338,34 @@ class _SimulatorPageState
                           SizedBox(
                             width: 5,
                           ),
-
-                           Container(
-                             width:65,
-                             child: Observer(
-                                  builder: (BuildContext context) {
-                                  if(controller.disableAdd) {
-                                      return PrimaryButton(
-                                      child: Text(
-                                        'Ver',
-                                        style: buttonLargeWhite,
-                                      ),
-                                        onPressed:null ,
-                                      //onPressed:controller.loginWithGoogle,
-                                    ).getLarge();
-                                  } else {
-                                    return     PrimaryButton(
-                                      child: Text(
-                                        'ver',
-                                        style: buttonLargeWhite,
-                                      ),
-                                        onPressed: (){
-                                          controller.showDialogKitMaior(context);
-                                        },
-                                      //onPressed:controller.loginWithGoogle,
-                                    ).getLarge();
-                                  }
-                                  },
-                                ),
-                           ),
-                          
+                          Container(
+                            width: 65,
+                            child: Observer(
+                              builder: (BuildContext context) {
+                                if (controller.disableAdd) {
+                                  return PrimaryButton(
+                                    child: Text(
+                                      'Ver',
+                                      style: buttonLargeWhite,
+                                    ),
+                                    onPressed: null,
+                                    //onPressed:controller.loginWithGoogle,
+                                  ).getLarge();
+                                } else {
+                                  return PrimaryButton(
+                                    child: Text(
+                                      'ver',
+                                      style: buttonLargeWhite,
+                                    ),
+                                    onPressed: () {
+                                      controller.showDialogKitMaior(context);
+                                    },
+                                    //onPressed:controller.loginWithGoogle,
+                                  ).getLarge();
+                                }
+                              },
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -403,9 +398,10 @@ class _SimulatorPageState
               print(day1);
 
               strings.token = token;
-              strings.session = 'XUXU';
-              strings.width = 'XUXU';
-              strings.height = 'XUXU';
+              strings.session = 'Heitor \n Klaus';
+              strings.width = 'Fabricio \n Klaus';
+
+              strings.height = 'Oliviera \n Klaus';
 
               proposalStrings.save(strings);
             }).getLarge());

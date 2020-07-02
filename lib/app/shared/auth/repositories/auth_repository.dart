@@ -50,8 +50,6 @@ class AuthRepository implements IAuthRepository {
     // Set Token
     Prefs.setString("TOKEN", data.accessToken);
 
- 
-
     return data;
   }
 
@@ -62,7 +60,7 @@ class AuthRepository implements IAuthRepository {
         .rawQuery('select * from CITIES_IRRADIATION where id = 1');
 
     final first = PrefIrradiation.fromJson(list.first);
-    
+
     // Set Irradiation
     Prefs.setString("IRRADIATION", first.data);
 
@@ -97,18 +95,12 @@ class AuthRepository implements IAuthRepository {
     return _auth.signOut();
   }
 
-
-
   @override
-  Future getDataLogin()async {
-    
- 
+  Future getDataLogin() async {
     final valor = await Prefs.getString("IRRADIATION");
 
-   //2 print(valor);
+    //2 print(valor);
 
     return valor;
   }
-
-  
 }
