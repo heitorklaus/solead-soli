@@ -1,9 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Prefs {
-
   static Future<bool> getBool(String key) async {
     var prefs = await SharedPreferences.getInstance();
 
@@ -38,5 +38,17 @@ class Prefs {
     var prefs = await SharedPreferences.getInstance();
 
     prefs.setString(key, s);
+  }
+
+  static void setStringList(String key, List<String> ax) async {
+    var prefs = await SharedPreferences.getInstance();
+
+    prefs.setStringList(key, ax);
+  }
+
+  static Future<List<String>> getStringList(String key) async {
+    var prefs = await SharedPreferences.getInstance();
+
+    return prefs.getStringList(key) ?? "";
   }
 }

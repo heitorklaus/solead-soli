@@ -385,25 +385,31 @@ class _SimulatorPageState
             //onPressed:controller.loginWithGoogle,
 
             onPressed: () async {
-              final proposalStrings = ProposalStringsDao();
-
-              final strings = ProposalStrings();
-
-              final token = await AuthRepository().getUser();
-
-              //print(token);
-
               var dateUtility = DateUtil();
-              var day1 = dateUtility.daysInMonth(2, 2019);
-              print(day1);
+              var now = new DateTime.now();
+              var day1 = dateUtility.daysInMonth(2, now.year);
 
-              strings.token = token;
-              strings.session = 'Heitor \n Klaus';
-              strings.width = 'Fabricio \n Klaus';
+              //controller.getCitiesData(1);
 
-              strings.height = 'Oliviera \n Klaus';
+              // final proposalStrings = ProposalStringsDao();
 
-              proposalStrings.save(strings);
+              // final strings = ProposalStrings();
+
+              // final token = await AuthRepository().getUser();
+
+              // //print(token);
+
+              // var dateUtility = DateUtil();
+              // var day1 = dateUtility.daysInMonth(2, 2019);
+              // print(day1);
+
+              // strings.token = token;
+              // strings.session = 'Heitor \n Klaus';
+              // strings.width = 'Fabricio \n Klaus';
+
+              // strings.height = 'Oliviera \n Klaus';
+
+              // proposalStrings.save(strings);
             }).getLarge());
   }
 }

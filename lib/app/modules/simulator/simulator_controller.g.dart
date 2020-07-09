@@ -24,6 +24,21 @@ mixin _$SimulatorController on _SimulatorControllerBase, Store {
     });
   }
 
+  final _$typePlantAtom = Atom(name: '_SimulatorControllerBase.typePlant');
+
+  @override
+  String get typePlant {
+    _$typePlantAtom.reportRead();
+    return super.typePlant;
+  }
+
+  @override
+  set typePlant(String value) {
+    _$typePlantAtom.reportWrite(value, super.typePlant, () {
+      super.typePlant = value;
+    });
+  }
+
   final _$_SimulatorControllerBaseActionController =
       ActionController(name: '_SimulatorControllerBase');
 
@@ -52,7 +67,8 @@ mixin _$SimulatorController on _SimulatorControllerBase, Store {
   @override
   String toString() {
     return '''
-disableAdd: ${disableAdd}
+disableAdd: ${disableAdd},
+typePlant: ${typePlant}
     ''';
   }
 }

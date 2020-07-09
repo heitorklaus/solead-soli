@@ -1,3 +1,4 @@
+import 'package:date_util/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:framework/ui/form/buttons/primary_button.dart';
 import 'package:login/app/modules/home/home_controller.dart';
@@ -5,6 +6,7 @@ import 'package:login/app/shared/auth/repositories/auth_repository.dart';
 import 'package:login/app/shared/repositories/entities/dados_kits.dart';
 import 'package:login/app/shared/repositories/entities/power_plants.dart';
 import 'package:login/app/shared/styles/main_style.dart';
+import 'package:login/app/shared/utils/prefs.dart';
 import 'package:mobx/mobx.dart';
 
 import 'package:login/app/shared/repositories/proposal_strings.dart';
@@ -37,7 +39,7 @@ abstract class _SimulatorControllerBase with Store {
   final powerPlantsMaior = PowerPlants();
 
   @action
-  showDialogKitMenor(context) {
+  showDialogKitMenor(context) async {
     print('[KIT MENOR ] ');
     print('[KIT ID ] ' + powerPlantsMenor.id.toString());
     print('[KIT CODIGO ] ' + powerPlantsMenor.codigo.toString());
@@ -51,6 +53,108 @@ abstract class _SimulatorControllerBase with Store {
     print('[KIT PESO ] ' + powerPlantsMenor.peso);
     print('[KIT PREÇO TOTAL ] ' + powerPlantsMenor.valor);
     print('[KIT] ' + powerPlantsMenor.dados);
+
+    final valor = await Prefs.getStringList("CITIES");
+
+    var jan = double.parse(valor[1].split(":")[1]);
+    var janValue = double.parse(powerPlantsMenor.potencia) *
+        returnDaysOfMonth(1) *
+        jan *
+        .75;
+
+    var fev = double.parse(valor[2].split(":")[1]);
+    var fevValue = double.parse(powerPlantsMenor.potencia) *
+        returnDaysOfMonth(2) *
+        fev *
+        .75;
+
+    var mar = double.parse(valor[3].split(":")[1]);
+    var marValue = double.parse(powerPlantsMenor.potencia) *
+        returnDaysOfMonth(3) *
+        mar *
+        .75;
+
+    var abr = double.parse(valor[4].split(":")[1]);
+    var abrValue = double.parse(powerPlantsMenor.potencia) *
+        returnDaysOfMonth(4) *
+        abr *
+        .75;
+
+    var mai = double.parse(valor[5].split(":")[1]);
+    var maiValue = double.parse(powerPlantsMenor.potencia) *
+        returnDaysOfMonth(5) *
+        mai *
+        .75;
+
+    var jun = double.parse(valor[6].split(":")[1]);
+    var junValue = double.parse(powerPlantsMenor.potencia) *
+        returnDaysOfMonth(6) *
+        jun *
+        .75;
+
+    var jul = double.parse(valor[7].split(":")[1]);
+    var julValue = double.parse(powerPlantsMenor.potencia) *
+        returnDaysOfMonth(7) *
+        jul *
+        .75;
+
+    var ago = double.parse(valor[8].split(":")[1]);
+    var agoValue = double.parse(powerPlantsMenor.potencia) *
+        returnDaysOfMonth(8) *
+        ago *
+        .75;
+
+    var sep = double.parse(valor[9].split(":")[1]);
+    var sepValue = double.parse(powerPlantsMenor.potencia) *
+        returnDaysOfMonth(9) *
+        sep *
+        .75;
+
+    var out = double.parse(valor[10].split(":")[1]);
+    var outValue = double.parse(powerPlantsMenor.potencia) *
+        returnDaysOfMonth(10) *
+        out *
+        .75;
+
+    var nov = double.parse(valor[11].split(":")[1]);
+    var novValue = double.parse(powerPlantsMenor.potencia) *
+        returnDaysOfMonth(11) *
+        nov *
+        .75;
+
+    var dez = double.parse(valor[12].split(":")[1]);
+    var dezValue = double.parse(powerPlantsMenor.potencia) *
+        returnDaysOfMonth(12) *
+        dez *
+        .75;
+
+    final mediaGeracaoKwpMenor = janValue +
+        fevValue +
+        marValue +
+        abrValue +
+        maiValue +
+        junValue +
+        julValue +
+        agoValue +
+        sepValue +
+        outValue +
+        novValue +
+        dezValue;
+
+    print('[ JAN ] ' + janValue.toString());
+    print('[ FEV ] ' + fevValue.toString());
+    print('[ MAR ] ' + marValue.toString());
+    print('[ ABR ] ' + abrValue.toString());
+    print('[ MAI ] ' + maiValue.toString());
+    print('[ JUN ] ' + junValue.toString());
+    print('[ JUL ] ' + julValue.toString());
+    print('[ AGO ] ' + agoValue.toString());
+    print('[ SET ] ' + sepValue.toString());
+    print('[ OUT ] ' + outValue.toString());
+    print('[ NOV ] ' + novValue.toString());
+    print('[ DEZ ] ' + dezValue.toString());
+
+    print('[ mediaMenor ] ' + (mediaGeracaoKwpMenor / 12).toString());
 
     showDialog(
         context: context,
@@ -73,7 +177,109 @@ abstract class _SimulatorControllerBase with Store {
   }
 
   @action
-  showDialogKitMaior(context) {
+  showDialogKitMaior(context) async {
+    final valor = await Prefs.getStringList("CITIES");
+
+    var jan = double.parse(valor[1].split(":")[1]);
+    var janValue = double.parse(powerPlantsMaior.potencia) *
+        returnDaysOfMonth(1) *
+        jan *
+        .75;
+
+    var fev = double.parse(valor[2].split(":")[1]);
+    var fevValue = double.parse(powerPlantsMaior.potencia) *
+        returnDaysOfMonth(2) *
+        fev *
+        .75;
+
+    var mar = double.parse(valor[3].split(":")[1]);
+    var marValue = double.parse(powerPlantsMaior.potencia) *
+        returnDaysOfMonth(3) *
+        mar *
+        .75;
+
+    var abr = double.parse(valor[4].split(":")[1]);
+    var abrValue = double.parse(powerPlantsMaior.potencia) *
+        returnDaysOfMonth(4) *
+        abr *
+        .75;
+
+    var mai = double.parse(valor[5].split(":")[1]);
+    var maiValue = double.parse(powerPlantsMaior.potencia) *
+        returnDaysOfMonth(5) *
+        mai *
+        .75;
+
+    var jun = double.parse(valor[6].split(":")[1]);
+    var junValue = double.parse(powerPlantsMaior.potencia) *
+        returnDaysOfMonth(6) *
+        jun *
+        .75;
+
+    var jul = double.parse(valor[7].split(":")[1]);
+    var julValue = double.parse(powerPlantsMaior.potencia) *
+        returnDaysOfMonth(7) *
+        jul *
+        .75;
+
+    var ago = double.parse(valor[8].split(":")[1]);
+    var agoValue = double.parse(powerPlantsMaior.potencia) *
+        returnDaysOfMonth(8) *
+        ago *
+        .75;
+
+    var sep = double.parse(valor[9].split(":")[1]);
+    var sepValue = double.parse(powerPlantsMaior.potencia) *
+        returnDaysOfMonth(9) *
+        sep *
+        .75;
+
+    var out = double.parse(valor[10].split(":")[1]);
+    var outValue = double.parse(powerPlantsMaior.potencia) *
+        returnDaysOfMonth(10) *
+        out *
+        .75;
+
+    var nov = double.parse(valor[11].split(":")[1]);
+    var novValue = double.parse(powerPlantsMaior.potencia) *
+        returnDaysOfMonth(11) *
+        nov *
+        .75;
+
+    var dez = double.parse(valor[12].split(":")[1]);
+    var dezValue = double.parse(powerPlantsMaior.potencia) *
+        returnDaysOfMonth(12) *
+        dez *
+        .75;
+
+    final mediaGeracaoKwpMaior = janValue +
+        fevValue +
+        marValue +
+        abrValue +
+        maiValue +
+        junValue +
+        julValue +
+        agoValue +
+        sepValue +
+        outValue +
+        novValue +
+        dezValue;
+
+    print('[ JAN ] ' + janValue.toString());
+    print('[ FEV ] ' + fevValue.toString());
+    print('[ MAR ] ' + marValue.toString());
+    print('[ ABR ] ' + abrValue.toString());
+    print('[ MAI ] ' + maiValue.toString());
+    print('[ JUN ] ' + junValue.toString());
+    print('[ JUL ] ' + julValue.toString());
+    print('[ AGO ] ' + agoValue.toString());
+    print('[ SET ] ' + sepValue.toString());
+    print('[ OUT ] ' + outValue.toString());
+    print('[ NOV ] ' + novValue.toString());
+    print('[ DEZ ] ' + dezValue.toString());
+
+    print('[ mediaMaior ] ' + (mediaGeracaoKwpMaior / 12).toString());
+
     showDialog(
         context: context,
         builder: (_) => new AlertDialog(
@@ -234,6 +440,20 @@ abstract class _SimulatorControllerBase with Store {
   }
 }
 
+getCitiesData(month) async {
+  final valor = await Prefs.getStringList("CITIES");
+
+  return int.parse(valor[month].split(":")[1]);
+}
+
+int returnDaysOfMonth(xx) {
+  var dateUtility = DateUtil();
+  var now = new DateTime.now();
+  var days = dateUtility.daysInMonth(xx, now.year);
+
+  return days;
+}
+
 @override
 Widget buildDialog(context, pw) {
   return SingleChildScrollView(
@@ -326,6 +546,21 @@ Widget buildDialog(context, pw) {
                     TextSpan(text: 'Potência do sistema: '),
                     TextSpan(
                         text: pw.potencia.toString(),
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              RichText(
+                text: TextSpan(
+                  style: DefaultTextStyle.of(context).style,
+                  children: <TextSpan>[
+                    TextSpan(text: 'Geração em KWp do sistema: '),
+                    TextSpan(
+                        text: 'X',
                         style: TextStyle(fontWeight: FontWeight.bold)),
                   ],
                 ),
