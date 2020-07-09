@@ -91,7 +91,7 @@ class AuthRepository implements IAuthRepository {
 
   @override
   Future getLogout() {
-    Prefs.setString("TOKEN", "");
+    Prefs.setString("TOKEN", "out");
     return _auth.signOut();
   }
 

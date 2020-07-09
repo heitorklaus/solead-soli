@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:date_util/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:framework/ui/form/buttons/primary_button.dart';
@@ -10,6 +12,11 @@ import 'package:login/app/shared/utils/prefs.dart';
 import 'package:mobx/mobx.dart';
 
 import 'package:login/app/shared/repositories/proposal_strings.dart';
+import 'package:path_provider/path_provider.dart';
+
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pwa;
+import 'PdfPreviewScreen.dart';
 
 part 'simulator_controller.g.dart';
 
@@ -128,18 +135,19 @@ abstract class _SimulatorControllerBase with Store {
         dez *
         .75;
 
-    final mediaGeracaoKwpMenor = janValue +
-        fevValue +
-        marValue +
-        abrValue +
-        maiValue +
-        junValue +
-        julValue +
-        agoValue +
-        sepValue +
-        outValue +
-        novValue +
-        dezValue;
+    final mediaGeracaoKwpMenor = (janValue +
+            fevValue +
+            marValue +
+            abrValue +
+            maiValue +
+            junValue +
+            julValue +
+            agoValue +
+            sepValue +
+            outValue +
+            novValue +
+            dezValue) /
+        12;
 
     print('[ JAN ] ' + janValue.toString());
     print('[ FEV ] ' + fevValue.toString());
@@ -154,7 +162,7 @@ abstract class _SimulatorControllerBase with Store {
     print('[ NOV ] ' + novValue.toString());
     print('[ DEZ ] ' + dezValue.toString());
 
-    print('[ mediaMenor ] ' + (mediaGeracaoKwpMenor / 12).toString());
+    print('[ mediaMenor ] ' + mediaGeracaoKwpMenor.toString());
 
     showDialog(
         context: context,
@@ -169,7 +177,8 @@ abstract class _SimulatorControllerBase with Store {
                   var width = MediaQuery.of(context).size.width;
 
                   return SingleChildScrollView(
-                    child: buildDialog(context, powerPlantsMenor),
+                    child: buildDialog(context, powerPlantsMenor,
+                        mediaGeracaoKwpMenor.round()),
                   );
                 },
               ),
@@ -252,18 +261,19 @@ abstract class _SimulatorControllerBase with Store {
         dez *
         .75;
 
-    final mediaGeracaoKwpMaior = janValue +
-        fevValue +
-        marValue +
-        abrValue +
-        maiValue +
-        junValue +
-        julValue +
-        agoValue +
-        sepValue +
-        outValue +
-        novValue +
-        dezValue;
+    final mediaGeracaoKwpMaior = (janValue +
+            fevValue +
+            marValue +
+            abrValue +
+            maiValue +
+            junValue +
+            julValue +
+            agoValue +
+            sepValue +
+            outValue +
+            novValue +
+            dezValue) /
+        12;
 
     print('[ JAN ] ' + janValue.toString());
     print('[ FEV ] ' + fevValue.toString());
@@ -278,7 +288,7 @@ abstract class _SimulatorControllerBase with Store {
     print('[ NOV ] ' + novValue.toString());
     print('[ DEZ ] ' + dezValue.toString());
 
-    print('[ mediaMaior ] ' + (mediaGeracaoKwpMaior / 12).toString());
+    print('[ mediaMaior ] ' + mediaGeracaoKwpMaior.toString());
 
     showDialog(
         context: context,
@@ -293,7 +303,8 @@ abstract class _SimulatorControllerBase with Store {
                   var width = MediaQuery.of(context).size.width;
 
                   return SingleChildScrollView(
-                    child: buildDialog(context, powerPlantsMaior),
+                    child: buildDialog(context, powerPlantsMaior,
+                        mediaGeracaoKwpMaior.round()),
                   );
                 },
               ),
@@ -455,13 +466,70 @@ int returnDaysOfMonth(xx) {
 }
 
 @override
-Widget buildDialog(context, pw) {
+Widget buildDialog(context, pw, mediaGeracaoKwp) {
+  final pdf = pwa.Document();
+
+  writeOnPdf() {
+    pdf.addPage(pwa.MultiPage(
+      pageFormat: PdfPageFormat.a5,
+      margin: pwa.EdgeInsets.all(32),
+      build: (pwa.Context context) {
+        return <pwa.Widget>[
+          pwa.Header(level: 0, child: pwa.Text("Easy Approach Document")),
+          pwa.Paragraph(
+              text:
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Malesuada fames ac turpis egestas sed tempus urna. Quisque sagittis purus sit amet. A arcu cursus vitae congue mauris rhoncus aenean vel elit. Ipsum dolor sit amet consectetur adipiscing elit pellentesque. Viverra justo nec ultrices dui sapien eget mi proin sed."),
+          pwa.Paragraph(
+              text:
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Malesuada fames ac turpis egestas sed tempus urna. Quisque sagittis purus sit amet. A arcu cursus vitae congue mauris rhoncus aenean vel elit. Ipsum dolor sit amet consectetur adipiscing elit pellentesque. Viverra justo nec ultrices dui sapien eget mi proin sed."),
+          pwa.Header(level: 1, child: pwa.Text("Second Heading")),
+          pwa.Paragraph(
+              text:
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Malesuada fames ac turpis egestas sed tempus urna. Quisque sagittis purus sit amet. A arcu cursus vitae congue mauris rhoncus aenean vel elit. Ipsum dolor sit amet consectetur adipiscing elit pellentesque. Viverra justo nec ultrices dui sapien eget mi proin sed."),
+          pwa.Paragraph(
+              text:
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Malesuada fames ac turpis egestas sed tempus urna. Quisque sagittis purus sit amet. A arcu cursus vitae congue mauris rhoncus aenean vel elit. Ipsum dolor sit amet consectetur adipiscing elit pellentesque. Viverra justo nec ultrices dui sapien eget mi proin sed."),
+          pwa.Paragraph(
+              text:
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Malesuada fames ac turpis egestas sed tempus urna. Quisque sagittis purus sit amet. A arcu cursus vitae congue mauris rhoncus aenean vel elit. Ipsum dolor sit amet consectetur adipiscing elit pellentesque. Viverra justo nec ultrices dui sapien eget mi proin sed."),
+        ];
+      },
+    ));
+  }
+
+  Future savePdf() async {
+    Directory documentDirectory = await getApplicationDocumentsDirectory();
+
+    String documentPath = documentDirectory.path;
+
+    File file = File("$documentPath/example.pdf");
+
+    file.writeAsBytesSync(pdf.save());
+  }
+
   return SingleChildScrollView(
     child: Container(
       // height: 900,
       margin: EdgeInsets.only(left: 0.0, right: 0.0),
       child: Column(
         children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                'Dados da Usina ',
+                style: ubuntu16BlueBold500,
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.highlight_off,
+                  color: Colors.blue,
+                  size: 30,
+                ),
+                onPressed: Navigator.of(context).pop,
+              ),
+            ],
+          ),
           Row(
             children: <Widget>[
               RichText(
@@ -558,9 +626,9 @@ Widget buildDialog(context, pw) {
                 text: TextSpan(
                   style: DefaultTextStyle.of(context).style,
                   children: <TextSpan>[
-                    TextSpan(text: 'Geração em KWp do sistema: '),
+                    TextSpan(text: 'Geração do sistema: '),
                     TextSpan(
-                        text: 'X',
+                        text: mediaGeracaoKwp.toString() + ' KWp',
                         style: TextStyle(fontWeight: FontWeight.bold)),
                   ],
                 ),
@@ -606,7 +674,56 @@ Widget buildDialog(context, pw) {
                     //onPressed:controller.loginWithGoogle,
 
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      showDialog(
+                          context: context,
+                          builder: (_) => new AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                content: Builder(
+                                  builder: (context) {
+                                    // Get available height and width of the build area of this widget. Make a choice depending on the size.
+
+                                    var height =
+                                        MediaQuery.of(context).size.height;
+                                    var width =
+                                        MediaQuery.of(context).size.width;
+
+                                    return Scaffold(
+                                      body: Container(
+                                        height: height,
+                                        child: Text('Gerar Proposta'),
+                                      ),
+                                      floatingActionButton:
+                                          FloatingActionButton(
+                                        onPressed: () async {
+                                          writeOnPdf();
+                                          await savePdf();
+
+                                          Directory documentDirectory =
+                                              await getApplicationDocumentsDirectory();
+
+                                          String documentPath =
+                                              documentDirectory.path;
+
+                                          String fullPath =
+                                              "$documentPath/example.pdf";
+
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      PdfPreviewScreen(
+                                                        path: fullPath,
+                                                      )));
+                                        },
+                                        child: Icon(Icons.save),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ));
+                      //Navigator.of(context).pop();
                     }).getLarge(),
               ),
             ],

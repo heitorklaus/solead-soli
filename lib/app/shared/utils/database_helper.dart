@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -120,19 +121,23 @@ class DatabaseHelper {
   // DOWNLOAD CSV TO DEVICE
   var httpClient = new HttpClient();
   downloadFile(String url, String filename) async {
-    await DatabaseHelper.getInstance().db;
+    final dio = Dio();
 
-    print('[CALL DOWNLOAD FILE FUNCTION]');
-    var request = await httpClient.getUrl(Uri.parse(url));
-    var response = await request.close();
-    var bytes = await consolidateHttpClientResponseBytes(response);
-    String dir = (await getApplicationDocumentsDirectory()).path;
-    File file = new File('$dir/$filename');
-    await file.writeAsBytes(bytes);
+    String tempDir = (await getApplicationDocumentsDirectory()).path;
+    String fullPath = tempDir + "/file55.csv";
 
-    print('[OK!... open File Downloaded..]');
-    openFile(filename);
-    return file;
+    await dio.download(
+        "http://www.klausmetal.com.br/file55.csv", fullPath + "file55.csv",
+        // disable gzip
+
+        onReceiveProgress: (received, total) {
+      if (total != -1) {
+        print((received / total * 100).toStringAsFixed(0) + "%");
+      }
+    });
+
+    openFile("file55.csv");
+    return fullPath;
   }
 
   openFile(filename) async {
