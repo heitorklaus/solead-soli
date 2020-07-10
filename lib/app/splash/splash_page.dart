@@ -28,7 +28,7 @@ class _SplashPageState extends State<SplashPage> {
       final auth = Modular.get<AuthController>();
       if (auth.status == AuthStatus.login) {
         print("[ SPLASH ]");
-        await DatabaseHelper().downloadFile(
+        final m = await DatabaseHelper().downloadFile(
             "http://www.klausmetal.com.br/file55.csv", "file55.csv");
 
         loadCitiesIrradiationData();

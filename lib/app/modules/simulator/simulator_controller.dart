@@ -469,23 +469,35 @@ int returnDaysOfMonth(xx) {
 Widget buildDialog(context, pw, mediaGeracaoKwp) {
   final pdf = pwa.Document();
 
-  writeOnPdf() {
+  writeOnPdf() async {
+    Directory tempDir = await getTemporaryDirectory();
+    String tempPath = tempDir.path;
+
+    final image = PdfImage.file(
+      pdf.document,
+      bytes: File('$tempPath/img/alta.png').readAsBytesSync(),
+    );
+
     pdf.addPage(pwa.MultiPage(
-      pageFormat: PdfPageFormat.a5,
+      pageFormat: PdfPageFormat.a4,
       margin: pwa.EdgeInsets.all(32),
       build: (pwa.Context context) {
         return <pwa.Widget>[
-          pwa.Header(level: 0, child: pwa.Text("Easy Approach Document")),
-          pwa.Paragraph(
-              text:
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Malesuada fames ac turpis egestas sed tempus urna. Quisque sagittis purus sit amet. A arcu cursus vitae congue mauris rhoncus aenean vel elit. Ipsum dolor sit amet consectetur adipiscing elit pellentesque. Viverra justo nec ultrices dui sapien eget mi proin sed."),
-          pwa.Paragraph(
-              text:
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Malesuada fames ac turpis egestas sed tempus urna. Quisque sagittis purus sit amet. A arcu cursus vitae congue mauris rhoncus aenean vel elit. Ipsum dolor sit amet consectetur adipiscing elit pellentesque. Viverra justo nec ultrices dui sapien eget mi proin sed."),
-          pwa.Header(level: 1, child: pwa.Text("Second Heading")),
-          pwa.Paragraph(
-              text:
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Malesuada fames ac turpis egestas sed tempus urna. Quisque sagittis purus sit amet. A arcu cursus vitae congue mauris rhoncus aenean vel elit. Ipsum dolor sit amet consectetur adipiscing elit pellentesque. Viverra justo nec ultrices dui sapien eget mi proin sed."),
+          pwa.Center(child: pwa.Image(image)),
+          pwa.Center(
+            child: pwa.Container(
+                margin: pwa.EdgeInsets.symmetric(vertical: 20),
+                child: pwa.Text("PROPOSTA COMERCIAL",
+                    style: pwa.TextStyle(fontSize: 33))),
+          ),
+          pwa.Center(
+            child: pwa.Container(
+                margin: pwa.EdgeInsets.only(bottom: 20),
+                child: pwa.Container(
+                    width: 600,
+                    height: 10,
+                    color: PdfColor.fromHex("#FFC000"))),
+          ),
           pwa.Paragraph(
               text:
                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Malesuada fames ac turpis egestas sed tempus urna. Quisque sagittis purus sit amet. A arcu cursus vitae congue mauris rhoncus aenean vel elit. Ipsum dolor sit amet consectetur adipiscing elit pellentesque. Viverra justo nec ultrices dui sapien eget mi proin sed."),

@@ -124,20 +124,22 @@ class DatabaseHelper {
     final dio = Dio();
 
     String tempDir = (await getApplicationDocumentsDirectory()).path;
-    String fullPath = tempDir + "/file55.csv";
+    String fullPath = tempDir + "/$filename";
 
-    await dio.download(
-        "http://www.klausmetal.com.br/file55.csv", fullPath + "file55.csv",
+    final t = await dio.download(
+        "http://www.klausmetal.com.br/file55.csv", fullPath + "$filename",
         // disable gzip
 
         onReceiveProgress: (received, total) {
       if (total != -1) {
         print((received / total * 100).toStringAsFixed(0) + "%");
+        final aa = (received / total * 100).toStringAsFixed(0) + "%";
+        return aa;
       }
     });
 
-    openFile("file55.csv");
-    return fullPath;
+    openFile(filename);
+    //return fullPath;
   }
 
   openFile(filename) async {
