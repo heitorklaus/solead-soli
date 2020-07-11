@@ -47,19 +47,19 @@ abstract class _SimulatorControllerBase with Store {
 
   @action
   showDialogKitMenor(context) async {
-    print('[KIT MENOR ] ');
-    print('[KIT ID ] ' + powerPlantsMenor.id.toString());
-    print('[KIT CODIGO ] ' + powerPlantsMenor.codigo.toString());
-    print('[KIT AREA ] ' + powerPlantsMenor.area);
-    print('[KIT INVERSOR ] ' + powerPlantsMenor.inversor);
-    print('[KIT QUANTIDADE DE PLACAS ] ' +
-        powerPlantsMenor.numeroDeModulo.toString());
-    print('[KIT MARCA DAS PLACAS ] ' + powerPlantsMenor.marcaDoModulo);
-    print('[KIT POTENCIA DAS PLACAS ] ' + powerPlantsMenor.potenciaDoModulo);
-    print('[KIT AREA ] ' + powerPlantsMenor.area);
-    print('[KIT PESO ] ' + powerPlantsMenor.peso);
-    print('[KIT PREÇO TOTAL ] ' + powerPlantsMenor.valor);
-    print('[KIT] ' + powerPlantsMenor.dados);
+    // print('[KIT MENOR ] ');
+    // print('[KIT ID ] ' + powerPlantsMenor.id.toString());
+    // print('[KIT CODIGO ] ' + powerPlantsMenor.codigo.toString());
+    // print('[KIT AREA ] ' + powerPlantsMenor.area);
+    // print('[KIT INVERSOR ] ' + powerPlantsMenor.inversor);
+    // print('[KIT QUANTIDADE DE PLACAS ] ' +
+    //     powerPlantsMenor.numeroDeModulo.toString());
+    // print('[KIT MARCA DAS PLACAS ] ' + powerPlantsMenor.marcaDoModulo);
+    // print('[KIT POTENCIA DAS PLACAS ] ' + powerPlantsMenor.potenciaDoModulo);
+    // print('[KIT AREA ] ' + powerPlantsMenor.area);
+    // print('[KIT PESO ] ' + powerPlantsMenor.peso);
+    // print('[KIT PREÇO TOTAL ] ' + powerPlantsMenor.valor);
+    // print('[KIT] ' + powerPlantsMenor.dados);
 
     final valor = await Prefs.getStringList("CITIES");
 
@@ -149,20 +149,20 @@ abstract class _SimulatorControllerBase with Store {
             dezValue) /
         12;
 
-    print('[ JAN ] ' + janValue.toString());
-    print('[ FEV ] ' + fevValue.toString());
-    print('[ MAR ] ' + marValue.toString());
-    print('[ ABR ] ' + abrValue.toString());
-    print('[ MAI ] ' + maiValue.toString());
-    print('[ JUN ] ' + junValue.toString());
-    print('[ JUL ] ' + julValue.toString());
-    print('[ AGO ] ' + agoValue.toString());
-    print('[ SET ] ' + sepValue.toString());
-    print('[ OUT ] ' + outValue.toString());
-    print('[ NOV ] ' + novValue.toString());
-    print('[ DEZ ] ' + dezValue.toString());
+    // print('[ JAN ] ' + janValue.toString());
+    // print('[ FEV ] ' + fevValue.toString());
+    // print('[ MAR ] ' + marValue.toString());
+    // print('[ ABR ] ' + abrValue.toString());
+    // print('[ MAI ] ' + maiValue.toString());
+    // print('[ JUN ] ' + junValue.toString());
+    // print('[ JUL ] ' + julValue.toString());
+    // print('[ AGO ] ' + agoValue.toString());
+    // print('[ SET ] ' + sepValue.toString());
+    // print('[ OUT ] ' + outValue.toString());
+    // print('[ NOV ] ' + novValue.toString());
+    // print('[ DEZ ] ' + dezValue.toString());
 
-    print('[ mediaMenor ] ' + mediaGeracaoKwpMenor.toString());
+    print('[ MEDIA MENOR ] ' + mediaGeracaoKwpMenor.toString());
 
     showDialog(
         context: context,
@@ -275,20 +275,20 @@ abstract class _SimulatorControllerBase with Store {
             dezValue) /
         12;
 
-    print('[ JAN ] ' + janValue.toString());
-    print('[ FEV ] ' + fevValue.toString());
-    print('[ MAR ] ' + marValue.toString());
-    print('[ ABR ] ' + abrValue.toString());
-    print('[ MAI ] ' + maiValue.toString());
-    print('[ JUN ] ' + junValue.toString());
-    print('[ JUL ] ' + julValue.toString());
-    print('[ AGO ] ' + agoValue.toString());
-    print('[ SET ] ' + sepValue.toString());
-    print('[ OUT ] ' + outValue.toString());
-    print('[ NOV ] ' + novValue.toString());
-    print('[ DEZ ] ' + dezValue.toString());
+    // print('[ JAN ] ' + janValue.toString());
+    // print('[ FEV ] ' + fevValue.toString());
+    // print('[ MAR ] ' + marValue.toString());
+    // print('[ ABR ] ' + abrValue.toString());
+    // print('[ MAI ] ' + maiValue.toString());
+    // print('[ JUN ] ' + junValue.toString());
+    // print('[ JUL ] ' + julValue.toString());
+    // print('[ AGO ] ' + agoValue.toString());
+    // print('[ SET ] ' + sepValue.toString());
+    // print('[ OUT ] ' + outValue.toString());
+    // print('[ NOV ] ' + novValue.toString());
+    // print('[ DEZ ] ' + dezValue.toString());
 
-    print('[ mediaMaior ] ' + mediaGeracaoKwpMaior.toString());
+    print('[ MEDIA MAIOR ] ' + mediaGeracaoKwpMaior.toString());
 
     showDialog(
         context: context,
@@ -494,9 +494,7 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
             child: pwa.Container(
                 margin: pwa.EdgeInsets.only(bottom: 20),
                 child: pwa.Container(
-                    width: 600,
-                    height: 10,
-                    color: PdfColor.fromHex("#FFC000"))),
+                    width: 600, height: 5, color: PdfColor.fromHex("#FFC000"))),
           ),
           pwa.Paragraph(
               text:

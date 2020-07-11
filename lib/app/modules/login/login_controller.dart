@@ -12,8 +12,8 @@ class LoginController = _LoginBase with _$LoginController;
 abstract class _LoginBase with Store {
   AuthController auth = Modular.get();
 
-  final username = TextEditingController();
-  final password = TextEditingController();
+  final username = TextEditingController(text: 'heitorklaus@hotmail.com');
+  final password = TextEditingController(text: 'amesma');
 
   @observable
   bool disableAdd = true;
@@ -54,20 +54,17 @@ abstract class _LoginBase with Store {
 
   @action
   Future loginApi() async {
-
-       
     try {
       loading = true;
       final respose = await auth.login(username.text, password.text);
       print('[RESPONSE PARA LOGIN CONTROLLER]');
 
-      
       if (respose.accessToken != null) {
         print('[RESPONSE] CITY, IRRADIATION');
-         await DatabaseHelper().downloadFile("http://www.klausmetal.com.br/file55.csv",
-                                                            "file55.csv");
-      final getCity = await auth.getCitiesIrradiation();
-         print(getCity.city +' '+ getCity.data);
+        await DatabaseHelper().downloadFile(
+            "http://www.klausmetal.com.br/file55.csv", "file55.csv");
+        final getCity = await auth.getCitiesIrradiation();
+        print(getCity.city + ' ' + getCity.data);
         Modular.to.pushReplacementNamed('/home');
       } else {
         print('FALHA!');

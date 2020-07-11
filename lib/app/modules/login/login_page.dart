@@ -177,12 +177,20 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                                           ),
                                         );
                                       } else {
-                                        return CircularProgressIndicator();
+                                        return Center(
+                                          child: Container(
+                                            height: 50,
+                                            width: 50,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 1,
+                                            ),
+                                          ),
+                                        );
                                       }
                                     }),
                                     InkWell(
                                       onTap: () async {
-                                           HomeController().getDataLogin();
+                                        HomeController().getDataLogin();
                                       },
                                       child: Container(
                                           child: Text(

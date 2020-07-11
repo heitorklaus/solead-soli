@@ -28,7 +28,14 @@ class _SplashPageState extends State<SplashPage> {
       final auth = Modular.get<AuthController>();
       if (auth.status == AuthStatus.login) {
         print("[ SPLASH ]");
-        final m = await DatabaseHelper().downloadFile(
+
+        final getCity = await auth.getCitiesIrradiation();
+        print(' [CITY NAME AND DATA IRRADIATION] ' +
+            getCity.city +
+            ' ' +
+            getCity.data);
+
+        await DatabaseHelper().downloadFile(
             "http://www.klausmetal.com.br/file55.csv", "file55.csv");
 
         loadCitiesIrradiationData();
@@ -84,8 +91,17 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blue[400],
       body: Center(
-        child: CircularProgressIndicator(),
+        child: Container(
+          width: 200,
+          height: 200,
+          child: CircularProgressIndicator(
+            strokeWidth: 1,
+            backgroundColor: Colors.blue[500],
+            valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFf9d342)),
+          ),
+        ),
       ),
     );
   }

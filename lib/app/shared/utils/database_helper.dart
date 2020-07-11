@@ -18,7 +18,7 @@ class DatabaseHelper {
 
   static Database _db;
 
-  static const String dbase = "solead-76.db";
+  static const String dbase = "solead-78.db";
 
   Future<Database> get db async {
     if (_db != null) {
@@ -32,7 +32,7 @@ class DatabaseHelper {
   Future _initDb() async {
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, dbase);
-    print("db $path");
+    print("[ USING DATABASE ] $path");
 
     var db = await openDatabase(path,
         version: 2, onCreate: _onCreate, onUpgrade: _onUpgrade);
@@ -40,6 +40,7 @@ class DatabaseHelper {
   }
 
   void _onCreate(Database db, int newVersion) async {
+    print("[ FIRST RUN DATABASE GENERATED]" + db.toString());
     // Dao create tables
     await db.execute(
         'CREATE TABLE PROPOSAL_STRINGS(ID INTEGER PRIMARY KEY, TOKEN TEXT, SESSION TEXT'
@@ -89,7 +90,6 @@ class DatabaseHelper {
       potencia_do_modulo,
       valor,
       potencia_novo) async {
-    print('[Populate data on tb_dados_kits]');
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, dbase);
     var db = await openDatabase(path, version: 2);
@@ -161,7 +161,7 @@ class DatabaseHelper {
         String codigo = row[2].replaceAll('"', '');
         String dados = row[3].replaceAll('"', '');
 
-        print(dados);
+        //print(dados);
 
         String inversor = row[4].replaceAll('"', '');
         String marca_do_modulo = row[5].replaceAll('"', '');
@@ -173,9 +173,10 @@ class DatabaseHelper {
         String potencia_novo = row[11].replaceAll('"', '');
 
         if (id == "id") {
-          print('[DELETING OLD DATA]');
+          print('[IDENTIFY AND DELETE OLD DATA TABLE DADOSKITS]');
           DatabaseHelper().deleteOldData();
         } else {
+          print('[REFRESH TABLE DADOSKITS]');
           DatabaseHelper().populateDadosKits(
               id,
               area,
@@ -190,14 +191,18 @@ class DatabaseHelper {
               valor,
               potencia_novo);
         }
-        print('[EXECUTED LINE]');
-        print('[$codigo] ' + ' [$potencia] ' + ' [$potencia_novo] ');
+
+        print('[ID: $id] ' +
+            ' [POTÊNCIA: $potencia] ' +
+            ' [CÓD DO PRODUTO: $codigo]  ' +
+            ' [INVERSOR: $inversor]  ' +
+            ' [VALOR: $valor]  ');
       } catch (e) {
         print('[ERROR] ' + e.toString());
         //print('THIS NEVER GETS PRINTED');
       }
     }, onDone: () {
-      print('File is now closed.');
+      print('[DATABASE TABLE DADOSKITS REFRESHED.]');
     }, onError: (e) {
       print(e.toString());
     });
