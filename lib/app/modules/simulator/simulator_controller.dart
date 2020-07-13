@@ -4,6 +4,7 @@ import 'package:date_util/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:framework/ui/form/buttons/primary_button.dart';
 import 'package:login/app/modules/home/home_controller.dart';
+import 'package:login/app/modules/simulator/chart.dart';
 import 'package:login/app/shared/auth/repositories/auth_repository.dart';
 import 'package:login/app/shared/repositories/entities/dados_kits.dart';
 import 'package:login/app/shared/repositories/entities/power_plants.dart';
@@ -686,6 +687,74 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
                       pwa.SizedBox(width: 30),
                     ])),
               ),
+
+              pwa.Center(
+                child: pwa.Container(
+                    margin: pwa.EdgeInsets.only(top: 20),
+                    child: pwa.Text("Economia Mensal",
+                        style: pwa.TextStyle(
+                          fontSize: 23,
+                          color: PdfColor.fromHex("#9cd85a"),
+                          fontWeight: pwa.FontWeight.bold,
+                        ))),
+              ),
+              pwa.Center(
+                child: pwa.Container(
+                    margin: pwa.EdgeInsets.only(bottom: 20, top: 10),
+                    child: pwa.Container(
+                        width: 600,
+                        height: 5,
+                        color: PdfColor.fromHex("#9cd85a"))),
+              ),
+              pwa.Center(
+                child: pwa.Container(
+                    // margin: pwa.EdgeInsets.only(top: 40),
+                    child: pwa.Container(
+                        child: pwa.Text(
+                            "Quanto você irá pagar na sua conta de luz?",
+                            style: pwa.TextStyle(
+                                fontSize: 16,
+                                fontWeight: pwa.FontWeight.bold)))),
+              ),
+              pwa.SizedBox(height: 10),
+              pwa.Center(
+                child: pwa.Container(
+                    // margin: pwa.EdgeInsets.only(top: 40),
+                    child: pwa.Row(
+                        mainAxisAlignment: pwa.MainAxisAlignment.center,
+                        children: <pwa.Widget>[
+                      pwa.SizedBox(width: 30),
+                      pwa.Container(
+                          child: pwa.Text("R\$ 37,00",
+                              style: pwa.TextStyle(
+                                  color: PdfColor.fromHex("#FFC000"),
+                                  fontSize: 20,
+                                  fontWeight: pwa.FontWeight.bold))),
+                    ])),
+              ),
+
+              pwa.Center(
+                child: pwa.Container(
+                    // margin: pwa.EdgeInsets.only(top: 40),
+                    child: pwa.Row(
+                        mainAxisAlignment: pwa.MainAxisAlignment.center,
+                        children: <pwa.Widget>[
+                      pwa.SizedBox(width: 30),
+                      pwa.Container(
+                          child: pwa.Text("Consumo médio mensal:",
+                              style: pwa.TextStyle(
+                                fontSize: 16,
+                              ))),
+                      pwa.Text(
+                        " 700 kWh/mês",
+                        style: pwa.TextStyle(
+                            fontSize: 16,
+                            color: PdfColor.fromHex("#FFC000"),
+                            fontWeight: pwa.FontWeight.bold),
+                      ),
+                      pwa.SizedBox(width: 30),
+                    ])),
+              ),
             ],
           ),
         ];
@@ -885,117 +954,164 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
                                     var width =
                                         MediaQuery.of(context).size.width;
 
+                                    final List<Map<String, double>> valores = [
+                                      {"São Paulo": 6500.50, "Barcelona": 50.20}
+                                    ];
+
+                                    final double valor =
+                                        valores[0]["São Paulo"].toDouble() +
+                                            valores[0]["Barcelona"].toDouble();
+
+                                    final double parc1 =
+                                        valores[0]["São Paulo"].toDouble();
+                                    final double parc2 =
+                                        valores[0]["Barcelona"].toDouble();
+
                                     return Scaffold(
-                                      body: Column(
+                                      body: Row(
                                         children: <Widget>[
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: <Widget>[
-                                              Column(
-                                                children: <Widget>[
-                                                  Container(
-                                                    padding: EdgeInsets.only(
-                                                        top: 2.5,
-                                                        left: 5,
-                                                        right: 5),
-                                                    color: Color(0xFFFFC000),
-                                                    height: 30,
-                                                    child: Text(
-                                                      'Consumo Mensal \nMédio (kWh)',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontSize: 9),
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  Text('700',
-                                                      style: TextStyle(
-                                                          fontSize: 9,
-                                                          fontWeight:
-                                                              FontWeight.bold))
-                                                ],
+                                          Container(
+                                              color: Colors.blue,
+                                              width: 50,
+                                              height: (parc1 / valor * 100)
+                                                  .round()
+                                                  .toDouble()
+                                              // 197.5 * (60 / 100),
                                               ),
-                                              Column(
-                                                children: <Widget>[
-                                                  Container(
-                                                    padding: EdgeInsets.only(
-                                                        top: 9,
-                                                        left: 5,
-                                                        right: 5),
-                                                    height: 30,
-                                                    color: Color(0xFFFFC000),
-                                                    child: Text(
-                                                      'Distribuidora',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontSize: 9),
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  Text('ENERGISA',
-                                                      style: TextStyle(
-                                                          fontSize: 9,
-                                                          fontWeight:
-                                                              FontWeight.bold))
-                                                ],
-                                              ),
-                                              Column(
-                                                children: <Widget>[
-                                                  Container(
-                                                    color: Color(0xFFFFC000),
-                                                    padding: EdgeInsets.only(
-                                                        top: 9,
-                                                        left: 5,
-                                                        right: 5),
-                                                    height: 30,
-                                                    child: Text(
-                                                      'Tipo de Cobertura',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontSize: 9),
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  Text('FIBROCIMENTO',
-                                                      style: TextStyle(
-                                                          fontSize: 9,
-                                                          fontWeight:
-                                                              FontWeight.bold))
-                                                ],
-                                              ),
-                                              Column(
-                                                children: <Widget>[
-                                                  Container(
-                                                    color: Color(0xFFFFC000),
-                                                    padding: EdgeInsets.only(
-                                                        top: 9,
-                                                        left: 5,
-                                                        right: 5),
-                                                    height: 30,
-                                                    child: Text(
-                                                      'Canal de Entrada',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontSize: 9),
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  Text('TRIFASICO',
-                                                      style: TextStyle(
-                                                          fontSize: 9,
-                                                          fontWeight:
-                                                              FontWeight.bold))
-                                                ],
-                                              ),
-                                            ],
-                                          ),
+                                          SizedBox(width: 20),
+                                          Container(
+                                              color: Colors.red,
+                                              width: 50,
+                                              height: (parc2 / valor * 100)
+                                                  .round()
+                                                  .toDouble()),
+                                          FlatButton(
+                                              onPressed: () {
+                                                print(parc1);
+                                                print(parc2);
+                                                print(valor);
+
+                                                print((parc1 / valor * 100)
+                                                    .round());
+                                                print((parc2 / valor * 100)
+                                                    .round());
+                                              },
+                                              child: Text('Pressione')),
                                         ],
-                                      ),
+                                      )
+                                      // body: Chart(),
+                                      // body: Column(
+                                      //   children: <Widget>[
+                                      //     // Row(
+                                      //     //   mainAxisAlignment:
+                                      //     //       MainAxisAlignment.spaceEvenly,
+                                      //     //   children: <Widget>[
+                                      //     //     Column(
+                                      //     //       children: <Widget>[
+                                      //     //         Container(
+                                      //     //           padding: EdgeInsets.only(
+                                      //     //               top: 2.5,
+                                      //     //               left: 5,
+                                      //     //               right: 5),
+                                      //     //           color: Color(0xFFFFC000),
+                                      //     //           height: 30,
+                                      //     //           child: Text(
+                                      //     //             'Consumo Mensal \nMédio (kWh)',
+                                      //     //             textAlign:
+                                      //     //                 TextAlign.center,
+                                      //     //             style: TextStyle(
+                                      //     //                 fontSize: 9),
+                                      //     //           ),
+                                      //     //         ),
+                                      //     //         SizedBox(height: 5),
+                                      //     //         Text('700',
+                                      //     //             style: TextStyle(
+                                      //     //                 fontSize: 9,
+                                      //     //                 fontWeight:
+                                      //     //                     FontWeight.bold))
+                                      //     //       ],
+                                      //     //     ),
+                                      //     //     Column(
+                                      //     //       children: <Widget>[
+                                      //     //         Container(
+                                      //     //           padding: EdgeInsets.only(
+                                      //     //               top: 9,
+                                      //     //               left: 5,
+                                      //     //               right: 5),
+                                      //     //           height: 30,
+                                      //     //           color: Color(0xFFFFC000),
+                                      //     //           child: Text(
+                                      //     //             'Distribuidora',
+                                      //     //             textAlign:
+                                      //     //                 TextAlign.center,
+                                      //     //             style: TextStyle(
+                                      //     //                 fontSize: 9),
+                                      //     //           ),
+                                      //     //         ),
+                                      //     //         SizedBox(height: 5),
+                                      //     //         Text('ENERGISA',
+                                      //     //             style: TextStyle(
+                                      //     //                 fontSize: 9,
+                                      //     //                 fontWeight:
+                                      //     //                     FontWeight.bold))
+                                      //     //       ],
+                                      //     //     ),
+                                      //     //     Column(
+                                      //     //       children: <Widget>[
+                                      //     //         Container(
+                                      //     //           color: Color(0xFFFFC000),
+                                      //     //           padding: EdgeInsets.only(
+                                      //     //               top: 9,
+                                      //     //               left: 5,
+                                      //     //               right: 5),
+                                      //     //           height: 30,
+                                      //     //           child: Text(
+                                      //     //             'Tipo de Cobertura',
+                                      //     //             textAlign:
+                                      //     //                 TextAlign.center,
+                                      //     //             style: TextStyle(
+                                      //     //                 fontSize: 9),
+                                      //     //           ),
+                                      //     //         ),
+                                      //     //         SizedBox(height: 5),
+                                      //     //         Text('FIBROCIMENTO',
+                                      //     //             style: TextStyle(
+                                      //     //                 fontSize: 9,
+                                      //     //                 fontWeight:
+                                      //     //                     FontWeight.bold))
+                                      //     //       ],
+                                      //     //     ),
+                                      //     //     Column(
+                                      //     //       children: <Widget>[
+                                      //     //         Container(
+                                      //     //           color: Color(0xFFFFC000),
+                                      //     //           padding: EdgeInsets.only(
+                                      //     //               top: 9,
+                                      //     //               left: 5,
+                                      //     //               right: 5),
+                                      //     //           height: 30,
+                                      //     //           child: Text(
+                                      //     //             'Canal de Entrada',
+                                      //     //             textAlign:
+                                      //     //                 TextAlign.center,
+                                      //     //             style: TextStyle(
+                                      //     //                 fontSize: 9),
+                                      //     //           ),
+                                      //     //         ),
+                                      //     //         SizedBox(height: 5),
+                                      //     //         Text('TRIFASICO',
+                                      //     //             style: TextStyle(
+                                      //     //                 fontSize: 9,
+                                      //     //                 fontWeight:
+                                      //     //                     FontWeight.bold))
+                                      //     //       ],
+                                      //     //     ),
+                                      //     //   ],
+                                      //     // ),
+                                      //     Chart(),
+                                      //   ],
+                                      // ),
+                                      ,
                                       floatingActionButton:
                                           FloatingActionButton(
                                         onPressed: () async {
