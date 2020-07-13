@@ -298,7 +298,6 @@ abstract class _SimulatorControllerBase with Store {
               content: Builder(
                 builder: (context) {
                   // Get available height and width of the build area of this widget. Make a choice depending on the size.
-
                   var height = MediaQuery.of(context).size.height;
                   var width = MediaQuery.of(context).size.width;
 
@@ -475,7 +474,12 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
 
     final image = PdfImage.file(
       pdf.document,
-      bytes: File('$tempPath/img/alta.png').readAsBytesSync(),
+      bytes: File('$tempPath/img/logo_pdf.png').readAsBytesSync(),
+    );
+
+    final image_topo_marca = PdfImage.file(
+      pdf.document,
+      bytes: File('$tempPath/img/logo_topo_marca.png').readAsBytesSync(),
     );
 
     pdf.addPage(pwa.MultiPage(
@@ -483,25 +487,207 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
       margin: pwa.EdgeInsets.all(32),
       build: (pwa.Context context) {
         return <pwa.Widget>[
-          pwa.Center(child: pwa.Image(image)),
-          pwa.Center(
-            child: pwa.Container(
-                margin: pwa.EdgeInsets.symmetric(vertical: 20),
-                child: pwa.Text("PROPOSTA COMERCIAL",
-                    style: pwa.TextStyle(fontSize: 33))),
-          ),
-          pwa.Center(
-            child: pwa.Container(
-                margin: pwa.EdgeInsets.only(bottom: 20),
+          pwa.Column(
+            children: <pwa.Widget>[
+              pwa.SizedBox(height: 50),
+              pwa.Center(child: pwa.Image(image)),
+              pwa.Center(
                 child: pwa.Container(
-                    width: 600, height: 5, color: PdfColor.fromHex("#FFC000"))),
+                    margin: pwa.EdgeInsets.symmetric(vertical: 20),
+                    child: pwa.Text("PROPOSTA COMERCIAL",
+                        style: pwa.TextStyle(fontSize: 20))),
+              ),
+              pwa.Center(
+                child: pwa.Container(
+                    margin: pwa.EdgeInsets.only(bottom: 20),
+                    child: pwa.Container(
+                        width: 600,
+                        height: 5,
+                        color: PdfColor.fromHex("#FFC000"))),
+              ),
+              pwa.Center(
+                child: pwa.Container(
+                    margin: pwa.EdgeInsets.only(top: 40),
+                    child: pwa.Container(
+                        child: pwa.Text("Heitor Fabrício Klaus",
+                            style: pwa.TextStyle(
+                                fontSize: 20,
+                                fontWeight: pwa.FontWeight.bold)))),
+              ),
+              pwa.Center(
+                child: pwa.Container(
+                    margin: pwa.EdgeInsets.only(top: 10, bottom: 0),
+                    child: pwa.Container(
+                        child: pwa.Text(
+                            "AVENIDA TANCREDO NEVES, 1119 CORREGO DO BARBADO",
+                            style: pwa.TextStyle(
+                              fontSize: 10,
+                            )))),
+              ),
+              pwa.SizedBox(height: 20),
+              pwa.Row(
+                mainAxisAlignment: pwa.MainAxisAlignment.spaceEvenly,
+                children: <pwa.Widget>[
+                  pwa.Column(children: <pwa.Widget>[
+                    pwa.Container(
+                      color: PdfColor.fromHex("#FFC000"),
+                      padding: pwa.EdgeInsets.only(top: 9, left: 15, right: 15),
+                      height: 30,
+                      child: pwa.Column(children: <pwa.Widget>[
+                        pwa.Text(
+                          'Consumo Médio',
+                          textAlign: pwa.TextAlign.center,
+                          style: pwa.TextStyle(fontSize: 12),
+                        ),
+                      ]),
+                    ),
+                    pwa.SizedBox(height: 10),
+                    pwa.Text('700(kWh) / Mês',
+                        style: pwa.TextStyle(
+                            fontSize: 12, fontWeight: pwa.FontWeight.bold))
+                  ]),
+                  pwa.Column(children: <pwa.Widget>[
+                    pwa.Container(
+                      color: PdfColor.fromHex("#FFC000"),
+                      padding: pwa.EdgeInsets.only(top: 9, left: 15, right: 15),
+                      height: 30,
+                      child: pwa.Text(
+                        'Distribuidora',
+                        textAlign: pwa.TextAlign.center,
+                        style: pwa.TextStyle(fontSize: 12),
+                      ),
+                    ),
+                    pwa.SizedBox(height: 10),
+                    pwa.Text('ENERGISA',
+                        style: pwa.TextStyle(
+                            fontSize: 12, fontWeight: pwa.FontWeight.bold))
+                  ]),
+                  pwa.Column(children: <pwa.Widget>[
+                    pwa.Container(
+                      color: PdfColor.fromHex("#FFC000"),
+                      padding: pwa.EdgeInsets.only(top: 9, left: 15, right: 15),
+                      height: 30,
+                      child: pwa.Text(
+                        'Tipo de Cobertura',
+                        textAlign: pwa.TextAlign.center,
+                        style: pwa.TextStyle(fontSize: 12),
+                      ),
+                    ),
+                    pwa.SizedBox(height: 10),
+                    pwa.Text('FIBROCIMENTO',
+                        style: pwa.TextStyle(
+                            fontSize: 12, fontWeight: pwa.FontWeight.bold))
+                  ]),
+                  pwa.Column(children: <pwa.Widget>[
+                    pwa.Container(
+                      color: PdfColor.fromHex("#FFC000"),
+                      padding: pwa.EdgeInsets.only(top: 9, left: 15, right: 15),
+                      height: 30,
+                      child: pwa.Text(
+                        'Canal de Entrada',
+                        textAlign: pwa.TextAlign.center,
+                        style: pwa.TextStyle(fontSize: 12),
+                      ),
+                    ),
+                    pwa.SizedBox(height: 10),
+                    pwa.Text('TRIFASICO',
+                        style: pwa.TextStyle(
+                            fontSize: 12, fontWeight: pwa.FontWeight.bold))
+                  ]),
+                ],
+              ),
+              pwa.SizedBox(height: 20),
+              pwa.Text(
+                  "Esta é a apresentação de uma estimativa de custo e de geração de energia do sistema baseado nas informações fornecidaspelo cliente e não tem caráter orçamentário, a proposta de custo final só poderá ser realizada após uma visita técnica ao local da instalação para levantamento de todas as condicionantes que influenciam direta e indiretamente no custo e geração de energia do sistema.",
+                  style: pwa.TextStyle(fontSize: 10),
+                  textAlign: pwa.TextAlign.center),
+              // SECOND PAGE
+              pwa.SizedBox(height: 50),
+              pwa.Row(
+                  mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween,
+                  children: <pwa.Widget>[
+                    pwa.Center(child: pwa.Image(image_topo_marca)),
+                    pwa.Text("ANÁLISE FINANCEIRA",
+                        style: pwa.TextStyle(fontWeight: pwa.FontWeight.bold))
+                  ]),
+
+              pwa.Center(
+                child: pwa.Container(
+                    margin: pwa.EdgeInsets.symmetric(vertical: 10),
+                    child: pwa.Text("Situação Atual",
+                        style: pwa.TextStyle(
+                          fontSize: 23,
+                          color: PdfColor.fromHex("#FFC000"),
+                          fontWeight: pwa.FontWeight.bold,
+                        ))),
+              ),
+              pwa.Center(
+                child: pwa.Container(
+                    margin: pwa.EdgeInsets.only(bottom: 20),
+                    child: pwa.Container(
+                        width: 600,
+                        height: 5,
+                        color: PdfColor.fromHex("#FFC000"))),
+              ),
+              pwa.Center(
+                child: pwa.Container(
+                    // margin: pwa.EdgeInsets.only(top: 40),
+                    child: pwa.Container(
+                        child: pwa.Text(
+                            "O valor médio da sua conta de luz hoje?",
+                            style: pwa.TextStyle(
+                                fontSize: 16,
+                                fontWeight: pwa.FontWeight.bold)))),
+              ),
+              pwa.SizedBox(height: 10),
+              pwa.Center(
+                child: pwa.Container(
+                    // margin: pwa.EdgeInsets.only(top: 40),
+                    child: pwa.Row(
+                        mainAxisAlignment: pwa.MainAxisAlignment.center,
+                        children: <pwa.Widget>[
+                      pwa.SizedBox(width: 30),
+                      pwa.Container(
+                          child: pwa.Text("R\$ 637,00",
+                              style: pwa.TextStyle(
+                                  color: PdfColor.fromHex("#FFC000"),
+                                  fontSize: 20,
+                                  fontWeight: pwa.FontWeight.bold))),
+                      pwa.Text(
+                        " / por mês",
+                        style: pwa.TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      pwa.SizedBox(width: 30),
+                    ])),
+              ),
+
+              pwa.SizedBox(height: 10),
+              pwa.Center(
+                child: pwa.Container(
+                    // margin: pwa.EdgeInsets.only(top: 40),
+                    child: pwa.Row(
+                        mainAxisAlignment: pwa.MainAxisAlignment.center,
+                        children: <pwa.Widget>[
+                      pwa.SizedBox(width: 30),
+                      pwa.Container(
+                          child: pwa.Text("Consumo médio mensal:",
+                              style: pwa.TextStyle(
+                                fontSize: 16,
+                              ))),
+                      pwa.Text(
+                        " 700 kWh/mês",
+                        style: pwa.TextStyle(
+                            fontSize: 16,
+                            color: PdfColor.fromHex("#FFC000"),
+                            fontWeight: pwa.FontWeight.bold),
+                      ),
+                      pwa.SizedBox(width: 30),
+                    ])),
+              ),
+            ],
           ),
-          pwa.Paragraph(
-              text:
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Malesuada fames ac turpis egestas sed tempus urna. Quisque sagittis purus sit amet. A arcu cursus vitae congue mauris rhoncus aenean vel elit. Ipsum dolor sit amet consectetur adipiscing elit pellentesque. Viverra justo nec ultrices dui sapien eget mi proin sed."),
-          pwa.Paragraph(
-              text:
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Malesuada fames ac turpis egestas sed tempus urna. Quisque sagittis purus sit amet. A arcu cursus vitae congue mauris rhoncus aenean vel elit. Ipsum dolor sit amet consectetur adipiscing elit pellentesque. Viverra justo nec ultrices dui sapien eget mi proin sed."),
         ];
       },
     ));
@@ -700,9 +886,115 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
                                         MediaQuery.of(context).size.width;
 
                                     return Scaffold(
-                                      body: Container(
-                                        height: height,
-                                        child: Text('Gerar Proposta'),
+                                      body: Column(
+                                        children: <Widget>[
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: <Widget>[
+                                              Column(
+                                                children: <Widget>[
+                                                  Container(
+                                                    padding: EdgeInsets.only(
+                                                        top: 2.5,
+                                                        left: 5,
+                                                        right: 5),
+                                                    color: Color(0xFFFFC000),
+                                                    height: 30,
+                                                    child: Text(
+                                                      'Consumo Mensal \nMédio (kWh)',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 9),
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 5),
+                                                  Text('700',
+                                                      style: TextStyle(
+                                                          fontSize: 9,
+                                                          fontWeight:
+                                                              FontWeight.bold))
+                                                ],
+                                              ),
+                                              Column(
+                                                children: <Widget>[
+                                                  Container(
+                                                    padding: EdgeInsets.only(
+                                                        top: 9,
+                                                        left: 5,
+                                                        right: 5),
+                                                    height: 30,
+                                                    color: Color(0xFFFFC000),
+                                                    child: Text(
+                                                      'Distribuidora',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 9),
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 5),
+                                                  Text('ENERGISA',
+                                                      style: TextStyle(
+                                                          fontSize: 9,
+                                                          fontWeight:
+                                                              FontWeight.bold))
+                                                ],
+                                              ),
+                                              Column(
+                                                children: <Widget>[
+                                                  Container(
+                                                    color: Color(0xFFFFC000),
+                                                    padding: EdgeInsets.only(
+                                                        top: 9,
+                                                        left: 5,
+                                                        right: 5),
+                                                    height: 30,
+                                                    child: Text(
+                                                      'Tipo de Cobertura',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 9),
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 5),
+                                                  Text('FIBROCIMENTO',
+                                                      style: TextStyle(
+                                                          fontSize: 9,
+                                                          fontWeight:
+                                                              FontWeight.bold))
+                                                ],
+                                              ),
+                                              Column(
+                                                children: <Widget>[
+                                                  Container(
+                                                    color: Color(0xFFFFC000),
+                                                    padding: EdgeInsets.only(
+                                                        top: 9,
+                                                        left: 5,
+                                                        right: 5),
+                                                    height: 30,
+                                                    child: Text(
+                                                      'Canal de Entrada',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 9),
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 5),
+                                                  Text('TRIFASICO',
+                                                      style: TextStyle(
+                                                          fontSize: 9,
+                                                          fontWeight:
+                                                              FontWeight.bold))
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
                                       floatingActionButton:
                                           FloatingActionButton(

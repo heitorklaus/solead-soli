@@ -47,7 +47,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                           Expanded(
                             child: Container(
                               child: Image.asset(
-                                'lib/app/shared/assets/images/logo.png',
+                                'lib/app/shared/assets/images/logo1.png',
                                 width: 150,
                               ),
                               color: Colors.transparent,

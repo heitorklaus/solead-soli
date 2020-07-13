@@ -12,6 +12,9 @@ final heading16Bold = TextStyleGenerator()
 final ubuntu16WhiteBold500 = TextStyleGenerator()
     .getUbuntuStyle(size: 16, color: Colors.white, weight: FontWeight.w500);
 
+final ubuntu17WhiteBold500 = TextStyleGenerator()
+    .getUbuntuStyle(size: 17, color: Colors.white, weight: FontWeight.w300);
+
 final ubuntu16BlueBold500 = TextStyleGenerator()
     .getUbuntuStyle(size: 18, color: MainColors.cielo, weight: FontWeight.w500);
 

@@ -56,7 +56,20 @@ class _SimulatorPageState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Simulador de Proposta"),
+        title: Text(
+          "Simulador de proposta",
+          style: ubuntu17WhiteBold500,
+        ),
+        actions: <Widget>[
+          Container(
+            margin: EdgeInsets.only(right: 15),
+            child: Image.asset(
+              'lib/app/shared/assets/images/l.png',
+              width: 40,
+            ),
+            color: Colors.transparent,
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(
