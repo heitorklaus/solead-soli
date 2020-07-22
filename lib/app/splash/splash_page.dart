@@ -36,7 +36,7 @@ class _SplashPageState extends State<SplashPage> {
             getCity.data);
 
         await DatabaseHelper().downloadFile(
-            "http://www.klausmetal.com.br/file55.csv", "file57.csv");
+            "http://www.klausmetal.com.br/file56.csv", "file56.csv");
 
         loadCitiesIrradiationData();
 

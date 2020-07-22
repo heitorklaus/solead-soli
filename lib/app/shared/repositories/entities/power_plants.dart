@@ -67,7 +67,6 @@ class PowerPlants extends _PowerPlants with _$PowerPlants {
         potencia: json['potencia'],
         potenciaDoModulo: json['potenciaDoModulo'],
         valor: json['valor'],
-        potenciaNovo: json['potencia_novo'],
         consumoEmReais: json['consumoEmReais'],
         consumoEmKw: json['consumoEmKw']);
   }

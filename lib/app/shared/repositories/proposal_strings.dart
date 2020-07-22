@@ -33,7 +33,7 @@ class ProposalStringsDao {
     final dbClient = await db;
 
     final list = await dbClient.rawQuery(
-        "select * from tb_dados_kits where potencia_novo < '$tipo' order by potencia_novo DESC limit 1");
+        "select * from tb_dados_kits where potencia < '$tipo' order by potencia DESC limit 1");
 
     if (list.length > 0) {
       final valor = new DadosKits.fromJson(list.first);
@@ -64,7 +64,7 @@ class ProposalStringsDao {
     final dbClient = await db;
 
     final list = await dbClient.rawQuery(
-        "select * from tb_dados_kits where potencia_novo > '$tipo' order by potencia_novo asc limit 1");
+        "select * from tb_dados_kits where potencia > '$tipo' order by potencia asc limit 1");
 
     if (list.length > 0) {
       final valor = new DadosKits.fromJson(list.first);

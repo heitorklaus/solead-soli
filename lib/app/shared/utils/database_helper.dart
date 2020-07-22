@@ -21,7 +21,7 @@ class DatabaseHelper {
 
   static Database _db;
 
-  static const String dbase = "solead-79.db";
+  static const String dbase = "solead-85.db";
 
   Future<Database> get db async {
     if (_db != null) {
@@ -54,10 +54,10 @@ class DatabaseHelper {
         "insert  into CITIES_IRRADIATION (ID,CITY,DEF,N,L,O,S,NE,NO,SE,SO,PRICE) VALUES (1,'CUIABÁ','5,11','5,25','4,95','4,96','4,53','5,21','5,22','4,66','4,68','0,91')");
 
     await db.execute(
-        'CREATE TABLE tb_dados_kits (id int8 NOT NULL, area varchar(255) NULL, codigo varchar(255) NULL,dados text NULL,inversor varchar(255) NULL,marca_do_modulo varchar(255) NULL,numero_de_modulo int4 NULL,peso varchar(255) NULL,potencia varchar(255) NULL,potencia_do_modulo int4 NULL,valor varchar(255) NULL,potencia_novo numeric(5,2) NULL,CONSTRAINT tb_dados_kits_pkey PRIMARY KEY (id))');
+        'CREATE TABLE tb_dados_kits (id int8 NOT NULL, area varchar(255) NULL, codigo varchar(255) NULL,dados text NULL,inversor varchar(255) NULL,marca_do_modulo varchar(255) NULL,numero_de_modulo int4 NULL,peso varchar(255) NULL,potencia varchar(255) NULL,potencia_do_modulo int4 NULL,valor varchar(255) NULL,CONSTRAINT tb_dados_kits_pkey PRIMARY KEY (id))');
 
     await db.execute(
-        "INSERT INTO tb_dados_kits (id,area,codigo,dados,inversor,marca_do_modulo,numero_de_modulo,peso,potencia,potencia_do_modulo,valor,potencia_novo) VALUES (200,'0000000','000000000','4 STAUBLI CONECTOR MC4 320016P0001-UR PV-KBT4/6II-UR ACOPLADOR FEMEA 4 STAUBLI CONECTOR MC4 32.0017P0001-UR PV-KST4/6II-UR ACOPLADOR MACHO 1 STRING BOX PROAUTO DEHN 20387 SB-1E/2E-1S-1000DC QUADRO 2 ENTRADAS/1 SAIDA 1 MPPT 50 CABO SOLAR NEXANS 47064 ENERGYFLEX AFITOX 0,6/1KV 1500V DC PRETO 50 CABO SOLAR NEXANS 43221 ENERGYFLEX AFITOX 0,6/1KV 1500V DC VERMELHO 6 PAINEL SOLAR TRINASOLAR TSM-DE15MII TALLMAX 144 CEL. MONO PERC HALF CELL 19,7% EFICIENCIA 2 ESTRUTURA SOLAR GROUP KTHTC420X000MD04 PERFIL THUNDER TELHA COLONIAL 4,20M 2 ESTRUTURA SOLAR GROUP ATHTC420X000MD04 4 PAINEIS FIXADOR GANCHO TELHA COLONIAL 1 INVERSOR SOLAR REFUSOL 801P1K6100 1.6KW MONOFASICO 220V 1MPPT MONITORAMENTO WLAN','REFUSOL 1,6KW','TRINASOLAR',6,'150','2,4',400,' 14.071,36 ',2.40) ");
+        "INSERT INTO tb_dados_kits (id,area,codigo,dados,inversor,marca_do_modulo,numero_de_modulo,peso,potencia,potencia_do_modulo,valor) VALUES (200,'0000000','000000000','4 STAUBLI CONECTOR MC4 320016P0001-UR PV-KBT4/6II-UR ACOPLADOR FEMEA 4 STAUBLI CONECTOR MC4 32.0017P0001-UR PV-KST4/6II-UR ACOPLADOR MACHO 1 STRING BOX PROAUTO DEHN 20387 SB-1E/2E-1S-1000DC QUADRO 2 ENTRADAS/1 SAIDA 1 MPPT 50 CABO SOLAR NEXANS 47064 ENERGYFLEX AFITOX 0,6/1KV 1500V DC PRETO 50 CABO SOLAR NEXANS 43221 ENERGYFLEX AFITOX 0,6/1KV 1500V DC VERMELHO 6 PAINEL SOLAR TRINASOLAR TSM-DE15MII TALLMAX 144 CEL. MONO PERC HALF CELL 19,7% EFICIENCIA 2 ESTRUTURA SOLAR GROUP KTHTC420X000MD04 PERFIL THUNDER TELHA COLONIAL 4,20M 2 ESTRUTURA SOLAR GROUP ATHTC420X000MD04 4 PAINEIS FIXADOR GANCHO TELHA COLONIAL 1 INVERSOR SOLAR REFUSOL 801P1K6100 1.6KW MONOFASICO 220V 1MPPT MONITORAMENTO WLAN','REFUSOL 1,6KW','TRINASOLAR',6,'150','2,4',400,' 14.071,36 ') ");
 
     await db.execute(
         'CREATE TABLE CITIES_IRRADIATION_MONTH (ID int8 NOT NULL, INCLINACAO TEXT, JAN TEXT, FEV TEXT, MAR TEXT, ABR TEXT, MAI TEXT, JUN TEXT, JUL TEXT, AGO TEXT, SEP TEXT, OUT TEXT, NOV TEXT, DEZ TEXT, MEDIA TEXT, CONSTRAINT CITIES_IRRADIATION_MONTH_pkey PRIMARY KEY (ID))');
@@ -80,26 +80,15 @@ class DatabaseHelper {
     await db.rawDelete('delete from tb_dados_kits');
   }
 
-  void populateDadosKits(
-      id,
-      area,
-      codigo,
-      dados,
-      inversor,
-      marca_do_modulo,
-      numero_de_modulo,
-      peso,
-      potencia,
-      potencia_do_modulo,
-      valor,
-      potencia_novo) async {
+  void populateDadosKits(id, area, codigo, dados, inversor, marca_do_modulo,
+      numero_de_modulo, peso, potencia, potencia_do_modulo, valor) async {
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, dbase);
     var db = await openDatabase(path, version: 2);
 
     try {
       await db.execute(
-          "INSERT INTO tb_dados_kits (id,area,codigo,dados,inversor,marca_do_modulo,numero_de_modulo,peso,potencia,potencia_do_modulo,valor,potencia_novo) VALUES ($id,'$area','$codigo','$dados','$inversor','$marca_do_modulo',$numero_de_modulo,'$peso','$potencia',$potencia_do_modulo,'$valor',$potencia_novo)");
+          "INSERT INTO tb_dados_kits (id,area,codigo,dados,inversor,marca_do_modulo,numero_de_modulo,peso,potencia,potencia_do_modulo,valor) VALUES ($id,'$area','$codigo','$dados','$inversor','$marca_do_modulo',$numero_de_modulo,'$peso','$potencia',$potencia_do_modulo,'$valor')");
     } catch (e) {
       print('[ERROR]');
 
@@ -203,20 +192,35 @@ class DatabaseHelper {
         List row = line.split(';'); // split by ponto e virgula
 
         String id = row[0].replaceAll('"', '');
-        String area = row[1].replaceAll('"', '');
-        String codigo = row[2].replaceAll('"', '');
-        String dados = row[3].replaceAll('"', '');
+        String potencia = row[1].replaceAll('"', '');
+        String dados = row[2].replaceAll('"', '') +
+            '<BR>' +
+            row[3].replaceAll('"', '') +
+            '<BR>' +
+            row[4].replaceAll('"', '') +
+            '<BR>' +
+            row[5].replaceAll('"', '') +
+            '<BR>' +
+            row[6].replaceAll('"', '') +
+            '<BR>' +
+            row[7].replaceAll('"', '') +
+            '<BR>' +
+            row[8].replaceAll('"', '') +
+            '<BR>' +
+            row[9].replaceAll('"', '') +
+            '<BR>' +
+            row[10].replaceAll('"', '') +
+            '<BR>' +
+            row[11].replaceAll('"', '');
+        String numero_de_modulo = row[12].replaceAll('"', '');
+        String potencia_do_modulo = row[13].replaceAll('"', '');
+        String marca_do_modulo = row[14].replaceAll('"', '');
+        String inversor = row[15].replaceAll('"', '');
+        String area = row[16].replaceAll('"', '');
+        String peso = row[17].replaceAll('"', '');
+        String codigo = row[18].replaceAll('"', '');
 
-        //print(dados);
-
-        String inversor = row[4].replaceAll('"', '');
-        String marca_do_modulo = row[5].replaceAll('"', '');
-        String numero_de_modulo = row[6].replaceAll('"', '');
-        String peso = row[7].replaceAll('"', '');
-        String potencia = row[8].replaceAll('"', '').replaceAll(',', '.');
-        String potencia_do_modulo = row[9].replaceAll('"', '');
-        String valor = row[10].replaceAll('"', '');
-        String potencia_novo = row[11].replaceAll('"', '');
+        String valor = row[19].replaceAll('"', '');
 
         if (id == "id") {
           print('[IDENTIFY AND DELETE OLD DATA TABLE DADOSKITS]');
@@ -234,8 +238,7 @@ class DatabaseHelper {
               peso,
               potencia,
               potencia_do_modulo,
-              valor,
-              potencia_novo);
+              valor);
         }
 
         print('[ID: $id] ' +

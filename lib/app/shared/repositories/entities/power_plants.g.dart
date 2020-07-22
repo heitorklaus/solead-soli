@@ -189,6 +189,36 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
+  final _$consumoEmReaisAtom = Atom(name: '_PowerPlants.consumoEmReais');
+
+  @override
+  String get consumoEmReais {
+    _$consumoEmReaisAtom.reportRead();
+    return super.consumoEmReais;
+  }
+
+  @override
+  set consumoEmReais(String value) {
+    _$consumoEmReaisAtom.reportWrite(value, super.consumoEmReais, () {
+      super.consumoEmReais = value;
+    });
+  }
+
+  final _$consumoEmKwAtom = Atom(name: '_PowerPlants.consumoEmKw');
+
+  @override
+  String get consumoEmKw {
+    _$consumoEmKwAtom.reportRead();
+    return super.consumoEmKw;
+  }
+
+  @override
+  set consumoEmKw(String value) {
+    _$consumoEmKwAtom.reportWrite(value, super.consumoEmKw, () {
+      super.consumoEmKw = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
@@ -203,7 +233,9 @@ peso: ${peso},
 potencia: ${potencia},
 potenciaDoModulo: ${potenciaDoModulo},
 valor: ${valor},
-potenciaNovo: ${potenciaNovo}
+potenciaNovo: ${potenciaNovo},
+consumoEmReais: ${consumoEmReais},
+consumoEmKw: ${consumoEmKw}
     ''';
   }
 }

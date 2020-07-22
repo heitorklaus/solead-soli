@@ -299,8 +299,7 @@ abstract class _SimulatorControllerBase with Store {
         powerPlantsMenor.potenciaDoModulo =
             potenciaProximaMenor.potencia_do_modulo.toString();
         powerPlantsMenor.potenciaNovo =
-            potenciaProximaMenor.potencia_novo.toString();
-        powerPlantsMenor.valor = potenciaProximaMenor.valor;
+            powerPlantsMenor.valor = potenciaProximaMenor.valor;
         powerPlantsMenor.dados = potenciaProximaMenor.dados;
 
         final mediaNova = double.parse((mediaMoney.text));
@@ -324,8 +323,7 @@ abstract class _SimulatorControllerBase with Store {
         powerPlantsMaior.potenciaDoModulo =
             potenciaProximaMaior.potencia_do_modulo.toString();
         powerPlantsMaior.potenciaNovo =
-            potenciaProximaMaior.potencia_novo.toString();
-        powerPlantsMaior.valor = potenciaProximaMaior.valor;
+            powerPlantsMaior.valor = potenciaProximaMaior.valor;
         powerPlantsMaior.dados = potenciaProximaMaior.dados;
       } else {
         potencia.text = '';
@@ -381,8 +379,7 @@ abstract class _SimulatorControllerBase with Store {
         powerPlantsMenor.potenciaDoModulo =
             potenciaProximaMenor.potencia_do_modulo.toString();
         powerPlantsMenor.potenciaNovo =
-            potenciaProximaMenor.potencia_novo.toString();
-        powerPlantsMenor.valor = potenciaProximaMenor.valor;
+            powerPlantsMenor.valor = potenciaProximaMenor.valor;
         powerPlantsMenor.dados = potenciaProximaMenor.dados;
 
         powerPlantsMaior.id = potenciaProximaMaior.id;
@@ -396,8 +393,7 @@ abstract class _SimulatorControllerBase with Store {
         powerPlantsMaior.potenciaDoModulo =
             potenciaProximaMaior.potencia_do_modulo.toString();
         powerPlantsMaior.potenciaNovo =
-            potenciaProximaMaior.potencia_novo.toString();
-        powerPlantsMaior.valor = potenciaProximaMaior.valor;
+            powerPlantsMaior.valor = potenciaProximaMaior.valor;
         powerPlantsMaior.dados = potenciaProximaMaior.dados;
       } else {
         potencia.text = '';

@@ -39,29 +39,22 @@ mixin _$SimulatorController on _SimulatorControllerBase, Store {
     });
   }
 
-  final _$_SimulatorControllerBaseActionController =
-      ActionController(name: '_SimulatorControllerBase');
+  final _$showDialogKitMenorAsyncAction =
+      AsyncAction('_SimulatorControllerBase.showDialogKitMenor');
 
   @override
-  dynamic showDialogKitMenor(dynamic context) {
-    final _$actionInfo = _$_SimulatorControllerBaseActionController.startAction(
-        name: '_SimulatorControllerBase.showDialogKitMenor');
-    try {
-      return super.showDialogKitMenor(context);
-    } finally {
-      _$_SimulatorControllerBaseActionController.endAction(_$actionInfo);
-    }
+  Future showDialogKitMenor(dynamic context) {
+    return _$showDialogKitMenorAsyncAction
+        .run(() => super.showDialogKitMenor(context));
   }
 
+  final _$showDialogKitMaiorAsyncAction =
+      AsyncAction('_SimulatorControllerBase.showDialogKitMaior');
+
   @override
-  dynamic showDialogKitMaior(dynamic context) {
-    final _$actionInfo = _$_SimulatorControllerBaseActionController.startAction(
-        name: '_SimulatorControllerBase.showDialogKitMaior');
-    try {
-      return super.showDialogKitMaior(context);
-    } finally {
-      _$_SimulatorControllerBaseActionController.endAction(_$actionInfo);
-    }
+  Future showDialogKitMaior(dynamic context) {
+    return _$showDialogKitMaiorAsyncAction
+        .run(() => super.showDialogKitMaior(context));
   }
 
   @override
