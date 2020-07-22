@@ -36,7 +36,7 @@ class _SplashPageState extends State<SplashPage> {
             getCity.data);
 
         await DatabaseHelper().downloadFile(
-            "http://www.klausmetal.com.br/file55.csv", "file55.csv");
+            "http://www.klausmetal.com.br/file55.csv", "file57.csv");
 
         loadCitiesIrradiationData();
 
@@ -93,14 +93,27 @@ class _SplashPageState extends State<SplashPage> {
     return Scaffold(
       backgroundColor: Colors.blue[400],
       body: Center(
-        child: Container(
-          width: 200,
-          height: 200,
-          child: CircularProgressIndicator(
-            strokeWidth: 1,
-            backgroundColor: Colors.blue[500],
-            valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFFFFFFF)),
-          ),
+        child: Stack(
+          children: <Widget>[
+            Center(
+              child: Image.asset(
+                'lib/app/shared/assets/images/l.png',
+                width: 70,
+              ),
+            ),
+            Center(
+              child: Container(
+                width: 200,
+                height: 200,
+                child: CircularProgressIndicator(
+                  strokeWidth: 1,
+                  backgroundColor: Colors.blue[500],
+                  valueColor:
+                      new AlwaysStoppedAnimation<Color>(Color(0xFFFFFFFF)),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

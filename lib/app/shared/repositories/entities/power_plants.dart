@@ -16,6 +16,8 @@ class PowerPlants extends _PowerPlants with _$PowerPlants {
     String potenciaDoModulo,
     String valor,
     String potenciaNovo,
+    String consumoEmReais,
+    String consumoEmKw,
   }) : super(
           id: id,
           area: area,
@@ -29,6 +31,8 @@ class PowerPlants extends _PowerPlants with _$PowerPlants {
           potenciaDoModulo: potenciaDoModulo,
           valor: valor,
           potenciaNovo: potenciaNovo,
+          consumoEmReais: consumoEmReais,
+          consumoEmKw: consumoEmKw,
         );
 
   toJson() {
@@ -45,24 +49,27 @@ class PowerPlants extends _PowerPlants with _$PowerPlants {
       "potenciaDoModulo": potenciaDoModulo,
       "valor": valor,
       "potenciaNovo": potenciaNovo,
+      "consumoEmReais": consumoEmReais,
+      "consumoEmKw": consumoEmKw,
     };
   }
 
   factory PowerPlants.fromJson(Map json) {
     return PowerPlants(
-      id: json['id'],
-      area: json['area'],
-      codigo: json['codigo'],
-      dados: json['dados'],
-      inversor: json['inversor'],
-      marcaDoModulo: json['marcaDoModulo'],
-      numeroDeModulo: json['numeroDeModulo'],
-      peso: json['peso'],
-      potencia: json['potencia'],
-      potenciaDoModulo: json['potenciaDoModulo'],
-      valor: json['valor'],
-      potenciaNovo: json['potencia_novo'],
-    );
+        id: json['id'],
+        area: json['area'],
+        codigo: json['codigo'],
+        dados: json['dados'],
+        inversor: json['inversor'],
+        marcaDoModulo: json['marcaDoModulo'],
+        numeroDeModulo: json['numeroDeModulo'],
+        peso: json['peso'],
+        potencia: json['potencia'],
+        potenciaDoModulo: json['potenciaDoModulo'],
+        valor: json['valor'],
+        potenciaNovo: json['potencia_novo'],
+        consumoEmReais: json['consumoEmReais'],
+        consumoEmKw: json['consumoEmKw']);
   }
 }
 
@@ -91,19 +98,25 @@ abstract class _PowerPlants with Store {
   String valor;
   @observable
   String potenciaNovo;
+  @observable
+  String consumoEmReais;
 
-  _PowerPlants({
-    this.id,
-    this.area,
-    this.codigo,
-    this.dados,
-    this.inversor,
-    this.marcaDoModulo,
-    this.numeroDeModulo,
-    this.peso,
-    this.potencia,
-    this.potenciaDoModulo,
-    this.valor,
-    this.potenciaNovo,
-  });
+  @observable
+  String consumoEmKw;
+
+  _PowerPlants(
+      {this.id,
+      this.area,
+      this.codigo,
+      this.dados,
+      this.inversor,
+      this.marcaDoModulo,
+      this.numeroDeModulo,
+      this.peso,
+      this.potencia,
+      this.potenciaDoModulo,
+      this.valor,
+      this.potenciaNovo,
+      this.consumoEmReais,
+      this.consumoEmKw});
 }

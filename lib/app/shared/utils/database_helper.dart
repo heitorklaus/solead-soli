@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'package:archive/archive.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'dart:io' as io;
 
 import 'dart:convert';
 import 'dart:io';
@@ -18,7 +21,7 @@ class DatabaseHelper {
 
   static Database _db;
 
-  static const String dbase = "solead-78.db";
+  static const String dbase = "solead-79.db";
 
   Future<Database> get db async {
     if (_db != null) {
@@ -126,8 +129,7 @@ class DatabaseHelper {
     String tempDir = (await getApplicationDocumentsDirectory()).path;
     String fullPath = tempDir + "/$filename";
 
-    final t = await dio.download(
-        "http://www.klausmetal.com.br/file55.csv", fullPath + "$filename",
+    await dio.download(url, fullPath,
         // disable gzip
 
         onReceiveProgress: (received, total) {
@@ -138,8 +140,52 @@ class DatabaseHelper {
       }
     });
 
+    Directory tempDirImages = await getTemporaryDirectory();
+    String tempPathImages = tempDirImages.path + "/img/";
+
+    final needDownloadFiles = await io.Directory(tempPathImages).exists();
+
     openFile(filename);
+
     //return fullPath;
+
+    // INICIO DO DOWNLOAD DOS ARQUIVOS PARA PDF
+
+    String _zipPath = 'http://coderzheaven.com/youtube_flutter/images.zip';
+    String _localZipFileName = 'images.zip';
+
+    if (!needDownloadFiles) {
+      var zippedFile = await _downloadFile(_zipPath, _localZipFileName);
+      await unarchiveAndSave(zippedFile);
+    } else {
+      print('[FILES PDF ALREADY EXIST, DO NOT DOWNLOAD AGAIN....]');
+    }
+  }
+
+  Future<File> _downloadFile(String url, String fileName) async {
+    String _dir = (await getApplicationDocumentsDirectory()).path;
+
+    var req = await http.Client().get(Uri.parse(url));
+    var file = File('$_dir/$fileName');
+    return file.writeAsBytes(req.bodyBytes);
+  }
+
+  unarchiveAndSave(var zippedFile) async {
+    Directory tempDirImages = await getTemporaryDirectory();
+    String tempPathImages = tempDirImages.path + "/img/";
+
+    var bytes = zippedFile.readAsBytesSync();
+    var archive = ZipDecoder().decodeBytes(bytes);
+    for (var file in archive) {
+      var fileName = '$tempPathImages${file.name}';
+      if (file.isFile) {
+        final data = file.content as List<int>;
+        var outFile = File(fileName)
+          ..createSync(recursive: true)
+          ..writeAsBytesSync(data);
+        print('File:: ' + outFile.path);
+      }
+    }
   }
 
   openFile(filename) async {
