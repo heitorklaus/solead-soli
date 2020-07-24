@@ -16,15 +16,13 @@ import 'simulator_controller.dart';
 class SimulatorPage extends StatefulWidget {
   final String title;
   final int qtd;
-  const SimulatorPage({Key key, this.title = "Simulator", this.qtd})
-      : super(key: key);
+  const SimulatorPage({Key key, this.title = "Simulator", this.qtd}) : super(key: key);
 
   @override
   _SimulatorPageState createState() => _SimulatorPageState();
 }
 
-class _SimulatorPageState
-    extends ModularState<SimulatorPage, SimulatorController> {
+class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorController> {
   //use 'controller' variable to access controller
   bool isChecked = false;
   bool isVisible = false;
@@ -84,9 +82,11 @@ class _SimulatorPageState
                         Expanded(
                           child: OutlinedTextEdit(
                             keyboardType: TextInputType.number,
-                            onChanged: (value) => {},
+                            onTap: () {
+                              controller.clearMoney();
+                            },
                             prefixIcon: Icon(Icons.pie_chart),
-                            controller: controller.media,
+                            controller: controller.mediaKW,
                             label: "Média KWp",
                           ),
                         ),
@@ -98,7 +98,9 @@ class _SimulatorPageState
                             controller: controller.mediaMoney,
                             prefixIcon: Icon(Icons.monetization_on),
                             keyboardType: TextInputType.number,
-                            onChanged: (value) => {},
+                            onTap: () {
+                              controller.clearKW();
+                            },
                             label: "Média R\$",
                           ),
                         ),

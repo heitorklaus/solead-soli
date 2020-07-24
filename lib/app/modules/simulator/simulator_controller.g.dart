@@ -39,6 +39,24 @@ mixin _$SimulatorController on _SimulatorControllerBase, Store {
     });
   }
 
+  @override
+  ObservableFuture clearKW() {
+    final _$future = super.clearKW();
+    return ObservableFuture(_$future);
+  }
+
+  @override
+  ObservableFuture calcMediaKW() {
+    final _$future = super.calcMediaKW();
+    return ObservableFuture(_$future);
+  }
+
+  @override
+  ObservableFuture calcMediaMoney() {
+    final _$future = super.calcMediaMoney();
+    return ObservableFuture(_$future);
+  }
+
   final _$showDialogKitMenorAsyncAction =
       AsyncAction('_SimulatorControllerBase.showDialogKitMenor');
 

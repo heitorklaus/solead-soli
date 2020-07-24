@@ -61,10 +61,9 @@ abstract class _LoginBase with Store {
 
       if (respose.accessToken != null) {
         print('[RESPONSE] CITY, IRRADIATION');
-        await DatabaseHelper().downloadFile(
-            "http://www.klausmetal.com.br/file55.csv", "file55.csv");
-        final getCity = await auth.getCitiesIrradiation();
-        print(getCity.city + ' ' + getCity.data);
+        await DatabaseHelper().downloadFile("http://www.klausmetal.com.br/file55.csv", "file55.csv");
+        // final getCity = await auth.getCitiesIrradiation();
+        // print(getCity.city + ' ' + getCity.data);
         Modular.to.pushReplacementNamed('/home');
       } else {
         print('FALHA!');

@@ -54,12 +54,28 @@ mixin _$PrefIrradiation on _PrefIrradiation, Store {
     });
   }
 
+  final _$priceAtom = Atom(name: '_PrefIrradiation.price');
+
+  @override
+  String get price {
+    _$priceAtom.reportRead();
+    return super.price;
+  }
+
+  @override
+  set price(String value) {
+    _$priceAtom.reportWrite(value, super.price, () {
+      super.price = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
 id: ${id},
 city: ${city},
-data: ${data}
+data: ${data},
+price: ${price}
     ''';
   }
 }

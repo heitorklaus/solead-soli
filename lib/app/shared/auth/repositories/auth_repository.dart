@@ -40,10 +40,7 @@ class AuthRepository implements IAuthRepository {
     var body = jsonEncode({'username': user, 'password': pass});
 
     headers["Content-Type"] = "application/json";
-    final auth = await http.post(
-        'https://buracosapp2020.herokuapp.com/api/auth/signin',
-        headers: headers,
-        body: body);
+    final auth = await http.post('https://buracosapp2020.herokuapp.com/api/auth/signin', headers: headers, body: body);
 
     final data = Auth.fromJson(json.decode(auth.body));
 
@@ -54,32 +51,32 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
-  Future getCitiesIrradiation() async {
+  Future getCitiesPreferences(value) async {
     var dbClient = await db;
-    final list = await dbClient
-        .rawQuery('select * from CITIES_IRRADIATION where id = 1');
+    final list = await dbClient.rawQuery('select * from CITIES_IRRADIATION where id = 1');
 
     final first = PrefIrradiation.fromJson(list.first);
 
     // Set Irradiation
-    Prefs.setString("IRRADIATION", first.data);
 
-    return first;
+    Prefs.setString("IRRADIATION", first.data);
+    Prefs.setString("PRICE", first.price);
+
+    if (value == 'irradiation') return first.data;
+    if (value == 'price') return first.price;
   }
 
   @override
   Future<FirebaseUser> getGoogleLogin() async {
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
     final AuthCredential credential = GoogleAuthProvider.getCredential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
 
-    final FirebaseUser user =
-        (await _auth.signInWithCredential(credential)).user;
+    final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
     return user;
   }
 

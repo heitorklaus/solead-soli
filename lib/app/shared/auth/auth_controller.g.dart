@@ -69,13 +69,13 @@ mixin _$AuthController on _AuthControllerBase, Store {
     return _$loginAsyncAction.run(() => super.login(user, pass));
   }
 
-  final _$getCitiesIrradiationAsyncAction =
-      AsyncAction('_AuthControllerBase.getCitiesIrradiation');
+  final _$getCitiesPreferencesAsyncAction =
+      AsyncAction('_AuthControllerBase.getCitiesPreferences');
 
   @override
-  Future<dynamic> getCitiesIrradiation() {
-    return _$getCitiesIrradiationAsyncAction
-        .run(() => super.getCitiesIrradiation());
+  Future<dynamic> getCitiesPreferences(dynamic value) {
+    return _$getCitiesPreferencesAsyncAction
+        .run(() => super.getCitiesPreferences(value));
   }
 
   final _$_AuthControllerBaseActionController =

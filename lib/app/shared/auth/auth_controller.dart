@@ -28,7 +28,7 @@ abstract class _AuthControllerBase with Store {
   @action
   auth(value) {
     token = value;
-    status = token == 'out' ? AuthStatus.logoff : AuthStatus.login;
+    status = token != 'out' ? AuthStatus.login : AuthStatus.logoff;
   }
 
   _AuthControllerBase() {
@@ -53,8 +53,8 @@ abstract class _AuthControllerBase with Store {
   }
 
   @action
-  Future getCitiesIrradiation() async {
-    final r = await _authRepository.getCitiesIrradiation();
+  Future getCitiesPreferences(value) async {
+    final r = await _authRepository.getCitiesPreferences(value);
     return r;
   }
 
