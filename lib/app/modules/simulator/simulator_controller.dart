@@ -68,7 +68,6 @@ abstract class _SimulatorControllerBase with Store {
 
   @observable
   calcMediaKW() async {
-    print('object');
     if (mediaKW.text.length > 2) {
       disableAdd = false;
 
@@ -133,7 +132,6 @@ abstract class _SimulatorControllerBase with Store {
 
   @observable
   calcMediaMoney() async {
-    print('object');
     if (mediaMoney.text.length > 2) {
       disableAdd = false;
 
@@ -197,6 +195,7 @@ abstract class _SimulatorControllerBase with Store {
 
   @action
   showDialogKitMenor(context) async {
+    // RETORNA A GERACAO MES A MES
     final valor = await Prefs.getStringList("CITIES");
 
     var jan = double.parse(valor[1].split(":")[1]);
@@ -363,7 +362,6 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
 
   final double valorEconomiaMensalTotal = valorEconomiaMensal[0]["valorPaga"].toDouble() + valorEconomiaMensal[0]["valorIraPagar"].toDouble();
 
-  final double parc1 = (valorEconomiaMensal[0]["valorPaga"].toDouble() / valorEconomiaMensalTotal * 100);
   final double parc2 = (valorEconomiaMensal[0]["valorIraPagar"].toDouble() / valorEconomiaMensalTotal * 100);
 
   final val = new NumberFormat("#,##0.00", "pt_BR");
@@ -387,310 +385,54 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
 
     final image = PdfImage.file(
       pdf.document,
-      bytes: File('$tempPath/img/logo_pdf.png').readAsBytesSync(),
+      bytes: File('$tempPath/img/1.png').readAsBytesSync(),
     );
 
-    final image_topo_marca = PdfImage.file(
-      pdf.document,
-      bytes: File('$tempPath/img/logo_topo_marca.png').readAsBytesSync(),
-    );
+    // final image_topo_marca = PdfImage.file(
+    //   pdf.document,
+    //   bytes: File('$tempPath/img/logo_topo_marca.png').readAsBytesSync(),
+    // );
 
 /////////////////////// PDF //////////////////////////////////////
     ///
-    pdf.addPage(pwa.MultiPage(
-      pageFormat: PdfPageFormat.a4,
-      margin: pwa.EdgeInsets.all(32),
-      build: (pwa.Context context) {
-        return <pwa.Widget>[
-          pwa.Column(
-            children: <pwa.Widget>[
-              pwa.SizedBox(height: 50),
-              pwa.Center(child: pwa.Image(image)),
-              pwa.Center(
-                child: pwa.Container(margin: pwa.EdgeInsets.symmetric(vertical: 20), child: pwa.Text("PROPOSTA COMERCIAL", style: pwa.TextStyle(fontSize: 20))),
+    pdf.addPage(
+      pwa.MultiPage(
+        crossAxisAlignment: pwa.CrossAxisAlignment.start,
+        pageTheme: pwa.PageTheme(
+          margin: pwa.EdgeInsets.zero,
+          buildBackground: (context) {
+            return pwa.Container(
+              decoration: pwa.BoxDecoration(
+                image: pwa.DecorationImage(
+                  image: image,
+                  fit: pwa.BoxFit.cover,
+                ),
               ),
-              pwa.Center(
-                child: pwa.Container(margin: pwa.EdgeInsets.only(bottom: 20), child: pwa.Container(width: 600, height: 5, color: PdfColor.fromHex("#FFC000"))),
+              child: pwa.Container(),
+            );
+          },
+          pageFormat: PdfPageFormat.a4,
+        ),
+        header: (pwa.Context context) {
+          return null;
+        },
+        footer: (pwa.Context context) {
+          return pwa.Container(
+            alignment: pwa.Alignment.centerRight,
+            child: pwa.Text(
+              '${context.pageNumber} / ${context.pagesCount}',
+              textAlign: pwa.TextAlign.right,
+              style: pwa.TextStyle(
+                color: PdfColors.grey,
               ),
-              pwa.Center(
-                child: pwa.Container(margin: pwa.EdgeInsets.only(top: 40), child: pwa.Container(child: pwa.Text("Heitor Fabrício Klaus", style: pwa.TextStyle(fontSize: 20, fontWeight: pwa.FontWeight.bold)))),
-              ),
-              pwa.Center(
-                child: pwa.Container(
-                    margin: pwa.EdgeInsets.only(top: 10, bottom: 0),
-                    child: pwa.Container(
-                        child: pwa.Text("AVENIDA TANCREDO NEVES, 1119 CORREGO DO BARBADO",
-                            style: pwa.TextStyle(
-                              fontSize: 10,
-                            )))),
-              ),
-              pwa.SizedBox(height: 20),
-              pwa.Row(
-                mainAxisAlignment: pwa.MainAxisAlignment.spaceEvenly,
-                children: <pwa.Widget>[
-                  pwa.Column(children: <pwa.Widget>[
-                    pwa.Container(
-                      color: PdfColor.fromHex("#FFC000"),
-                      padding: pwa.EdgeInsets.only(top: 9, left: 15, right: 15),
-                      height: 30,
-                      child: pwa.Column(children: <pwa.Widget>[
-                        pwa.Text(
-                          'Consumo Médio',
-                          textAlign: pwa.TextAlign.center,
-                          style: pwa.TextStyle(fontSize: 12),
-                        ),
-                      ]),
-                    ),
-                    pwa.SizedBox(height: 10),
-                    pwa.Text(pw.consumoEmKw.toString(), style: pwa.TextStyle(fontSize: 12, fontWeight: pwa.FontWeight.bold))
-                  ]),
-                  pwa.Column(children: <pwa.Widget>[
-                    pwa.Container(
-                      color: PdfColor.fromHex("#FFC000"),
-                      padding: pwa.EdgeInsets.only(top: 9, left: 15, right: 15),
-                      height: 30,
-                      child: pwa.Text(
-                        'Distribuidora',
-                        textAlign: pwa.TextAlign.center,
-                        style: pwa.TextStyle(fontSize: 12),
-                      ),
-                    ),
-                    pwa.SizedBox(height: 10),
-                    pwa.Text('ENERGISA', style: pwa.TextStyle(fontSize: 12, fontWeight: pwa.FontWeight.bold))
-                  ]),
-                  pwa.Column(children: <pwa.Widget>[
-                    pwa.Container(
-                      color: PdfColor.fromHex("#FFC000"),
-                      padding: pwa.EdgeInsets.only(top: 9, left: 15, right: 15),
-                      height: 30,
-                      child: pwa.Text(
-                        'Tipo de Cobertura',
-                        textAlign: pwa.TextAlign.center,
-                        style: pwa.TextStyle(fontSize: 12),
-                      ),
-                    ),
-                    pwa.SizedBox(height: 10),
-                    pwa.Text('FIBROCIMENTO', style: pwa.TextStyle(fontSize: 12, fontWeight: pwa.FontWeight.bold))
-                  ]),
-                  pwa.Column(children: <pwa.Widget>[
-                    pwa.Container(
-                      color: PdfColor.fromHex("#FFC000"),
-                      padding: pwa.EdgeInsets.only(top: 9, left: 15, right: 15),
-                      height: 30,
-                      child: pwa.Text(
-                        'Canal de Entrada',
-                        textAlign: pwa.TextAlign.center,
-                        style: pwa.TextStyle(fontSize: 12),
-                      ),
-                    ),
-                    pwa.SizedBox(height: 10),
-                    pwa.Text('TRIFASICO', style: pwa.TextStyle(fontSize: 12, fontWeight: pwa.FontWeight.bold))
-                  ]),
-                ],
-              ),
-              pwa.SizedBox(height: 20),
-              pwa.Text("Esta é a apresentação de uma estimativa de custo e de geração de energia do sistema baseado nas informações fornecidaspelo cliente e não tem caráter orçamentário, a proposta de custo final só poderá ser realizada após uma visita técnica ao local da instalação para levantamento de todas as condicionantes que influenciam direta e indiretamente no custo e geração de energia do sistema.", style: pwa.TextStyle(fontSize: 10), textAlign: pwa.TextAlign.center),
-              // SECOND PAGE
-              pwa.SizedBox(height: 50),
-              pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[pwa.Center(child: pwa.Image(image_topo_marca)), pwa.Text("ANÁLISE FINANCEIRA", style: pwa.TextStyle(fontWeight: pwa.FontWeight.bold))]),
-
-              pwa.SizedBox(height: 30),
-
-              pwa.Center(
-                child: pwa.Container(
-                    margin: pwa.EdgeInsets.symmetric(vertical: 10),
-                    child: pwa.Text("Situação Atual",
-                        style: pwa.TextStyle(
-                          fontSize: 16,
-                          color: PdfColor.fromHex("#FFC000"),
-                          fontWeight: pwa.FontWeight.bold,
-                        ))),
-              ),
-              pwa.Center(
-                child: pwa.Container(margin: pwa.EdgeInsets.only(bottom: 10), child: pwa.Container(width: 600, height: 5, color: PdfColor.fromHex("#FFC000"))),
-              ),
-              pwa.Center(
-                child: pwa.Container(
-                    // margin: pwa.EdgeInsets.only(top: 40),
-                    child: pwa.Container(child: pwa.Text("O valor médio da sua conta de luz hoje?", style: pwa.TextStyle(fontSize: 14, fontWeight: pwa.FontWeight.bold)))),
-              ),
-              pwa.SizedBox(height: 10),
-              pwa.Center(
-                child: pwa.Container(
-                    // margin: pwa.EdgeInsets.only(top: 40),
-                    child: pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.center, children: <pwa.Widget>[
-                  pwa.SizedBox(width: 30),
-                  pwa.Container(child: pwa.Text('R\$ ' + valQuantoPagaBR.toString(), style: pwa.TextStyle(color: PdfColor.fromHex("#FFC000"), fontSize: 14, fontWeight: pwa.FontWeight.bold))),
-                  pwa.Text(
-                    " / por mês",
-                    style: pwa.TextStyle(
-                      fontSize: 14,
-                    ),
-                  ),
-                  pwa.SizedBox(width: 30),
-                ])),
-              ),
-
-              pwa.SizedBox(height: 10),
-              pwa.Center(
-                child: pwa.Container(
-                    // margin: pwa.EdgeInsets.only(top: 40),
-                    child: pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.center, children: <pwa.Widget>[
-                  pwa.SizedBox(width: 30),
-                  pwa.Container(
-                      child: pwa.Text("Consumo médio mensal:",
-                          style: pwa.TextStyle(
-                            fontSize: 14,
-                          ))),
-                  pwa.Text(
-                    " ${pw.consumoEmKw.toString()} kWh/mês",
-                    style: pwa.TextStyle(fontSize: 14, color: PdfColor.fromHex("#FFC000"), fontWeight: pwa.FontWeight.bold),
-                  ),
-                  pwa.SizedBox(width: 30),
-                ])),
-              ),
-
-              // ECONOMIA MENSAL
-              pwa.Center(
-                child: pwa.Container(
-                    margin: pwa.EdgeInsets.only(top: 40),
-                    child: pwa.Text("Economia Mensal",
-                        style: pwa.TextStyle(
-                          fontSize: 16,
-                          color: PdfColor.fromHex("#9cd85a"),
-                          fontWeight: pwa.FontWeight.bold,
-                        ))),
-              ),
-
-              pwa.Center(
-                child: pwa.Container(margin: pwa.EdgeInsets.only(bottom: 10, top: 10), child: pwa.Container(width: 600, height: 5, color: PdfColor.fromHex("#9cd85a"))),
-              ),
-
-              pwa.Center(
-                child: pwa.Container(
-                    // margin: pwa.EdgeInsets.only(top: 40),
-                    child: pwa.Container(child: pwa.Text("Quanto você irá pagar na sua conta de luz?", style: pwa.TextStyle(fontSize: 14, fontWeight: pwa.FontWeight.bold)))),
-              ),
-              pwa.SizedBox(height: 20),
-              pwa.Center(
-                child: pwa.Container(
-                    // margin: pwa.EdgeInsets.only(top: 40),
-                    child: pwa.Container(
-                        child: pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.center, crossAxisAlignment: pwa.CrossAxisAlignment.end, children: <pwa.Widget>[
-                  pwa.Column(mainAxisAlignment: pwa.MainAxisAlignment.center, children: <pwa.Widget>[
-                    pwa.Text('R\$ ' + valQuantoPagaBR.toString(),
-                        style: pwa.TextStyle(
-                          fontSize: 12,
-                          fontWeight: pwa.FontWeight.bold,
-                        )),
-                    pwa.Container(
-                      color: PdfColor.fromHex("#FF7E13"),
-                      width: 150,
-                      height: parc1,
-                    ),
-                    pwa.SizedBox(height: 10),
-                    pwa.Text("Quanto você paga hoje! ",
-                        style: pwa.TextStyle(
-                          fontSize: 12,
-                          fontWeight: pwa.FontWeight.bold,
-                        ))
-                  ]),
-                  pwa.SizedBox(width: 20),
-                  pwa.Column(mainAxisAlignment: pwa.MainAxisAlignment.center, children: <pwa.Widget>[
-                    pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.start, children: <pwa.Widget>[
-                      pwa.Text('R\$ ' + valQuantoIraPagarBR.toString(),
-                          style: pwa.TextStyle(
-                            fontSize: 12,
-                            fontWeight: pwa.FontWeight.bold,
-                          )),
-                    ]),
-                    pwa.Container(color: PdfColor.fromHex("#9cd85a"), width: 150, height: parc2),
-                    pwa.SizedBox(height: 10),
-                    pwa.Text("Quanto você irá pagar!",
-                        style: pwa.TextStyle(
-                          fontSize: 12,
-                          fontWeight: pwa.FontWeight.bold,
-                        ))
-                  ]),
-                ]))),
-              ),
-
-              // FIM ECONOMIA MENSAL
-              // INICIO ECONOMIA 25 anos
-
-              pwa.Center(
-                child: pwa.Container(
-                    margin: pwa.EdgeInsets.only(top: 40),
-                    child: pwa.Text("Economia Total",
-                        style: pwa.TextStyle(
-                          fontSize: 16,
-                          color: PdfColor.fromHex("#FF7E13"),
-                          fontWeight: pwa.FontWeight.bold,
-                        ))),
-              ),
-              pwa.Center(
-                child: pwa.Container(margin: pwa.EdgeInsets.only(bottom: 10, top: 10), child: pwa.Container(width: 600, height: 5, color: PdfColor.fromHex("#FF7E13"))),
-              ),
-              pwa.Center(
-                child: pwa.Container(
-                    // margin: pwa.EdgeInsets.only(top: 40),
-                    child: pwa.Container(child: pwa.Text("Qual o valor acumulado da conta em 25 anos?", style: pwa.TextStyle(fontSize: 14, fontWeight: pwa.FontWeight.bold)))),
-              ),
-              pwa.SizedBox(height: 20),
-
-              pwa.Center(
-                child: pwa.Container(
-                    // margin: pwa.EdgeInsets.only(top: 40),
-                    child: pwa.Container(
-                        child: pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.center, crossAxisAlignment: pwa.CrossAxisAlignment.end, children: <pwa.Widget>[
-                  pwa.Column(mainAxisAlignment: pwa.MainAxisAlignment.center, children: <pwa.Widget>[
-                    pwa.Text('R\$ ' + val.format(economia_25_anos_paga.toDouble()),
-                        style: pwa.TextStyle(
-                          fontSize: 12,
-                          fontWeight: pwa.FontWeight.bold,
-                        )),
-                    pwa.Container(
-                      color: PdfColor.fromHex("#E5C008"),
-                      width: 150,
-                      height: parc1,
-                    ),
-                    pwa.SizedBox(height: 10),
-                    pwa.Text("É o que você paga",
-                        style: pwa.TextStyle(
-                          fontSize: 12,
-                          fontWeight: pwa.FontWeight.bold,
-                        )),
-                    pwa.Text("sem o sistema SOLI.",
-                        style: pwa.TextStyle(
-                          fontSize: 12,
-                          fontWeight: pwa.FontWeight.bold,
-                        )),
-                  ]),
-                  pwa.SizedBox(width: 20),
-                  pwa.Column(mainAxisAlignment: pwa.MainAxisAlignment.center, children: <pwa.Widget>[
-                    pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.start, children: <pwa.Widget>[
-                      pwa.Text('R\$ ' + val.format(economia_25_anos_pagara.toDouble()),
-                          style: pwa.TextStyle(
-                            fontSize: 12,
-                            fontWeight: pwa.FontWeight.bold,
-                          )),
-                    ]),
-                    pwa.Container(color: PdfColor.fromHex("#08A5E5"), width: 150, height: parc2),
-                    pwa.SizedBox(height: 10),
-                    pwa.Text("Com o Sistema SOLI",
-                        style: pwa.TextStyle(
-                          fontSize: 12,
-                          fontWeight: pwa.FontWeight.bold,
-                        )),
-                    pwa.SizedBox(height: 15),
-                  ]),
-                ]))),
-              ),
-            ],
-          ),
-        ];
-      },
-    ));
+            ),
+          );
+        },
+        build: (pwa.Context context) => <pwa.Widget>[
+          pwa.Container(child: pwa.Text('Background Image Demo')),
+        ],
+      ),
+    );
   }
 
   /////////////////////// PDF //////////////////////////////////////
@@ -867,17 +609,25 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
                                     var height = MediaQuery.of(context).size.height;
                                     var width = MediaQuery.of(context).size.width;
 
+                                    final int data = (650 / 100).round();
+                                    final items = List<int>.generate(data - 1, (i) => i);
+
+                                    range(int stop, {int start: 0, int step: 1}) {
+                                      if (step == 0) throw Exception("Step cannot be 0");
+
+                                      return start < stop == step > 0 ? List<int>.generate(((start - stop) / step).abs().ceil(), (int i) => start + (i * step)) : [];
+                                    }
+
                                     return Scaffold(
-                                      body: Row(
-                                        children: <Widget>[
-                                          // FlatButton(
-                                          //     onPressed: () {
-                                          //       print(parc1);
-                                          //       print(parc2);
-                                          //       print(valor);
-                                          //     },
-                                          //     child: Text('Pressione')),
-                                        ],
+                                      body: ListView.builder(
+                                        itemCount: items.length,
+                                        itemBuilder: (context, index) {
+                                          final int val = items[index];
+
+                                          return ListTile(
+                                            title: Text(range(650, start: 100, step: 100)[val].toString()),
+                                          );
+                                        },
                                       ),
                                       floatingActionButton: FloatingActionButton(
                                         onPressed: () async {

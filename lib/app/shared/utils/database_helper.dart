@@ -23,7 +23,7 @@ class DatabaseHelper {
 
   static const String _localZipFileName = 'images_to_pdf.zip';
 
-  static const String dbase = "solead-85.db";
+  static const String dbase = "solead-97.db";
 
   Future<Database> get db async {
     if (_db != null) {
@@ -38,7 +38,6 @@ class DatabaseHelper {
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, dbase);
     print("[ USING DATABASE ] $path");
-
     var db = await openDatabase(path, version: 2, onCreate: _onCreate, onUpgrade: _onUpgrade);
     return db;
   }
@@ -126,7 +125,7 @@ class DatabaseHelper {
     } catch (e) {
       print('[ERROR]');
 
-      print(e.toString());
+      //print(e.toString());
     }
   }
 

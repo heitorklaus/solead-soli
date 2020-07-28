@@ -35,27 +35,28 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
     disposer = autorun((_) async {
       final auth = Modular.get<AuthController>();
+
+      try {
+        await DatabaseHelper().downloadFile("http://www.klausmetal.com.br/file56.csv", "file56.csv").then((value) {
+          if (value.statusCode == 200) {
+            print('[ LOADED DATA FROM KLAUSMETAL]');
+            loadCitiesIrradiationData();
+            Modular.to.pushReplacementNamed('/home');
+          } else {}
+          // print(value.statusCode);
+        });
+      } on TimeoutException catch (e) {
+        print('this should not be reached if the exception is raised');
+      } on Exception catch (e) {
+        print('exception: $e');
+
+        setState(() {
+          reload = true;
+        });
+      }
+
       if (auth.status == AuthStatus.login) {
         print("[ SPLASH ]");
-
-        try {
-          await DatabaseHelper().downloadFile("http://www.klausmetal.com.br/file56.csv", "file56.csv").then((value) {
-            if (value.statusCode == 200) {
-              print('[ LOADED DATA FROM KLAUSMETAL]');
-              loadCitiesIrradiationData();
-              Modular.to.pushReplacementNamed('/home');
-            } else {}
-            // print(value.statusCode);
-          });
-        } on TimeoutException catch (e) {
-          print('this should not be reached if the exception is raised');
-        } on Exception catch (e) {
-          print('exception: $e');
-
-          setState(() {
-            reload = true;
-          });
-        }
 
         // Modular.to.pushReplacementNamed('/home');
       } else if (auth.status == AuthStatus.logoff) {
