@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:intl/intl.dart';
 
 import 'package:date_util/date_util.dart';
@@ -16,6 +18,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pwa;
 import 'PdfPreviewScreen.dart';
+import 'dart:async';
+import 'dart:ui';
+import 'package:flutter/rendering.dart';
+import 'charts/chart.dart';
 
 part 'simulator_controller.g.dart';
 
@@ -379,22 +385,83 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
 
   final double economia_25_anos_pagara = ((91 * 12 * 25).toDouble() * 3.82);
 
-  writeOnPdf() async {
+  GlobalKey globalKey = GlobalKey();
+  GlobalKey globalKey2 = GlobalKey();
+
+  Future<Uint8List> runChart2() async {
+    RenderRepaintBoundary boundary = globalKey.currentContext.findRenderObject();
+    if (boundary.debugNeedsPaint) {
+      print("Waiting for boundary to be painted.");
+      await Future.delayed(const Duration(milliseconds: 20));
+      return runChart2();
+    }
+
+    var image = await boundary.toImage();
+    var byteData = await image.toByteData(format: ImageByteFormat.png);
+    return byteData.buffer.asUint8List();
+  }
+
+  void runChart1(String nameChart1) async {
+    var pngBytes = await runChart2();
+    var bs64 = base64Encode(pngBytes);
+    print(pngBytes);
+    print(bs64);
+
+    Uint8List bytes = base64.decode(bs64);
+    String dir = (await getTemporaryDirectory()).path;
+    String fullPath = '$dir/img/$nameChart1.png';
+    print("local file full path ${fullPath}");
+    File file = File(fullPath);
+    await file.writeAsBytes(bytes);
+    print(file.path);
+  }
+
+  // GRAFICO 2
+
+  Future<Uint8List> runChart4() async {
+    RenderRepaintBoundary boundary = globalKey2.currentContext.findRenderObject();
+    if (boundary.debugNeedsPaint) {
+      print("Waiting for boundary to be painted.");
+      await Future.delayed(const Duration(milliseconds: 20));
+      return runChart4();
+    }
+
+    var image = await boundary.toImage();
+    var byteData = await image.toByteData(format: ImageByteFormat.png);
+    return byteData.buffer.asUint8List();
+  }
+
+  void runChart3(String nameChart2) async {
+    var pngBytes = await runChart4();
+    var bs64 = base64Encode(pngBytes);
+    print(pngBytes);
+    print(bs64);
+
+    Uint8List bytes = base64.decode(bs64);
+    String dir = (await getTemporaryDirectory()).path;
+    String fullPath = '$dir/img/$nameChart2.png';
+    print("local file full path ${fullPath}");
+    File file = File(fullPath);
+    await file.writeAsBytes(bytes);
+    print(file.path);
+  }
+
+  writeOnPdf(String nameFile) async {
+    // GENERATE CHART GRAPH
+    runChart1("grafico-1");
+    runChart3("grafico-2");
     Directory tempDir = await getTemporaryDirectory();
     String tempPath = tempDir.path;
 
-    final image = PdfImage.file(
-      pdf.document,
-      bytes: File('$tempPath/img/1.png').readAsBytesSync(),
-    );
+    returnImg(img) {
+      final image = PdfImage.file(
+        pdf.document,
+        bytes: File('$tempPath/img/$img.png').readAsBytesSync(),
+      );
 
-    // final image_topo_marca = PdfImage.file(
-    //   pdf.document,
-    //   bytes: File('$tempPath/img/logo_topo_marca.png').readAsBytesSync(),
-    // );
+      return image;
+    }
 
-/////////////////////// PDF //////////////////////////////////////
-    ///
     pdf.addPage(
       pwa.MultiPage(
         crossAxisAlignment: pwa.CrossAxisAlignment.start,
@@ -404,7 +471,7 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
             return pwa.Container(
               decoration: pwa.BoxDecoration(
                 image: pwa.DecorationImage(
-                  image: image,
+                  image: returnImg('pagina-1'),
                   fit: pwa.BoxFit.cover,
                 ),
               ),
@@ -429,23 +496,61 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
           );
         },
         build: (pwa.Context context) => <pwa.Widget>[
-          pwa.Container(child: pwa.Text('Background Image Demo')),
+          pwa.Container(),
         ],
       ),
     );
-  }
 
-  /////////////////////// PDF //////////////////////////////////////
+pdf.addPage(
+      pwa.MultiPage(
+        crossAxisAlignment: pwa.CrossAxisAlignment.start,
+        pageTheme: pwa.PageTheme(
+          margin: pwa.EdgeInsets.zero,
+          buildBackground: (context) {
+            return pwa.Container(
+              decoration: pwa.BoxDecoration(
+                image: pwa.DecorationImage(
+                  image: returnImg('pagina-2'),
+                  fit: pwa.BoxFit.cover,
+                ),
+              ),
+              child: pwa.Container(),
+            );
+          },
+          pageFormat: PdfPageFormat.a4,
+        ),
+        header: (pwa.Context context) {
+          return null;
+        },
+        footer: (pwa.Context context) {
+          return pwa.Container(
+            alignment: pwa.Alignment.centerRight,
+            child: pwa.Text(
+              '${context.pageNumber} / ${context.pagesCount}',
+              textAlign: pwa.TextAlign.right,
+              style: pwa.TextStyle(
+                color: PdfColors.grey,
+              ),
+            ),
+          );
+        },
+        build: (pwa.Context context) => <pwa.Widget>[
+          pwa.Container(),
+        ],
+      ),
+    );
 
-  Future savePdf() async {
+
     Directory documentDirectory = await getApplicationDocumentsDirectory();
 
     String documentPath = documentDirectory.path;
 
-    File file = File("$documentPath/example.pdf");
+    File file = File("$documentPath/$nameFile.pdf");
 
     file.writeAsBytesSync(pdf.save());
   }
+
+  /////////////////////// PDF //////////////////////////////////////
 
 // DIALOG DE VISUALIZACAO DA USINA
 
@@ -606,42 +711,61 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
                                   builder: (context) {
                                     // Get available height and width of the build area of this widget. Make a choice depending on the size.
 
-                                    var height = MediaQuery.of(context).size.height;
-                                    var width = MediaQuery.of(context).size.width;
-
-                                    final int data = (650 / 100).round();
-                                    final items = List<int>.generate(data - 1, (i) => i);
-
-                                    range(int stop, {int start: 0, int step: 1}) {
-                                      if (step == 0) throw Exception("Step cannot be 0");
-
-                                      return start < stop == step > 0 ? List<int>.generate(((start - stop) / step).abs().ceil(), (int i) => start + (i * step)) : [];
-                                    }
-
                                     return Scaffold(
-                                      body: ListView.builder(
-                                        itemCount: items.length,
-                                        itemBuilder: (context, index) {
-                                          final int val = items[index];
-
-                                          return ListTile(
-                                            title: Text(range(650, start: 100, step: 100)[val].toString()),
-                                          );
-                                        },
+                                      body: Stack(
+                                        children: <Widget>[
+                                         
+                                          Center(
+                                            child: SingleChildScrollView(
+                                              scrollDirection: Axis.horizontal,
+                                              child: Row(
+                                                children: <Widget>[
+                                                  SingleChildScrollView(
+                                                    
+                                                    child: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: <Widget>[
+                                                        RepaintBoundary(
+                                                          key: globalKey,
+                                                          child: Container(
+                                                            color: Colors.red,
+                                                            child: Chart(),
+                                                            height: 700,
+                                                            width: 1500,
+                                                          ),
+                                                        ),
+                                                        RepaintBoundary(
+                                                          key: globalKey2,
+                                                          child: Container(
+                                                            color: Colors.blue,
+                                                            child: Text("pt_BR"),
+                                                            height: 700,
+                                                            width: 1500,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                            // Container(
+                                            //   width: 5300,
+                                            //   height: 5300,
+                                            //    color: Colors.white,
+                                            // ),
+                                        ],
                                       ),
                                       floatingActionButton: FloatingActionButton(
                                         onPressed: () async {
-                                          final oCcy = new NumberFormat("#,##0.00", "pt_BR");
-                                          print("Eg. 1: ${oCcy.format(123456789.75)}");
-
-                                          writeOnPdf();
-                                          await savePdf();
+                                          await writeOnPdf("projeto-solar");
 
                                           Directory documentDirectory = await getApplicationDocumentsDirectory();
 
                                           String documentPath = documentDirectory.path;
 
-                                          String fullPath = "$documentPath/example.pdf";
+                                          String fullPath = "$documentPath/projeto-solar.pdf";
 
                                           Navigator.push(
                                               context,
@@ -653,9 +777,12 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
                                         child: Icon(Icons.save),
                                       ),
                                     );
+
+                                    
                                   },
                                 ),
                               ));
+ 
                       //Navigator.of(context).pop();
                     }).getLarge(),
               ),
