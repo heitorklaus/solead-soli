@@ -12,39 +12,14 @@ class DadosKits extends _DadosKits with _$DadosKits {
     String marca_do_modulo,
     int numero_de_modulo,
     String peso,
-    String potencia,
+    double potencia,
     int potencia_do_modulo,
     String valor,
     double potencia_novo,
-  }) : super(
-            id: id,
-            area: area,
-            codigo: codigo,
-            dados: dados,
-            inversor: inversor,
-            marca_do_modulo: marca_do_modulo,
-            numero_de_modulo: numero_de_modulo,
-            peso: peso,
-            potencia: potencia,
-            potencia_do_modulo: potencia_do_modulo,
-            valor: valor,
-            potencia_novo: potencia_novo);
+  }) : super(id: id, area: area, codigo: codigo, dados: dados, inversor: inversor, marca_do_modulo: marca_do_modulo, numero_de_modulo: numero_de_modulo, peso: peso, potencia: potencia, potencia_do_modulo: potencia_do_modulo, valor: valor, potencia_novo: potencia_novo);
 
   toJson() {
-    return {
-      "id": id,
-      "area": area,
-      "codigo": codigo,
-      "dados": dados,
-      "inversor": inversor,
-      "marca_de_modulo": marca_do_modulo,
-      "numero_de_modulo": numero_de_modulo,
-      "peso": peso,
-      "potencia": potencia,
-      "potencia_do_modulo": potencia_do_modulo,
-      "valor": valor,
-      "potencia_novo": potencia_novo
-    };
+    return {"id": id, "area": area, "codigo": codigo, "dados": dados, "inversor": inversor, "marca_de_modulo": marca_do_modulo, "numero_de_modulo": numero_de_modulo, "peso": peso, "potencia": potencia, "potencia_do_modulo": potencia_do_modulo, "valor": valor, "potencia_novo": potencia_novo};
   }
 
   factory DadosKits.fromJson(Map json) {
@@ -81,7 +56,7 @@ abstract class _DadosKits with Store {
   @observable
   int numero_de_modulo;
   @observable
-  String potencia;
+  double potencia;
   @observable
   String peso;
   @observable
@@ -91,17 +66,5 @@ abstract class _DadosKits with Store {
   @observable
   double potencia_novo;
 
-  _DadosKits(
-      {this.id,
-      this.area,
-      this.codigo,
-      this.dados,
-      this.inversor,
-      this.marca_do_modulo,
-      this.numero_de_modulo,
-      this.peso,
-      this.potencia,
-      this.potencia_do_modulo,
-      this.valor,
-      this.potencia_novo});
+  _DadosKits({this.id, this.area, this.codigo, this.dados, this.inversor, this.marca_do_modulo, this.numero_de_modulo, this.peso, this.potencia, this.potencia_do_modulo, this.valor, this.potencia_novo});
 }

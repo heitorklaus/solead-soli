@@ -95,221 +95,223 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
                             bottomLeft: Radius.circular(14.0),
                           )),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center, // mainAxisAlignment
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        // mainAxisAlignment
 
                         children: <Widget>[
                           Container(
                             margin: EdgeInsets.only(left: 10, right: 10),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
                                 SingleChildScrollView(child: Observer(builder: (BuildContext context) {
-                                  return Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(
-                                          top: 18,
-                                        ),
-                                        child: Row(
-                                          children: <Widget>[
-                                            Expanded(
-                                              child: OutlinedTextEdit(
-                                                keyboardType: TextInputType.number,
-                                                onTap: () {
-                                                  controller.clearMoney();
-                                                },
-                                                prefixIcon: Icon(Icons.pie_chart),
-                                                controller: controller.mediaKW,
-                                                label: "Média KWp",
-                                                inputType: InputType.EXTRA_SMALL,
-                                              ),
+                                  return Container(
+                                    height: 350,
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                              top: 15,
                                             ),
-                                            SizedBox(
-                                              width: 22,
+                                            child: Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: OutlinedTextEdit(
+                                                    keyboardType: TextInputType.number,
+                                                    onTap: () {
+                                                      controller.clearMoney();
+                                                    },
+                                                    prefixIcon: Icon(Icons.pie_chart),
+                                                    controller: controller.mediaKW,
+                                                    label: "Média KWp",
+                                                    inputType: InputType.EXTRA_SMALL,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 22,
+                                                ),
+                                                Expanded(
+                                                  child: OutlinedTextEdit(
+                                                    controller: controller.mediaMoney,
+                                                    prefixIcon: Icon(Icons.monetization_on),
+                                                    keyboardType: TextInputType.number,
+                                                    onTap: () {
+                                                      controller.clearKW();
+                                                    },
+                                                    inputType: InputType.EXTRA_SMALL,
+                                                    label: "Média R\$",
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            Expanded(
-                                              child: OutlinedTextEdit(
-                                                controller: controller.mediaMoney,
-                                                prefixIcon: Icon(Icons.monetization_on),
-                                                keyboardType: TextInputType.number,
-                                                onTap: () {
-                                                  controller.clearKW();
-                                                },
-                                                inputType: InputType.EXTRA_SMALL,
-                                                label: "Média R\$",
-                                              ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(top: 10),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: OutlinedTextEdit(
+                                                    controller: controller.potencia,
+                                                    prefixIcon: Icon(Icons.equalizer),
+                                                    keyboardType: TextInputType.number,
+                                                    onChanged: (value) => {},
+                                                    label: "Potência necessária",
+                                                    inputType: InputType.EXTRA_SMALL,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(top: 8),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  'Potência/Kit indicado (Opção 1)',
+                                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(top: 8, bottom: 8),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Container(
+                                                  width: 130,
+                                                  child: OutlinedTextEdit(
+                                                    controller: controller.potenciaIndicada1,
+                                                    prefixIcon: Icon(Icons.equalizer),
+                                                    keyboardType: TextInputType.number,
+                                                    onChanged: (value) => {},
+                                                    label: "Potência",
+                                                    inputType: InputType.EXTRA_SMALL,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Expanded(
+                                                  child: OutlinedTextEdit(
+                                                    controller: controller.valorKit1,
+                                                    prefixIcon: Icon(Icons.monetization_on),
+                                                    keyboardType: TextInputType.number,
+                                                    onChanged: (value) => {},
+                                                    label: "R\$ Valor",
+                                                    inputType: InputType.EXTRA_SMALL,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Container(
+                                                  width: 65,
+                                                  child: Observer(
+                                                    builder: (BuildContext context) {
+                                                      if (controller.disableAdd) {
+                                                        return PrimaryButton(
+                                                          child: Text(
+                                                            'Ver',
+                                                            style: buttonLargeWhite,
+                                                          ),
+                                                          onPressed: null,
+                                                          //onPressed:controller.loginWithGoogle,
+                                                        ).getLarge();
+                                                      } else {
+                                                        return PrimaryButton(
+                                                          child: Text(
+                                                            'ver',
+                                                            style: buttonLargeWhite,
+                                                          ),
+                                                          onPressed: () {
+                                                            controller.showDialogKitMenor(context);
+                                                          },
+                                                          //onPressed:controller.loginWithGoogle,
+                                                        ).getLarge();
+                                                      }
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(top: 0, bottom: 0),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  'Potência/Kit indicado (Opção 2)',
+                                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(top: 10),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Container(
+                                                  width: 130,
+                                                  child: OutlinedTextEdit(
+                                                    controller: controller.potenciaIndicada2,
+                                                    prefixIcon: Icon(Icons.equalizer),
+                                                    keyboardType: TextInputType.number,
+                                                    onChanged: (value) => {},
+                                                    label: "Potência",
+                                                    inputType: InputType.EXTRA_SMALL,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Expanded(
+                                                  child: OutlinedTextEdit(
+                                                    controller: controller.valorKit2,
+                                                    prefixIcon: Icon(Icons.monetization_on),
+                                                    keyboardType: TextInputType.number,
+                                                    onChanged: (value) => {},
+                                                    label: "R\$ Valor",
+                                                    inputType: InputType.EXTRA_SMALL,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Container(
+                                                  width: 65,
+                                                  child: Observer(
+                                                    builder: (BuildContext context) {
+                                                      if (controller.disableAdd) {
+                                                        return PrimaryButton(
+                                                          child: Text(
+                                                            'Ver',
+                                                            style: buttonLargeWhite,
+                                                          ),
+                                                          onPressed: null,
+                                                          //onPressed:controller.loginWithGoogle,
+                                                        ).getLarge();
+                                                      } else {
+                                                        return PrimaryButton(
+                                                          child: Text(
+                                                            'ver',
+                                                            style: buttonLargeWhite,
+                                                          ),
+                                                          onPressed: () {
+                                                            controller.showDialogKitMaior(context);
+                                                          },
+                                                          //onPressed:controller.loginWithGoogle,
+                                                        ).getLarge();
+                                                      }
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 20),
-                                        child: Row(
-                                          children: <Widget>[
-                                            Expanded(
-                                              child: OutlinedTextEdit(
-                                                controller: controller.potencia,
-                                                prefixIcon: Icon(Icons.equalizer),
-                                                keyboardType: TextInputType.number,
-                                                onChanged: (value) => {},
-                                                label: "Potência necessária",
-                                                inputType: InputType.EXTRA_SMALL,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 20),
-                                        child: Row(
-                                          children: <Widget>[
-                                            Text(
-                                              'Potência/Kit indicado (Opção 1)',
-                                              style: TextStyle(fontWeight: FontWeight.bold),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 20, bottom: 20),
-                                        child: Row(
-                                          children: <Widget>[
-                                            Container(
-                                              width: 130,
-                                              child: OutlinedTextEdit(
-                                                controller: controller.potenciaIndicada1,
-                                                prefixIcon: Icon(Icons.equalizer),
-                                                keyboardType: TextInputType.number,
-                                                onChanged: (value) => {},
-                                                label: "Potência",
-                                                inputType: InputType.EXTRA_SMALL,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Expanded(
-                                              child: OutlinedTextEdit(
-                                                controller: controller.valorKit1,
-                                                prefixIcon: Icon(Icons.monetization_on),
-                                                keyboardType: TextInputType.number,
-                                                onChanged: (value) => {},
-                                                label: "R\$ Valor",
-                                                inputType: InputType.EXTRA_SMALL,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Container(
-                                              width: 65,
-                                              child: Observer(
-                                                builder: (BuildContext context) {
-                                                  if (controller.disableAdd) {
-                                                    return PrimaryButton(
-                                                      child: Text(
-                                                        'Ver',
-                                                        style: buttonLargeWhite,
-                                                      ),
-                                                      onPressed: null,
-                                                      //onPressed:controller.loginWithGoogle,
-                                                    ).getLarge();
-                                                  } else {
-                                                    return PrimaryButton(
-                                                      child: Text(
-                                                        'ver',
-                                                        style: buttonLargeWhite,
-                                                      ),
-                                                      onPressed: () {
-                                                        controller.showDialogKitMenor(context);
-                                                      },
-                                                      //onPressed:controller.loginWithGoogle,
-                                                    ).getLarge();
-                                                  }
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 10, bottom: 10),
-                                        child: Row(
-                                          children: <Widget>[
-                                            Text(
-                                              'Potência/Kit indicado (Opção 2)',
-                                              style: TextStyle(fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 10),
-                                        child: Row(
-                                          children: <Widget>[
-                                            Container(
-                                              width: 130,
-                                              child: OutlinedTextEdit(
-                                                controller: controller.potenciaIndicada2,
-                                                prefixIcon: Icon(Icons.equalizer),
-                                                keyboardType: TextInputType.number,
-                                                onChanged: (value) => {},
-                                                label: "Potência",
-                                                inputType: InputType.EXTRA_SMALL,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Expanded(
-                                              child: OutlinedTextEdit(
-                                                controller: controller.valorKit2,
-                                                prefixIcon: Icon(Icons.monetization_on),
-                                                keyboardType: TextInputType.number,
-                                                onChanged: (value) => {},
-                                                label: "R\$ Valor",
-                                                inputType: InputType.EXTRA_SMALL,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Container(
-                                              width: 65,
-                                              child: Observer(
-                                                builder: (BuildContext context) {
-                                                  if (controller.disableAdd) {
-                                                    return PrimaryButton(
-                                                      child: Text(
-                                                        'Ver',
-                                                        style: buttonLargeWhite,
-                                                      ),
-                                                      onPressed: null,
-                                                      //onPressed:controller.loginWithGoogle,
-                                                    ).getLarge();
-                                                  } else {
-                                                    return PrimaryButton(
-                                                      child: Text(
-                                                        'ver',
-                                                        style: buttonLargeWhite,
-                                                      ),
-                                                      onPressed: () {
-                                                        controller.showDialogKitMaior(context);
-                                                      },
-                                                      //onPressed:controller.loginWithGoogle,
-                                                    ).getLarge();
-                                                  }
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      )
-                                    ],
+                                    ),
                                   );
                                 })),
                               ],

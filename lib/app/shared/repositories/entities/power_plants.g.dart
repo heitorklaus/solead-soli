@@ -132,13 +132,13 @@ mixin _$PowerPlants on _PowerPlants, Store {
   final _$potenciaAtom = Atom(name: '_PowerPlants.potencia');
 
   @override
-  String get potencia {
+  double get potencia {
     _$potenciaAtom.reportRead();
     return super.potencia;
   }
 
   @override
-  set potencia(String value) {
+  set potencia(double value) {
     _$potenciaAtom.reportWrite(value, super.potencia, () {
       super.potencia = value;
     });

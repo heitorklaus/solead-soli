@@ -88,11 +88,11 @@ abstract class _SimulatorControllerBase with Store {
       var potenciaProximaMenor = await ProposalStringsDao().findPotenciaKitMenor(result.toStringAsFixed(2));
 
       //  print(valor.id.toString());
-      //  print(valor.potencia);
+      print('valor.potencia');
 
-      potenciaIndicada1.text = potenciaProximaMenor.potencia;
+      potenciaIndicada1.text = (potenciaProximaMenor.potencia).toString();
       valorKit1.text = potenciaProximaMenor.valor;
-      potenciaIndicada2.text = potenciaProximaMaior.potencia;
+      potenciaIndicada2.text = (potenciaProximaMaior.potencia).toString();
       valorKit2.text = potenciaProximaMaior.valor;
 
       final mediaNova = double.parse((mediaKW.text));
@@ -152,9 +152,9 @@ abstract class _SimulatorControllerBase with Store {
       var potenciaProximaMaior = await ProposalStringsDao().findPotenciaKit(result.toStringAsFixed(2));
       var potenciaProximaMenor = await ProposalStringsDao().findPotenciaKitMenor(result.toStringAsFixed(2));
 
-      potenciaIndicada1.text = potenciaProximaMenor.potencia;
+      potenciaIndicada1.text = (potenciaProximaMenor.potencia).toString();
       valorKit1.text = potenciaProximaMenor.valor;
-      potenciaIndicada2.text = potenciaProximaMaior.potencia;
+      potenciaIndicada2.text = (potenciaProximaMaior.potencia).toString();
       valorKit2.text = potenciaProximaMaior.valor;
 
       powerPlantsMenor.id = potenciaProximaMenor.id;
@@ -186,7 +186,7 @@ abstract class _SimulatorControllerBase with Store {
       powerPlantsMaior.numeroDeModulo = potenciaProximaMaior.numero_de_modulo;
       powerPlantsMaior.marcaDoModulo = potenciaProximaMaior.marca_do_modulo;
       powerPlantsMaior.peso = potenciaProximaMaior.peso;
-      powerPlantsMaior.potencia = potenciaProximaMaior.potencia;
+      //powerPlantsMaior.potencia = potenciaProximaMaior.potencia;
       powerPlantsMaior.potenciaDoModulo = potenciaProximaMaior.potencia_do_modulo.toString();
       powerPlantsMaior.potenciaNovo = powerPlantsMaior.valor = potenciaProximaMaior.valor;
       powerPlantsMaior.dados = potenciaProximaMaior.dados;
@@ -206,40 +206,40 @@ abstract class _SimulatorControllerBase with Store {
     final valor = await Prefs.getStringList("CITIES");
 
     var jan = double.parse(valor[1].split(":")[1]);
-    var janValue = double.parse(powerPlantsMenor.potencia) * returnDaysOfMonth(1) * jan * .75;
+    var janValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(1) * jan * .75;
 
     var fev = double.parse(valor[2].split(":")[1]);
-    var fevValue = double.parse(powerPlantsMenor.potencia) * returnDaysOfMonth(2) * fev * .75;
+    var fevValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(2) * fev * .75;
 
     var mar = double.parse(valor[3].split(":")[1]);
-    var marValue = double.parse(powerPlantsMenor.potencia) * returnDaysOfMonth(3) * mar * .75;
+    var marValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(3) * mar * .75;
 
     var abr = double.parse(valor[4].split(":")[1]);
-    var abrValue = double.parse(powerPlantsMenor.potencia) * returnDaysOfMonth(4) * abr * .75;
+    var abrValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(4) * abr * .75;
 
     var mai = double.parse(valor[5].split(":")[1]);
-    var maiValue = double.parse(powerPlantsMenor.potencia) * returnDaysOfMonth(5) * mai * .75;
+    var maiValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(5) * mai * .75;
 
     var jun = double.parse(valor[6].split(":")[1]);
-    var junValue = double.parse(powerPlantsMenor.potencia) * returnDaysOfMonth(6) * jun * .75;
+    var junValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(6) * jun * .75;
 
     var jul = double.parse(valor[7].split(":")[1]);
-    var julValue = double.parse(powerPlantsMenor.potencia) * returnDaysOfMonth(7) * jul * .75;
+    var julValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(7) * jul * .75;
 
     var ago = double.parse(valor[8].split(":")[1]);
-    var agoValue = double.parse(powerPlantsMenor.potencia) * returnDaysOfMonth(8) * ago * .75;
+    var agoValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(8) * ago * .75;
 
     var sep = double.parse(valor[9].split(":")[1]);
-    var sepValue = double.parse(powerPlantsMenor.potencia) * returnDaysOfMonth(9) * sep * .75;
+    var sepValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(9) * sep * .75;
 
     var out = double.parse(valor[10].split(":")[1]);
-    var outValue = double.parse(powerPlantsMenor.potencia) * returnDaysOfMonth(10) * out * .75;
+    var outValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(10) * out * .75;
 
     var nov = double.parse(valor[11].split(":")[1]);
-    var novValue = double.parse(powerPlantsMenor.potencia) * returnDaysOfMonth(11) * nov * .75;
+    var novValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(11) * nov * .75;
 
     var dez = double.parse(valor[12].split(":")[1]);
-    var dezValue = double.parse(powerPlantsMenor.potencia) * returnDaysOfMonth(12) * dez * .75;
+    var dezValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(12) * dez * .75;
 
     final mediaGeracaoKwpMenor = (janValue + fevValue + marValue + abrValue + maiValue + junValue + julValue + agoValue + sepValue + outValue + novValue + dezValue) / 12;
 
@@ -265,40 +265,40 @@ abstract class _SimulatorControllerBase with Store {
     final valor = await Prefs.getStringList("CITIES");
 
     var jan = double.parse(valor[1].split(":")[1]);
-    var janValue = double.parse(powerPlantsMaior.potencia) * returnDaysOfMonth(1) * jan * .75;
+    var janValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(1) * jan * .75;
 
     var fev = double.parse(valor[2].split(":")[1]);
-    var fevValue = double.parse(powerPlantsMaior.potencia) * returnDaysOfMonth(2) * fev * .75;
+    var fevValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(2) * fev * .75;
 
     var mar = double.parse(valor[3].split(":")[1]);
-    var marValue = double.parse(powerPlantsMaior.potencia) * returnDaysOfMonth(3) * mar * .75;
+    var marValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(3) * mar * .75;
 
     var abr = double.parse(valor[4].split(":")[1]);
-    var abrValue = double.parse(powerPlantsMaior.potencia) * returnDaysOfMonth(4) * abr * .75;
+    var abrValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(4) * abr * .75;
 
     var mai = double.parse(valor[5].split(":")[1]);
-    var maiValue = double.parse(powerPlantsMaior.potencia) * returnDaysOfMonth(5) * mai * .75;
+    var maiValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(5) * mai * .75;
 
     var jun = double.parse(valor[6].split(":")[1]);
-    var junValue = double.parse(powerPlantsMaior.potencia) * returnDaysOfMonth(6) * jun * .75;
+    var junValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(6) * jun * .75;
 
     var jul = double.parse(valor[7].split(":")[1]);
-    var julValue = double.parse(powerPlantsMaior.potencia) * returnDaysOfMonth(7) * jul * .75;
+    var julValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(7) * jul * .75;
 
     var ago = double.parse(valor[8].split(":")[1]);
-    var agoValue = double.parse(powerPlantsMaior.potencia) * returnDaysOfMonth(8) * ago * .75;
+    var agoValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(8) * ago * .75;
 
     var sep = double.parse(valor[9].split(":")[1]);
-    var sepValue = double.parse(powerPlantsMaior.potencia) * returnDaysOfMonth(9) * sep * .75;
+    var sepValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(9) * sep * .75;
 
     var out = double.parse(valor[10].split(":")[1]);
-    var outValue = double.parse(powerPlantsMaior.potencia) * returnDaysOfMonth(10) * out * .75;
+    var outValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(10) * out * .75;
 
     var nov = double.parse(valor[11].split(":")[1]);
-    var novValue = double.parse(powerPlantsMaior.potencia) * returnDaysOfMonth(11) * nov * .75;
+    var novValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(11) * nov * .75;
 
     var dez = double.parse(valor[12].split(":")[1]);
-    var dezValue = double.parse(powerPlantsMaior.potencia) * returnDaysOfMonth(12) * dez * .75;
+    var dezValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(12) * dez * .75;
 
     final mediaGeracaoKwpMaior = (janValue + fevValue + marValue + abrValue + maiValue + junValue + julValue + agoValue + sepValue + outValue + novValue + dezValue) / 12;
 
@@ -402,7 +402,7 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
     return byteData.buffer.asUint8List();
   }
 
-  void runChart1(String nameChart1) async {
+  runChart1(String nameChart1) async {
     var pngBytes = await runChart2();
     var bs64 = base64Encode(pngBytes);
     print(pngBytes);
@@ -432,7 +432,7 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
     return byteData.buffer.asUint8List();
   }
 
-  void runChart3(String nameChart2) async {
+  runChart3(String nameChart2) async {
     var pngBytes = await runChart4();
     var bs64 = base64Encode(pngBytes);
     print(pngBytes);
@@ -449,8 +449,7 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
 
   writeOnPdf(String nameFile) async {
     // GENERATE CHART GRAPH
-    runChart1("grafico-1");
-    runChart3("grafico-2");
+
     Directory tempDir = await getTemporaryDirectory();
     String tempPath = tempDir.path;
 
@@ -623,8 +622,21 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
                   width: 145,
                   //color: PdfColor.fromHex("#FFC000"),
                   //
-                  margin: pwa.EdgeInsets.only(top: 25, left: 400),
-                  child: pwa.Text('250 m²)', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                  margin: pwa.EdgeInsets.only(top: 20, left: 400),
+                  child: pwa.Text('250 m²', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                ),
+              ])),
+          pwa.Container(
+              child: pwa.Row(
+                  // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                  crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                  children: <pwa.Widget>[
+                pwa.Container(
+                  width: 500,
+                  //color: PdfColor.fromHex("#FFC000"),
+                  //
+                  margin: pwa.EdgeInsets.only(top: 20, left: 44),
+                  child: pwa.Center(child: pwa.Image(returnImg('grafico-1'))),
                 ),
               ])),
         ],
@@ -972,7 +984,7 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
                                                     RepaintBoundary(
                                                       key: globalKey,
                                                       child: Container(
-                                                        color: Colors.red,
+                                                        color: Colors.white,
                                                         child: Chart(),
                                                         height: 700,
                                                         width: 1500,
@@ -1017,6 +1029,9 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
                                       setState(() {
                                         _loaderGenerateGraph = true;
                                       });
+
+                                      await runChart1("grafico-1");
+                                      await runChart3("grafico-2");
 
                                       await writeOnPdf("projeto-solar");
 

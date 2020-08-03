@@ -11,8 +11,7 @@ class ProposalStringsDao {
 
   Future<int> save(ProposalStrings strings) async {
     var dbClient = await db;
-    var id = await dbClient.insert("PROPOSAL_STRINGS", strings.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
+    var id = await dbClient.insert("PROPOSAL_STRINGS", strings.toJson(), conflictAlgorithm: ConflictAlgorithm.replace);
     print('id: $id');
     return id;
   }
@@ -22,9 +21,7 @@ class ProposalStringsDao {
 
     final list = await dbClient.rawQuery('select * from PROPOSAL_STRINGS');
 
-    final strings = list
-        .map<ProposalStrings>((json) => ProposalStrings.fromJson(json))
-        .toList();
+    final strings = list.map<ProposalStrings>((json) => ProposalStrings.fromJson(json)).toList();
 
     return strings;
   }
@@ -32,8 +29,7 @@ class ProposalStringsDao {
   Future findPotenciaKitMenor(tipo) async {
     final dbClient = await db;
 
-    final list = await dbClient.rawQuery(
-        "select * from tb_dados_kits where potencia < '$tipo' order by potencia DESC limit 1");
+    final list = await dbClient.rawQuery("select * from tb_dados_kits where potencia <= '$tipo' order by potencia DESC limit 1");
 
     if (list.length > 0) {
       final valor = new DadosKits.fromJson(list.first);
@@ -63,8 +59,7 @@ class ProposalStringsDao {
   Future findPotenciaKit(tipo) async {
     final dbClient = await db;
 
-    final list = await dbClient.rawQuery(
-        "select * from tb_dados_kits where potencia > '$tipo' order by potencia asc limit 1");
+    final list = await dbClient.rawQuery("select * from tb_dados_kits where potencia >= '$tipo' order by potencia asc limit 1");
 
     if (list.length > 0) {
       final valor = new DadosKits.fromJson(list.first);
@@ -77,8 +72,7 @@ class ProposalStringsDao {
 
   Future<ProposalStrings> findById(int id) async {
     var dbClient = await db;
-    final list = await dbClient
-        .rawQuery('select * from PROPOSAL_STRINGS where id = ?', [id]);
+    final list = await dbClient.rawQuery('select * from PROPOSAL_STRINGS where id = ?', [id]);
 
     if (list.length > 0) {
       return new ProposalStrings.fromJson(list.first);
@@ -95,15 +89,13 @@ class ProposalStringsDao {
 
   Future<int> count() async {
     final dbClient = await db;
-    final list =
-        await dbClient.rawQuery('select count(*) from PROPOSAL_STRINGS');
+    final list = await dbClient.rawQuery('select count(*) from PROPOSAL_STRINGS');
     return Sqflite.firstIntValue(list);
   }
 
   Future<int> delete(int id) async {
     var dbClient = await db;
-    return await dbClient
-        .rawDelete('delete from PROPOSAL_STRINGS where id = ?', [id]);
+    return await dbClient.rawDelete('delete from PROPOSAL_STRINGS where id = ?', [id]);
   }
 
   Future<int> deleteAll() async {

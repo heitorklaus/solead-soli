@@ -12,7 +12,7 @@ class PowerPlants extends _PowerPlants with _$PowerPlants {
     String marcaDoModulo,
     int numeroDeModulo,
     String peso,
-    String potencia,
+    double potencia,
     String potenciaDoModulo,
     String valor,
     String potenciaNovo,
@@ -55,20 +55,7 @@ class PowerPlants extends _PowerPlants with _$PowerPlants {
   }
 
   factory PowerPlants.fromJson(Map json) {
-    return PowerPlants(
-        id: json['id'],
-        area: json['area'],
-        codigo: json['codigo'],
-        dados: json['dados'],
-        inversor: json['inversor'],
-        marcaDoModulo: json['marcaDoModulo'],
-        numeroDeModulo: json['numeroDeModulo'],
-        peso: json['peso'],
-        potencia: json['potencia'],
-        potenciaDoModulo: json['potenciaDoModulo'],
-        valor: json['valor'],
-        consumoEmReais: json['consumoEmReais'],
-        consumoEmKw: json['consumoEmKw']);
+    return PowerPlants(id: json['id'], area: json['area'], codigo: json['codigo'], dados: json['dados'], inversor: json['inversor'], marcaDoModulo: json['marcaDoModulo'], numeroDeModulo: json['numeroDeModulo'], peso: json['peso'], potencia: json['potencia'], potenciaDoModulo: json['potenciaDoModulo'], valor: json['valor'], consumoEmReais: json['consumoEmReais'], consumoEmKw: json['consumoEmKw']);
   }
 }
 
@@ -90,7 +77,7 @@ abstract class _PowerPlants with Store {
   @observable
   String peso;
   @observable
-  String potencia;
+  double potencia;
   @observable
   String potenciaDoModulo;
   @observable
@@ -103,19 +90,5 @@ abstract class _PowerPlants with Store {
   @observable
   String consumoEmKw;
 
-  _PowerPlants(
-      {this.id,
-      this.area,
-      this.codigo,
-      this.dados,
-      this.inversor,
-      this.marcaDoModulo,
-      this.numeroDeModulo,
-      this.peso,
-      this.potencia,
-      this.potenciaDoModulo,
-      this.valor,
-      this.potenciaNovo,
-      this.consumoEmReais,
-      this.consumoEmKw});
+  _PowerPlants({this.id, this.area, this.codigo, this.dados, this.inversor, this.marcaDoModulo, this.numeroDeModulo, this.peso, this.potencia, this.potenciaDoModulo, this.valor, this.potenciaNovo, this.consumoEmReais, this.consumoEmKw});
 }
