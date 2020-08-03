@@ -575,7 +575,58 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
           );
         },
         build: (pwa.Context context) => <pwa.Widget>[
-          pwa.Container(),
+          pwa.Container(
+              child: pwa.Row(
+                  // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                  crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                  children: <pwa.Widget>[
+                pwa.Container(
+                  width: 145,
+                  //color: PdfColor.fromHex("#FFC000"),
+                  //
+                  margin: pwa.EdgeInsets.only(top: 369, left: 400),
+                  child: pwa.Text('10,15 KwP', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                ),
+              ])),
+          pwa.Container(
+              child: pwa.Row(
+                  // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                  crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                  children: <pwa.Widget>[
+                pwa.Container(
+                  width: 145,
+                  //color: PdfColor.fromHex("#FFC000"),
+                  //
+                  margin: pwa.EdgeInsets.only(top: 25, left: 400),
+                  child: pwa.Text('105', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                ),
+              ])),
+          pwa.Container(
+              child: pwa.Row(
+                  // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                  crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                  children: <pwa.Widget>[
+                pwa.Container(
+                  width: 145,
+                  //color: PdfColor.fromHex("#FFC000"),
+                  //
+                  margin: pwa.EdgeInsets.only(top: 25, left: 400),
+                  child: pwa.Text('3250 kwH', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                ),
+              ])),
+          pwa.Container(
+              child: pwa.Row(
+                  // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                  crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                  children: <pwa.Widget>[
+                pwa.Container(
+                  width: 145,
+                  //color: PdfColor.fromHex("#FFC000"),
+                  //
+                  margin: pwa.EdgeInsets.only(top: 25, left: 400),
+                  child: pwa.Text('250 m²)', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                ),
+              ])),
         ],
       ),
     );
@@ -905,7 +956,7 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
                           return StatefulBuilder(
                             builder: (context, setState) {
                               return AlertDialog(
-                                title: Text("Title of Dialog"),
+                                title: Text("Customize a proposta:"),
                                 content: Scaffold(
                                   body: Stack(
                                     children: <Widget>[
