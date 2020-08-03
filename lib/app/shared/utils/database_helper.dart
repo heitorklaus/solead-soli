@@ -23,7 +23,7 @@ class DatabaseHelper {
 
   static const String _localZipFileName = 'images_to_pdf.zip';
 
-  static const String dbase = "solead-97.db";
+  static const String dbase = "soli-1015.db";
 
   Future<Database> get db async {
     if (_db != null) {
@@ -38,7 +38,7 @@ class DatabaseHelper {
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, dbase);
     print("[ USING DATABASE ] $path");
-    var db = await openDatabase(path, version: 2, onCreate: _onCreate, onUpgrade: _onUpgrade);
+    var db = await openDatabase(path, version: 6, onCreate: _onCreate, onUpgrade: _onUpgrade);
     return db;
   }
 
@@ -190,9 +190,8 @@ class DatabaseHelper {
         } else {
           print('[REFRESH TABLE DADOSKITS]');
           DatabaseHelper().populateDadosKits(id, area, codigo, dados, inversor, marca_do_modulo, numero_de_modulo, peso, potencia, potencia_do_modulo, valor);
+          print('[ID: $id] ' + ' [POTÊNCIA: $potencia] ' + ' [CÓD DO PRODUTO: $codigo]  ' + ' [INVERSOR: $inversor]  ' + ' [VALOR: $valor]  ');
         }
-
-        print('[ID: $id] ' + ' [POTÊNCIA: $potencia] ' + ' [CÓD DO PRODUTO: $codigo]  ' + ' [INVERSOR: $inversor]  ' + ' [VALOR: $valor]  ');
       } catch (e) {
         print('[ERROR] ' + e.toString());
         //print('THIS NEVER GETS PRINTED');

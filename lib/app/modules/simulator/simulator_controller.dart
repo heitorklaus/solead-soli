@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:intl/intl.dart';
 
 import 'package:date_util/date_util.dart';
@@ -501,7 +502,7 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
       ),
     );
 
-pdf.addPage(
+    pdf.addPage(
       pwa.MultiPage(
         crossAxisAlignment: pwa.CrossAxisAlignment.start,
         pageTheme: pwa.PageTheme(
@@ -540,6 +541,200 @@ pdf.addPage(
       ),
     );
 
+    pdf.addPage(
+      pwa.MultiPage(
+        crossAxisAlignment: pwa.CrossAxisAlignment.start,
+        pageTheme: pwa.PageTheme(
+          margin: pwa.EdgeInsets.zero,
+          buildBackground: (context) {
+            return pwa.Container(
+              decoration: pwa.BoxDecoration(
+                image: pwa.DecorationImage(
+                  image: returnImg('pagina-3'),
+                  fit: pwa.BoxFit.cover,
+                ),
+              ),
+              child: pwa.Container(),
+            );
+          },
+          pageFormat: PdfPageFormat.a4,
+        ),
+        header: (pwa.Context context) {
+          return null;
+        },
+        footer: (pwa.Context context) {
+          return pwa.Container(
+            alignment: pwa.Alignment.centerRight,
+            child: pwa.Text(
+              '${context.pageNumber} / ${context.pagesCount}',
+              textAlign: pwa.TextAlign.right,
+              style: pwa.TextStyle(
+                color: PdfColors.grey,
+              ),
+            ),
+          );
+        },
+        build: (pwa.Context context) => <pwa.Widget>[
+          pwa.Container(),
+        ],
+      ),
+    );
+
+    pdf.addPage(
+      pwa.MultiPage(
+        crossAxisAlignment: pwa.CrossAxisAlignment.start,
+        pageTheme: pwa.PageTheme(
+          margin: pwa.EdgeInsets.zero,
+          buildBackground: (context) {
+            return pwa.Container(
+              decoration: pwa.BoxDecoration(
+                image: pwa.DecorationImage(
+                  image: returnImg('pagina-4'),
+                  fit: pwa.BoxFit.cover,
+                ),
+              ),
+              child: pwa.Container(),
+            );
+          },
+          pageFormat: PdfPageFormat.a4,
+        ),
+        header: (pwa.Context context) {
+          return null;
+        },
+        footer: (pwa.Context context) {
+          return pwa.Container(
+            alignment: pwa.Alignment.centerRight,
+            child: pwa.Text(
+              '${context.pageNumber} / ${context.pagesCount}',
+              textAlign: pwa.TextAlign.right,
+              style: pwa.TextStyle(
+                color: PdfColors.grey,
+              ),
+            ),
+          );
+        },
+        build: (pwa.Context context) => <pwa.Widget>[
+          pwa.Container(),
+        ],
+      ),
+    );
+
+    pdf.addPage(
+      pwa.MultiPage(
+        crossAxisAlignment: pwa.CrossAxisAlignment.start,
+        pageTheme: pwa.PageTheme(
+          margin: pwa.EdgeInsets.zero,
+          buildBackground: (context) {
+            return pwa.Container(
+              decoration: pwa.BoxDecoration(
+                image: pwa.DecorationImage(
+                  image: returnImg('pagina-5'),
+                  fit: pwa.BoxFit.cover,
+                ),
+              ),
+              child: pwa.Container(),
+            );
+          },
+          pageFormat: PdfPageFormat.a4,
+        ),
+        header: (pwa.Context context) {
+          return null;
+        },
+        footer: (pwa.Context context) {
+          return pwa.Container(
+            alignment: pwa.Alignment.centerRight,
+            child: pwa.Text(
+              '${context.pageNumber} / ${context.pagesCount}',
+              textAlign: pwa.TextAlign.right,
+              style: pwa.TextStyle(
+                color: PdfColors.grey,
+              ),
+            ),
+          );
+        },
+        build: (pwa.Context context) => <pwa.Widget>[
+          pwa.Container(),
+        ],
+      ),
+    );
+
+    pdf.addPage(
+      pwa.MultiPage(
+        crossAxisAlignment: pwa.CrossAxisAlignment.start,
+        pageTheme: pwa.PageTheme(
+          margin: pwa.EdgeInsets.zero,
+          buildBackground: (context) {
+            return pwa.Container(
+              decoration: pwa.BoxDecoration(
+                image: pwa.DecorationImage(
+                  image: returnImg('pagina-6'),
+                  fit: pwa.BoxFit.cover,
+                ),
+              ),
+              child: pwa.Container(),
+            );
+          },
+          pageFormat: PdfPageFormat.a4,
+        ),
+        header: (pwa.Context context) {
+          return null;
+        },
+        footer: (pwa.Context context) {
+          return pwa.Container(
+            alignment: pwa.Alignment.centerRight,
+            child: pwa.Text(
+              '${context.pageNumber} / ${context.pagesCount}',
+              textAlign: pwa.TextAlign.right,
+              style: pwa.TextStyle(
+                color: PdfColors.grey,
+              ),
+            ),
+          );
+        },
+        build: (pwa.Context context) => <pwa.Widget>[
+          pwa.Container(),
+        ],
+      ),
+    );
+
+    pdf.addPage(
+      pwa.MultiPage(
+        crossAxisAlignment: pwa.CrossAxisAlignment.start,
+        pageTheme: pwa.PageTheme(
+          margin: pwa.EdgeInsets.zero,
+          buildBackground: (context) {
+            return pwa.Container(
+              decoration: pwa.BoxDecoration(
+                image: pwa.DecorationImage(
+                  image: returnImg('pagina-7'),
+                  fit: pwa.BoxFit.cover,
+                ),
+              ),
+              child: pwa.Container(),
+            );
+          },
+          pageFormat: PdfPageFormat.a4,
+        ),
+        header: (pwa.Context context) {
+          return null;
+        },
+        footer: (pwa.Context context) {
+          return pwa.Container(
+            alignment: pwa.Alignment.centerRight,
+            child: pwa.Text(
+              '${context.pageNumber} / ${context.pagesCount}',
+              textAlign: pwa.TextAlign.right,
+              style: pwa.TextStyle(
+                color: PdfColors.grey,
+              ),
+            ),
+          );
+        },
+        build: (pwa.Context context) => <pwa.Widget>[
+          pwa.Container(),
+        ],
+      ),
+    );
 
     Directory documentDirectory = await getApplicationDocumentsDirectory();
 
@@ -704,85 +899,102 @@ pdf.addPage(
 
                     onPressed: () {
                       showDialog(
-                          context: context,
-                          builder: (_) => new AlertDialog(
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                                content: Builder(
-                                  builder: (context) {
-                                    // Get available height and width of the build area of this widget. Make a choice depending on the size.
-
-                                    return Scaffold(
-                                      body: Stack(
-                                        children: <Widget>[
-                                         
-                                          Center(
-                                            child: SingleChildScrollView(
-                                              scrollDirection: Axis.horizontal,
-                                              child: Row(
-                                                children: <Widget>[
-                                                  SingleChildScrollView(
-                                                    
-                                                    child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: <Widget>[
-                                                        RepaintBoundary(
-                                                          key: globalKey,
-                                                          child: Container(
-                                                            color: Colors.red,
-                                                            child: Chart(),
-                                                            height: 700,
-                                                            width: 1500,
-                                                          ),
-                                                        ),
-                                                        RepaintBoundary(
-                                                          key: globalKey2,
-                                                          child: Container(
-                                                            color: Colors.blue,
-                                                            child: Text("pt_BR"),
-                                                            height: 700,
-                                                            width: 1500,
-                                                          ),
-                                                        )
-                                                      ],
+                        context: context,
+                        builder: (context) {
+                          bool _loaderGenerateGraph = false;
+                          return StatefulBuilder(
+                            builder: (context, setState) {
+                              return AlertDialog(
+                                title: Text("Title of Dialog"),
+                                content: Scaffold(
+                                  body: Stack(
+                                    children: <Widget>[
+                                      Center(
+                                        child: SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Row(
+                                            children: <Widget>[
+                                              SingleChildScrollView(
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    RepaintBoundary(
+                                                      key: globalKey,
+                                                      child: Container(
+                                                        color: Colors.red,
+                                                        child: Chart(),
+                                                        height: 700,
+                                                        width: 1500,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                    RepaintBoundary(
+                                                      key: globalKey2,
+                                                      child: Container(
+                                                        color: Colors.blue,
+                                                        child: Text("pt_BR"),
+                                                        height: 700,
+                                                        width: 1500,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 5300,
+                                        height: 5300,
+                                        color: Colors.white,
+                                      ),
+                                      Visibility(
+                                        visible: _loaderGenerateGraph,
+                                        child: Center(
+                                          child: Container(
+                                            child: Text(
+                                              'Gerando PDF...',
+                                              style: ubuntu16BlackBold500,
                                             ),
                                           ),
-                                            // Container(
-                                            //   width: 5300,
-                                            //   height: 5300,
-                                            //    color: Colors.white,
-                                            // ),
-                                        ],
+                                        ),
                                       ),
-                                      floatingActionButton: FloatingActionButton(
-                                        onPressed: () async {
-                                          await writeOnPdf("projeto-solar");
+                                    ],
+                                  ),
+                                  floatingActionButton: FloatingActionButton(
+                                    onPressed: () async {
+                                      setState(() {
+                                        _loaderGenerateGraph = true;
+                                      });
 
-                                          Directory documentDirectory = await getApplicationDocumentsDirectory();
+                                      await writeOnPdf("projeto-solar");
 
-                                          String documentPath = documentDirectory.path;
+                                      Directory documentDirectory = await getApplicationDocumentsDirectory();
 
-                                          String fullPath = "$documentPath/projeto-solar.pdf";
+                                      String documentPath = documentDirectory.path;
 
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => PdfPreviewScreen(
-                                                        path: fullPath,
-                                                      )));
-                                        },
-                                        child: Icon(Icons.save),
-                                      ),
-                                    );
+                                      String fullPath = "$documentPath/projeto-solar.pdf";
 
-                                    
-                                  },
+                                      setState(() {
+                                        _loaderGenerateGraph = false;
+                                      });
+
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => PdfPreviewScreen(
+                                                    path: fullPath,
+                                                  )));
+                                    },
+                                    child: Icon(Icons.save),
+                                  ),
                                 ),
-                              ));
- 
+                              );
+                            },
+                          );
+                        },
+                      );
+
                       //Navigator.of(context).pop();
                     }).getLarge(),
               ),
