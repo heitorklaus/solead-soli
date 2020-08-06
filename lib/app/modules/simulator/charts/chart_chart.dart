@@ -33,13 +33,33 @@ class _ChartChartState extends State<ChartChart> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
-              Text(
-                "World of Warcraft Subscribers by Year",
-                style: Theme.of(context).textTheme.body2,
-              ),
+              // Text(
+              //   "World of Warcraft Subscribers by Year",
+              //   style: Theme.of(context).textTheme.body2,
+              // ),
               Expanded(
-                child: charts.BarChart(series, animate: true),
-              )
+                  child: charts.BarChart(
+                series,
+                animate: true,
+                domainAxis: new charts.OrdinalAxisSpec(
+                  renderSpec: new charts.SmallTickRendererSpec(
+                    // Tick and Label styling here.
+                    labelStyle: new charts.TextStyleSpec(
+                        fontSize: 18, // size in Pts.
+                        color: charts.MaterialPalette.black),
+                  ),
+                ),
+
+                /// Assign a custom style for the measure axis.
+                primaryMeasureAxis: new charts.NumericAxisSpec(
+                  renderSpec: new charts.GridlineRendererSpec(
+                    // Tick and Label styling here.
+                    labelStyle: new charts.TextStyleSpec(
+                        fontSize: 18, // size in Pts.
+                        color: charts.MaterialPalette.black),
+                  ),
+                ),
+              ))
             ],
           ),
         ),

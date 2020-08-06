@@ -19,11 +19,11 @@ class DatabaseHelper {
 
   static Database _db;
 
-  static const String _zipPath = 'http://www.klausmetal.com.br/images_to_pdf.zip';
+  static const String _zipPath = 'https://drive.google.com/u/0/uc?id=1FpG7zNFxgiMrxteFMjNn8Ms-CCXg-1qc&export=download';
 
   static const String _localZipFileName = 'images_to_pdf.zip';
 
-  static const String dbase = "soliDB-7.db";
+  static const String dbase = "soliADBA-3.db";
 
   Future<Database> get db async {
     if (_db != null) {
@@ -77,6 +77,7 @@ class DatabaseHelper {
   var httpClient = new HttpClient();
   Future downloadFile(String url, String filename) async {
     final dio = Dio();
+    _initDb();
 
     String tempDir = (await getApplicationDocumentsDirectory()).path;
     String fullPath = tempDir + "/$filename";
