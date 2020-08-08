@@ -186,7 +186,7 @@ abstract class _SimulatorControllerBase with Store {
       powerPlantsMaior.numeroDeModulo = potenciaProximaMaior.numero_de_modulo;
       powerPlantsMaior.marcaDoModulo = potenciaProximaMaior.marca_do_modulo;
       powerPlantsMaior.peso = potenciaProximaMaior.peso;
-      //powerPlantsMaior.potencia = potenciaProximaMaior.potencia;
+      powerPlantsMaior.potencia = potenciaProximaMaior.potencia;
       powerPlantsMaior.potenciaDoModulo = potenciaProximaMaior.potencia_do_modulo.toString();
       powerPlantsMaior.potenciaNovo = powerPlantsMaior.valor = potenciaProximaMaior.valor;
       powerPlantsMaior.dados = potenciaProximaMaior.dados;
@@ -717,47 +717,26 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
               //
               margin: pwa.EdgeInsets.only(top: 154, left: 392),
               child: pwa.Text('R\$ 2.221,69', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 20, fontWeight: pwa.FontWeight.bold)),
-            )
+            ),
+            pwa.Container(
+                margin: pwa.EdgeInsets.only(
+                  top: 200,
+                ),
+                child: pwa.Stack(children: <pwa.Widget>[
+                  pwa.Row(
+                      // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                      crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                      children: <pwa.Widget>[
+                        pwa.Container(
+                          width: 535,
+                          //color: PdfColor.fromHex("#FFC000"),
+                          //
+                          margin: pwa.EdgeInsets.only(top: 85, left: 38),
+                          child: pwa.Center(child: pwa.Image(returnImg('investimento'))),
+                        ),
+                      ]),
+                ])),
           ])),
-          pwa.Container(
-              child: pwa.Row(
-                  // mainAxisAlignment: pwa.MainAxisAlignment.end,
-                  crossAxisAlignment: pwa.CrossAxisAlignment.end,
-                  children: <pwa.Widget>[
-                pwa.Container(
-                  width: 145,
-                  //color: PdfColor.fromHex("#FFC000"),
-                  //
-                  margin: pwa.EdgeInsets.only(top: 25, left: 400),
-                  child: pwa.Text('105', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
-                ),
-              ])),
-          pwa.Container(
-              child: pwa.Row(
-                  // mainAxisAlignment: pwa.MainAxisAlignment.end,
-                  crossAxisAlignment: pwa.CrossAxisAlignment.end,
-                  children: <pwa.Widget>[
-                pwa.Container(
-                  width: 145,
-                  //color: PdfColor.fromHex("#FFC000"),
-                  //
-                  margin: pwa.EdgeInsets.only(top: 25, left: 400),
-                  child: pwa.Text('3250 kwH', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
-                ),
-              ])),
-          pwa.Container(
-              child: pwa.Row(
-                  // mainAxisAlignment: pwa.MainAxisAlignment.end,
-                  crossAxisAlignment: pwa.CrossAxisAlignment.end,
-                  children: <pwa.Widget>[
-                pwa.Container(
-                  width: 145,
-                  //color: PdfColor.fromHex("#FFC000"),
-                  //
-                  margin: pwa.EdgeInsets.only(top: 20, left: 400),
-                  child: pwa.Text('250 m²', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
-                ),
-              ])),
         ],
       ),
     );
@@ -795,9 +774,7 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
             ),
           );
         },
-        build: (pwa.Context context) => <pwa.Widget>[
-          pwa.Container(),
-        ],
+        build: (pwa.Context context) => <pwa.Widget>[],
       ),
     );
 
