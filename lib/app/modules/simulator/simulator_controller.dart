@@ -202,48 +202,130 @@ abstract class _SimulatorControllerBase with Store {
 
   @action
   showDialogKitMenor(context) async {
-    // RETORNA A GERACAO MES A MES
-    final valor = await Prefs.getStringList("CITIES");
+    Future returnGenerationKW() async {
+      final val = new NumberFormat("#,##0.00", "pt_BR");
+      // RETORNA A GERACAO MES A MES
+      final valor = await Prefs.getStringList("CITIES");
 
-    var jan = double.parse(valor[1].split(":")[1]);
-    var janValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(1) * jan * .75;
+      var jan = double.parse(valor[1].split(":")[1]);
+      var janValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(1) * jan * .75;
 
-    var fev = double.parse(valor[2].split(":")[1]);
-    var fevValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(2) * fev * .75;
+      final teste = val.format(janValue).split(",")[0];
 
-    var mar = double.parse(valor[3].split(":")[1]);
-    var marValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(3) * mar * .75;
+      var fev = double.parse(valor[2].split(":")[1]);
+      var fevValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(2) * fev * .75;
 
-    var abr = double.parse(valor[4].split(":")[1]);
-    var abrValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(4) * abr * .75;
+      var mar = double.parse(valor[3].split(":")[1]);
+      var marValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(3) * mar * .75;
 
-    var mai = double.parse(valor[5].split(":")[1]);
-    var maiValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(5) * mai * .75;
+      var abr = double.parse(valor[4].split(":")[1]);
+      var abrValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(4) * abr * .75;
 
-    var jun = double.parse(valor[6].split(":")[1]);
-    var junValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(6) * jun * .75;
+      var mai = double.parse(valor[5].split(":")[1]);
+      var maiValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(5) * mai * .75;
 
-    var jul = double.parse(valor[7].split(":")[1]);
-    var julValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(7) * jul * .75;
+      var jun = double.parse(valor[6].split(":")[1]);
+      var junValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(6) * jun * .75;
 
-    var ago = double.parse(valor[8].split(":")[1]);
-    var agoValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(8) * ago * .75;
+      var jul = double.parse(valor[7].split(":")[1]);
+      var julValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(7) * jul * .75;
 
-    var sep = double.parse(valor[9].split(":")[1]);
-    var sepValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(9) * sep * .75;
+      var ago = double.parse(valor[8].split(":")[1]);
+      var agoValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(8) * ago * .75;
 
-    var out = double.parse(valor[10].split(":")[1]);
-    var outValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(10) * out * .75;
+      var sep = double.parse(valor[9].split(":")[1]);
+      var sepValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(9) * sep * .75;
 
-    var nov = double.parse(valor[11].split(":")[1]);
-    var novValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(11) * nov * .75;
+      var out = double.parse(valor[10].split(":")[1]);
+      var outValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(10) * out * .75;
 
-    var dez = double.parse(valor[12].split(":")[1]);
-    var dezValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(12) * dez * .75;
+      var nov = double.parse(valor[11].split(":")[1]);
+      var novValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(11) * nov * .75;
 
-    final mediaGeracaoKwpMenor = (janValue + fevValue + marValue + abrValue + maiValue + junValue + julValue + agoValue + sepValue + outValue + novValue + dezValue) / 12;
+      var dez = double.parse(valor[12].split(":")[1]);
+      var dezValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(12) * dez * .75;
 
-    print('[ MEDIA MENOR ] ' + mediaGeracaoKwpMenor.toString());
+      final mediaGeracaoKwpMenor = (janValue + fevValue + marValue + abrValue + maiValue + junValue + julValue + agoValue + sepValue + outValue + novValue + dezValue) / 12;
+
+      return mediaGeracaoKwpMenor.round();
+    }
+
+    Future returnAllMonths() async {
+      final val = new NumberFormat("#,##0.00", "pt_BR");
+      // RETORNA A GERACAO MES A MES
+      final valor = await Prefs.getStringList("CITIES");
+
+      var jan = double.parse(valor[1].split(":")[1]);
+      var janValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(1) * jan * .75;
+
+      final teste = val.format(janValue).split(",")[0];
+
+      var fev = double.parse(valor[2].split(":")[1]);
+      var fevValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(2) * fev * .75;
+
+      var mar = double.parse(valor[3].split(":")[1]);
+      var marValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(3) * mar * .75;
+
+      var abr = double.parse(valor[4].split(":")[1]);
+      var abrValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(4) * abr * .75;
+
+      var mai = double.parse(valor[5].split(":")[1]);
+      var maiValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(5) * mai * .75;
+
+      var jun = double.parse(valor[6].split(":")[1]);
+      var junValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(6) * jun * .75;
+
+      var jul = double.parse(valor[7].split(":")[1]);
+      var julValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(7) * jul * .75;
+
+      var ago = double.parse(valor[8].split(":")[1]);
+      var agoValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(8) * ago * .75;
+
+      var sep = double.parse(valor[9].split(":")[1]);
+      var sepValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(9) * sep * .75;
+
+      var out = double.parse(valor[10].split(":")[1]);
+      var outValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(10) * out * .75;
+
+      var nov = double.parse(valor[11].split(":")[1]);
+      var novValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(11) * nov * .75;
+
+      var dez = double.parse(valor[12].split(":")[1]);
+      var dezValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(12) * dez * .75;
+
+      List<Map<String, double>> allValues;
+
+      allValues = [
+        ({"JAN": janValue.round().toDouble()}),
+        ({"FEV": fevValue.round().toDouble()}),
+        ({"MAR": marValue.round().toDouble()}),
+        ({"ABR": abrValue.round().toDouble()}),
+        ({"MAI": maiValue.round().toDouble()}),
+        ({"JUN": junValue.round().toDouble()}),
+        ({"JUL": julValue.round().toDouble()}),
+        ({"AGO": agoValue.round().toDouble()}),
+        ({"SET": sepValue.round().toDouble()}),
+        ({"OUT": outValue.round().toDouble()}),
+        ({"NOV": novValue.round().toDouble()}),
+        ({"DEZ": dezValue.round().toDouble()}),
+      ];
+
+      return allValues;
+    }
+
+    final mediaMenor = await returnGenerationKW();
+
+    final returnAll = await returnAllMonths();
+
+    returnConsumo() {
+      if (mediaMoney.text.length > 0) {
+        final consumo = double.parse(mediaKW.text);
+        return consumo;
+      } else {
+        final consumo = (double.parse(mediaKW.text) * .91);
+        return consumo;
+      }
+    }
 
     showDialog(
         context: context,
@@ -253,7 +335,7 @@ abstract class _SimulatorControllerBase with Store {
                 builder: (context) {
                   // Get available height and width of the build area of this widget. Make a choice depending on the size.
                   return SingleChildScrollView(
-                    child: buildDialog(context, powerPlantsMenor, mediaGeracaoKwpMenor.round()),
+                    child: buildDialog(context, powerPlantsMenor, mediaMenor, returnAll, returnConsumo()),
                   );
                 },
               ),
@@ -262,47 +344,130 @@ abstract class _SimulatorControllerBase with Store {
 
   @action
   showDialogKitMaior(context) async {
-    final valor = await Prefs.getStringList("CITIES");
+    Future returnGenerationKW() async {
+      final val = new NumberFormat("#,##0.00", "pt_BR");
+      // RETORNA A GERACAO MES A MES
+      final valor = await Prefs.getStringList("CITIES");
 
-    var jan = double.parse(valor[1].split(":")[1]);
-    var janValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(1) * jan * .75;
+      var jan = double.parse(valor[1].split(":")[1]);
+      var janValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(1) * jan * .75;
 
-    var fev = double.parse(valor[2].split(":")[1]);
-    var fevValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(2) * fev * .75;
+      final teste = val.format(janValue).split(",")[0];
 
-    var mar = double.parse(valor[3].split(":")[1]);
-    var marValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(3) * mar * .75;
+      var fev = double.parse(valor[2].split(":")[1]);
+      var fevValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(2) * fev * .75;
 
-    var abr = double.parse(valor[4].split(":")[1]);
-    var abrValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(4) * abr * .75;
+      var mar = double.parse(valor[3].split(":")[1]);
+      var marValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(3) * mar * .75;
 
-    var mai = double.parse(valor[5].split(":")[1]);
-    var maiValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(5) * mai * .75;
+      var abr = double.parse(valor[4].split(":")[1]);
+      var abrValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(4) * abr * .75;
 
-    var jun = double.parse(valor[6].split(":")[1]);
-    var junValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(6) * jun * .75;
+      var mai = double.parse(valor[5].split(":")[1]);
+      var maiValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(5) * mai * .75;
 
-    var jul = double.parse(valor[7].split(":")[1]);
-    var julValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(7) * jul * .75;
+      var jun = double.parse(valor[6].split(":")[1]);
+      var junValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(6) * jun * .75;
 
-    var ago = double.parse(valor[8].split(":")[1]);
-    var agoValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(8) * ago * .75;
+      var jul = double.parse(valor[7].split(":")[1]);
+      var julValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(7) * jul * .75;
 
-    var sep = double.parse(valor[9].split(":")[1]);
-    var sepValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(9) * sep * .75;
+      var ago = double.parse(valor[8].split(":")[1]);
+      var agoValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(8) * ago * .75;
 
-    var out = double.parse(valor[10].split(":")[1]);
-    var outValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(10) * out * .75;
+      var sep = double.parse(valor[9].split(":")[1]);
+      var sepValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(9) * sep * .75;
 
-    var nov = double.parse(valor[11].split(":")[1]);
-    var novValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(11) * nov * .75;
+      var out = double.parse(valor[10].split(":")[1]);
+      var outValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(10) * out * .75;
 
-    var dez = double.parse(valor[12].split(":")[1]);
-    var dezValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(12) * dez * .75;
+      var nov = double.parse(valor[11].split(":")[1]);
+      var novValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(11) * nov * .75;
 
-    final mediaGeracaoKwpMaior = (janValue + fevValue + marValue + abrValue + maiValue + junValue + julValue + agoValue + sepValue + outValue + novValue + dezValue) / 12;
+      var dez = double.parse(valor[12].split(":")[1]);
+      var dezValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(12) * dez * .75;
 
-    print('[ MEDIA MAIOR ] ' + mediaGeracaoKwpMaior.toString());
+      final mediaGeracaoKwpMaior = (janValue + fevValue + marValue + abrValue + maiValue + junValue + julValue + agoValue + sepValue + outValue + novValue + dezValue) / 12;
+
+      return mediaGeracaoKwpMaior.round();
+    }
+
+    Future returnAllMonths() async {
+      final val = new NumberFormat("#,##0.00", "pt_BR");
+      // RETORNA A GERACAO MES A MES
+      final valor = await Prefs.getStringList("CITIES");
+
+      var jan = double.parse(valor[1].split(":")[1]);
+      var janValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(1) * jan * .75;
+
+      final teste = val.format(janValue).split(",")[0];
+
+      var fev = double.parse(valor[2].split(":")[1]);
+      var fevValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(2) * fev * .75;
+
+      var mar = double.parse(valor[3].split(":")[1]);
+      var marValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(3) * mar * .75;
+
+      var abr = double.parse(valor[4].split(":")[1]);
+      var abrValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(4) * abr * .75;
+
+      var mai = double.parse(valor[5].split(":")[1]);
+      var maiValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(5) * mai * .75;
+
+      var jun = double.parse(valor[6].split(":")[1]);
+      var junValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(6) * jun * .75;
+
+      var jul = double.parse(valor[7].split(":")[1]);
+      var julValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(7) * jul * .75;
+
+      var ago = double.parse(valor[8].split(":")[1]);
+      var agoValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(8) * ago * .75;
+
+      var sep = double.parse(valor[9].split(":")[1]);
+      var sepValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(9) * sep * .75;
+
+      var out = double.parse(valor[10].split(":")[1]);
+      var outValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(10) * out * .75;
+
+      var nov = double.parse(valor[11].split(":")[1]);
+      var novValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(11) * nov * .75;
+
+      var dez = double.parse(valor[12].split(":")[1]);
+      var dezValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(12) * dez * .75;
+
+      List<Map<String, double>> allValues;
+
+      allValues = [
+        ({"JAN": janValue.round().toDouble()}),
+        ({"FEV": fevValue.round().toDouble()}),
+        ({"MAR": marValue.round().toDouble()}),
+        ({"ABR": abrValue.round().toDouble()}),
+        ({"MAI": maiValue.round().toDouble()}),
+        ({"JUN": junValue.round().toDouble()}),
+        ({"JUL": julValue.round().toDouble()}),
+        ({"AGO": agoValue.round().toDouble()}),
+        ({"SET": sepValue.round().toDouble()}),
+        ({"OUT": outValue.round().toDouble()}),
+        ({"NOV": novValue.round().toDouble()}),
+        ({"DEZ": dezValue.round().toDouble()}),
+      ];
+
+      return allValues;
+    }
+
+    final mediaMaior = await returnGenerationKW();
+
+    final returnAll = await returnAllMonths();
+
+    returnConsumo() {
+      if (mediaMoney.text.length > 0) {
+        final consumo = double.parse(mediaKW.text);
+        return consumo;
+      } else {
+        final consumo = (double.parse(mediaKW.text) * .91);
+        return consumo;
+      }
+    }
 
     showDialog(
         context: context,
@@ -315,7 +480,7 @@ abstract class _SimulatorControllerBase with Store {
                   var width = MediaQuery.of(context).size.width;
 
                   return SingleChildScrollView(
-                    child: buildDialog(context, powerPlantsMaior, mediaGeracaoKwpMaior.round()),
+                    child: buildDialog(context, powerPlantsMaior, mediaMaior, returnAll, returnConsumo()),
                   );
                 },
               ),
@@ -360,7 +525,7 @@ int returnDaysOfMonth(xx) {
 
 // DIALOG GERADA
 @override
-Widget buildDialog(context, pw, mediaGeracaoKwp) {
+buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo) {
   final pdf = pwa.Document();
 
   final List<Map<String, double>> valorEconomiaMensal = [
@@ -375,6 +540,13 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
 
   final double valor_paga_ano = (valorEconomiaMensal[0]["valorPaga"].toDouble()) * 12.toDouble();
   final double valor_ira_pagar_ano = (valorEconomiaMensal[0]["valorIraPagar"].toDouble()) * 12.toDouble();
+
+  final valor_economia_1_ano = val.format((valor_paga_ano - valor_ira_pagar_ano));
+  final valor_economia_25_anos = val.format((valor_paga_ano - valor_ira_pagar_ano) * 25);
+
+  final String valor_paga_ano_pdf = val.format(valor_paga_ano).toString();
+
+  final String valor_ira_paga_ano_pdf = val.format(valor_ira_pagar_ano).toString();
 
 // Economia em MES
   final valQuantoPagaBR = val.format(valorEconomiaMensal[0]["valorPaga"].toDouble());
@@ -585,7 +757,7 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
                   //color: PdfColor.fromHex("#FFC000"),
                   //
                   margin: pwa.EdgeInsets.only(top: 369, left: 400),
-                  child: pwa.Text('10,15 KwP', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                  child: pwa.Text(pw.potencia.toString() + ' kWp', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                 ),
               ])),
           pwa.Container(
@@ -598,7 +770,7 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
                   //color: PdfColor.fromHex("#FFC000"),
                   //
                   margin: pwa.EdgeInsets.only(top: 25, left: 400),
-                  child: pwa.Text('105', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                  child: pwa.Text(pw.numeroDeModulo.toString(), style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                 ),
               ])),
           pwa.Container(
@@ -611,7 +783,7 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
                   //color: PdfColor.fromHex("#FFC000"),
                   //
                   margin: pwa.EdgeInsets.only(top: 25, left: 400),
-                  child: pwa.Text('3250 kwH', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                  child: pwa.Text(' kWh', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                 ),
               ])),
           pwa.Container(
@@ -624,7 +796,7 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
                   //color: PdfColor.fromHex("#FFC000"),
                   //
                   margin: pwa.EdgeInsets.only(top: 20, left: 400),
-                  child: pwa.Text('250 m²', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                  child: pwa.Text('${pw.area} m²', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                 ),
               ])),
           pwa.Container(
@@ -690,6 +862,104 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
                     alignment: pwa.Alignment.center,
                     //
                     margin: pwa.EdgeInsets.only(top: 145, left: 15),
+                    child: pwa.Text('R\$ $valor_paga_ano_pdf', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                  ),
+                  pwa.Container(
+                    width: 185,
+                    // color: PdfColor.fromHex("#FFC000"),
+                    alignment: pwa.Alignment.center,
+                    //
+                    margin: pwa.EdgeInsets.only(top: 0, left: 0),
+                    child: pwa.Text('R\$ $valor_ira_paga_ano_pdf', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                  ),
+                ]),
+            // SUA ECONOMIA ANUAL
+            pwa.Container(
+              width: 185,
+              //color: PdfColor.fromHex("#FFC000"),
+
+              //
+              margin: pwa.EdgeInsets.only(top: 110, left: 392),
+              child: pwa.Text('R\$ $valor_economia_1_ano', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 20, fontWeight: pwa.FontWeight.bold)),
+            ),
+            pwa.Container(
+              width: 185,
+              //color: PdfColor.fromHex("#FFC000"),
+
+              //
+              margin: pwa.EdgeInsets.only(top: 154, left: 392),
+              child: pwa.Text('R\$ $valor_economia_25_anos', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 20, fontWeight: pwa.FontWeight.bold)),
+            ),
+            pwa.Container(
+                margin: pwa.EdgeInsets.only(
+                  top: 200,
+                ),
+                child: pwa.Stack(children: <pwa.Widget>[
+                  pwa.Row(
+                      // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                      crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                      children: <pwa.Widget>[
+                        pwa.Container(
+                          width: 535,
+                          //color: PdfColor.fromHex("#FFC000"),
+                          //
+                          margin: pwa.EdgeInsets.only(top: 85, left: 38),
+                          child: pwa.Center(child: pwa.Image(returnImg('investimento'))),
+                        ),
+                      ]),
+                  pwa.Row(
+                      // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                      crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                      children: <pwa.Widget>[
+                        pwa.Container(
+                          width: 535,
+                          // color: PdfColor.fromHex("#FFC000"),
+                          //
+                          margin: pwa.EdgeInsets.only(top: 347, left: 38),
+                          //#TODO SE A QUANTIDADE DE DADOS DO SISTEMA FOR MUITO GRANDE VAI QUEBRAR O PDF
+                          child: pwa.Text(pw.dados.replaceAll('<BR>', '\n'), style: pwa.TextStyle(lineSpacing: 5, fontSize: 10)),
+                        ),
+                      ]),
+                ])),
+          ])),
+        ],
+      ),
+    );
+
+    pdf.addPage(
+      pwa.MultiPage(
+        crossAxisAlignment: pwa.CrossAxisAlignment.start,
+        pageTheme: pwa.PageTheme(
+          margin: pwa.EdgeInsets.zero,
+          buildBackground: (context) {
+            return pwa.Container(
+              decoration: pwa.BoxDecoration(
+                image: pwa.DecorationImage(
+                  image: returnImg('pagina-5'),
+                  fit: pwa.BoxFit.cover,
+                ),
+              ),
+              child: pwa.Container(),
+            );
+          },
+          pageFormat: PdfPageFormat.a4,
+        ),
+        header: (pwa.Context context) {
+          return null;
+        },
+        build: (pwa.Context context) => <pwa.Widget>[
+          pwa.Container(
+              child: pwa.Stack(children: <pwa.Widget>[
+            pwa.Row(
+                // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                children: <pwa.Widget>[
+                  pwa.Container(
+                    width: 185,
+                    //color: PdfColor.fromHex("#FFC000"),
+                    alignment: pwa.Alignment.center,
+                    //
+                    margin: pwa.EdgeInsets.only(top: 145, left: 15),
                     child: pwa.Text('R\$ 54.221,69', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                   ),
                   pwa.Container(
@@ -731,50 +1001,25 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
                           width: 535,
                           //color: PdfColor.fromHex("#FFC000"),
                           //
-                          margin: pwa.EdgeInsets.only(top: 85, left: 38),
-                          child: pwa.Center(child: pwa.Image(returnImg('investimento'))),
+                          margin: pwa.EdgeInsets.only(top: 190, left: 220),
+                          child: pwa.Text(pw.inversor.toString(), style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)),
+                        ),
+                      ]),
+                  pwa.Row(
+                      // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                      crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                      children: <pwa.Widget>[
+                        pwa.Container(
+                          width: 535,
+                          //color: PdfColor.fromHex("#FFC000"),
+                          //
+                          margin: pwa.EdgeInsets.only(top: 244, left: 220),
+                          child: pwa.Text(pw.marcaDoModulo.toString(), style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)),
                         ),
                       ]),
                 ])),
           ])),
         ],
-      ),
-    );
-
-    pdf.addPage(
-      pwa.MultiPage(
-        crossAxisAlignment: pwa.CrossAxisAlignment.start,
-        pageTheme: pwa.PageTheme(
-          margin: pwa.EdgeInsets.zero,
-          buildBackground: (context) {
-            return pwa.Container(
-              decoration: pwa.BoxDecoration(
-                image: pwa.DecorationImage(
-                  image: returnImg('pagina-5'),
-                  fit: pwa.BoxFit.cover,
-                ),
-              ),
-              child: pwa.Container(),
-            );
-          },
-          pageFormat: PdfPageFormat.a4,
-        ),
-        header: (pwa.Context context) {
-          return null;
-        },
-        footer: (pwa.Context context) {
-          return pwa.Container(
-            alignment: pwa.Alignment.centerRight,
-            child: pwa.Text(
-              '${context.pageNumber} / ${context.pagesCount}',
-              textAlign: pwa.TextAlign.right,
-              style: pwa.TextStyle(
-                color: PdfColors.grey,
-              ),
-            ),
-          );
-        },
-        build: (pwa.Context context) => <pwa.Widget>[],
       ),
     );
 
@@ -856,7 +1101,7 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
       ),
     );
 
-    Directory documentDirectory = await getApplicationDocumentsDirectory();
+    Directory documentDirectory = await getTemporaryDirectory();
 
     String documentPath = documentDirectory.path;
 
@@ -977,7 +1222,7 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
                   style: DefaultTextStyle.of(context).style,
                   children: <TextSpan>[
                     TextSpan(text: 'Geração do sistema: '),
-                    TextSpan(text: mediaGeracaoKwp.toString() + ' KWp', style: TextStyle(fontWeight: FontWeight.bold)),
+                    TextSpan(text: returnGenerationKW.toString() + ' KWp', style: TextStyle(fontWeight: FontWeight.bold)),
                   ],
                 ),
               ),
@@ -1042,7 +1287,10 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
                                                       key: globalKey,
                                                       child: Container(
                                                         color: Colors.white,
-                                                        child: Chart(),
+                                                        child: Chart(
+                                                          meses: returnAllMonths,
+                                                          consumo: consumo,
+                                                        ),
                                                         height: 700,
                                                         width: 1500,
                                                       ),
@@ -1051,7 +1299,7 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
                                                       key: globalKey2,
                                                       child: Container(
                                                         color: Colors.blue,
-                                                        child: Text("pt_BR"),
+                                                        child: Text('val.format(janValue).split(",")[0]'),
                                                         height: 700,
                                                         width: 1500,
                                                       ),
@@ -1092,7 +1340,7 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
 
                                       await writeOnPdf("projeto-solar");
 
-                                      Directory documentDirectory = await getApplicationDocumentsDirectory();
+                                      Directory documentDirectory = await getTemporaryDirectory();
 
                                       String documentPath = documentDirectory.path;
 
@@ -1102,12 +1350,7 @@ Widget buildDialog(context, pw, mediaGeracaoKwp) {
                                         _loaderGenerateGraph = false;
                                       });
 
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => PdfPreviewScreen(
-                                                    path: fullPath,
-                                                  )));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => PdfPreviewScreen(path: fullPath, pw: pw)));
                                     },
                                     child: Icon(Icons.save),
                                   ),
