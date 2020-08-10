@@ -15,6 +15,7 @@ import 'package:login/app/shared/styles/main_style.dart';
 import 'package:login/app/shared/utils/database_helper.dart';
 import 'package:login/app/shared/utils/prefs.dart';
 import 'package:mobx/mobx.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SplashPage extends StatefulWidget {
@@ -30,9 +31,19 @@ class _SplashPageState extends State<SplashPage> {
   Future<Database> get db => DatabaseHelper.getInstance().db;
   bool reload = false;
 
+  _requestPermission() async {
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.storage,
+    ].request();
+
+    final info = statuses[Permission.storage].toString();
+    print(info);
+  }
+
   @override
   void initState() {
     super.initState();
+    _requestPermission();
     disposer = autorun((_) async {
       final auth = Modular.get<AuthController>();
 

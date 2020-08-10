@@ -95,7 +95,7 @@ class DatabaseHelper {
     openFile(filename);
 
     // VERIFICO SE JA EXISTEM OS ARQUIVOS NA PASTA CACHE PARA PRODUCAO DO PDF
-    Directory tempDirImages = await getTemporaryDirectory();
+    Directory tempDirImages = await getExternalStorageDirectory();
     String tempPathImages = tempDirImages.path + "/img/";
     final needDownloadFiles = await io.Directory(tempPathImages).exists();
     if (!needDownloadFiles) {
@@ -139,7 +139,7 @@ class DatabaseHelper {
   }
 
   unarchiveAndSave(var zippedFile) async {
-    Directory tempDirImages = await getTemporaryDirectory();
+    Directory tempDirImages = await getExternalStorageDirectory();
     String tempPathImages = tempDirImages.path + "/img/";
 
     var bytes = zippedFile.readAsBytesSync();

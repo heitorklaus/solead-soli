@@ -2,20 +2,21 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:intl/intl.dart';
 
 import 'package:date_util/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:framework/ui/form/buttons/primary_button.dart';
+import 'package:framework/ui/form/buttons/danger_button.dart';
 import 'package:login/app/shared/auth/repositories/auth_repository.dart';
 import 'package:login/app/shared/repositories/entities/power_plants.dart';
 import 'package:login/app/shared/styles/main_style.dart';
 import 'package:login/app/shared/utils/prefs.dart';
 import 'package:mobx/mobx.dart';
-
+import 'dart:ui' as ui;
 import 'package:login/app/shared/repositories/proposal_strings.dart';
 import 'package:path_provider/path_provider.dart';
-
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pwa;
 import 'PdfPreviewScreen.dart';
@@ -561,74 +562,34 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo) {
   GlobalKey globalKey = GlobalKey();
   GlobalKey globalKey2 = GlobalKey();
 
-  Future<Uint8List> runChart2() async {
+  runChartGenerateImage1(img) async {
     RenderRepaintBoundary boundary = globalKey.currentContext.findRenderObject();
-    if (boundary.debugNeedsPaint) {
-      print("Waiting for boundary to be painted.");
-      await Future.delayed(const Duration(milliseconds: 20));
-      return runChart2();
-    }
+    ui.Image image = await boundary.toImage();
+    ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    final result = await ImageGallerySaver.saveImage(byteData.buffer.asUint8List(), name: img);
 
-    var image = await boundary.toImage();
-    var byteData = await image.toByteData(format: ImageByteFormat.png);
-    return byteData.buffer.asUint8List();
-  }
-
-  runChart1(String nameChart1) async {
-    var pngBytes = await runChart2();
-    var bs64 = base64Encode(pngBytes);
-    print(pngBytes);
-    print(bs64);
-
-    Uint8List bytes = base64.decode(bs64);
-    String dir = (await getTemporaryDirectory()).path;
-    String fullPath = '$dir/img/$nameChart1.png';
-    print("local file full path ${fullPath}");
-    File file = File(fullPath);
-    await file.writeAsBytes(bytes);
-    print(file.path);
-  }
-
-  // GRAFICO 2
-
-  Future<Uint8List> runChart4() async {
-    RenderRepaintBoundary boundary = globalKey2.currentContext.findRenderObject();
-    if (boundary.debugNeedsPaint) {
-      print("Waiting for boundary to be painted.");
-      await Future.delayed(const Duration(milliseconds: 20));
-      return runChart4();
-    }
-
-    var image = await boundary.toImage();
-    var byteData = await image.toByteData(format: ImageByteFormat.png);
-    return byteData.buffer.asUint8List();
-  }
-
-  runChart3(String nameChart2) async {
-    var pngBytes = await runChart4();
-    var bs64 = base64Encode(pngBytes);
-    print(pngBytes);
-    print(bs64);
-
-    Uint8List bytes = base64.decode(bs64);
-    String dir = (await getTemporaryDirectory()).path;
-    String fullPath = '$dir/img/$nameChart2.png';
-    print("local file full path ${fullPath}");
-    File file = File(fullPath);
-    await file.writeAsBytes(bytes);
-    print(file.path);
+    return result;
   }
 
   writeOnPdf(String nameFile) async {
     // GENERATE CHART GRAPH
 
-    Directory tempDir = await getTemporaryDirectory();
+    Directory tempDir = await getExternalStorageDirectory();
     String tempPath = tempDir.path;
 
     returnImg(img) {
       final image = PdfImage.file(
         pdf.document,
         bytes: File('$tempPath/img/$img.png').readAsBytesSync(),
+      );
+
+      return image;
+    }
+
+    returnImageChart(img) {
+      final image = PdfImage.file(
+        pdf.document,
+        bytes: File(('/storage/emulated/0/Soli Leads/$img.jpg')).readAsBytesSync(),
       );
 
       return image;
@@ -809,7 +770,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo) {
                   //color: PdfColor.fromHex("#FFC000"),
                   //
                   margin: pwa.EdgeInsets.only(top: 20, left: 44),
-                  child: pwa.Center(child: pwa.Image(returnImg('grafico-1'))),
+                  child: pwa.Center(child: pwa.Image(returnImageChart('grafico-1'))),
                 ),
               ])),
         ],
@@ -1101,7 +1062,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo) {
       ),
     );
 
-    Directory documentDirectory = await getTemporaryDirectory();
+    Directory documentDirectory = await getExternalStorageDirectory();
 
     String documentPath = documentDirectory.path;
 
@@ -1270,7 +1231,6 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo) {
                           return StatefulBuilder(
                             builder: (context, setState) {
                               return AlertDialog(
-                                title: Text("Customize a proposta:"),
                                 content: Scaffold(
                                   body: Stack(
                                     children: <Widget>[
@@ -1295,15 +1255,6 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo) {
                                                         width: 1500,
                                                       ),
                                                     ),
-                                                    RepaintBoundary(
-                                                      key: globalKey2,
-                                                      child: Container(
-                                                        color: Colors.blue,
-                                                        child: Text('val.format(janValue).split(",")[0]'),
-                                                        height: 700,
-                                                        width: 1500,
-                                                      ),
-                                                    )
                                                   ],
                                                 ),
                                               ),
@@ -1329,30 +1280,84 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo) {
                                       ),
                                     ],
                                   ),
-                                  floatingActionButton: FloatingActionButton(
-                                    onPressed: () async {
-                                      setState(() {
-                                        _loaderGenerateGraph = true;
-                                      });
+                                  floatingActionButton: Row(
+                                    children: <Widget>[
+                                      SizedBox(
+                                        width: 20,
+                                      ),
+                                      Expanded(
+                                        child: DangerButton(
+                                          child: Row(
+                                            children: <Widget>[
+                                              Icon(
+                                                Icons.arrow_back,
+                                                color: Colors.white,
+                                                size: 30,
+                                              ),
+                                              SizedBox(
+                                                width: 18,
+                                              ),
+                                              Text(
+                                                'Voltar',
+                                                style: buttonLargeWhite,
+                                              ),
+                                            ],
+                                          ),
 
-                                      await runChart1("grafico-1");
-                                      await runChart3("grafico-2");
+                                          //onPressed:controller.loginWithGoogle,
 
-                                      await writeOnPdf("projeto-solar");
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ).getLarge(),
+                                      ),
+                                      SizedBox(
+                                        width: 20,
+                                      ),
+                                      Expanded(
+                                        child: PrimaryButton(
+                                          child: Row(
+                                            children: <Widget>[
+                                              Icon(
+                                                Icons.assignment,
+                                                color: Colors.white,
+                                                size: 30,
+                                              ),
+                                              SizedBox(
+                                                width: 18,
+                                              ),
+                                              Text(
+                                                'Gerar',
+                                                style: buttonLargeWhite,
+                                              ),
+                                            ],
+                                          ),
+                                          //onPressed:controller.loginWithGoogle,
 
-                                      Directory documentDirectory = await getTemporaryDirectory();
+                                          onPressed: () async {
+                                            setState(() {
+                                              _loaderGenerateGraph = true;
+                                            });
 
-                                      String documentPath = documentDirectory.path;
+                                            await runChartGenerateImage1("grafico-1");
 
-                                      String fullPath = "$documentPath/projeto-solar.pdf";
+                                            await writeOnPdf("projeto-solar");
 
-                                      setState(() {
-                                        _loaderGenerateGraph = false;
-                                      });
+                                            Directory documentDirectory = await getExternalStorageDirectory();
 
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => PdfPreviewScreen(path: fullPath, pw: pw)));
-                                    },
-                                    child: Icon(Icons.save),
+                                            String documentPath = documentDirectory.path;
+
+                                            String fullPath = "$documentPath/projeto-solar.pdf";
+
+                                            setState(() {
+                                              _loaderGenerateGraph = false;
+                                            });
+
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => PdfPreviewScreen(path: fullPath, pw: pw)));
+                                          },
+                                        ).getLarge(),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               );
