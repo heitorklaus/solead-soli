@@ -26,19 +26,6 @@ mixin _$AuthController on _AuthControllerBase, Store {
 
   final _$userAtom = Atom(name: '_AuthControllerBase.user');
 
-  @override
-  FirebaseUser get user {
-    _$userAtom.reportRead();
-    return super.user;
-  }
-
-  @override
-  set user(FirebaseUser value) {
-    _$userAtom.reportWrite(value, super.user, () {
-      super.user = value;
-    });
-  }
-
   final _$tokenAtom = Atom(name: '_AuthControllerBase.token');
 
   @override
@@ -54,8 +41,7 @@ mixin _$AuthController on _AuthControllerBase, Store {
     });
   }
 
-  final _$loginWithGoogleAsyncAction =
-      AsyncAction('_AuthControllerBase.loginWithGoogle');
+  final _$loginWithGoogleAsyncAction = AsyncAction('_AuthControllerBase.loginWithGoogle');
 
   @override
   Future<dynamic> loginWithGoogle() {
@@ -69,33 +55,18 @@ mixin _$AuthController on _AuthControllerBase, Store {
     return _$loginAsyncAction.run(() => super.login(user, pass));
   }
 
-  final _$getCitiesPreferencesAsyncAction =
-      AsyncAction('_AuthControllerBase.getCitiesPreferences');
+  final _$getCitiesPreferencesAsyncAction = AsyncAction('_AuthControllerBase.getCitiesPreferences');
 
   @override
   Future<dynamic> getCitiesPreferences(dynamic value) {
-    return _$getCitiesPreferencesAsyncAction
-        .run(() => super.getCitiesPreferences(value));
+    return _$getCitiesPreferencesAsyncAction.run(() => super.getCitiesPreferences(value));
   }
 
-  final _$_AuthControllerBaseActionController =
-      ActionController(name: '_AuthControllerBase');
-
-  @override
-  dynamic setUser(FirebaseUser value) {
-    final _$actionInfo = _$_AuthControllerBaseActionController.startAction(
-        name: '_AuthControllerBase.setUser');
-    try {
-      return super.setUser(value);
-    } finally {
-      _$_AuthControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
+  final _$_AuthControllerBaseActionController = ActionController(name: '_AuthControllerBase');
 
   @override
   dynamic auth(dynamic value) {
-    final _$actionInfo = _$_AuthControllerBaseActionController.startAction(
-        name: '_AuthControllerBase.auth');
+    final _$actionInfo = _$_AuthControllerBaseActionController.startAction(name: '_AuthControllerBase.auth');
     try {
       return super.auth(value);
     } finally {
@@ -107,7 +78,7 @@ mixin _$AuthController on _AuthControllerBase, Store {
   String toString() {
     return '''
 status: ${status},
-user: ${user},
+ 
 token: ${token}
     ''';
   }

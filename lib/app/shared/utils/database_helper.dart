@@ -23,7 +23,7 @@ class DatabaseHelper {
 
   static const String _localZipFileName = 'images_to_pdf.zip';
 
-  static const String dbase = "soliADBA-3.db";
+  static const String dbase = "solead5.db";
 
   Future<Database> get db async {
     if (_db != null) {
@@ -46,6 +46,7 @@ class DatabaseHelper {
     print("[ FIRST RUN DATABASE GENERATED]" + db.toString());
     // Dao create tables
     await db.execute('CREATE TABLE PROPOSAL_STRINGS(ID INTEGER PRIMARY KEY, TOKEN TEXT, SESSION TEXT' ', WIDTH TEXT, HEIGHT TEXT)');
+    await db.execute('CREATE TABLE TAX(ID INTEGER PRIMARY KEY, BANCO TEXT, TAX3X TEXT, TAX6X TEXT, TAX12X TEXT, TAX24X TEXT, TAX36X TEXT, TAX48X TEXT, TAX60X TEXT, TAX72X TEXT, TAX TEXT)');
     await db.execute('CREATE TABLE CITIES_IRRADIATION(ID INTEGER PRIMARY KEY, CITY TEXT, DEF TEXT , N TEXT, L TEXT, O TEXT, S TEXT, NE TEXT, NO TEXT, SE TEXT, SO TEXT, PRICE TEXT)');
     await db.execute("insert  into CITIES_IRRADIATION (ID,CITY,DEF,N,L,O,S,NE,NO,SE,SO,PRICE) VALUES (1,'CUIABÁ','5,11','5,25','4,95','4,96','4,53','5,21','5,22','4,66','4,68','0,91')");
 
@@ -109,11 +110,20 @@ class DatabaseHelper {
     return valueDownloaded;
   }
 
-  void deleteOldData() async {
+  void deleteOldDataKits() async {
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, dbase);
     var db = await openDatabase(path, version: 2);
     await db.rawDelete('delete from tb_dados_kits');
+    //
+  }
+
+  void deleteOldDataTax() async {
+    String databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, dbase);
+    var db = await openDatabase(path, version: 2);
+    await db.rawDelete('delete from TAX');
+    //
   }
 
   void populateDadosKits(id, area, codigo, dados, inversor, marca_do_modulo, numero_de_modulo, peso, potencia, potencia_do_modulo, valor) async {
@@ -125,6 +135,20 @@ class DatabaseHelper {
       await db.execute("INSERT INTO tb_dados_kits (id,area,codigo,dados,inversor,marca_do_modulo,numero_de_modulo,peso,potencia,potencia_do_modulo,valor) VALUES ($id,'$area','$codigo','$dados','$inversor','$marca_do_modulo',$numero_de_modulo,'$peso','$potencia',$potencia_do_modulo,'$valor')");
     } catch (e) {
       print('[ERROR]');
+
+      //print(e.toString());
+    }
+  }
+
+  void populateTax(id, banco, tax3x, tax6x, tax12x, tax24x, tax36x, tax48x, tax60x, tax72x, tax) async {
+    String databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, dbase);
+    var db = await openDatabase(path, version: 2);
+
+    try {
+      await db.execute("INSERT INTO TAX (ID, BANCO, TAX3X, TAX6X, TAX12X, TAX24X, TAX36X, TAX48X, TAX60X, TAX72X, TAX) VALUES ($id,'$banco','$tax3x','$tax6x','$tax12x','$tax24x','$tax36x','$tax48x','$tax60x','$tax72x',$tax)");
+    } catch (e) {
+      print('[ERROR]' + e.toString());
 
       //print(e.toString());
     }
@@ -169,33 +193,64 @@ class DatabaseHelper {
         .transform(utf8.decoder) // Dezcode bytes to UTF-8.
         .transform(new LineSplitter()) // Convert stream to individual lines.
         .listen((String line) {
-      try {
-        List row = line.split(';'); // split by ponto e virgula
+      List row = line.split(';'); // split by ponto e virgula
+      String table = row[0].replaceAll('"', '');
 
-        String id = row[0].replaceAll('"', '');
-        String potencia = row[1].replaceAll(',', '.');
-        String dados = row[2].replaceAll('"', '') + '<BR>' + row[3].replaceAll('"', '') + '<BR>' + row[4].replaceAll('"', '') + '<BR>' + row[5].replaceAll('"', '') + '<BR>' + row[6].replaceAll('"', '') + '<BR>' + row[7].replaceAll('"', '') + '<BR>' + row[8].replaceAll('"', '') + '<BR>' + row[9].replaceAll('"', '') + '<BR>' + row[10].replaceAll('"', '') + '<BR>' + row[11].replaceAll('"', '');
-        String numero_de_modulo = row[12].replaceAll('"', '');
-        String potencia_do_modulo = row[13].replaceAll('"', '');
-        String marca_do_modulo = row[14].replaceAll('"', '');
-        String inversor = row[15].replaceAll('"', '');
-        String area = row[16].replaceAll('"', '');
-        String peso = row[17].replaceAll('"', '');
-        String codigo = row[18].replaceAll('"', '');
+      if (table == 'kits') {
+        try {
+          String id = row[1].replaceAll('"', '');
+          String potencia = row[2].replaceAll(',', '.');
+          String dados = row[3].replaceAll('"', '') + '<BR>' + row[4].replaceAll('"', '') + '<BR>' + row[5].replaceAll('"', '') + '<BR>' + row[6].replaceAll('"', '') + '<BR>' + row[7].replaceAll('"', '') + '<BR>' + row[8].replaceAll('"', '') + '<BR>' + row[9].replaceAll('"', '') + '<BR>' + row[10].replaceAll('"', '') + '<BR>' + row[11].replaceAll('"', '') + '<BR>' + row[12].replaceAll('"', '');
+          String numero_de_modulo = row[13].replaceAll('"', '');
+          String potencia_do_modulo = row[14].replaceAll('"', '');
+          String marca_do_modulo = row[15].replaceAll('"', '');
+          String inversor = row[16].replaceAll('"', '');
+          String area = row[17].replaceAll('"', '');
+          String peso = row[18].replaceAll('"', '');
+          String codigo = row[19].replaceAll('"', '');
 
-        String valor = row[19].replaceAll('"', '');
+          String valor = row[20].replaceAll('"', '');
 
-        if (id == "id") {
-          print('[IDENTIFY AND DELETE OLD DATA TABLE DADOSKITS]');
-          DatabaseHelper().deleteOldData();
-        } else {
-          print('[REFRESH TABLE DADOSKITS]');
-          DatabaseHelper().populateDadosKits(id, area, codigo, dados, inversor, marca_do_modulo, numero_de_modulo, peso, potencia, potencia_do_modulo, valor);
-          print('[ID: $id] ' + ' [POTÊNCIA: $potencia] ' + ' [CÓD DO PRODUTO: $codigo]  ' + ' [INVERSOR: $inversor]  ' + ' [VALOR: $valor]  ');
+          if (id == "id") {
+            print('[IDENTIFY AND DELETE OLD DATA TABLE DADOSKITS]');
+            DatabaseHelper().deleteOldDataKits();
+          } else {
+            print('[REFRESH TABLE DADOSKITS]');
+            DatabaseHelper().populateDadosKits(id, area, codigo, dados, inversor, marca_do_modulo, numero_de_modulo, peso, potencia, potencia_do_modulo, valor);
+            print('[ID: $id] ' + ' [POTÊNCIA: $potencia] ' + ' [CÓD DO PRODUTO: $codigo]  ' + ' [INVERSOR: $inversor]  ' + ' [VALOR: $valor]  ');
+          }
+        } catch (e) {
+          print('[ERROR] ' + e.toString());
+          //print('THIS NEVER GETS PRINTED');
         }
-      } catch (e) {
-        print('[ERROR] ' + e.toString());
-        //print('THIS NEVER GETS PRINTED');
+      }
+      if (table == 'tax') {
+        try {
+          String id = row[1].replaceAll('"', '');
+          String banco = row[2].replaceAll('"', '');
+          String tax3x = row[3].replaceAll('"', '');
+          String tax6x = row[4].replaceAll('"', '');
+          String tax12x = row[5].replaceAll('"', '');
+          String tax24x = row[6].replaceAll('"', '');
+          String tax36x = row[7].replaceAll('"', '');
+          String tax48x = row[8].replaceAll('"', '');
+          String tax60x = row[9].replaceAll('"', '');
+          String tax72x = row[10].replaceAll('"', '');
+          String tax = row[11].replaceAll('"', '');
+
+          if (id == "id") {
+            print('[IDENTIFY AND DELETE OLD DATA TABLE TAX]');
+            DatabaseHelper().deleteOldDataTax();
+          } else {
+            print('[REFRESH TABLE DADOSKITS]');
+            DatabaseHelper().populateTax(id, banco, tax3x, tax6x, tax12x, tax24x, tax36x, tax48x, tax60x, tax72x, tax);
+            print('[REFRESH TABLE TAX]');
+            print('[ID: $id] ' + ' [BANCO: $banco] ');
+          }
+        } catch (e) {
+          print('[ERROR] ' + e.toString());
+          //print('THIS NEVER GETS PRINTED');
+        }
       }
     }, onDone: () {
       print('[DATABASE TABLE DADOSKITS REFRESHED.]');

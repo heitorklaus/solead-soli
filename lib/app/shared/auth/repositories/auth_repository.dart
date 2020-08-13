@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:login/app/shared/auth/entities/auth.dart';
 import 'package:login/app/shared/auth/entities/pref_irradiation.dart';
@@ -11,8 +9,8 @@ import 'package:sqflite/sqflite.dart';
 import 'auth_repository_interface.dart';
 
 class AuthRepository implements IAuthRepository {
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  // final GoogleSignIn _googleSignIn = GoogleSignIn();
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<Database> get db => DatabaseHelper.getInstance().db;
 
@@ -67,17 +65,17 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
-  Future<FirebaseUser> getGoogleLogin() async {
-    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+  getGoogleLogin() async {
+    // final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    // final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
+    // final AuthCredential credential = GoogleAuthProvider.getCredential(
+    //   accessToken: googleAuth.accessToken,
+    //   idToken: googleAuth.idToken,
+    // );
 
-    final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
-    return user;
+    // final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
+    // return user;
   }
 
   @override
@@ -89,7 +87,7 @@ class AuthRepository implements IAuthRepository {
   @override
   Future getLogout() {
     Prefs.setString("TOKEN", "out");
-    return _auth.signOut();
+    // return _auth.signOut();
   }
 
   @override

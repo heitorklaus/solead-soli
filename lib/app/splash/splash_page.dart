@@ -48,11 +48,17 @@ class _SplashPageState extends State<SplashPage> {
       final auth = Modular.get<AuthController>();
 
       try {
-        await DatabaseHelper().downloadFile("https://drive.google.com/u/0/uc?id=1bPPiIWak9sJ-HKXA789P7aLZ9vfopOKu&export=download", "file56.csv").then((value) {
+        await DatabaseHelper().downloadFile("http://www.klausmetal.com.br/file56.csv", "file56.csv").then((value) {
           if (value.statusCode == 200) {
             print('[ LOADED DATA FROM KLAUSMETAL]');
             loadCitiesIrradiationData();
-            Modular.to.pushReplacementNamed('/home');
+            if (auth.status == AuthStatus.login) {
+              print("[ LOGGED ]");
+              Modular.to.pushReplacementNamed('/home');
+            } else {
+              print("[ NOT LOGGED ]");
+              Modular.to.pushReplacementNamed('/login');
+            }
           } else {}
           // print(value.statusCode);
         });

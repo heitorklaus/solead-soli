@@ -320,10 +320,10 @@ abstract class _SimulatorControllerBase with Store {
 
     returnConsumo() {
       if (mediaMoney.text.length > 0) {
-        final consumo = double.parse(mediaKW.text);
+        final consumo = (double.parse(mediaKW.text) * .91);
         return consumo;
       } else {
-        final consumo = (double.parse(mediaKW.text) * .91);
+        final consumo = (double.parse(mediaKW.text));
         return consumo;
       }
     }
@@ -462,10 +462,10 @@ abstract class _SimulatorControllerBase with Store {
 
     returnConsumo() {
       if (mediaMoney.text.length > 0) {
-        final consumo = double.parse(mediaKW.text);
+        final consumo = (double.parse(mediaKW.text) * .91);
         return consumo;
       } else {
-        final consumo = (double.parse(mediaKW.text) * .91);
+        final consumo = (double.parse(mediaKW.text));
         return consumo;
       }
     }
@@ -744,7 +744,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo) {
                   //color: PdfColor.fromHex("#FFC000"),
                   //
                   margin: pwa.EdgeInsets.only(top: 25, left: 400),
-                  child: pwa.Text(' kWh', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                  child: pwa.Text(consumo.toString() + ' kWh', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                 ),
               ])),
           pwa.Container(

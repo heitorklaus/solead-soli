@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:login/app/shared/auth/entities/auth.dart';
 import 'package:login/app/shared/auth/repositories/auth_repository_interface.dart';
@@ -14,16 +13,7 @@ abstract class _AuthControllerBase with Store {
   AuthStatus status = AuthStatus.loading;
 
   @observable
-  FirebaseUser user;
-
-  @observable
   String token;
-
-  @action
-  setUser(FirebaseUser value) {
-    user = value;
-    status = AuthStatus.login;
-  }
 
   @action
   auth(value) {
@@ -39,7 +29,7 @@ abstract class _AuthControllerBase with Store {
 
   @action
   Future loginWithGoogle() async {
-    user = await _authRepository.getGoogleLogin();
+    // user = await _authRepository.getGoogleLogin();
   }
 
   @action
