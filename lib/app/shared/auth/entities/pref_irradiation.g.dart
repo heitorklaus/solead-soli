@@ -39,18 +39,18 @@ mixin _$PrefIrradiation on _PrefIrradiation, Store {
     });
   }
 
-  final _$dataAtom = Atom(name: '_PrefIrradiation.data');
+  final _$mediaAtom = Atom(name: '_PrefIrradiation.media');
 
   @override
-  String get data {
-    _$dataAtom.reportRead();
-    return super.data;
+  String get media {
+    _$mediaAtom.reportRead();
+    return super.media;
   }
 
   @override
-  set data(String value) {
-    _$dataAtom.reportWrite(value, super.data, () {
-      super.data = value;
+  set media(String value) {
+    _$mediaAtom.reportWrite(value, super.media, () {
+      super.media = value;
     });
   }
 
@@ -74,7 +74,7 @@ mixin _$PrefIrradiation on _PrefIrradiation, Store {
     return '''
 id: ${id},
 city: ${city},
-data: ${data},
+media: ${media},
 price: ${price}
     ''';
   }

@@ -11,6 +11,8 @@ import 'package:framework/ui/form/buttons/secondary_button.dart';
 import 'package:framework/ui/form/buttons/success_button.dart';
 import 'package:login/app/shared/auth/auth_controller.dart';
 import 'package:login/app/shared/repositories/entities/cities_irradiation_month.dart';
+import 'package:login/app/shared/repositories/entities/tax.dart';
+import 'package:login/app/shared/auth/repositories/auth_repository.dart';
 import 'package:login/app/shared/styles/main_style.dart';
 import 'package:login/app/shared/utils/database_helper.dart';
 import 'package:login/app/shared/utils/prefs.dart';

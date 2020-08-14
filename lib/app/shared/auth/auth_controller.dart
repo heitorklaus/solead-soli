@@ -42,12 +42,6 @@ abstract class _AuthControllerBase with Store {
     return r;
   }
 
-  @action
-  Future getCitiesPreferences(value) async {
-    final r = await _authRepository.getCitiesPreferences(value);
-    return r;
-  }
-
   Future logout() {
     return _authRepository.getLogout();
   }

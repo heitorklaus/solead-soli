@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:login/app/shared/auth/entities/auth.dart';
 import 'package:login/app/shared/auth/entities/pref_irradiation.dart';
+import 'package:login/app/shared/repositories/entities/cities_irradiation_month.dart';
 import 'package:login/app/shared/utils/database_helper.dart';
 import 'package:login/app/shared/utils/prefs.dart';
 import 'package:sqflite/sqflite.dart';
@@ -57,11 +58,18 @@ class AuthRepository implements IAuthRepository {
 
     // Set Irradiation
 
-    Prefs.setString("IRRADIATION", first.data);
+    Prefs.setString("IRRADIATION", first.media);
     Prefs.setString("PRICE", first.price);
 
-    if (value == 'irradiation') return first.data;
+    if (value == 'irradiation') return first.media;
     if (value == 'price') return first.price;
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> getTax() async {
+    var dbClient = await db;
+    var result = await dbClient.rawQuery('select * from TAX');
+    return result;
   }
 
   @override

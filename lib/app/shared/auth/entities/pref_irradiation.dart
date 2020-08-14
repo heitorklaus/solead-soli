@@ -6,12 +6,12 @@ class PrefIrradiation extends _PrefIrradiation with _$PrefIrradiation {
   PrefIrradiation({
     int id,
     String city,
-    String data,
+    String media,
     String price,
   }) : super(
           id: id,
           city: city,
-          data: data,
+          media: media,
           price: price,
         );
 
@@ -19,7 +19,7 @@ class PrefIrradiation extends _PrefIrradiation with _$PrefIrradiation {
     return PrefIrradiation(
       id: json['ID'] as int,
       city: json['CITY'] as String,
-      data: json['DEF'] as String,
+      media: json['DEF'] as String,
       price: json['PRICE'] as String,
     );
   }
@@ -31,14 +31,14 @@ abstract class _PrefIrradiation with Store {
   @observable
   String city;
   @observable
-  String data;
+  String media;
   @observable
   String price;
 
   _PrefIrradiation({
     this.id,
     this.city,
-    this.data,
+    this.media,
     this.price,
   });
 }
