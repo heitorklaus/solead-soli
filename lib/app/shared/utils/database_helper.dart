@@ -19,7 +19,7 @@ class DatabaseHelper {
 
   static Database _db;
 
-  static const String _zipPath = 'https://drive.google.com/u/0/uc?id=1wfSvPVqwvMB1r8Y8Ed9TYm0bqp3m83ZX&export=download';
+  static const String _zipPath = 'https://drive.google.com/u/0/uc?id=1maXLaqQRCg6LB8NaFXmu-4itRzgfxayJ&export=download';
 
   static const String _localZipFileName = 'images_to_pdf.zip';
 

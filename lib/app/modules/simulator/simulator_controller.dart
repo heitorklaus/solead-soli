@@ -257,42 +257,42 @@ abstract class _SimulatorControllerBase with Store {
       final valor = await Prefs.getStringList("CITIES");
 
       var jan = double.parse(valor[1].split(":")[1]);
-      var janValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(1) * jan * .75;
+      var janValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(1) * jan * .75;
 
-      final teste = val.format(janValue).split(",")[0];
+      //final teste = val.format(janValue).split(",")[0];
 
       var fev = double.parse(valor[2].split(":")[1]);
-      var fevValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(2) * fev * .75;
+      var fevValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(2) * fev * .75;
 
       var mar = double.parse(valor[3].split(":")[1]);
-      var marValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(3) * mar * .75;
+      var marValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(3) * mar * .75;
 
       var abr = double.parse(valor[4].split(":")[1]);
-      var abrValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(4) * abr * .75;
+      var abrValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(4) * abr * .75;
 
       var mai = double.parse(valor[5].split(":")[1]);
-      var maiValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(5) * mai * .75;
+      var maiValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(5) * mai * .75;
 
       var jun = double.parse(valor[6].split(":")[1]);
-      var junValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(6) * jun * .75;
+      var junValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(6) * jun * .75;
 
       var jul = double.parse(valor[7].split(":")[1]);
-      var julValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(7) * jul * .75;
+      var julValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(7) * jul * .75;
 
       var ago = double.parse(valor[8].split(":")[1]);
-      var agoValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(8) * ago * .75;
+      var agoValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(8) * ago * .75;
 
       var sep = double.parse(valor[9].split(":")[1]);
-      var sepValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(9) * sep * .75;
+      var sepValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(9) * sep * .75;
 
       var out = double.parse(valor[10].split(":")[1]);
-      var outValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(10) * out * .75;
+      var outValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(10) * out * .75;
 
       var nov = double.parse(valor[11].split(":")[1]);
-      var novValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(11) * nov * .75;
+      var novValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(11) * nov * .75;
 
       var dez = double.parse(valor[12].split(":")[1]);
-      var dezValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(12) * dez * .75;
+      var dezValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(12) * dez * .75;
 
       List<Map<String, double>> allValues;
 
@@ -320,7 +320,7 @@ abstract class _SimulatorControllerBase with Store {
 
     returnConsumo() {
       if (mediaMoney.text.length > 0) {
-        final consumo = (double.parse(mediaKW.text) * .91);
+        final consumo = (double.parse(mediaMoney.text) / .91);
         return consumo;
       } else {
         final consumo = (double.parse(mediaKW.text));
@@ -462,7 +462,7 @@ abstract class _SimulatorControllerBase with Store {
 
     returnConsumo() {
       if (mediaMoney.text.length > 0) {
-        final consumo = (double.parse(mediaKW.text) * .91);
+        final consumo = (double.parse(mediaMoney.text) / .91);
         return consumo;
       } else {
         final consumo = (double.parse(mediaKW.text));
@@ -744,7 +744,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo) {
                   //color: PdfColor.fromHex("#FFC000"),
                   //
                   margin: pwa.EdgeInsets.only(top: 25, left: 400),
-                  child: pwa.Text(consumo.toString() + ' kWh', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                  child: pwa.Text(returnGenerationKW.toString() + ' kWh', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                 ),
               ])),
           pwa.Container(
@@ -868,6 +868,17 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo) {
                           child: pwa.Center(child: pwa.Image(returnImg('investimento'))),
                         ),
                       ]),
+                  pwa.Container(
+                    width: 535,
+                    // color: PdfColor.fromHex("#FFC000"),
+                    margin: pwa.EdgeInsets.only(top: 168, left: 20),
+                    child: pwa.Row(crossAxisAlignment: pwa.CrossAxisAlignment.start, mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[
+                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 20), pwa.Container(margin: pwa.EdgeInsets.only(left: 50, top: 2), child: pwa.Text('R\$ 12.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 50, top: 8), child: pwa.Text('R\$ 16.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 50, top: 8), child: pwa.Text('R\$ 17.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 50, top: 10), child: pwa.Text('R\$ 16.590,00'))]),
+                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 15), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 4), child: pwa.Text('R\$ 34.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 5), child: pwa.Text('R\$ 16.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 4), child: pwa.Text('R\$ 17.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 4), child: pwa.Text('R\$ 16.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 3), child: pwa.Text('R\$ 16.590,00'))]),
+                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 1), pwa.Container(margin: pwa.EdgeInsets.only(left: 55, top: 1), child: pwa.Text('R\$ 50.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 55, top: 9), child: pwa.Text('R\$ 50.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 55, top: 9), child: pwa.Text('R\$ 50.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 55, top: 9), child: pwa.Text('R\$ 50.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 55, top: 9), child: pwa.Text('R\$ 50.590,00'))]),
+                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 17), pwa.Container(margin: pwa.EdgeInsets.only(left: 28, top: 60), child: pwa.Text('R\$ 25.122,00', style: pwa.TextStyle(fontSize: 20)))]),
+                    ]),
+                  ),
                   pwa.Row(
                       // mainAxisAlignment: pwa.MainAxisAlignment.end,
                       crossAxisAlignment: pwa.CrossAxisAlignment.end,
