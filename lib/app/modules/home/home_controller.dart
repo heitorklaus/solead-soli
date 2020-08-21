@@ -82,8 +82,8 @@ abstract class _HomeBase with Store {
     var cartaoCreditoTax = Tax.fromJson(todoMapList[3]).tax;
 
     List<String> someMap = [
-      'Sicredi:$sicredi3x,$sicredi6x,$sicredi12x,$sicredi24x,$sicredi36x,$sicredi48x,$sicredi48x,$sicredi60x,$sicredi72x,$sicrediTax',
-      'Santander:$santander3x,$santander6x,$santander12x,$santander24x,$santander36x,$santander48x,$santander48x,$santander60x,$santander72x,$santanderTax',
+      'Sicredi:$sicredi3x,$sicredi6x,$sicredi12x,$sicredi24x,$sicredi36x,$sicredi48x,$sicredi60x,$sicredi72x,$sicrediTax',
+      'Santander:$santander3x,$santander6x,$santander12x,$santander24x,$santander36x,$santander48x,$santander60x,$santander72x,$santanderTax',
       'BVFinanceira:$bvFinanceira3x,$bvFinanceira6x,$bvFinanceira12x,$bvFinanceira24x,$bvFinanceira36x,$bvFinanceira48x,$bvFinanceira60x,$bvFinanceirar72x,$bvFinanceiraTax,',
       'Cartao de Crédito:$cartaoCredito3x,$cartaoCredito6x,$cartaoCredito12x,$cartaoCredito24x,$cartaoCredito36x,$cartaoCredito48x,$cartaoCredito48x,$cartaoCredito60x,$cartaoCredito72x,$cartaoCreditoTax',
     ];

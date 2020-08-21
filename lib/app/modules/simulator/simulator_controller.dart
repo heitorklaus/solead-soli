@@ -600,48 +600,54 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
 
   final double economia_25_anos_pagara = ((91 * 12 * 25).toDouble() * 3.82);
 
-  print('PRINTADO ' + returnTax[3].split(":")[1].split(",")[2]);
+  var vals = pw.valor.toString().split('R\$ ').toString().split(',');
 
-  var sicredi3x = double.parse(returnTax[0].split(":")[1].split(",")[0]);
-  var sicredi6x = double.parse(returnTax[0].split(":")[1].split(",")[1]);
-  var sicredi12x = double.parse(returnTax[0].split(":")[1].split(",")[2]);
-  var sicredi24x = double.parse(returnTax[0].split(":")[1].split(",")[3]);
-  var sicredi36x = double.parse(returnTax[0].split(":")[1].split(",")[4]);
-  var sicredi48x = double.parse(returnTax[0].split(":")[1].split(",")[5]);
-  var sicredi60x = double.parse(returnTax[0].split(":")[1].split(",")[6]);
-  var sicredi72x = double.parse(returnTax[0].split(":")[1].split(",")[7]);
-  var sicrediTax = double.parse(returnTax[0].split(":")[1].split(",")[8]);
+  final double value = double.parse(vals[1].replaceAll('.', ''));
 
-  var santander3x = double.parse(returnTax[1].split(":")[1].split(",")[0]);
-  var santander6x = double.parse(returnTax[1].split(":")[1].split(",")[1]);
-  var santander12x = double.parse(returnTax[1].split(":")[1].split(",")[2]);
-  var santander24x = double.parse(returnTax[1].split(":")[1].split(",")[3]);
-  var santander36x = double.parse(returnTax[1].split(":")[1].split(",")[4]);
-  var santander48x = double.parse(returnTax[1].split(":")[1].split(",")[5]);
-  var santander60x = double.parse(returnTax[1].split(":")[1].split(",")[6]);
-  var santander72x = double.parse(returnTax[1].split(":")[1].split(",")[7]);
-  var santanderTax = double.parse(returnTax[1].split(":")[1].split(",")[8]);
+  print('PRINTADO ' + val.format(value).toString());
 
-  //
-  var bvFinanceira3x = double.parse(returnTax[2].split(":")[1].split(",")[0]);
-  var bvFinanceira6x = double.parse(returnTax[2].split(":")[1].split(",")[1]);
-  var bvFinanceira12x = double.parse(returnTax[2].split(":")[1].split(",")[2]);
-  var bvFinanceira24x = double.parse(returnTax[2].split(":")[1].split(",")[3]);
-  var bvFinanceira36x = double.parse(returnTax[2].split(":")[1].split(",")[4]);
-  var bvFinanceira48x = double.parse(returnTax[2].split(":")[1].split(",")[5]);
-  var bvFinanceira60x = double.parse(returnTax[2].split(":")[1].split(",")[6]);
-  var bvFinanceirar72x = double.parse(returnTax[2].split(":")[1].split(",")[7]);
+  var sicredi3x = value * (double.parse(returnTax[0].split(":")[1].split(",")[0]) / 3);
+  var sicredi6x = value * (double.parse(returnTax[0].split(":")[1].split(",")[1]) / 6);
+  var sicredi12x = value * (double.parse(returnTax[0].split(":")[1].split(",")[2]) / 12);
+  var sicredi24x = value * (double.parse(returnTax[0].split(":")[1].split(",")[4])) / 24;
+  var sicredi36x = value * (double.parse(returnTax[0].split(":")[1].split(",")[5]) / 36);
+  var sicredi48x = value * (double.parse(returnTax[0].split(":")[1].split(",")[6]) / 48);
+  var sicredi60x = value * (double.parse(returnTax[0].split(":")[1].split(",")[7]) / 60);
+  var sicredi72x = value * (double.parse(returnTax[0].split(":")[1].split(",")[8]) / 72);
+  //var sicrediTax = double.parse(returnTax[0].split(":")[1].split(",")[9]);
+
+  var santanderEntrada = 14 * (value / 100);
+
+  var value2 = (value - santanderEntrada);
+  var santander3x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[0]) / 3);
+  var santander6x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[1]) / 6);
+  var santander12x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[2]) / 12);
+  var santander18x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[3]) / 18);
+  var santander24x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[4]) / 24);
+  var santander36x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[5]) / 36);
+
+  //var santanderTax = double.parse(returnTax[1].split(":")[1].split(",")[8]);
 
   //
+  var bvFinanceira3x = value * (double.parse(returnTax[2].split(":")[1].split(",")[0]) / 3);
+  var bvFinanceira6x = value * (double.parse(returnTax[2].split(":")[1].split(",")[1]) / 6);
+  var bvFinanceira12x = value * (double.parse(returnTax[2].split(":")[1].split(",")[2]) / 12);
+  var bvFinanceira24x = value * (double.parse(returnTax[2].split(":")[1].split(",")[4]) / 24);
+  var bvFinanceira36x = value * (double.parse(returnTax[2].split(":")[1].split(",")[5]) / 36);
+  var bvFinanceira48x = value * (double.parse(returnTax[2].split(":")[1].split(",")[6]) / 48);
+  var bvFinanceira60x = value * (double.parse(returnTax[2].split(":")[1].split(",")[7]) / 60);
+  var bvFinanceirar72x = value * (double.parse(returnTax[2].split(":")[1].split(",")[8]) / 72);
 
-  var cartaoCredito3x = double.parse(returnTax[3].split(":")[1].split(",")[0]);
-  var cartaoCredito6x = double.parse(returnTax[3].split(":")[1].split(",")[1]);
-  var cartaoCredito12x = double.parse(returnTax[3].split(":")[1].split(",")[2]);
-  var cartaoCredito24x = double.parse(returnTax[3].split(":")[1].split(",")[3]);
-  var cartaoCredito36x = double.parse(returnTax[3].split(":")[1].split(",")[4]);
-  var cartaoCredito48x = double.parse(returnTax[3].split(":")[1].split(",")[5]);
-  var cartaoCredito60x = double.parse(returnTax[3].split(":")[1].split(",")[6]);
-  var cartaoCredito72x = double.parse(returnTax[3].split(":")[1].split(",")[7]);
+  //
+
+  var cartaoCredito3x = value * (double.parse(returnTax[3].split(":")[1].split(",")[0]) / 3);
+  var cartaoCredito6x = value * (double.parse(returnTax[3].split(":")[1].split(",")[1]) / 6);
+  var cartaoCredito12x = (value / (1 - 0.0745) / 12);
+  var cartaoCredito24x = value * (double.parse(returnTax[3].split(":")[1].split(",")[3]) / 24);
+  var cartaoCredito36x = value * (double.parse(returnTax[3].split(":")[1].split(",")[4]) / 36);
+  var cartaoCredito48x = value * (double.parse(returnTax[3].split(":")[1].split(",")[5]) / 48);
+  var cartaoCredito60x = value * (double.parse(returnTax[3].split(":")[1].split(",")[6]) / 60);
+  var cartaoCredito72x = value * (double.parse(returnTax[3].split(":")[1].split(",")[7]) / 72);
   var cartaoCreditoTax = double.parse(returnTax[3].split(":")[1].split(",")[8]);
 
 //
@@ -959,8 +965,8 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                     // FINANCIAMENTO financiamento
                     margin: pwa.EdgeInsets.only(top: 168, left: 20),
                     child: pwa.Row(crossAxisAlignment: pwa.CrossAxisAlignment.start, mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[
-                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 20), pwa.Container(margin: pwa.EdgeInsets.only(left: 50, top: 2), child: pwa.Text(pw.valor * 1.13 / 24)), pwa.Container(margin: pwa.EdgeInsets.only(left: 50, top: 8), child: pwa.Text('R\$ 16.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 50, top: 8), child: pwa.Text('R\$ 17.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 50, top: 10), child: pwa.Text('R\$ 16.590,00'))]),
-                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 15), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 4), child: pwa.Text('R\$ 34.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 5), child: pwa.Text('R\$ 16.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 4), child: pwa.Text('R\$ 17.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 4), child: pwa.Text('R\$ 16.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 3), child: pwa.Text('R\$ 16.590,00'))]),
+                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 20), pwa.Container(margin: pwa.EdgeInsets.only(left: 50, top: 2), child: pwa.Text('R\$ ${val.format(sicredi24x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 50, top: 8), child: pwa.Text('R\$ ${val.format(sicredi36x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 50, top: 8), child: pwa.Text('R\$ ${val.format(sicredi48x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 50, top: 10), child: pwa.Text('R\$ ${val.format(sicredi60x)}'))]),
+                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 15), pwa.Container(margin: pwa.EdgeInsets.only(left: 92, top: 4), child: pwa.Text('R\$ ${val.format(santanderEntrada)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 95, top: 5), child: pwa.Text('R\$ ${val.format(santander12x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 95, top: 4), child: pwa.Text('R\$ ${val.format(santander18x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 95, top: 4), child: pwa.Text('R\$ ${val.format(santander24x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 95, top: 3), child: pwa.Text('R\$ ${val.format(santander36x)}'))]),
                       pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 1), pwa.Container(margin: pwa.EdgeInsets.only(left: 55, top: 1), child: pwa.Text('R\$ 50.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 55, top: 9), child: pwa.Text('R\$ 50.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 55, top: 9), child: pwa.Text('R\$ 50.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 55, top: 9), child: pwa.Text('R\$ 50.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 55, top: 9), child: pwa.Text('R\$ 50.590,00'))]),
                       pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 17), pwa.Container(margin: pwa.EdgeInsets.only(left: 28, top: 60), child: pwa.Text('R\$ 25.122,00', style: pwa.TextStyle(fontSize: 20)))]),
                     ]),
