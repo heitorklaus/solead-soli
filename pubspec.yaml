@@ -37,6 +37,8 @@ dependencies:
   flare_flutter:
   image_gallery_saver:
   permission_handler:
+  share_extend:
+  documents_picker:
   flutter:
     sdk: flutter
 

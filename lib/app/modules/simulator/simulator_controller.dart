@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:framework/config/main_colors.dart';
+import 'package:framework/ui/form/inputs/input_type.dart';
+import 'package:framework/ui/form/inputs/outlined_text_edit.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:intl/intl.dart';
 
@@ -636,7 +639,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
   var bvFinanceira36x = value * (double.parse(returnTax[2].split(":")[1].split(",")[5]) / 36);
   var bvFinanceira48x = value * (double.parse(returnTax[2].split(":")[1].split(",")[6]) / 48);
   var bvFinanceira60x = value * (double.parse(returnTax[2].split(":")[1].split(",")[7]) / 60);
-  var bvFinanceirar72x = value * (double.parse(returnTax[2].split(":")[1].split(",")[8]) / 72);
+  var bvFinanceira72x = value * (double.parse(returnTax[2].split(":")[1].split(",")[8]) / 72);
 
   //
 
@@ -687,6 +690,12 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
       return image;
     }
 
+    var consumoMostrar = consumo.round();
+
+    var arvoresSalvas = consumoMostrar * 0.01;
+    var co2 = consumoMostrar * (12 * 0.08);
+    var anoscarro = consumoMostrar * 0.0090;
+
     pdf.addPage(
       pwa.MultiPage(
         crossAxisAlignment: pwa.CrossAxisAlignment.start,
@@ -721,7 +730,26 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
           );
         },
         build: (pwa.Context context) => <pwa.Widget>[
-          pwa.Container(),
+          pwa.Container(
+              margin: pwa.EdgeInsets.only(
+                top: 200,
+              ),
+              child: pwa.Stack(children: <pwa.Widget>[
+                pwa.Container(
+                  width: 535,
+                  // FINANCIAMENTO financiamento
+                  margin: pwa.EdgeInsets.only(top: 432, left: 44),
+                  child: pwa.Column(crossAxisAlignment: pwa.CrossAxisAlignment.start, mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[
+                    pwa.Row(children: <pwa.Widget>[pwa.Text("Acc: ", style: pwa.TextStyle(fontSize: 32, color: PdfColor.fromHex("#FFFFFF"))), pwa.Text("Heitor Fabricio Klaus", style: pwa.TextStyle(fontSize: 35, fontWeight: pwa.FontWeight.bold, color: PdfColor.fromHex("#FFFFFF")))]),
+                    pwa.SizedBox(
+                      height: 7,
+                    ),
+                    pwa.Row(children: <pwa.Widget>[
+                      pwa.Text("Avenida João Gomes Sobrinho, N 752 Bairro Centro ", style: pwa.TextStyle(fontSize: 22, color: PdfColor.fromHex("#FFFFFF"))),
+                    ]),
+                  ]),
+                ),
+              ])),
         ],
       ),
     );
@@ -791,7 +819,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
             margin: pwa.EdgeInsets.only(right: 154, bottom: 5),
             alignment: pwa.Alignment.centerRight,
             child: pwa.Text(
-              '1852',
+              consumoMostrar.toString(),
               textAlign: pwa.TextAlign.right,
               style: pwa.TextStyle(
                 color: PdfColors.white,
@@ -956,19 +984,29 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                           width: 535,
                           //color: PdfColor.fromHex("#FFC000"),
                           //
-                          margin: pwa.EdgeInsets.only(top: 85, left: 38),
+                          margin: pwa.EdgeInsets.only(top: 67, left: 38),
                           child: pwa.Center(child: pwa.Image(returnImg('investimento'))),
                         ),
                       ]),
+                  pwa.Row(children: <pwa.Widget>[
+                    pwa.Container(
+                        margin: pwa.EdgeInsets.only(left: 420, top: 71),
+                        child: pwa.Text(pw.valor.toString(),
+                            style: pwa.TextStyle(
+                              fontSize: 20,
+                              fontWeight: pwa.FontWeight.bold,
+                              color: PdfColor.fromHex("#FFFFFF"),
+                            )))
+                  ]),
                   pwa.Container(
                     width: 535,
                     // FINANCIAMENTO financiamento
-                    margin: pwa.EdgeInsets.only(top: 168, left: 20),
+                    margin: pwa.EdgeInsets.only(top: 168, left: 26),
                     child: pwa.Row(crossAxisAlignment: pwa.CrossAxisAlignment.start, mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[
-                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 20), pwa.Container(margin: pwa.EdgeInsets.only(left: 50, top: 2), child: pwa.Text('R\$ ${val.format(sicredi24x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 50, top: 8), child: pwa.Text('R\$ ${val.format(sicredi36x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 50, top: 8), child: pwa.Text('R\$ ${val.format(sicredi48x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 50, top: 10), child: pwa.Text('R\$ ${val.format(sicredi60x)}'))]),
-                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 15), pwa.Container(margin: pwa.EdgeInsets.only(left: 92, top: 4), child: pwa.Text('R\$ ${val.format(santanderEntrada)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 95, top: 5), child: pwa.Text('R\$ ${val.format(santander12x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 95, top: 4), child: pwa.Text('R\$ ${val.format(santander18x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 95, top: 4), child: pwa.Text('R\$ ${val.format(santander24x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 95, top: 3), child: pwa.Text('R\$ ${val.format(santander36x)}'))]),
-                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 1), pwa.Container(margin: pwa.EdgeInsets.only(left: 55, top: 1), child: pwa.Text('R\$ 50.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 55, top: 9), child: pwa.Text('R\$ 50.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 55, top: 9), child: pwa.Text('R\$ 50.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 55, top: 9), child: pwa.Text('R\$ 50.590,00')), pwa.Container(margin: pwa.EdgeInsets.only(left: 55, top: 9), child: pwa.Text('R\$ 50.590,00'))]),
-                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 17), pwa.Container(margin: pwa.EdgeInsets.only(left: 28, top: 60), child: pwa.Text('R\$ 25.122,00', style: pwa.TextStyle(fontSize: 20)))]),
+                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 20), pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 2), child: pwa.Text('R\$ ${val.format(sicredi24x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi36x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi48x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi60x)}'))]),
+                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 15), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 6), child: pwa.Text('R\$ ${val.format(santanderEntrada)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 5), child: pwa.Text('R\$ ${val.format(santander12x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 4), child: pwa.Text('R\$ ${val.format(santander18x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 1), child: pwa.Text('R\$ ${val.format(santander24x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 3), child: pwa.Text('R\$ ${val.format(santander36x)}'))]),
+                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 1), pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 5), child: pwa.Text('R\$ ${val.format(bvFinanceira24x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 8), child: pwa.Text('R\$ ${val.format(bvFinanceira36x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 8), child: pwa.Text('R\$ ${val.format(bvFinanceira48x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 7), child: pwa.Text('R\$ ${val.format(bvFinanceira60x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 7), child: pwa.Text('R\$ ${val.format(bvFinanceira72x)}'))]),
+                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 17), pwa.Container(margin: pwa.EdgeInsets.only(left: 28, top: 60), child: pwa.Text('R\$ ${val.format(cartaoCredito12x)}', style: pwa.TextStyle(fontSize: 20)))]),
                     ]),
                   ),
                   pwa.Row(
@@ -1017,41 +1055,9 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
             pwa.Row(
                 // mainAxisAlignment: pwa.MainAxisAlignment.end,
                 crossAxisAlignment: pwa.CrossAxisAlignment.end,
-                children: <pwa.Widget>[
-                  pwa.Container(
-                    width: 185,
-                    //color: PdfColor.fromHex("#FFC000"),
-                    alignment: pwa.Alignment.center,
-                    //
-                    margin: pwa.EdgeInsets.only(top: 145, left: 15),
-                    child: pwa.Text('R\$ 54.221,69', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
-                  ),
-                  pwa.Container(
-                    width: 185,
-                    // color: PdfColor.fromHex("#FFC000"),
-                    alignment: pwa.Alignment.center,
-                    //
-                    margin: pwa.EdgeInsets.only(top: 0, left: 0),
-                    child: pwa.Text('R\$ 1.221,69', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
-                  ),
-                ]),
+                children: <pwa.Widget>[]),
             // SUA ECONOMIA ANUAL
-            pwa.Container(
-              width: 185,
-              //color: PdfColor.fromHex("#FFC000"),
 
-              //
-              margin: pwa.EdgeInsets.only(top: 110, left: 392),
-              child: pwa.Text('R\$ 1.221,69', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 20, fontWeight: pwa.FontWeight.bold)),
-            ),
-            pwa.Container(
-              width: 185,
-              //color: PdfColor.fromHex("#FFC000"),
-
-              //
-              margin: pwa.EdgeInsets.only(top: 154, left: 392),
-              child: pwa.Text('R\$ 2.221,69', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 20, fontWeight: pwa.FontWeight.bold)),
-            ),
             pwa.Container(
                 margin: pwa.EdgeInsets.only(
                   top: 200,
@@ -1065,7 +1071,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                           width: 535,
                           //color: PdfColor.fromHex("#FFC000"),
                           //
-                          margin: pwa.EdgeInsets.only(top: 190, left: 220),
+                          margin: pwa.EdgeInsets.only(top: 188, left: 220),
                           child: pwa.Text(pw.inversor.toString(), style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)),
                         ),
                       ]),
@@ -1077,7 +1083,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                           width: 535,
                           //color: PdfColor.fromHex("#FFC000"),
                           //
-                          margin: pwa.EdgeInsets.only(top: 244, left: 220),
+                          margin: pwa.EdgeInsets.only(top: 243, left: 220),
                           child: pwa.Text(pw.marcaDoModulo.toString(), style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)),
                         ),
                       ]),
@@ -1160,7 +1166,66 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
           );
         },
         build: (pwa.Context context) => <pwa.Widget>[
-          pwa.Container(),
+          pwa.Container(
+              margin: pwa.EdgeInsets.only(
+                top: 200,
+              ),
+              child: pwa.Stack(children: <pwa.Widget>[
+                pwa.Row(
+                    // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                    crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                    children: <pwa.Widget>[
+                      pwa.Container(
+                        // color: PdfColors.red,
+                        width: 16,
+                        margin: pwa.EdgeInsets.only(top: 117, left: 106),
+                        alignment: pwa.Alignment.topRight,
+                        child: pwa.Text(
+                          arvoresSalvas.round().toString(),
+                          textAlign: pwa.TextAlign.right,
+                          style: pwa.TextStyle(
+                            color: PdfColor.fromHex("#5F5E5E"),
+                          ),
+                        ),
+                      ),
+                    ]),
+                pwa.Row(
+                    // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                    crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                    children: <pwa.Widget>[
+                      pwa.Container(
+                        // color: PdfColors.red,
+                        width: 16,
+                        margin: pwa.EdgeInsets.only(top: 176, left: 120),
+                        alignment: pwa.Alignment.topRight,
+                        child: pwa.Text(
+                          co2.round().toString(),
+                          textAlign: pwa.TextAlign.right,
+                          style: pwa.TextStyle(
+                            color: PdfColor.fromHex("#5F5E5E"),
+                          ),
+                        ),
+                      ),
+                    ]),
+                pwa.Row(
+                    // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                    crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                    children: <pwa.Widget>[
+                      pwa.Container(
+                        // color: PdfColors.red,
+                        width: 16,
+                        margin: pwa.EdgeInsets.only(top: 240, left: 119),
+                        alignment: pwa.Alignment.topRight,
+                        child: pwa.Text(
+                          anoscarro.round().toString(),
+                          textAlign: pwa.TextAlign.right,
+                          style: pwa.TextStyle(
+                            color: PdfColor.fromHex("#5F5E5E"),
+                          ),
+                        ),
+                      ),
+                    ]),
+              ])),
         ],
       ),
     );
@@ -1177,304 +1242,581 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
   /////////////////////// PDF //////////////////////////////////////
 
 // DIALOG DE VISUALIZACAO DA USINA
-
-  return SingleChildScrollView(
-    child: Container(
-      // height: 900,
-      margin: EdgeInsets.only(left: 0.0, right: 0.0),
-      child: Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                'Dados da Usina ',
-                style: ubuntu16BlueBold500,
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.highlight_off,
-                  color: Colors.blue,
-                  size: 30,
+  bool dadosDaUsina_view = false;
+  return Center(
+    child: SingleChildScrollView(
+      child: Container(
+        height: MediaQuery.of(context).size.height - 90,
+        margin: EdgeInsets.only(left: 0.0, right: 0.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'Dados da Usina ',
+                  style: ubuntu16BlueBold500,
                 ),
-                onPressed: Navigator.of(context).pop,
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              RichText(
-                text: TextSpan(
-                  style: DefaultTextStyle.of(context).style,
-                  children: <TextSpan>[
-                    TextSpan(text: 'Código do sistema: '),
-                    TextSpan(text: pw.codigo, style: TextStyle(fontWeight: FontWeight.bold)),
-                  ],
+                IconButton(
+                  icon: Icon(
+                    Icons.highlight_off,
+                    color: Colors.blue,
+                    size: 30,
+                  ),
+                  onPressed: Navigator.of(context).pop,
                 ),
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              RichText(
-                text: TextSpan(
-                  style: DefaultTextStyle.of(context).style,
-                  children: <TextSpan>[
-                    TextSpan(text: 'Marca do inversor: '),
-                    TextSpan(text: pw.inversor, style: TextStyle(fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              RichText(
-                text: TextSpan(
-                  style: DefaultTextStyle.of(context).style,
-                  children: <TextSpan>[
-                    TextSpan(text: 'Marca das placas: '),
-                    TextSpan(text: pw.marcaDoModulo, style: TextStyle(fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              RichText(
-                text: TextSpan(
-                  style: DefaultTextStyle.of(context).style,
-                  children: <TextSpan>[
-                    TextSpan(text: 'Numero de Placas: '),
-                    TextSpan(text: pw.numeroDeModulo.toString(), style: TextStyle(fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              RichText(
-                text: TextSpan(
-                  style: DefaultTextStyle.of(context).style,
-                  children: <TextSpan>[
-                    TextSpan(text: 'Área: '),
-                    TextSpan(text: pw.area.toString(), style: TextStyle(fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              RichText(
-                text: TextSpan(
-                  style: DefaultTextStyle.of(context).style,
-                  children: <TextSpan>[
-                    TextSpan(text: 'Potência do sistema: '),
-                    TextSpan(text: pw.potencia.toString(), style: TextStyle(fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              RichText(
-                text: TextSpan(
-                  style: DefaultTextStyle.of(context).style,
-                  children: <TextSpan>[
-                    TextSpan(text: 'Geração do sistema: '),
-                    TextSpan(text: returnGenerationKW.toString() + ' KWp', style: TextStyle(fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              RichText(
-                text: TextSpan(
-                  style: DefaultTextStyle.of(context).style,
-                  children: <TextSpan>[
-                    TextSpan(text: 'Valor do sistema: '),
-                    TextSpan(text: pw.valor.toString(), style: TextStyle(fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          SelectableText.rich(
-            TextSpan(
-              style: DefaultTextStyle.of(context).style,
-              children: <TextSpan>[
-                TextSpan(text: pw.dados.replaceAll('<BR>', '\n'), style: TextStyle(fontSize: 12)),
               ],
             ),
-          ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: PrimaryButton(
-                    child: Text(
-                      'Gerar Proposta',
-                      style: buttonLargeWhite,
+            Row(
+              children: <Widget>[
+                RichText(
+                  text: TextSpan(
+                    style: DefaultTextStyle.of(context).style,
+                    children: <TextSpan>[
+                      TextSpan(text: 'Código do sistema: '),
+                      TextSpan(text: pw.codigo, style: TextStyle(fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                RichText(
+                  text: TextSpan(
+                    style: DefaultTextStyle.of(context).style,
+                    children: <TextSpan>[
+                      TextSpan(text: 'Marca do inversor: '),
+                      TextSpan(text: pw.inversor, style: TextStyle(fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                RichText(
+                  text: TextSpan(
+                    style: DefaultTextStyle.of(context).style,
+                    children: <TextSpan>[
+                      TextSpan(text: 'Marca das placas: '),
+                      TextSpan(text: pw.marcaDoModulo, style: TextStyle(fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                RichText(
+                  text: TextSpan(
+                    style: DefaultTextStyle.of(context).style,
+                    children: <TextSpan>[
+                      TextSpan(text: 'Numero de Placas: '),
+                      TextSpan(text: pw.numeroDeModulo.toString(), style: TextStyle(fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                RichText(
+                  text: TextSpan(
+                    style: DefaultTextStyle.of(context).style,
+                    children: <TextSpan>[
+                      TextSpan(text: 'Área: '),
+                      TextSpan(text: pw.area.toString(), style: TextStyle(fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                RichText(
+                  text: TextSpan(
+                    style: DefaultTextStyle.of(context).style,
+                    children: <TextSpan>[
+                      TextSpan(text: 'Potência do sistema: '),
+                      TextSpan(text: pw.potencia.toString(), style: TextStyle(fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                RichText(
+                  text: TextSpan(
+                    style: DefaultTextStyle.of(context).style,
+                    children: <TextSpan>[
+                      TextSpan(text: 'Geração do sistema: '),
+                      TextSpan(text: returnGenerationKW.toString() + ' KWp', style: TextStyle(fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                RichText(
+                  text: TextSpan(
+                    style: DefaultTextStyle.of(context).style,
+                    children: <TextSpan>[
+                      TextSpan(text: 'Valor do sistema: '),
+                      TextSpan(text: pw.valor.toString(), style: TextStyle(fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            SelectableText.rich(
+              TextSpan(
+                style: DefaultTextStyle.of(context).style,
+                children: <TextSpan>[
+                  TextSpan(text: pw.dados.replaceAll('<BR>', '\n'), style: TextStyle(fontSize: 12)),
+                ],
+              ),
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: DangerButton(
+                    child: Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.sync,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                        SizedBox(
+                          width: 18,
+                        ),
+                        Text(
+                          'Voltar',
+                          style: buttonLargeWhite,
+                        ),
+                      ],
                     ),
+
                     //onPressed:controller.loginWithGoogle,
 
                     onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          bool _loaderGenerateGraph = false;
-                          return StatefulBuilder(
-                            builder: (context, setState) {
-                              return AlertDialog(
-                                content: Scaffold(
-                                  body: Stack(
-                                    children: <Widget>[
-                                      Center(
-                                        child: SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: Row(
-                                            children: <Widget>[
-                                              SingleChildScrollView(
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    RepaintBoundary(
-                                                      key: globalKey,
-                                                      child: Container(
-                                                        color: Colors.white,
-                                                        child: Chart(
-                                                          meses: returnAllMonths,
-                                                          consumo: consumo,
+                      Navigator.of(context).pop();
+                    },
+                  ).getLarge(),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Expanded(
+                  child: PrimaryButton(
+                      child: Center(
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.add_to_home_screen,
+                              color: Colors.white,
+                              size: 30,
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Text(
+                              'Avançar',
+                              style: buttonLargeWhite,
+                            ),
+                          ],
+                        ),
+                      ),
+                      //onPressed:controller.loginWithGoogle,
+
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            bool _loaderGenerateGraph = false;
+                            return StatefulBuilder(
+                              builder: (context, setState) {
+                                return AlertDialog(
+                                  content: Scaffold(
+                                    body: SingleChildScrollView(
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'Dados do cliente ',
+                                                style: ubuntu16BlueBold500,
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(top: 18),
+                                            child: OutlinedTextEdit(
+                                              prefixIcon: Icon(Icons.account_circle),
+                                              onChanged: (value) => {},
+                                              label: "Nome do cliente",
+                                              inputType: InputType.EXTRA_SMALL,
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(top: 18),
+                                            child: OutlinedTextEdit(
+                                              prefixIcon: Icon(Icons.chat),
+                                              keyboardType: TextInputType.number,
+                                              onChanged: (value) => {},
+                                              label: "CPF do cliente",
+                                              inputType: InputType.EXTRA_SMALL,
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(top: 18),
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  child: OutlinedTextEdit(
+                                                    prefixIcon: Icon(Icons.assistant_photo),
+                                                    keyboardType: TextInputType.number,
+                                                    onChanged: (value) => {},
+                                                    label: "CEP",
+                                                    inputType: InputType.EXTRA_SMALL,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 10),
+                                                Expanded(
+                                                  child: OutlinedTextEdit(
+                                                    prefixIcon: Icon(Icons.dialpad),
+                                                    keyboardType: TextInputType.number,
+                                                    onChanged: (value) => {},
+                                                    label: "Bairro",
+                                                    inputType: InputType.EXTRA_SMALL,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(top: 18),
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  flex: 2,
+                                                  child: OutlinedTextEdit(
+                                                    prefixIcon: Icon(Icons.dvr),
+                                                    keyboardType: TextInputType.number,
+                                                    onChanged: (value) => {},
+                                                    label: "Endereço",
+                                                    inputType: InputType.EXTRA_SMALL,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 10),
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: OutlinedTextEdit(
+                                                    prefixIcon: Icon(Icons.texture),
+                                                    keyboardType: TextInputType.number,
+                                                    onChanged: (value) => {},
+                                                    label: "Número",
+                                                    inputType: InputType.EXTRA_SMALL,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(top: 18),
+                                            child: Wrap(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      'Dados da usina',
+                                                      style: ubuntu16BlueBold500,
+                                                    ),
+                                                    IconButton(
+                                                        iconSize: 30,
+                                                        icon: dadosDaUsina_view == false ? Icon(Icons.arrow_drop_down_circle, color: MainColors.cielo) : Icon(Icons.arrow_drop_up, color: Colors.grey),
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            dadosDaUsina_view = !dadosDaUsina_view;
+                                                          });
+                                                        })
+                                                  ],
+                                                ),
+                                                Visibility(
+                                                  visible: dadosDaUsina_view,
+                                                  child: Wrap(
+                                                    children: [
+                                                      Container(
+                                                        margin: EdgeInsets.only(top: 16),
+                                                        child: Row(
+                                                          children: [
+                                                            Expanded(
+                                                              flex: 2,
+                                                              child: OutlinedTextEdit(
+                                                                prefixIcon: Icon(Icons.dvr),
+                                                                keyboardType: TextInputType.number,
+                                                                onChanged: (value) => {},
+                                                                label: "Inversor",
+                                                                inputType: InputType.EXTRA_SMALL,
+                                                              ),
+                                                            ),
+                                                            SizedBox(width: 10),
+                                                            Expanded(
+                                                              flex: 1,
+                                                              child: OutlinedTextEdit(
+                                                                keyboardType: TextInputType.number,
+                                                                onChanged: (value) => {},
+                                                                label: "Potência",
+                                                                inputType: InputType.EXTRA_SMALL,
+                                                              ),
+                                                            ),
+                                                          ],
                                                         ),
-                                                        height: 700,
-                                                        width: 1500,
                                                       ),
+                                                      Container(
+                                                        margin: EdgeInsets.only(top: 16),
+                                                        child: Row(
+                                                          children: [
+                                                            Expanded(
+                                                              flex: 2,
+                                                              child: OutlinedTextEdit(
+                                                                prefixIcon: Icon(Icons.dvr),
+                                                                keyboardType: TextInputType.number,
+                                                                onChanged: (value) => {},
+                                                                label: "Módulos",
+                                                                inputType: InputType.EXTRA_SMALL,
+                                                              ),
+                                                            ),
+                                                            SizedBox(width: 10),
+                                                            Expanded(
+                                                              flex: 1,
+                                                              child: OutlinedTextEdit(
+                                                                keyboardType: TextInputType.number,
+                                                                onChanged: (value) => {},
+                                                                label: "Quant.",
+                                                                inputType: InputType.EXTRA_SMALL,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        margin: EdgeInsets.only(top: 16),
+                                                        child: Row(
+                                                          children: [
+                                                            Expanded(
+                                                              flex: 1,
+                                                              child: OutlinedTextEdit(
+                                                                prefixIcon: Icon(Icons.dvr),
+                                                                keyboardType: TextInputType.number,
+                                                                onChanged: (value) => {},
+                                                                label: "Geração kWp",
+                                                                inputType: InputType.EXTRA_SMALL,
+                                                              ),
+                                                            ),
+                                                            SizedBox(width: 10),
+                                                            Expanded(
+                                                              flex: 1,
+                                                              child: OutlinedTextEdit(
+                                                                keyboardType: TextInputType.number,
+                                                                onChanged: (value) => {},
+                                                                label: "Área",
+                                                                inputType: InputType.EXTRA_SMALL,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        margin: EdgeInsets.only(top: 16),
+                                                        child: Row(
+                                                          children: [
+                                                            Expanded(
+                                                              flex: 1,
+                                                              child: OutlinedTextEdit(
+                                                                prefixIcon: Icon(Icons.dvr),
+                                                                keyboardType: TextInputType.number,
+                                                                onChanged: (value) => {},
+                                                                label: "Código",
+                                                                inputType: InputType.EXTRA_SMALL,
+                                                              ),
+                                                            ),
+                                                            SizedBox(width: 10),
+                                                            Expanded(
+                                                              flex: 2,
+                                                              child: OutlinedTextEdit(
+                                                                keyboardType: TextInputType.number,
+                                                                onChanged: (value) => {},
+                                                                label: "R\$ Valor",
+                                                                inputType: InputType.EXTRA_SMALL,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 100,
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(height: 200),
+                                                Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: DangerButton(
+                                                        child: Row(
+                                                          children: <Widget>[
+                                                            Icon(
+                                                              Icons.sync,
+                                                              color: Colors.white,
+                                                              size: 30,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 18,
+                                                            ),
+                                                            Text(
+                                                              'Voltar',
+                                                              style: buttonLargeWhite,
+                                                            ),
+                                                          ],
+                                                        ),
+
+                                                        //onPressed:controller.loginWithGoogle,
+
+                                                        onPressed: () {
+                                                          Navigator.of(context).pop();
+                                                        },
+                                                      ).getLarge(),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 20,
+                                                    ),
+                                                    Expanded(
+                                                      child: PrimaryButton(
+                                                        child: Row(
+                                                          children: <Widget>[
+                                                            Icon(
+                                                              Icons.assignment,
+                                                              color: Colors.white,
+                                                              size: 30,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 18,
+                                                            ),
+                                                            Text(
+                                                              'Gerar',
+                                                              style: buttonLargeWhite,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        //onPressed:controller.loginWithGoogle,
+
+                                                        onPressed: () async {
+                                                          setState(() {
+                                                            _loaderGenerateGraph = true;
+                                                          });
+
+                                                          await runChartGenerateImage1("grafico-1");
+
+                                                          await writeOnPdf("projeto-solar");
+
+                                                          Directory documentDirectory = await getExternalStorageDirectory();
+
+                                                          String documentPath = documentDirectory.path;
+
+                                                          String fullPath = "$documentPath/projeto-solar.pdf";
+
+                                                          setState(() {
+                                                            _loaderGenerateGraph = false;
+                                                          });
+
+                                                          Navigator.push(context, MaterialPageRoute(builder: (context) => PdfPreviewScreen(path: fullPath, pw: pw)));
+                                                        },
+                                                      ).getLarge(),
                                                     ),
                                                   ],
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        width: 5300,
-                                        height: 5300,
-                                        color: Colors.white,
-                                      ),
-                                      Visibility(
-                                        visible: _loaderGenerateGraph,
-                                        child: Center(
-                                          child: Container(
-                                            child: Text(
-                                              'Gerando PDF...',
-                                              style: ubuntu16BlackBold500,
+                                              ],
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  floatingActionButton: Row(
-                                    children: <Widget>[
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Expanded(
-                                        child: DangerButton(
-                                          child: Row(
-                                            children: <Widget>[
-                                              Icon(
-                                                Icons.arrow_back,
-                                                color: Colors.white,
-                                                size: 30,
-                                              ),
-                                              SizedBox(
-                                                width: 18,
-                                              ),
-                                              Text(
-                                                'Voltar',
-                                                style: buttonLargeWhite,
-                                              ),
-                                            ],
+                                          Container(
+                                            height: 100,
+                                            width: 100,
+                                            child: Stack(
+                                              children: <Widget>[
+                                                Center(
+                                                  child: SingleChildScrollView(
+                                                    scrollDirection: Axis.horizontal,
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        SingleChildScrollView(
+                                                          child: Column(
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: <Widget>[
+                                                              RepaintBoundary(
+                                                                key: globalKey,
+                                                                child: Container(
+                                                                  color: Colors.white,
+                                                                  child: Chart(
+                                                                    meses: returnAllMonths,
+                                                                    consumo: consumo,
+                                                                  ),
+                                                                  height: 700,
+                                                                  width: 1500,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  width: 5300,
+                                                  height: 5300,
+                                                  color: Colors.white,
+                                                ),
+                                                Visibility(
+                                                  visible: _loaderGenerateGraph,
+                                                  child: Center(
+                                                    child: Container(
+                                                      child: Text(
+                                                        'Gerando PDF...',
+                                                        style: ubuntu16BlackBold500,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-
-                                          //onPressed:controller.loginWithGoogle,
-
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        ).getLarge(),
+                                        ],
                                       ),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Expanded(
-                                        child: PrimaryButton(
-                                          child: Row(
-                                            children: <Widget>[
-                                              Icon(
-                                                Icons.assignment,
-                                                color: Colors.white,
-                                                size: 30,
-                                              ),
-                                              SizedBox(
-                                                width: 18,
-                                              ),
-                                              Text(
-                                                'Gerar',
-                                                style: buttonLargeWhite,
-                                              ),
-                                            ],
-                                          ),
-                                          //onPressed:controller.loginWithGoogle,
-
-                                          onPressed: () async {
-                                            setState(() {
-                                              _loaderGenerateGraph = true;
-                                            });
-
-                                            await runChartGenerateImage1("grafico-1");
-
-                                            await writeOnPdf("projeto-solar");
-
-                                            Directory documentDirectory = await getExternalStorageDirectory();
-
-                                            String documentPath = documentDirectory.path;
-
-                                            String fullPath = "$documentPath/projeto-solar.pdf";
-
-                                            setState(() {
-                                              _loaderGenerateGraph = false;
-                                            });
-
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => PdfPreviewScreen(path: fullPath, pw: pw)));
-                                          },
-                                        ).getLarge(),
-                                      ),
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      );
+                                );
+                              },
+                            );
+                          },
+                        );
 
-                      //Navigator.of(context).pop();
-                    }).getLarge(),
-              ),
-            ],
-          ),
-        ],
+                        //Navigator.of(context).pop();
+                      }).getLarge(),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     ),
   );

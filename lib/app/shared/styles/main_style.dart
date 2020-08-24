@@ -20,7 +20,7 @@ final ubuntu14WhiteLight100 = TextStyleGenerator().getUbuntuStyle(size: 14, colo
 
 final ubuntu14BlackLight100 = TextStyleGenerator().getUbuntuStyle(size: 14, color: MainColors.cloudy300, weight: FontWeight.w100);
 
-final museo14Sky700 = TextStyleGenerator().getMontserratStyle(color: MainColors.cielo, size: 14, weight: FontWeight.w700);
+final museo14Sky700 = TextStyleGenerator().getMontserratStyle(color: MainColors.cielo, size: 12, weight: FontWeight.w700);
 
 //----------------------------------------------------------------- LEAGACY Small Texts
 

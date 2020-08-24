@@ -39,27 +39,43 @@ class _SplashPageState extends State<SplashPage> {
     ].request();
 
     final info = statuses[Permission.storage].toString();
-    print(info);
+    return info;
   }
 
   @override
   void initState() {
     super.initState();
-    _requestPermission();
+
     disposer = autorun((_) async {
       final auth = Modular.get<AuthController>();
 
+      final permissao = await _requestPermission();
+      if (permissao == 'PermissionStatus.denied') {
+        print(permissao);
+      }
+
+      if (permissao == 'PermissionStatus.granted') {
+        print(permissao);
+      }
+
       try {
-        await DatabaseHelper().downloadFile("http://www.klausmetal.com.br/file56.csv", "file56.csv").then((value) {
+        await DatabaseHelper().downloadFile("http://www.klausmetal.com.br/file56.csv", "file56.csv").then((value) async {
           if (value.statusCode == 200) {
             print('[ LOADED DATA FROM KLAUSMETAL]');
             loadCitiesIrradiationData();
-            if (auth.status == AuthStatus.login) {
+
+            final l = await Prefs.getString("TOKEN");
+
+            if (l != "" && permissao == 'PermissionStatus.granted') {
               print("[ LOGGED ]");
               Modular.to.pushReplacementNamed('/home');
-            } else {
+            } else if (permissao == 'PermissionStatus.granted') {
               print("[ NOT LOGGED ]");
               Modular.to.pushReplacementNamed('/login');
+            } else {
+              setState(() {
+                reload = true;
+              });
             }
           } else {}
           // print(value.statusCode);
@@ -74,13 +90,17 @@ class _SplashPageState extends State<SplashPage> {
         });
       }
 
-      if (auth.status == AuthStatus.login) {
-        print("[ SPLASH ]");
+      // if (auth.status != AuthStatus.login && permissao == 'PermissionStatus.granted') {
+      //   print("[ SPLASH ]");
 
-        // Modular.to.pushReplacementNamed('/home');
-      } else if (auth.status == AuthStatus.logoff) {
-        Modular.to.pushReplacementNamed('/login');
-      }
+      //   // Modular.to.pushReplacementNamed('/home');
+      // } else if (auth.status == AuthStatus.logoff && permissao == 'PermissionStatus.granted') {
+      //   Modular.to.pushReplacementNamed('/login');
+      // } else {
+      //   setState(() {
+      //     reload = true;
+      //   });
+      // }
     });
   }
 

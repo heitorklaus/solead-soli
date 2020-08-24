@@ -59,16 +59,6 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
               fit: BoxFit.cover,
             )),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: 200),
-                width: 250,
-                child: Image.asset('lib/app/shared/assets/images/logo1.png'),
-              ),
-            ],
-          ),
           Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -125,13 +115,26 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
                                             children: <Widget>[
                                               Container(
                                                 width: 100,
+                                                height: 50,
                                                 child: OutlinedTextEdit(
+                                                  decoration: InputDecoration(
+                                                    contentPadding: EdgeInsets.only(bottom: 10, left: 8),
+                                                    hintText: "Média kWp",
+                                                    hintStyle: TextStyle(fontSize: 12.0),
+                                                    border: OutlineInputBorder(
+                                                      borderRadius: const BorderRadius.all(
+                                                        const Radius.circular(10.0),
+                                                      ),
+                                                      borderSide: BorderSide(
+                                                        color: Colors.teal,
+                                                      ),
+                                                    ),
+                                                  ),
                                                   keyboardType: TextInputType.number,
                                                   onTap: () {
                                                     controller.clearMoney();
                                                   },
                                                   controller: controller.mediaKW,
-                                                  label: "Média kWp",
                                                   inputType: InputType.EXTRA_SMALL,
                                                 ),
                                               ),
@@ -140,6 +143,7 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
                                               ),
                                               Container(
                                                 width: 100,
+                                                height: 50,
                                                 child: OutlinedTextEdit(
                                                   controller: controller.mediaMoney,
                                                   keyboardType: TextInputType.number,
@@ -147,7 +151,19 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
                                                     controller.clearKW();
                                                   },
                                                   inputType: InputType.EXTRA_SMALL,
-                                                  label: "Média R\$",
+                                                  decoration: InputDecoration(
+                                                    contentPadding: EdgeInsets.only(bottom: 10, left: 13),
+                                                    hintText: "Média R\$",
+                                                    hintStyle: TextStyle(fontSize: 12.0),
+                                                    border: OutlineInputBorder(
+                                                      borderRadius: const BorderRadius.all(
+                                                        const Radius.circular(10.0),
+                                                      ),
+                                                      borderSide: BorderSide(
+                                                        color: Colors.teal,
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                               SizedBox(
@@ -181,8 +197,8 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
                                                 textDirection: TextDirection.ltr,
                                               ),
                                               Text(
-                                                'Potência/Kit indicado (Opção 1)',
-                                                style: TextStyle(fontWeight: FontWeight.bold),
+                                                '  Potência/Kit indicado (Opção 1)',
+                                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                                               )
                                             ],
                                           ),
@@ -207,7 +223,7 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
                                                 width: 5,
                                               ),
                                               Container(
-                                                width: 170,
+                                                width: 165,
                                                 child: OutlinedTextEdit(
                                                   controller: controller.valorKit1,
                                                   prefixIcon: Icon(Icons.monetization_on),
@@ -259,9 +275,9 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
                                                 textDirection: TextDirection.ltr,
                                               ),
                                               Text(
-                                                'Potência/Kit indicado (Opção 2)',
-                                                style: TextStyle(fontWeight: FontWeight.bold),
-                                              ),
+                                                '  Potência/Kit indicado (Opção 2)',
+                                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                                              )
                                             ],
                                           ),
                                         ),
@@ -285,7 +301,7 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
                                                 width: 5,
                                               ),
                                               Container(
-                                                width: 170,
+                                                width: 165,
                                                 child: OutlinedTextEdit(
                                                   controller: controller.valorKit2,
                                                   prefixIcon: Icon(Icons.monetization_on),

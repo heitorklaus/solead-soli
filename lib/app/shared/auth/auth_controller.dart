@@ -18,7 +18,7 @@ abstract class _AuthControllerBase with Store {
   @action
   auth(value) {
     token = value;
-    status = token != 'out' ? AuthStatus.login : AuthStatus.logoff;
+    status = token != null ? AuthStatus.login : AuthStatus.logoff;
   }
 
   _AuthControllerBase() {

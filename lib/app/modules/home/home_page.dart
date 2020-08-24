@@ -24,8 +24,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends ModularState<HomePage, HomeController>
-    with SingleTickerProviderStateMixin {
+class _HomePageState extends ModularState<HomePage, HomeController> with SingleTickerProviderStateMixin {
   String _lastSelected = 'TAB: 0';
 
   void _selectedTab(int index) {
@@ -53,8 +52,6 @@ class _HomePageState extends ModularState<HomePage, HomeController>
     tabController = TabController(vsync: this, length: 4);
   }
 
- 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,8 +68,7 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                       child: LayoutBuilder(
                         builder: (context, constraint) {
                           return ConstrainedBox(
-                            constraints:
-                                BoxConstraints(minHeight: constraint.maxHeight),
+                            constraints: BoxConstraints(minHeight: constraint.maxHeight),
                             child: IntrinsicHeight(
                               child: Column(
                                 children: <Widget>[
@@ -82,12 +78,7 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                     child: AspectRatio(
                                       aspectRatio: 100 / 40,
                                       child: Container(
-                                        decoration: BoxDecoration(
-                                            color: Color(0XFF2184AA),
-                                            borderRadius: new BorderRadius.only(
-                                                bottomLeft: Radius.circular(0),
-                                                bottomRight:
-                                                    Radius.circular(0))),
+                                        decoration: BoxDecoration(color: Color(0XFF2184AA), borderRadius: new BorderRadius.only(bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0))),
                                         child: Column(
                                           // mainAxisAlignment
                                           children: <Widget>[
@@ -96,18 +87,15 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                             ),
                                             Text(
                                               'App Soleads',
-                                              style: heading16Bold.copyWith(
-                                                  color: Colors.white),
+                                              style: heading16Bold.copyWith(color: Colors.white),
                                             ),
                                             SizedBox(
                                               height: 10,
                                             ),
                                             Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 16),
+                                              padding: EdgeInsets.only(left: 16),
                                               child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                mainAxisAlignment: MainAxisAlignment.start,
                                                 children: <Widget>[
                                                   Text(
                                                     'Olá, Heitor Klaus!',
@@ -115,8 +103,7 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                                   ),
                                                   FlatButton(
                                                     child: Text('Sair'),
-                                                    onPressed:
-                                                        controller.logoff,
+                                                    onPressed: controller.logoff,
                                                   ),
                                                   // FlatButton(
                                                   //     child: Text('Set DATA'),
@@ -146,20 +133,14 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                                 ],
                                               ),
                                             ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
                                             Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 16),
+                                              padding: EdgeInsets.only(left: 16),
                                               child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                mainAxisAlignment: MainAxisAlignment.start,
                                                 children: <Widget>[
                                                   Text(
-                                                    'S.Klaus Serviços Elétricos - Integrador Premium',
-                                                    style:
-                                                        ubuntu14WhiteLight100,
+                                                    'S.Klaus Serviços Elétricos',
+                                                    style: ubuntu14WhiteLight100,
                                                   )
                                                 ],
                                               ),
@@ -173,16 +154,14 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                   Container(
                                     margin: EdgeInsets.all(10),
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Expanded(
                                           child: AspectRatio(
                                             aspectRatio: 3 / 3,
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
+                                                  borderRadius: BorderRadius.all(
                                                     Radius.circular(20.0),
                                                   ),
                                                   // Box decoration takes a gradient
@@ -190,10 +169,8 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                                   boxShadow: [
                                                     BoxShadow(
                                                       color: Colors.black12,
-                                                      blurRadius:
-                                                          4, // has the effect of softening the shadow
-                                                      spreadRadius:
-                                                          0.2, // has the effect of extending the shadow
+                                                      blurRadius: 4, // has the effect of softening the shadow
+                                                      spreadRadius: 0.2, // has the effect of extending the shadow
                                                       offset: Offset(
                                                         -1, // horizontal, move right 10
                                                         1, // vertical, move down 10
@@ -201,16 +178,15 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                                     ),
                                                   ]),
                                               child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 children: <Widget>[
-                                                  Image.asset(
-                                                    'lib/app/shared/assets/icons/hammer.png',
-                                                    width: 32,
-                                                  ),
-                                                  Text(
-                                                    'Leads',
-                                                    style: museo14Sky700,
+                                                  Text('Leads'),
+                                                  IconButton(
+                                                    icon: Icon(
+                                                      Icons.account_box,
+                                                      color: Colors.blue,
+                                                    ),
+                                                    onPressed: () {},
                                                   ),
                                                   SizedBox(
                                                     height: 4,
@@ -232,8 +208,7 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                             aspectRatio: 3 / 3,
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
+                                                  borderRadius: BorderRadius.all(
                                                     Radius.circular(20.0),
                                                   ),
                                                   // Box decoration takes a gradient
@@ -241,10 +216,8 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                                   boxShadow: [
                                                     BoxShadow(
                                                       color: Colors.black12,
-                                                      blurRadius:
-                                                          4, // has the effect of softening the shadow
-                                                      spreadRadius:
-                                                          0.2, // has the effect of extending the shadow
+                                                      blurRadius: 4, // has the effect of softening the shadow
+                                                      spreadRadius: 0.2, // has the effect of extending the shadow
                                                       offset: Offset(
                                                         -1, // horizontal, move right 10
                                                         1, // vertical, move down 10
@@ -252,16 +225,15 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                                     ),
                                                   ]),
                                               child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 children: <Widget>[
-                                                  Image.asset(
-                                                    'lib/app/shared/assets/icons/negociating.png',
-                                                    width: 32,
-                                                  ),
-                                                  Text(
-                                                    'Negociando ',
-                                                    style: museo14Sky700,
+                                                  Text('Negociando'),
+                                                  IconButton(
+                                                    icon: Icon(
+                                                      Icons.whatshot,
+                                                      color: Colors.red,
+                                                    ),
+                                                    onPressed: () {},
                                                   ),
                                                   SizedBox(
                                                     height: 4,
@@ -283,18 +255,15 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                             aspectRatio: 3 / 3,
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
+                                                  borderRadius: BorderRadius.all(
                                                     Radius.circular(20.0),
                                                   ),
                                                   color: Colors.white,
                                                   boxShadow: [
                                                     BoxShadow(
                                                       color: Colors.black12,
-                                                      blurRadius:
-                                                          4, // has the effect of softening the shadow
-                                                      spreadRadius:
-                                                          0.2, // has the effect of extending the shadow
+                                                      blurRadius: 4, // has the effect of softening the shadow
+                                                      spreadRadius: 0.2, // has the effect of extending the shadow
                                                       offset: Offset(
                                                         -1, // horizontal, move right 10
                                                         1, // vertical, move down 10
@@ -302,16 +271,12 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                                     ),
                                                   ]),
                                               child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 children: <Widget>[
-                                                  Image.asset(
-                                                    'lib/app/shared/assets/icons/closed.png',
-                                                    width: 32,
-                                                  ),
-                                                  Text(
-                                                    'Fechados ',
-                                                    style: museo14Sky700,
+                                                  Text('Fechados'),
+                                                  IconButton(
+                                                    icon: Icon(Icons.wb_sunny, color: Colors.yellow[700]),
+                                                    onPressed: () {},
                                                   ),
                                                   SizedBox(
                                                     height: 4,
