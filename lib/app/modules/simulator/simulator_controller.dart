@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:framework/ui/form/buttons/primary_button.dart';
 import 'package:framework/ui/form/buttons/danger_button.dart';
 import 'package:login/app/shared/auth/repositories/auth_repository.dart';
+import 'package:login/app/shared/repositories/entities/dados_kits.dart';
 import 'package:login/app/shared/repositories/entities/power_plants.dart';
 import 'package:login/app/shared/styles/main_style.dart';
 import 'package:login/app/shared/utils/prefs.dart';
@@ -657,6 +658,29 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
   GlobalKey globalKey = GlobalKey();
   GlobalKey globalKey2 = GlobalKey();
 
+  final inversor = TextEditingController();
+  final potencia = TextEditingController();
+  final marcaModulos = TextEditingController();
+  final qtdModulos = TextEditingController();
+  final geracao = TextEditingController();
+  final area = TextEditingController();
+  final codigo = TextEditingController();
+  final valor = TextEditingController();
+
+  inversor.text = pw.inversor;
+  potencia.text = pw.potencia.toString();
+  marcaModulos.text = pw.marcaDoModulo.toString();
+  qtdModulos.text = pw.numeroDeModulo.toString();
+
+  geracao.text = pw.potencia.toString();
+  marcaModulos.text = pw.marcaDoModulo.toString();
+  qtdModulos.text = pw.numeroDeModulo.toString();
+  area.text = pw.area.toString();
+  codigo.text = pw.codigo.toString();
+  valor.text = pw.valor.toString();
+
+  geracao.text = returnGenerationKW.toString();
+
   runChartGenerateImage1(img) async {
     RenderRepaintBoundary boundary = globalKey.currentContext.findRenderObject();
     ui.Image image = await boundary.toImage();
@@ -838,7 +862,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                   //color: PdfColor.fromHex("#FFC000"),
                   //
                   margin: pwa.EdgeInsets.only(top: 369, left: 400),
-                  child: pwa.Text(pw.potencia.toString() + ' kWp', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                  child: pwa.Text(potencia.text + ' kWp', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                 ),
               ])),
           pwa.Container(
@@ -1072,7 +1096,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                           //color: PdfColor.fromHex("#FFC000"),
                           //
                           margin: pwa.EdgeInsets.only(top: 188, left: 220),
-                          child: pwa.Text(pw.inversor.toString(), style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)),
+                          child: pwa.Text(inversor.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)),
                         ),
                       ]),
                   pwa.Row(
@@ -1243,6 +1267,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
 
 // DIALOG DE VISUALIZACAO DA USINA
   bool dadosDaUsina_view = false;
+
   return Center(
     child: SingleChildScrollView(
       child: Container(
@@ -1565,6 +1590,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                                 keyboardType: TextInputType.number,
                                                                 onChanged: (value) => {},
                                                                 label: "Inversor",
+                                                                controller: inversor,
                                                                 inputType: InputType.EXTRA_SMALL,
                                                               ),
                                                             ),
@@ -1574,6 +1600,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                               child: OutlinedTextEdit(
                                                                 keyboardType: TextInputType.number,
                                                                 onChanged: (value) => {},
+                                                                controller: potencia,
                                                                 label: "Potência",
                                                                 inputType: InputType.EXTRA_SMALL,
                                                               ),
@@ -1592,6 +1619,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                                 keyboardType: TextInputType.number,
                                                                 onChanged: (value) => {},
                                                                 label: "Módulos",
+                                                                controller: marcaModulos,
                                                                 inputType: InputType.EXTRA_SMALL,
                                                               ),
                                                             ),
@@ -1602,6 +1630,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                                 keyboardType: TextInputType.number,
                                                                 onChanged: (value) => {},
                                                                 label: "Quant.",
+                                                                controller: qtdModulos,
                                                                 inputType: InputType.EXTRA_SMALL,
                                                               ),
                                                             ),
@@ -1619,6 +1648,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                                 keyboardType: TextInputType.number,
                                                                 onChanged: (value) => {},
                                                                 label: "Geração kWp",
+                                                                controller: geracao,
                                                                 inputType: InputType.EXTRA_SMALL,
                                                               ),
                                                             ),
@@ -1629,6 +1659,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                                 keyboardType: TextInputType.number,
                                                                 onChanged: (value) => {},
                                                                 label: "Área",
+                                                                controller: area,
                                                                 inputType: InputType.EXTRA_SMALL,
                                                               ),
                                                             ),
@@ -1646,6 +1677,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                                 keyboardType: TextInputType.number,
                                                                 onChanged: (value) => {},
                                                                 label: "Código",
+                                                                controller: codigo,
                                                                 inputType: InputType.EXTRA_SMALL,
                                                               ),
                                                             ),
@@ -1656,6 +1688,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                                 keyboardType: TextInputType.number,
                                                                 onChanged: (value) => {},
                                                                 label: "R\$ Valor",
+                                                                controller: valor,
                                                                 inputType: InputType.EXTRA_SMALL,
                                                               ),
                                                             ),
@@ -1719,6 +1752,8 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                           ],
                                                         ),
                                                         //onPressed:controller.loginWithGoogle,
+
+                                                        // SETANDO NOVA
 
                                                         onPressed: () async {
                                                           setState(() {
