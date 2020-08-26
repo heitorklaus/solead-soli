@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:framework/config/main_colors.dart';
 import 'package:framework/ui/form/inputs/input_type.dart';
 import 'package:framework/ui/form/inputs/outlined_text_edit.dart';
@@ -572,6 +573,39 @@ int returnDaysOfMonth(xx) {
 // DIALOG GERADA
 @override
 buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax) {
+  final inversor = TextEditingController();
+  final potencia = TextEditingController();
+  final marcaModulos = TextEditingController();
+  final qtdModulos = TextEditingController();
+  final geracao = TextEditingController();
+  final area = TextEditingController();
+  final codigo = TextEditingController();
+  final valor = TextEditingController();
+  final dados = TextEditingController();
+
+  inversor.text = pw.inversor;
+  potencia.text = pw.potencia.toString();
+  marcaModulos.text = pw.marcaDoModulo.toString();
+  qtdModulos.text = pw.numeroDeModulo.toString();
+
+  geracao.text = returnGenerationKW.toString();
+  marcaModulos.text = pw.marcaDoModulo.toString();
+  qtdModulos.text = pw.numeroDeModulo.toString();
+  area.text = pw.area.toString();
+  codigo.text = pw.codigo.toString();
+  valor.text = pw.valor.toString();
+
+  qtdModulos.addListener(() {
+    area.text = (2.25 * double.parse(qtdModulos.text)).round().toString();
+  });
+
+  potencia.addListener(() {
+    print('teste');
+    geracao.text = (5.11 * double.parse(potencia.text) * 30 * .75).round().toString();
+  });
+
+  dados.text = pw.dados.replaceAll('<BR>', '\n');
+
   final pdf = pwa.Document();
 
   final List<Map<String, double>> valorEconomiaMensal = [
@@ -604,11 +638,9 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
 
   final double economia_25_anos_pagara = ((91 * 12 * 25).toDouble() * 3.82);
 
-  var vals = pw.valor.toString().split('R\$ ').toString().split(',');
+  var vals = pw.valor.toString().trim().replaceAll('R\$', '').toString().replaceAll(',', '').replaceAll('.', '').trim();
 
-  final double value = double.parse(vals[1].replaceAll('.', ''));
-
-  print('PRINTADO ' + val.format(value).toString());
+  final value = int.parse(vals) / 100;
 
   var sicredi3x = value * (double.parse(returnTax[0].split(":")[1].split(",")[0]) / 3);
   var sicredi6x = value * (double.parse(returnTax[0].split(":")[1].split(",")[1]) / 6);
@@ -654,32 +686,60 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
   var cartaoCredito72x = value * (double.parse(returnTax[3].split(":")[1].split(",")[7]) / 72);
   var cartaoCreditoTax = double.parse(returnTax[3].split(":")[1].split(",")[8]);
 
+  valor.addListener(() {
+    var vals = valor.text.trim().replaceAll('R\$', '').toString().replaceAll(',', '').replaceAll('.', '').trim();
+
+    //final double value = double.parse(vals[1].replaceAll('.', ''));
+
+    final double value = double.parse(vals) / 100;
+
+    sicredi3x = value * (double.parse(returnTax[0].split(":")[1].split(",")[0]) / 3);
+    sicredi6x = value * (double.parse(returnTax[0].split(":")[1].split(",")[1]) / 6);
+    sicredi12x = value * (double.parse(returnTax[0].split(":")[1].split(",")[2]) / 12);
+    sicredi24x = value * (double.parse(returnTax[0].split(":")[1].split(",")[4])) / 24;
+    sicredi36x = value * (double.parse(returnTax[0].split(":")[1].split(",")[5]) / 36);
+    sicredi48x = value * (double.parse(returnTax[0].split(":")[1].split(",")[6]) / 48);
+    sicredi60x = value * (double.parse(returnTax[0].split(":")[1].split(",")[7]) / 60);
+    sicredi72x = value * (double.parse(returnTax[0].split(":")[1].split(",")[8]) / 72);
+
+    var santanderEntrada = 14 * (value / 100);
+
+    value2 = (value - santanderEntrada);
+    santander3x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[0]) / 3);
+    santander6x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[1]) / 6);
+    santander12x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[2]) / 12);
+    santander18x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[3]) / 18);
+    santander24x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[4]) / 24);
+    santander36x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[5]) / 36);
+
+    //var santanderTax = double.parse(returnTax[1].split(":")[1].split(",")[8]);
+
+    //
+    bvFinanceira3x = value * (double.parse(returnTax[2].split(":")[1].split(",")[0]) / 3);
+    bvFinanceira6x = value * (double.parse(returnTax[2].split(":")[1].split(",")[1]) / 6);
+    bvFinanceira12x = value * (double.parse(returnTax[2].split(":")[1].split(",")[2]) / 12);
+    bvFinanceira24x = value * (double.parse(returnTax[2].split(":")[1].split(",")[4]) / 24);
+    bvFinanceira36x = value * (double.parse(returnTax[2].split(":")[1].split(",")[5]) / 36);
+    bvFinanceira48x = value * (double.parse(returnTax[2].split(":")[1].split(",")[6]) / 48);
+    bvFinanceira60x = value * (double.parse(returnTax[2].split(":")[1].split(",")[7]) / 60);
+    bvFinanceira72x = value * (double.parse(returnTax[2].split(":")[1].split(",")[8]) / 72);
+
+    //
+
+    cartaoCredito3x = value * (double.parse(returnTax[3].split(":")[1].split(",")[0]) / 3);
+    cartaoCredito6x = value * (double.parse(returnTax[3].split(":")[1].split(",")[1]) / 6);
+    cartaoCredito12x = (value / (1 - 0.0745) / 12);
+    cartaoCredito24x = value * (double.parse(returnTax[3].split(":")[1].split(",")[3]) / 24);
+    cartaoCredito36x = value * (double.parse(returnTax[3].split(":")[1].split(",")[4]) / 36);
+    cartaoCredito48x = value * (double.parse(returnTax[3].split(":")[1].split(",")[5]) / 48);
+    cartaoCredito60x = value * (double.parse(returnTax[3].split(":")[1].split(",")[6]) / 60);
+    cartaoCredito72x = value * (double.parse(returnTax[3].split(":")[1].split(",")[7]) / 72);
+    cartaoCreditoTax = double.parse(returnTax[3].split(":")[1].split(",")[8]);
+  });
+
 //
   GlobalKey globalKey = GlobalKey();
   GlobalKey globalKey2 = GlobalKey();
-
-  final inversor = TextEditingController();
-  final potencia = TextEditingController();
-  final marcaModulos = TextEditingController();
-  final qtdModulos = TextEditingController();
-  final geracao = TextEditingController();
-  final area = TextEditingController();
-  final codigo = TextEditingController();
-  final valor = TextEditingController();
-
-  inversor.text = pw.inversor;
-  potencia.text = pw.potencia.toString();
-  marcaModulos.text = pw.marcaDoModulo.toString();
-  qtdModulos.text = pw.numeroDeModulo.toString();
-
-  geracao.text = pw.potencia.toString();
-  marcaModulos.text = pw.marcaDoModulo.toString();
-  qtdModulos.text = pw.numeroDeModulo.toString();
-  area.text = pw.area.toString();
-  codigo.text = pw.codigo.toString();
-  valor.text = pw.valor.toString();
-
-  geracao.text = returnGenerationKW.toString();
 
   runChartGenerateImage1(img) async {
     RenderRepaintBoundary boundary = globalKey.currentContext.findRenderObject();
@@ -764,12 +824,12 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                   // FINANCIAMENTO financiamento
                   margin: pwa.EdgeInsets.only(top: 432, left: 44),
                   child: pwa.Column(crossAxisAlignment: pwa.CrossAxisAlignment.start, mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[
-                    pwa.Row(children: <pwa.Widget>[pwa.Text("Acc: ", style: pwa.TextStyle(fontSize: 32, color: PdfColor.fromHex("#FFFFFF"))), pwa.Text("Heitor Fabricio Klaus", style: pwa.TextStyle(fontSize: 35, fontWeight: pwa.FontWeight.bold, color: PdfColor.fromHex("#FFFFFF")))]),
+                    pwa.Row(children: <pwa.Widget>[pwa.Text("Acc: ", style: pwa.TextStyle(fontSize: 32, color: PdfColor.fromHex("#FFFFFF"))), pwa.Text("Rodrigo Guides Machado", style: pwa.TextStyle(fontSize: 35, fontWeight: pwa.FontWeight.bold, color: PdfColor.fromHex("#FFFFFF")))]),
                     pwa.SizedBox(
                       height: 7,
                     ),
                     pwa.Row(children: <pwa.Widget>[
-                      pwa.Text("Avenida João Gomes Sobrinho, N 752 Bairro Centro ", style: pwa.TextStyle(fontSize: 22, color: PdfColor.fromHex("#FFFFFF"))),
+                      pwa.Text("Rua Projetada, 2 - Res Bosque dos Ipês ", style: pwa.TextStyle(fontSize: 22, color: PdfColor.fromHex("#FFFFFF"))),
                     ]),
                   ]),
                 ),
@@ -875,7 +935,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                   //color: PdfColor.fromHex("#FFC000"),
                   //
                   margin: pwa.EdgeInsets.only(top: 25, left: 400),
-                  child: pwa.Text(pw.numeroDeModulo.toString(), style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                  child: pwa.Text(qtdModulos.text, style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                 ),
               ])),
           pwa.Container(
@@ -886,9 +946,9 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                 pwa.Container(
                   width: 145,
                   //color: PdfColor.fromHex("#FFC000"),
-                  //
+                  //f
                   margin: pwa.EdgeInsets.only(top: 25, left: 400),
-                  child: pwa.Text(returnGenerationKW.toString() + ' kWh', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                  child: pwa.Text(geracao.text + ' kWh', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                 ),
               ])),
           pwa.Container(
@@ -901,7 +961,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                   //color: PdfColor.fromHex("#FFC000"),
                   //
                   margin: pwa.EdgeInsets.only(top: 20, left: 400),
-                  child: pwa.Text('${pw.area} m²', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                  child: pwa.Text('${area.text} m²', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                 ),
               ])),
           pwa.Container(
@@ -1015,7 +1075,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                   pwa.Row(children: <pwa.Widget>[
                     pwa.Container(
                         margin: pwa.EdgeInsets.only(left: 420, top: 71),
-                        child: pwa.Text(pw.valor.toString(),
+                        child: pwa.Text(valor.text,
                             style: pwa.TextStyle(
                               fontSize: 20,
                               fontWeight: pwa.FontWeight.bold,
@@ -1043,7 +1103,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                           //
                           margin: pwa.EdgeInsets.only(top: 347, left: 38),
                           //#TODO SE A QUANTIDADE DE DADOS DO SISTEMA FOR MUITO GRANDE VAI QUEBRAR O PDF
-                          child: pwa.Text(pw.dados.replaceAll('<BR>', '\n'), style: pwa.TextStyle(lineSpacing: 5, fontSize: 10)),
+                          child: pwa.Text(dados.text.replaceAll('\n', '\n'), style: pwa.TextStyle(lineSpacing: 5, fontSize: 10)),
                         ),
                       ]),
                 ])),
@@ -1092,11 +1152,10 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                       crossAxisAlignment: pwa.CrossAxisAlignment.end,
                       children: <pwa.Widget>[
                         pwa.Container(
-                          width: 535,
-                          //color: PdfColor.fromHex("#FFC000"),
-                          //
-                          margin: pwa.EdgeInsets.only(top: 188, left: 220),
-                          child: pwa.Text(inversor.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)),
+                          width: 310,
+                          color: PdfColor.fromHex("#FFFFFF"),
+                          margin: pwa.EdgeInsets.only(top: 188, left: 210),
+                          child: pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[pwa.Text(inversor.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)), pwa.Text("12 Anos", style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold))]),
                         ),
                       ]),
                   pwa.Row(
@@ -1104,11 +1163,11 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                       crossAxisAlignment: pwa.CrossAxisAlignment.end,
                       children: <pwa.Widget>[
                         pwa.Container(
-                          width: 535,
-                          //color: PdfColor.fromHex("#FFC000"),
+                          width: 310,
+                          color: PdfColor.fromHex("#FFFFFF"),
                           //
-                          margin: pwa.EdgeInsets.only(top: 243, left: 220),
-                          child: pwa.Text(pw.marcaDoModulo.toString(), style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)),
+                          margin: pwa.EdgeInsets.only(top: 243, left: 210),
+                          child: pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[pwa.Text(marcaModulos.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)), pwa.Text("25 Anos", style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold))]),
                         ),
                       ]),
                 ])),
@@ -1218,9 +1277,9 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                     crossAxisAlignment: pwa.CrossAxisAlignment.end,
                     children: <pwa.Widget>[
                       pwa.Container(
-                        // color: PdfColors.red,
-                        width: 16,
-                        margin: pwa.EdgeInsets.only(top: 176, left: 120),
+                        //color: PdfColors.red,
+                        width: 105,
+                        margin: pwa.EdgeInsets.only(top: 176, left: 35),
                         alignment: pwa.Alignment.topRight,
                         child: pwa.Text(
                           co2.round().toString(),
@@ -1466,121 +1525,99 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                           context: context,
                           builder: (context) {
                             bool _loaderGenerateGraph = false;
+
                             return StatefulBuilder(
                               builder: (context, setState) {
+                                goGeneratePDF() async {
+                                  setState(() {
+                                    _loaderGenerateGraph = true;
+                                  });
+
+                                  await runChartGenerateImage1("grafico-1");
+
+                                  await writeOnPdf("2700kWh-FRONIUS-Angelica");
+
+                                  Directory documentDirectory = await getExternalStorageDirectory();
+
+                                  String documentPath = documentDirectory.path;
+
+                                  String fullPath = "$documentPath/2700kWh-FRONIUS-Angelica.pdf";
+
+                                  setState(() {
+                                    _loaderGenerateGraph = false;
+                                  });
+
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => PdfPreviewScreen(path: fullPath, pw: pw)));
+                                }
+
                                 return AlertDialog(
                                   content: Scaffold(
                                     body: SingleChildScrollView(
-                                      child: Column(
+                                      child: Stack(
                                         children: [
-                                          Row(
-                                            children: [
-                                              Text(
-                                                'Dados do cliente ',
-                                                style: ubuntu16BlueBold500,
-                                              ),
-                                            ],
-                                          ),
                                           Container(
-                                            margin: EdgeInsets.only(top: 18),
-                                            child: OutlinedTextEdit(
-                                              prefixIcon: Icon(Icons.account_circle),
-                                              onChanged: (value) => {},
-                                              label: "Nome do cliente",
-                                              inputType: InputType.EXTRA_SMALL,
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(top: 18),
-                                            child: OutlinedTextEdit(
-                                              prefixIcon: Icon(Icons.chat),
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) => {},
-                                              label: "CPF do cliente",
-                                              inputType: InputType.EXTRA_SMALL,
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(top: 18),
-                                            child: Row(
+                                            height: MediaQuery.of(context).size.height + 100,
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
-                                                Expanded(
-                                                  child: OutlinedTextEdit(
-                                                    prefixIcon: Icon(Icons.assistant_photo),
-                                                    keyboardType: TextInputType.number,
-                                                    onChanged: (value) => {},
-                                                    label: "CEP",
-                                                    inputType: InputType.EXTRA_SMALL,
-                                                  ),
-                                                ),
-                                                SizedBox(width: 10),
-                                                Expanded(
-                                                  child: OutlinedTextEdit(
-                                                    prefixIcon: Icon(Icons.dialpad),
-                                                    keyboardType: TextInputType.number,
-                                                    onChanged: (value) => {},
-                                                    label: "Bairro",
-                                                    inputType: InputType.EXTRA_SMALL,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(top: 18),
-                                            child: Row(
-                                              children: [
-                                                Expanded(
-                                                  flex: 2,
-                                                  child: OutlinedTextEdit(
-                                                    prefixIcon: Icon(Icons.dvr),
-                                                    keyboardType: TextInputType.number,
-                                                    onChanged: (value) => {},
-                                                    label: "Endereço",
-                                                    inputType: InputType.EXTRA_SMALL,
-                                                  ),
-                                                ),
-                                                SizedBox(width: 10),
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: OutlinedTextEdit(
-                                                    prefixIcon: Icon(Icons.texture),
-                                                    keyboardType: TextInputType.number,
-                                                    onChanged: (value) => {},
-                                                    label: "Número",
-                                                    inputType: InputType.EXTRA_SMALL,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(top: 18),
-                                            child: Wrap(
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      'Dados da usina',
-                                                      style: ubuntu16BlueBold500,
-                                                    ),
-                                                    IconButton(
-                                                        iconSize: 30,
-                                                        icon: dadosDaUsina_view == false ? Icon(Icons.arrow_drop_down_circle, color: MainColors.cielo) : Icon(Icons.arrow_drop_up, color: Colors.grey),
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            dadosDaUsina_view = !dadosDaUsina_view;
-                                                          });
-                                                        })
-                                                  ],
-                                                ),
-                                                Visibility(
-                                                  visible: dadosDaUsina_view,
+                                                Container(
                                                   child: Wrap(
                                                     children: [
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            'Dadoas do cliente ',
+                                                            style: ubuntu16BlueBold500,
+                                                          ),
+                                                        ],
+                                                      ),
                                                       Container(
-                                                        margin: EdgeInsets.only(top: 16),
+                                                        margin: EdgeInsets.only(top: 18),
+                                                        child: OutlinedTextEdit(
+                                                          prefixIcon: Icon(Icons.account_circle),
+                                                          onChanged: (value) => {},
+                                                          label: "Nome do cliente",
+                                                          inputType: InputType.EXTRA_SMALL,
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        margin: EdgeInsets.only(top: 18),
+                                                        child: OutlinedTextEdit(
+                                                          prefixIcon: Icon(Icons.chat),
+                                                          keyboardType: TextInputType.number,
+                                                          onChanged: (value) => {},
+                                                          label: "CPF do cliente",
+                                                          inputType: InputType.EXTRA_SMALL,
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        margin: EdgeInsets.only(top: 18),
+                                                        child: Row(
+                                                          children: [
+                                                            Expanded(
+                                                              child: OutlinedTextEdit(
+                                                                prefixIcon: Icon(Icons.assistant_photo),
+                                                                keyboardType: TextInputType.number,
+                                                                onChanged: (value) => {},
+                                                                label: "CEP",
+                                                                inputType: InputType.EXTRA_SMALL,
+                                                              ),
+                                                            ),
+                                                            SizedBox(width: 10),
+                                                            Expanded(
+                                                              child: OutlinedTextEdit(
+                                                                prefixIcon: Icon(Icons.dialpad),
+                                                                keyboardType: TextInputType.number,
+                                                                onChanged: (value) => {},
+                                                                label: "Bairro",
+                                                                inputType: InputType.EXTRA_SMALL,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        margin: EdgeInsets.only(top: 18),
                                                         child: Row(
                                                           children: [
                                                             Expanded(
@@ -1589,8 +1626,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                                 prefixIcon: Icon(Icons.dvr),
                                                                 keyboardType: TextInputType.number,
                                                                 onChanged: (value) => {},
-                                                                label: "Inversor",
-                                                                controller: inversor,
+                                                                label: "Endereço",
                                                                 inputType: InputType.EXTRA_SMALL,
                                                               ),
                                                             ),
@@ -1598,10 +1634,10 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                             Expanded(
                                                               flex: 1,
                                                               child: OutlinedTextEdit(
+                                                                prefixIcon: Icon(Icons.texture),
                                                                 keyboardType: TextInputType.number,
                                                                 onChanged: (value) => {},
-                                                                controller: potencia,
-                                                                label: "Potência",
+                                                                label: "Número",
                                                                 inputType: InputType.EXTRA_SMALL,
                                                               ),
                                                             ),
@@ -1609,230 +1645,295 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                         ),
                                                       ),
                                                       Container(
-                                                        margin: EdgeInsets.only(top: 16),
+                                                        margin: EdgeInsets.only(top: 30),
                                                         child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                           children: [
-                                                            Expanded(
-                                                              flex: 2,
-                                                              child: OutlinedTextEdit(
-                                                                prefixIcon: Icon(Icons.dvr),
-                                                                keyboardType: TextInputType.number,
-                                                                onChanged: (value) => {},
-                                                                label: "Módulos",
-                                                                controller: marcaModulos,
-                                                                inputType: InputType.EXTRA_SMALL,
-                                                              ),
+                                                            Text(
+                                                              'Dados da usina',
+                                                              style: ubuntu16BlueBold500,
                                                             ),
-                                                            SizedBox(width: 10),
-                                                            Expanded(
-                                                              flex: 1,
-                                                              child: OutlinedTextEdit(
-                                                                keyboardType: TextInputType.number,
-                                                                onChanged: (value) => {},
-                                                                label: "Quant.",
-                                                                controller: qtdModulos,
-                                                                inputType: InputType.EXTRA_SMALL,
-                                                              ),
-                                                            ),
+                                                            IconButton(
+                                                                iconSize: 30,
+                                                                icon: dadosDaUsina_view == false ? Icon(Icons.arrow_drop_down_circle, color: MainColors.cielo) : Icon(Icons.arrow_drop_up, color: Colors.grey),
+                                                                onPressed: () {
+                                                                  setState(() {
+                                                                    dadosDaUsina_view = !dadosDaUsina_view;
+                                                                  });
+                                                                })
                                                           ],
                                                         ),
                                                       ),
-                                                      Container(
-                                                        margin: EdgeInsets.only(top: 16),
-                                                        child: Row(
+                                                      Visibility(
+                                                        visible: dadosDaUsina_view,
+                                                        child: Wrap(
                                                           children: [
-                                                            Expanded(
-                                                              flex: 1,
-                                                              child: OutlinedTextEdit(
-                                                                prefixIcon: Icon(Icons.dvr),
-                                                                keyboardType: TextInputType.number,
-                                                                onChanged: (value) => {},
-                                                                label: "Geração kWp",
-                                                                controller: geracao,
-                                                                inputType: InputType.EXTRA_SMALL,
+                                                            Container(
+                                                              margin: EdgeInsets.only(top: 16),
+                                                              child: Row(
+                                                                children: [
+                                                                  Expanded(
+                                                                    flex: 2,
+                                                                    child: OutlinedTextEdit(
+                                                                      prefixIcon: Icon(Icons.dvr),
+                                                                      keyboardType: TextInputType.text,
+                                                                      onChanged: (value) => {},
+                                                                      label: "Inversor",
+                                                                      controller: inversor,
+                                                                      inputType: InputType.EXTRA_SMALL,
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(width: 10),
+                                                                  Expanded(
+                                                                    flex: 1,
+                                                                    child: OutlinedTextEdit(
+                                                                      keyboardType: TextInputType.number,
+                                                                      onChanged: (value) => {},
+                                                                      controller: potencia,
+                                                                      label: "Potência",
+                                                                      inputType: InputType.EXTRA_SMALL,
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
                                                             ),
-                                                            SizedBox(width: 10),
-                                                            Expanded(
-                                                              flex: 1,
-                                                              child: OutlinedTextEdit(
-                                                                keyboardType: TextInputType.number,
-                                                                onChanged: (value) => {},
-                                                                label: "Área",
-                                                                controller: area,
-                                                                inputType: InputType.EXTRA_SMALL,
+                                                            Container(
+                                                              margin: EdgeInsets.only(top: 16),
+                                                              child: Row(
+                                                                children: [
+                                                                  Expanded(
+                                                                    flex: 2,
+                                                                    child: OutlinedTextEdit(
+                                                                      prefixIcon: Icon(Icons.dvr),
+                                                                      keyboardType: TextInputType.text,
+                                                                      onChanged: (value) => {},
+                                                                      label: "Módulos",
+                                                                      controller: marcaModulos,
+                                                                      inputType: InputType.EXTRA_SMALL,
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(width: 10),
+                                                                  Expanded(
+                                                                    flex: 1,
+                                                                    child: OutlinedTextEdit(
+                                                                      keyboardType: TextInputType.number,
+                                                                      onChanged: (value) => {},
+                                                                      label: "Quant.",
+                                                                      controller: qtdModulos,
+                                                                      inputType: InputType.EXTRA_SMALL,
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
                                                             ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        margin: EdgeInsets.only(top: 16),
-                                                        child: Row(
-                                                          children: [
-                                                            Expanded(
-                                                              flex: 1,
-                                                              child: OutlinedTextEdit(
-                                                                prefixIcon: Icon(Icons.dvr),
-                                                                keyboardType: TextInputType.number,
-                                                                onChanged: (value) => {},
-                                                                label: "Código",
-                                                                controller: codigo,
-                                                                inputType: InputType.EXTRA_SMALL,
+                                                            Container(
+                                                              margin: EdgeInsets.only(top: 16),
+                                                              child: Row(
+                                                                children: [
+                                                                  Expanded(
+                                                                    flex: 1,
+                                                                    child: OutlinedTextEdit(
+                                                                      prefixIcon: Icon(Icons.dvr),
+                                                                      keyboardType: TextInputType.number,
+                                                                      onChanged: (value) => {},
+                                                                      label: "Geração kWp",
+                                                                      controller: geracao,
+                                                                      inputType: InputType.EXTRA_SMALL,
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(width: 10),
+                                                                  Expanded(
+                                                                    flex: 1,
+                                                                    child: OutlinedTextEdit(
+                                                                      keyboardType: TextInputType.number,
+                                                                      onChanged: (value) => {},
+                                                                      label: "Área",
+                                                                      controller: area,
+                                                                      inputType: InputType.EXTRA_SMALL,
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
                                                             ),
-                                                            SizedBox(width: 10),
-                                                            Expanded(
-                                                              flex: 2,
-                                                              child: OutlinedTextEdit(
-                                                                keyboardType: TextInputType.number,
-                                                                onChanged: (value) => {},
-                                                                label: "R\$ Valor",
-                                                                controller: valor,
-                                                                inputType: InputType.EXTRA_SMALL,
+                                                            Container(
+                                                              margin: EdgeInsets.only(top: 16),
+                                                              child: Row(
+                                                                children: [
+                                                                  Expanded(
+                                                                    flex: 1,
+                                                                    child: OutlinedTextEdit(
+                                                                      prefixIcon: Icon(Icons.dvr),
+                                                                      keyboardType: TextInputType.number,
+                                                                      onChanged: (value) => {},
+                                                                      label: "Código",
+                                                                      controller: codigo,
+                                                                      inputType: InputType.EXTRA_SMALL,
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(width: 10),
+                                                                  Expanded(
+                                                                    flex: 2,
+                                                                    child: OutlinedTextEdit(
+                                                                      keyboardType: TextInputType.number,
+                                                                      onChanged: (value) => {},
+                                                                      label: "R\$ Valor",
+                                                                      controller: valor,
+                                                                      inputType: InputType.EXTRA_SMALL,
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
                                                             ),
+                                                            Container(
+                                                              margin: EdgeInsets.only(top: 16),
+                                                              child: Row(
+                                                                children: [
+                                                                  Expanded(
+                                                                    flex: 1,
+                                                                    child: OutlinedTextEdit(
+                                                                      keyboardType: TextInputType.multiline,
+                                                                      maxLines: 10,
+                                                                      minLines: 10,
+                                                                      onChanged: (value) => {},
+                                                                      label: "Dados da usina",
+                                                                      controller: dados,
+                                                                      inputType: InputType.EXTRA_SMALL,
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(width: 10),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 100,
+                                                            )
                                                           ],
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        height: 100,
-                                                      )
+                                                        height: 300,
+                                                      ),
+                                                      Column(
+                                                        children: [
+                                                          SizedBox(
+                                                            height: 20,
+                                                          ),
+                                                          Row(
+                                                            children: <Widget>[
+                                                              Observer(builder: (BuildContext context) {
+                                                                return Expanded(
+                                                                  child: DangerButton(
+                                                                    child: Row(
+                                                                      children: <Widget>[
+                                                                        Icon(
+                                                                          Icons.sync,
+                                                                          color: Colors.white,
+                                                                          size: 30,
+                                                                        ),
+                                                                        SizedBox(
+                                                                          width: 18,
+                                                                        ),
+                                                                        Text(
+                                                                          'Voltar',
+                                                                          style: buttonLargeWhite,
+                                                                        ),
+                                                                      ],
+                                                                    ),
+
+                                                                    ////onPressed:controller.loginWithGoogle,
+
+                                                                    onPressed: !_loaderGenerateGraph ? Navigator.of(context).pop : null,
+                                                                  ).getLarge(),
+                                                                );
+                                                              }),
+                                                              SizedBox(
+                                                                width: 20,
+                                                              ),
+                                                              Expanded(
+                                                                child: PrimaryButton(
+                                                                  child: Row(
+                                                                    children: <Widget>[
+                                                                      Icon(
+                                                                        Icons.assignment,
+                                                                        color: Colors.white,
+                                                                        size: 30,
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width: 18,
+                                                                      ),
+                                                                      Text(
+                                                                        'Gerar',
+                                                                        style: buttonLargeWhite,
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  //onPressed:controller.loginWithGoogle,
+
+                                                                  // SETANDO NOVA
+
+                                                                  onPressed: !_loaderGenerateGraph ? goGeneratePDF : null,
+                                                                ).getLarge(),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
-                                                SizedBox(height: 200),
-                                                Row(
-                                                  children: <Widget>[
-                                                    Expanded(
-                                                      child: DangerButton(
-                                                        child: Row(
-                                                          children: <Widget>[
-                                                            Icon(
-                                                              Icons.sync,
-                                                              color: Colors.white,
-                                                              size: 30,
-                                                            ),
-                                                            SizedBox(
-                                                              width: 18,
-                                                            ),
-                                                            Text(
-                                                              'Voltar',
-                                                              style: buttonLargeWhite,
-                                                            ),
-                                                          ],
-                                                        ),
-
-                                                        //onPressed:controller.loginWithGoogle,
-
-                                                        onPressed: () {
-                                                          Navigator.of(context).pop();
-                                                        },
-                                                      ).getLarge(),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 20,
-                                                    ),
-                                                    Expanded(
-                                                      child: PrimaryButton(
-                                                        child: Row(
-                                                          children: <Widget>[
-                                                            Icon(
-                                                              Icons.assignment,
-                                                              color: Colors.white,
-                                                              size: 30,
-                                                            ),
-                                                            SizedBox(
-                                                              width: 18,
-                                                            ),
-                                                            Text(
-                                                              'Gerar',
-                                                              style: buttonLargeWhite,
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        //onPressed:controller.loginWithGoogle,
-
-                                                        // SETANDO NOVA
-
-                                                        onPressed: () async {
-                                                          setState(() {
-                                                            _loaderGenerateGraph = true;
-                                                          });
-
-                                                          await runChartGenerateImage1("grafico-1");
-
-                                                          await writeOnPdf("projeto-solar");
-
-                                                          Directory documentDirectory = await getExternalStorageDirectory();
-
-                                                          String documentPath = documentDirectory.path;
-
-                                                          String fullPath = "$documentPath/projeto-solar.pdf";
-
-                                                          setState(() {
-                                                            _loaderGenerateGraph = false;
-                                                          });
-
-                                                          Navigator.push(context, MaterialPageRoute(builder: (context) => PdfPreviewScreen(path: fullPath, pw: pw)));
-                                                        },
-                                                      ).getLarge(),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 100,
-                                            width: 100,
-                                            child: Stack(
-                                              children: <Widget>[
-                                                Center(
-                                                  child: SingleChildScrollView(
-                                                    scrollDirection: Axis.horizontal,
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        SingleChildScrollView(
-                                                          child: Column(
-                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                Container(
+                                                  height: 1,
+                                                  width: 1,
+                                                  child: Stack(
+                                                    children: <Widget>[
+                                                      Center(
+                                                        child: SingleChildScrollView(
+                                                          scrollDirection: Axis.horizontal,
+                                                          child: Row(
                                                             children: <Widget>[
-                                                              RepaintBoundary(
-                                                                key: globalKey,
-                                                                child: Container(
-                                                                  color: Colors.white,
-                                                                  child: Chart(
-                                                                    meses: returnAllMonths,
-                                                                    consumo: consumo,
-                                                                  ),
-                                                                  height: 700,
-                                                                  width: 1500,
+                                                              SingleChildScrollView(
+                                                                child: Column(
+                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                  children: <Widget>[
+                                                                    RepaintBoundary(
+                                                                      key: globalKey,
+                                                                      child: Container(
+                                                                        color: Colors.white,
+                                                                        child: Chart(
+                                                                          meses: returnAllMonths,
+                                                                          consumo: consumo,
+                                                                        ),
+                                                                        height: 700,
+                                                                        width: 1500,
+                                                                      ),
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                               ),
                                                             ],
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  width: 5300,
-                                                  height: 5300,
-                                                  color: Colors.white,
-                                                ),
-                                                Visibility(
-                                                  visible: _loaderGenerateGraph,
-                                                  child: Center(
-                                                    child: Container(
-                                                      child: Text(
-                                                        'Gerando PDF...',
-                                                        style: ubuntu16BlackBold500,
                                                       ),
-                                                    ),
+                                                    ],
                                                   ),
                                                 ),
                                               ],
+                                            ),
+                                          ),
+                                          Visibility(
+                                            visible: _loaderGenerateGraph,
+                                            child: Container(
+                                              color: Colors.white,
+                                              height: 700,
+                                              width: 1500,
+                                              child: Center(
+                                                child: Container(
+                                                  child: Text(
+                                                    'Gerando PDF...',
+                                                    style: ubuntu16BlackBold500,
+                                                  ),
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ],
