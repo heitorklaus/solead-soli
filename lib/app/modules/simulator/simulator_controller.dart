@@ -582,6 +582,8 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
   final codigo = TextEditingController();
   final valor = TextEditingController();
   final dados = TextEditingController();
+  final cliente = TextEditingController();
+  final endereco = TextEditingController();
 
   inversor.text = pw.inversor;
   potencia.text = pw.potencia.toString();
@@ -824,12 +826,12 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                   // FINANCIAMENTO financiamento
                   margin: pwa.EdgeInsets.only(top: 432, left: 44),
                   child: pwa.Column(crossAxisAlignment: pwa.CrossAxisAlignment.start, mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[
-                    pwa.Row(children: <pwa.Widget>[pwa.Text("Acc: ", style: pwa.TextStyle(fontSize: 32, color: PdfColor.fromHex("#FFFFFF"))), pwa.Text("Rodrigo Guides Machado", style: pwa.TextStyle(fontSize: 35, fontWeight: pwa.FontWeight.bold, color: PdfColor.fromHex("#FFFFFF")))]),
+                    pwa.Row(children: <pwa.Widget>[pwa.Text(cliente.text, style: pwa.TextStyle(fontSize: 35, fontWeight: pwa.FontWeight.bold, color: PdfColor.fromHex("#FFFFFF")))]),
                     pwa.SizedBox(
                       height: 7,
                     ),
                     pwa.Row(children: <pwa.Widget>[
-                      pwa.Text("Rua Projetada, 2 - Res Bosque dos Ipês ", style: pwa.TextStyle(fontSize: 22, color: PdfColor.fromHex("#FFFFFF"))),
+                      pwa.Text(endereco.text, style: pwa.TextStyle(fontSize: 22, color: PdfColor.fromHex("#FFFFFF"))),
                     ]),
                   ]),
                 ),
@@ -1533,25 +1535,29 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                     _loaderGenerateGraph = true;
                                   });
 
-                                  await runChartGenerateImage1("grafico-1");
+                                  Future.delayed(const Duration(milliseconds: 4000), () async {
+                                    await runChartGenerateImage1("grafico-1");
 
-                                  await writeOnPdf("2700kWh-FRONIUS-Angelica");
+                                    await writeOnPdf("Soli-Energia-Solar(pré-proposta)");
 
-                                  Directory documentDirectory = await getExternalStorageDirectory();
+                                    Directory documentDirectory = await getExternalStorageDirectory();
 
-                                  String documentPath = documentDirectory.path;
+                                    String documentPath = documentDirectory.path;
 
-                                  String fullPath = "$documentPath/2700kWh-FRONIUS-Angelica.pdf";
+                                    String fullPath = "$documentPath/Soli-Energia-Solar(pré-proposta).pdf";
 
-                                  setState(() {
-                                    _loaderGenerateGraph = false;
+                                    setState(() {
+                                      _loaderGenerateGraph = false;
+                                    });
+
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => PdfPreviewScreen(path: fullPath, pw: pw)));
                                   });
-
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => PdfPreviewScreen(path: fullPath, pw: pw)));
                                 }
 
+                                final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
                                 return AlertDialog(
                                   content: Scaffold(
+                                    resizeToAvoidBottomPadding: true,
                                     body: SingleChildScrollView(
                                       child: Stack(
                                         children: [
@@ -1566,7 +1572,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                       Row(
                                                         children: [
                                                           Text(
-                                                            'Dadoas do cliente ',
+                                                            'Dados do cliente ',
                                                             style: ubuntu16BlueBold500,
                                                           ),
                                                         ],
@@ -1578,6 +1584,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                           onChanged: (value) => {},
                                                           label: "Nome do cliente",
                                                           inputType: InputType.EXTRA_SMALL,
+                                                          controller: cliente,
                                                         ),
                                                       ),
                                                       Container(
@@ -1624,9 +1631,10 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                               flex: 2,
                                                               child: OutlinedTextEdit(
                                                                 prefixIcon: Icon(Icons.dvr),
-                                                                keyboardType: TextInputType.number,
+                                                                keyboardType: TextInputType.text,
                                                                 onChanged: (value) => {},
                                                                 label: "Endereço",
+                                                                controller: endereco,
                                                                 inputType: InputType.EXTRA_SMALL,
                                                               ),
                                                             ),
@@ -1818,64 +1826,6 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                           SizedBox(
                                                             height: 20,
                                                           ),
-                                                          Row(
-                                                            children: <Widget>[
-                                                              Observer(builder: (BuildContext context) {
-                                                                return Expanded(
-                                                                  child: DangerButton(
-                                                                    child: Row(
-                                                                      children: <Widget>[
-                                                                        Icon(
-                                                                          Icons.sync,
-                                                                          color: Colors.white,
-                                                                          size: 30,
-                                                                        ),
-                                                                        SizedBox(
-                                                                          width: 18,
-                                                                        ),
-                                                                        Text(
-                                                                          'Voltar',
-                                                                          style: buttonLargeWhite,
-                                                                        ),
-                                                                      ],
-                                                                    ),
-
-                                                                    ////onPressed:controller.loginWithGoogle,
-
-                                                                    onPressed: !_loaderGenerateGraph ? Navigator.of(context).pop : null,
-                                                                  ).getLarge(),
-                                                                );
-                                                              }),
-                                                              SizedBox(
-                                                                width: 20,
-                                                              ),
-                                                              Expanded(
-                                                                child: PrimaryButton(
-                                                                  child: Row(
-                                                                    children: <Widget>[
-                                                                      Icon(
-                                                                        Icons.assignment,
-                                                                        color: Colors.white,
-                                                                        size: 30,
-                                                                      ),
-                                                                      SizedBox(
-                                                                        width: 18,
-                                                                      ),
-                                                                      Text(
-                                                                        'Gerar',
-                                                                        style: buttonLargeWhite,
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                  //onPressed:controller.loginWithGoogle,
-
-                                                                  // SETANDO NOVA
-
-                                                                  onPressed: !_loaderGenerateGraph ? goGeneratePDF : null,
-                                                                ).getLarge(),
-                                                              ),
-                                                            ],
-                                                          ),
                                                         ],
                                                       ),
                                                     ],
@@ -1924,21 +1874,86 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                             visible: _loaderGenerateGraph,
                                             child: Container(
                                               color: Colors.white,
-                                              height: 700,
+                                              height: MediaQuery.of(context).size.height,
                                               width: 1500,
-                                              child: Center(
-                                                child: Container(
-                                                  child: Text(
-                                                    'Gerando PDF...',
-                                                    style: ubuntu16BlackBold500,
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Text('Gerando PDF...'),
+                                                  Container(
+                                                    width: 150,
+                                                    height: 150,
+                                                    child: FlareActor('lib/app/shared/assets/animations/loading_success_error_2.flr', animation: "loading"),
                                                   ),
-                                                ),
+                                                ],
                                               ),
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
+                                    floatingActionButton: showFab
+                                        ? Row(
+                                            children: <Widget>[
+                                              SizedBox(width: 30),
+                                              Observer(builder: (BuildContext context) {
+                                                return Expanded(
+                                                  child: DangerButton(
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        Icon(
+                                                          Icons.sync,
+                                                          color: Colors.white,
+                                                          size: 30,
+                                                        ),
+                                                        SizedBox(
+                                                          width: 18,
+                                                        ),
+                                                        Text(
+                                                          'Voltar',
+                                                          style: buttonLargeWhite,
+                                                        ),
+                                                      ],
+                                                    ),
+
+                                                    ////onPressed:controller.loginWithGoogle,
+
+                                                    onPressed: !_loaderGenerateGraph ? Navigator.of(context).pop : null,
+                                                  ).getLarge(),
+                                                );
+                                              }),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              Expanded(
+                                                child: PrimaryButton(
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      Icon(
+                                                        Icons.assignment,
+                                                        color: Colors.white,
+                                                        size: 30,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 18,
+                                                      ),
+                                                      Text(
+                                                        'Gerar',
+                                                        style: buttonLargeWhite,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  //onPressed:controller.loginWithGoogle,
+
+                                                  // SETANDO NOVA
+
+                                                  onPressed: !_loaderGenerateGraph ? goGeneratePDF : null,
+                                                ).getLarge(),
+                                              ),
+                                            ],
+                                          )
+                                        : null,
                                   ),
                                 );
                               },

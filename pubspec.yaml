@@ -65,6 +65,7 @@ flutter:
   assets:
     - lib/app/shared/assets/images/
     - lib/app/shared/assets/icons/
+    - lib/app/shared/assets/animations/loading_success_error_2.flr
 
   fonts:
     - family: Museo
