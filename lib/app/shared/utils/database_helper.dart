@@ -200,16 +200,17 @@ class DatabaseHelper {
         try {
           String id = row[1].replaceAll('"', '');
           String potencia = row[2].replaceAll(',', '.');
-          String dados = row[3].replaceAll('"', '') + '<BR>' + row[4].replaceAll('"', '') + '<BR>' + row[5].replaceAll('"', '') + '<BR>' + row[6].replaceAll('"', '') + '<BR>' + row[7].replaceAll('"', '') + '<BR>' + row[8].replaceAll('"', '') + '<BR>' + row[9].replaceAll('"', '') + '<BR>' + row[10].replaceAll('"', '') + '<BR>' + row[11].replaceAll('"', '') + '<BR>' + row[12].replaceAll('"', '');
-          String numero_de_modulo = row[13].replaceAll('"', '');
-          String potencia_do_modulo = row[14].replaceAll('"', '');
-          String marca_do_modulo = row[15].replaceAll('"', '');
-          String inversor = row[16].replaceAll('"', '');
-          String area = row[17].replaceAll('"', '');
-          String peso = row[18].replaceAll('"', '');
-          String codigo = row[19].replaceAll('"', '');
+          String dados = row[3].replaceAll('<BR>', '\n');
+          String numero_de_modulo = row[4].replaceAll('"', '');
+          String potencia_do_modulo = row[5].replaceAll('"', '');
+          String marca_do_modulo = row[6].replaceAll('"', '');
+          String inversor = row[7].replaceAll('"', '');
+          String area = row[8].replaceAll('"', '');
+          String peso = row[9].replaceAll('"', '');
+          String codigo = row[10].replaceAll('"', '');
 
-          String valor = row[20].replaceAll('"', '');
+          String valor = row[11].replaceAll('"', '');
+          String valorCusto = row[12].replaceAll('"', '');
 
           if (id == "id") {
             print('[IDENTIFY AND DELETE OLD DATA TABLE DADOSKITS]');

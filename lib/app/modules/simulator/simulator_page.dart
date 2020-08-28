@@ -1,8 +1,11 @@
 import 'package:date_util/date_util.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'package:framework/config/main_colors.dart';
 import 'package:framework/config/styles/button_styles.dart';
 import 'package:framework/ui/form/buttons/primary_button.dart';
 import 'package:framework/ui/form/inputs/input_type.dart';
@@ -12,6 +15,8 @@ import 'package:login/app/modules/simulator/simulator_module.dart';
 import 'package:login/app/shared/auth/repositories/auth_repository.dart';
 import 'package:login/app/shared/repositories/entities/proposal_strings.dart';
 import 'package:login/app/shared/repositories/proposal_strings.dart';
+
+import 'package:login/app/shared/styles/main_colors.dart' as main;
 import 'package:login/app/shared/styles/main_style.dart';
 import 'simulator_controller.dart';
 
@@ -30,6 +35,15 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
   bool isVisible = false;
 
   static var dateUtility = DateUtil();
+
+  @override
+  void dispose() {
+    super.dispose();
+    print('saiu do simulat');
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: main.MainColors.cielo, //or set color with: Color(0xFF0000FF)
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
