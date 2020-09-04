@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:archive/archive.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:diacritic/diacritic.dart';
 import 'package:dio/dio.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -190,8 +190,9 @@ class DatabaseHelper {
     Stream<List> inputStream = file.openRead();
 
     inputStream
-        .transform(utf8.decoder) // Dezcode bytes to UTF-8.
+        .transform(Latin1Decoder()) // Dezcode bytes to UTF-8.
         .transform(new LineSplitter()) // Convert stream to individual lines.
+
         .listen((String line) {
       List row = line.split(';'); // split by ponto e virgula
       String table = row[0].replaceAll('"', '');

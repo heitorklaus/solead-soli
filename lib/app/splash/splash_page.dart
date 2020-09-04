@@ -59,7 +59,7 @@ class _SplashPageState extends State<SplashPage> {
       }
 
       try {
-        await DatabaseHelper().downloadFile("http://www.klausmetal.com.br/file56.csv", "file56.csv").then((value) async {
+        await DatabaseHelper().downloadFile("http://www.klausmetal.com.br/nexendata.csv", "nexendata.csv").then((value) async {
           if (value.statusCode == 200) {
             print('[ LOADED DATA FROM KLAUSMETAL]');
             loadCitiesIrradiationData();

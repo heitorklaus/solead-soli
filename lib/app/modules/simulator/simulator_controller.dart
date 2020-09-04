@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:framework/config/main_colors.dart';
@@ -362,7 +364,7 @@ abstract class _SimulatorControllerBase with Store {
 
               return AlertDialog(
                 content: Scaffold(
-                  body: SingleChildScrollView(child: buildDialog(context, powerPlantsMaior, mediaMenor, returnAll, returnConsumo(), tax, setState)),
+                  body: SingleChildScrollView(child: buildDialog(context, powerPlantsMenor, mediaMenor, returnAll, returnConsumo(), tax, setState)),
                 ),
               );
             },
@@ -581,9 +583,16 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
   final geracao = TextEditingController();
   final area = TextEditingController();
   final codigo = TextEditingController();
-  final valor = TextEditingController();
-  final dados = TextEditingController();
   final cliente = TextEditingController();
+  final bairro = TextEditingController();
+  final cep = TextEditingController();
+  final numero = TextEditingController();
+
+  final dados = TextEditingController();
+  final cpf = MaskedTextController(mask: '000.000.000-00');
+
+  final valor = new MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.', leftSymbol: 'R\$ ');
+
   final endereco = TextEditingController();
 
   inversor.text = pw.inversor;
@@ -1106,7 +1115,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                           //
                           margin: pwa.EdgeInsets.only(top: 347, left: 38),
                           //#TODO SE A QUANTIDADE DE DADOS DO SISTEMA FOR MUITO GRANDE VAI QUEBRAR O PDF
-                          child: pwa.Text(dados.text.replaceAll('\n', '\n'), style: pwa.TextStyle(lineSpacing: 5, fontSize: 10)),
+                          child: pwa.Text(dados.text.replaceAll('\n', '\n'), style: pwa.TextStyle(lineSpacing: 5, fontSize: 8)),
                         ),
                       ]),
                 ])),
@@ -1326,7 +1335,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
   }
 
   /////////////////////// PDF //////////////////////////////////////
-
+  final scrollController = ScrollController();
 // DIALOG DE VISUALIZACAO DA USINA
   bool dadosDaUsina_view = false;
   bool custosEComissoes_view = false;
@@ -1463,7 +1472,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
               ),
               Container(
                 margin: EdgeInsets.only(top: 20),
-                height: 300,
+                height: 200,
                 child: SingleChildScrollView(
                   child: SelectableText.rich(
                     TextSpan(
@@ -1476,25 +1485,28 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                 ),
               ),
             ]),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: DangerButton(
-                    child: Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.sync,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                        SizedBox(
-                          width: 18,
-                        ),
-                        Text(
-                          'Voltar',
-                          style: buttonLargeWhite,
-                        ),
-                      ],
+            Container(
+              margin: EdgeInsets.only(left: 10),
+              child: Row(
+                children: <Widget>[
+                  DangerButton(
+                    child: Center(
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.sync,
+                            color: Colors.white,
+                            size: 30,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            'Voltar',
+                            style: buttonLargeWhite,
+                          ),
+                        ],
+                      ),
                     ),
 
                     //onPressed:controller.loginWithGoogle,
@@ -1506,12 +1518,10 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                       Navigator.of(context).pop();
                     },
                   ).getLarge(),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                Expanded(
-                  child: PrimaryButton(
+                  SizedBox(
+                    width: 20,
+                  ),
+                  PrimaryButton(
                       child: Center(
                         child: Row(
                           children: [
@@ -1521,7 +1531,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                               size: 30,
                             ),
                             SizedBox(
-                              width: 15,
+                              width: 5,
                             ),
                             Text(
                               'Avançar',
@@ -1541,6 +1551,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                             return StatefulBuilder(
                               builder: (context, setState) {
                                 goGeneratePDF() async {
+                                  scrollController.animateTo(scrollController.position.minScrollExtent, duration: Duration(milliseconds: 500), curve: Curves.ease);
                                   setState(() {
                                     _loaderGenerateGraph = true;
                                   });
@@ -1564,15 +1575,40 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                   });
                                 }
 
+                                Future<void> paste(name) async {
+                                  final ClipboardData data = await Clipboard.getData(Clipboard.kTextPlain);
+                                  // print('Dados do clienteee' + data.text);
+
+                                  if (name == "cliente") cliente.text = data.text;
+                                  if (name == "cpf") cpf.text = data.text;
+                                  if (name == "cep") cep.text = data.text;
+                                  if (name == "bairro") bairro.text = data.text;
+                                  if (name == "endereco") endereco.text = data.text;
+
+                                  if (name == "inversor") inversor.text = data.text;
+                                  if (name == "potencia") potencia.text = data.text;
+                                  if (name == "modulos") marcaModulos.text = data.text;
+                                  if (name == "qtd") qtdModulos.text = data.text;
+                                  if (name == "geracao") geracao.text = data.text;
+                                  if (name == "area") area.text = data.text;
+                                  if (name == "codigo") codigo.text = data.text;
+                                  if (name == "dados") dados.text = data.text;
+
+                                  // return data;
+                                }
+
+                                final focusNode = FocusNode();
                                 final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
                                 return AlertDialog(
                                   content: Scaffold(
                                     resizeToAvoidBottomPadding: true,
                                     body: SingleChildScrollView(
+                                      controller: scrollController,
                                       child: Stack(
                                         children: [
                                           Container(
-                                            height: MediaQuery.of(context).size.height + 1000,
+                                            padding: EdgeInsets.only(bottom: 50),
+                                            margin: EdgeInsets.only(bottom: 50),
                                             child: Column(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
@@ -1582,7 +1618,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                       Row(
                                                         children: [
                                                           Text(
-                                                            'Dados do cliente ',
+                                                            'Dados do cliente2',
                                                             style: ubuntu16BlueBold500,
                                                           ),
                                                         ],
@@ -1595,6 +1631,11 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                           label: "Nome do cliente",
                                                           inputType: InputType.EXTRA_SMALL,
                                                           controller: cliente,
+                                                          suffixIcon: IconButton(
+                                                              icon: Icon(Icons.content_paste),
+                                                              onPressed: () {
+                                                                paste("cliente");
+                                                              }),
                                                         ),
                                                       ),
                                                       Container(
@@ -1604,7 +1645,13 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                           keyboardType: TextInputType.number,
                                                           onChanged: (value) => {},
                                                           label: "CPF do cliente",
+                                                          controller: cpf,
                                                           inputType: InputType.EXTRA_SMALL,
+                                                          suffixIcon: IconButton(
+                                                              icon: Icon(Icons.content_paste),
+                                                              onPressed: () {
+                                                                paste("cpf");
+                                                              }),
                                                         ),
                                                       ),
                                                       Container(
@@ -1617,7 +1664,13 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                                 keyboardType: TextInputType.number,
                                                                 onChanged: (value) => {},
                                                                 label: "CEP",
+                                                                controller: cep,
                                                                 inputType: InputType.EXTRA_SMALL,
+                                                                suffixIcon: IconButton(
+                                                                    icon: Icon(Icons.content_paste),
+                                                                    onPressed: () {
+                                                                      paste("cep");
+                                                                    }),
                                                               ),
                                                             ),
                                                             SizedBox(width: 10),
@@ -1627,6 +1680,12 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                                 keyboardType: TextInputType.number,
                                                                 onChanged: (value) => {},
                                                                 label: "Bairro",
+                                                                controller: bairro,
+                                                                suffixIcon: IconButton(
+                                                                    icon: Icon(Icons.content_paste),
+                                                                    onPressed: () {
+                                                                      paste("bairro");
+                                                                    }),
                                                                 inputType: InputType.EXTRA_SMALL,
                                                               ),
                                                             ),
@@ -1646,6 +1705,11 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                                 label: "Endereço",
                                                                 controller: endereco,
                                                                 inputType: InputType.EXTRA_SMALL,
+                                                                suffixIcon: IconButton(
+                                                                    icon: Icon(Icons.content_paste),
+                                                                    onPressed: () {
+                                                                      paste("endereco");
+                                                                    }),
                                                               ),
                                                             ),
                                                             SizedBox(width: 10),
@@ -1654,6 +1718,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                               child: OutlinedTextEdit(
                                                                 prefixIcon: Icon(Icons.texture),
                                                                 keyboardType: TextInputType.number,
+                                                                controller: numero,
                                                                 onChanged: (value) => {},
                                                                 label: "Número",
                                                                 inputType: InputType.EXTRA_SMALL,
@@ -1700,11 +1765,16 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                                   Expanded(
                                                                     flex: 2,
                                                                     child: OutlinedTextEdit(
-                                                                      prefixIcon: Icon(Icons.dvr),
+                                                                      prefixIcon: Icon(Icons.add_to_queue),
                                                                       keyboardType: TextInputType.text,
                                                                       onChanged: (value) => {},
                                                                       label: "Inversor",
                                                                       controller: inversor,
+                                                                      suffixIcon: IconButton(
+                                                                          icon: Icon(Icons.content_paste),
+                                                                          onPressed: () {
+                                                                            paste("inversor");
+                                                                          }),
                                                                       inputType: InputType.EXTRA_SMALL,
                                                                     ),
                                                                   ),
@@ -1712,6 +1782,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                                   Expanded(
                                                                     flex: 1,
                                                                     child: OutlinedTextEdit(
+                                                                      prefixIcon: Icon(Icons.toys),
                                                                       keyboardType: TextInputType.number,
                                                                       onChanged: (value) => {},
                                                                       controller: potencia,
@@ -1727,13 +1798,18 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                               child: Row(
                                                                 children: [
                                                                   Expanded(
-                                                                    flex: 2,
+                                                                    flex: 1,
                                                                     child: OutlinedTextEdit(
-                                                                      prefixIcon: Icon(Icons.dvr),
+                                                                      prefixIcon: Icon(Icons.view_comfy),
                                                                       keyboardType: TextInputType.text,
                                                                       onChanged: (value) => {},
                                                                       label: "Módulos",
                                                                       controller: marcaModulos,
+                                                                      suffixIcon: IconButton(
+                                                                          icon: Icon(Icons.content_paste),
+                                                                          onPressed: () {
+                                                                            paste("modulos");
+                                                                          }),
                                                                       inputType: InputType.EXTRA_SMALL,
                                                                     ),
                                                                   ),
@@ -1741,8 +1817,14 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                                   Expanded(
                                                                     flex: 1,
                                                                     child: OutlinedTextEdit(
+                                                                      prefixIcon: Icon(Icons.format_list_numbered),
                                                                       keyboardType: TextInputType.number,
                                                                       onChanged: (value) => {},
+                                                                      suffixIcon: IconButton(
+                                                                          icon: Icon(Icons.content_paste),
+                                                                          onPressed: () {
+                                                                            paste("qtd");
+                                                                          }),
                                                                       label: "Quant.",
                                                                       controller: qtdModulos,
                                                                       inputType: InputType.EXTRA_SMALL,
@@ -1758,9 +1840,14 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                                   Expanded(
                                                                     flex: 1,
                                                                     child: OutlinedTextEdit(
-                                                                      prefixIcon: Icon(Icons.dvr),
+                                                                      prefixIcon: Icon(Icons.usb),
                                                                       keyboardType: TextInputType.number,
                                                                       onChanged: (value) => {},
+                                                                      suffixIcon: IconButton(
+                                                                          icon: Icon(Icons.content_paste),
+                                                                          onPressed: () {
+                                                                            paste("geracao");
+                                                                          }),
                                                                       label: "Geração kWp",
                                                                       controller: geracao,
                                                                       inputType: InputType.EXTRA_SMALL,
@@ -1770,9 +1857,15 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                                   Expanded(
                                                                     flex: 1,
                                                                     child: OutlinedTextEdit(
+                                                                      prefixIcon: Icon(Icons.aspect_ratio),
                                                                       keyboardType: TextInputType.number,
                                                                       onChanged: (value) => {},
                                                                       label: "Área",
+                                                                      suffixIcon: IconButton(
+                                                                          icon: Icon(Icons.content_paste),
+                                                                          onPressed: () {
+                                                                            paste("area");
+                                                                          }),
                                                                       controller: area,
                                                                       inputType: InputType.EXTRA_SMALL,
                                                                     ),
@@ -1787,18 +1880,23 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                                   Expanded(
                                                                     flex: 1,
                                                                     child: OutlinedTextEdit(
-                                                                      prefixIcon: Icon(Icons.dvr),
                                                                       keyboardType: TextInputType.number,
                                                                       onChanged: (value) => {},
                                                                       label: "Código",
+                                                                      suffixIcon: IconButton(
+                                                                          icon: Icon(Icons.content_paste),
+                                                                          onPressed: () {
+                                                                            paste("codigo");
+                                                                          }),
                                                                       controller: codigo,
                                                                       inputType: InputType.EXTRA_SMALL,
                                                                     ),
                                                                   ),
                                                                   SizedBox(width: 10),
                                                                   Expanded(
-                                                                    flex: 2,
+                                                                    flex: 1,
                                                                     child: OutlinedTextEdit(
+                                                                      prefixIcon: Icon(Icons.monetization_on),
                                                                       keyboardType: TextInputType.number,
                                                                       onChanged: (value) => {},
                                                                       label: "R\$ Valor",
@@ -1819,6 +1917,11 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                                       keyboardType: TextInputType.multiline,
                                                                       maxLines: 10,
                                                                       minLines: 10,
+                                                                      suffixIcon: IconButton(
+                                                                          icon: Icon(Icons.content_paste),
+                                                                          onPressed: () {
+                                                                            paste("dados");
+                                                                          }),
                                                                       onChanged: (value) => {},
                                                                       label: "Dados da usina",
                                                                       controller: dados,
@@ -1834,191 +1937,6 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                             )
                                                           ],
                                                         ),
-                                                      ),
-
-                                                      // EXPANSION 2
-                                                      InkWell(
-                                                        onTap: () {
-                                                          setState(() {
-                                                            custosEComissoes_view = !custosEComissoes_view;
-                                                          });
-                                                        },
-                                                        child: Container(
-                                                          margin: EdgeInsets.only(top: 30),
-                                                          child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                            children: [
-                                                              Text(
-                                                                'Custos e Comissões',
-                                                                style: ubuntu16BlueBold500,
-                                                              ),
-                                                              IconButton(
-                                                                  iconSize: 30,
-                                                                  icon: custosEComissoes_view == false ? Icon(Icons.arrow_drop_down_circle, color: MainColors.cielo) : Icon(Icons.arrow_drop_up, color: Colors.grey),
-                                                                  onPressed: () {
-                                                                    setState(() {
-                                                                      custosEComissoes_view = !custosEComissoes_view;
-                                                                    });
-                                                                  })
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Visibility(
-                                                        visible: custosEComissoes_view,
-                                                        child: Wrap(
-                                                          children: [
-                                                            Container(
-                                                              margin: EdgeInsets.only(top: 16),
-                                                              child: Row(
-                                                                children: [
-                                                                  Expanded(
-                                                                    flex: 2,
-                                                                    child: OutlinedTextEdit(
-                                                                      prefixIcon: Icon(Icons.dvr),
-                                                                      keyboardType: TextInputType.text,
-                                                                      onChanged: (value) => {},
-                                                                      label: "Inversor",
-                                                                      controller: inversor,
-                                                                      inputType: InputType.EXTRA_SMALL,
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(width: 10),
-                                                                  Expanded(
-                                                                    flex: 1,
-                                                                    child: OutlinedTextEdit(
-                                                                      keyboardType: TextInputType.number,
-                                                                      onChanged: (value) => {},
-                                                                      controller: potencia,
-                                                                      label: "Potência",
-                                                                      inputType: InputType.EXTRA_SMALL,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            Container(
-                                                              margin: EdgeInsets.only(top: 16),
-                                                              child: Row(
-                                                                children: [
-                                                                  Expanded(
-                                                                    flex: 2,
-                                                                    child: OutlinedTextEdit(
-                                                                      prefixIcon: Icon(Icons.dvr),
-                                                                      keyboardType: TextInputType.text,
-                                                                      onChanged: (value) => {},
-                                                                      label: "Módulos",
-                                                                      controller: marcaModulos,
-                                                                      inputType: InputType.EXTRA_SMALL,
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(width: 10),
-                                                                  Expanded(
-                                                                    flex: 1,
-                                                                    child: OutlinedTextEdit(
-                                                                      keyboardType: TextInputType.number,
-                                                                      onChanged: (value) => {},
-                                                                      label: "Quant.",
-                                                                      controller: qtdModulos,
-                                                                      inputType: InputType.EXTRA_SMALL,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            Container(
-                                                              margin: EdgeInsets.only(top: 16),
-                                                              child: Row(
-                                                                children: [
-                                                                  Expanded(
-                                                                    flex: 1,
-                                                                    child: OutlinedTextEdit(
-                                                                      prefixIcon: Icon(Icons.dvr),
-                                                                      keyboardType: TextInputType.number,
-                                                                      onChanged: (value) => {},
-                                                                      label: "Geração kWp",
-                                                                      controller: geracao,
-                                                                      inputType: InputType.EXTRA_SMALL,
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(width: 10),
-                                                                  Expanded(
-                                                                    flex: 1,
-                                                                    child: OutlinedTextEdit(
-                                                                      keyboardType: TextInputType.number,
-                                                                      onChanged: (value) => {},
-                                                                      label: "Área",
-                                                                      controller: area,
-                                                                      inputType: InputType.EXTRA_SMALL,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            Container(
-                                                              margin: EdgeInsets.only(top: 16),
-                                                              child: Row(
-                                                                children: [
-                                                                  Expanded(
-                                                                    flex: 1,
-                                                                    child: OutlinedTextEdit(
-                                                                      prefixIcon: Icon(Icons.dvr),
-                                                                      keyboardType: TextInputType.number,
-                                                                      onChanged: (value) => {},
-                                                                      label: "Código",
-                                                                      controller: codigo,
-                                                                      inputType: InputType.EXTRA_SMALL,
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(width: 10),
-                                                                  Expanded(
-                                                                    flex: 2,
-                                                                    child: OutlinedTextEdit(
-                                                                      keyboardType: TextInputType.number,
-                                                                      onChanged: (value) => {},
-                                                                      label: "R\$ Valor",
-                                                                      controller: valor,
-                                                                      inputType: InputType.EXTRA_SMALL,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            Container(
-                                                              margin: EdgeInsets.only(top: 16),
-                                                              child: Row(
-                                                                children: [
-                                                                  Expanded(
-                                                                    flex: 1,
-                                                                    child: OutlinedTextEdit(
-                                                                      keyboardType: TextInputType.multiline,
-                                                                      maxLines: 10,
-                                                                      minLines: 10,
-                                                                      onChanged: (value) => {},
-                                                                      label: "Dados da usina",
-                                                                      controller: dados,
-                                                                      inputType: InputType.EXTRA_SMALL,
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(width: 10),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 100,
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 300,
-                                                      ),
-                                                      Column(
-                                                        children: [
-                                                          SizedBox(
-                                                            height: 20,
-                                                          ),
-                                                        ],
                                                       ),
                                                     ],
                                                   ),
@@ -2066,7 +1984,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                             visible: _loaderGenerateGraph,
                                             child: Container(
                                               color: Colors.white,
-                                              height: MediaQuery.of(context).size.height - 100,
+                                              height: MediaQuery.of(context).size.height,
                                               child: Center(
                                                 //color: Colors.white,
                                                 // height: MediaQuery.of(context).size.height,
@@ -2109,61 +2027,54 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                     floatingActionButton: showFab
                                         ? Row(
                                             children: <Widget>[
-                                              SizedBox(width: 30),
+                                              SizedBox(width: 42),
                                               Observer(builder: (BuildContext context) {
-                                                return Expanded(
-                                                  child: DangerButton(
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        Icon(
-                                                          Icons.sync,
-                                                          color: Colors.white,
-                                                          size: 30,
-                                                        ),
-                                                        SizedBox(
-                                                          width: 18,
-                                                        ),
-                                                        Text(
-                                                          'Voltar',
-                                                          style: buttonLargeWhite,
-                                                        ),
-                                                      ],
-                                                    ),
-
-                                                    ////onPressed:controller.loginWithGoogle,
-
-                                                    onPressed: !_loaderGenerateGraph ? Navigator.of(context).pop : null,
-                                                  ).getLarge(),
-                                                );
-                                              }),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                              Expanded(
-                                                child: PrimaryButton(
+                                                return DangerButton(
                                                   child: Row(
                                                     children: <Widget>[
                                                       Icon(
-                                                        Icons.assignment,
+                                                        Icons.sync,
                                                         color: Colors.white,
                                                         size: 30,
                                                       ),
-                                                      SizedBox(
-                                                        width: 18,
-                                                      ),
                                                       Text(
-                                                        'Gerar',
+                                                        'Voltar',
                                                         style: buttonLargeWhite,
                                                       ),
                                                     ],
                                                   ),
-                                                  //onPressed:controller.loginWithGoogle,
 
-                                                  // SETANDO NOVA
+                                                  ////onPressed:controller.loginWithGoogle,
 
-                                                  onPressed: !_loaderGenerateGraph ? goGeneratePDF : null,
-                                                ).getLarge(),
+                                                  onPressed: !_loaderGenerateGraph ? Navigator.of(context).pop : null,
+                                                ).getLarge();
+                                              }),
+                                              SizedBox(
+                                                width: 20,
                                               ),
+                                              PrimaryButton(
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Icon(
+                                                      Icons.assignment,
+                                                      color: Colors.white,
+                                                      size: 30,
+                                                    ),
+                                                    Text(
+                                                      'Gerar',
+                                                      style: buttonLargeWhite,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 4,
+                                                    ),
+                                                  ],
+                                                ),
+                                                //onPressed:controller.loginWithGoogle,
+
+                                                // SETANDO NOVA
+
+                                                onPressed: !_loaderGenerateGraph ? goGeneratePDF : null,
+                                              ).getLarge(),
                                             ],
                                           )
                                         : null,
@@ -2176,8 +2087,8 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
 
                         //Navigator.of(context).pop();
                       }).getLarge(),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

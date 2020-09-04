@@ -49,6 +49,7 @@ dependencies:
 dev_dependencies:
   mockito: ^4.1.1
   mobx_codegen: ^1.0.1
+  flutter_masked_text:
   build_runner: ^1.7.3
   flutter_test:
     sdk: flutter

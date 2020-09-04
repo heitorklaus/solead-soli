@@ -52,8 +52,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    print('home');
+    tabController = TabController(vsync: this, length: 4);
   }
 
   @override

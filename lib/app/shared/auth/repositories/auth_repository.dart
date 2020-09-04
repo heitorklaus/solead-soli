@@ -39,7 +39,7 @@ class AuthRepository implements IAuthRepository {
     var body = jsonEncode({'username': user, 'password': pass});
 
     headers["Content-Type"] = "application/json";
-    final auth = await http.post('https://buracosapp2020.herokuapp.com/api/auth/signin', headers: headers, body: body);
+    final auth = await http.post('https://soleadapp.herokuapp.com/api/auth/signin', headers: headers, body: body);
 
     final data = Auth.fromJson(json.decode(auth.body));
 
