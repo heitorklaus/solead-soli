@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:login/app/shared/auth/auth_controller.dart';
-import 'package:login/app/shared/auth/repositories/auth_repository.dart';
 import 'package:login/app/shared/auth/repositories/auth_repository_interface.dart';
 import 'package:login/app/shared/repositories/entities/tax.dart';
 import 'package:login/app/shared/repositories/localstorage/local_storage_interface.dart';
@@ -28,11 +26,9 @@ abstract class _HomeBase with Store {
     await _authRepository.getTax();
   }
 
-  Future<List<Tax>> getTaxList() async {
+  getTaxList() async {
     var todoMapList = await _authRepository.getTax();
-    int count = todoMapList.length; // Count the number of map entries in db table
 
-    List<Tax> todoList = List<Tax>();
     // For loop to create a 'todo List' from a 'Map List'
     // for (int i = 0; i < count; i++) {
     //   todoList.add(Tax.fromJson(todoMapList[i]));

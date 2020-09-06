@@ -6,7 +6,6 @@ import 'package:login/app/modules/home/home_module.dart';
 import 'package:login/app/modules/simulator/simulator_module.dart';
 import 'package:login/app/shared/auth/auth_controller.dart';
 import 'package:login/app/shared/auth/repositories/auth_repository.dart';
-import 'package:login/app/shared/repositories/localstorage/local_storage_hive.dart';
 import 'package:login/app/shared/repositories/localstorage/local_storage_interface.dart';
 import 'package:login/app/shared/repositories/localstorage/local_storage_share.dart';
 

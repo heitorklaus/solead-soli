@@ -179,8 +179,8 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                                       } else {
                                         return Center(
                                           child: Container(
-                                            height: 50,
-                                            width: 50,
+                                            height: 40,
+                                            width: 40,
                                             child: CircularProgressIndicator(
                                               strokeWidth: 1,
                                             ),

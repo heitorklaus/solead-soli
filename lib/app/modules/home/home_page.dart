@@ -1,20 +1,13 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:framework/ui/bottomnavigation/fab_bottom_app_bar.dart';
 import 'package:framework/ui/bottomnavigation/fab_with_icons.dart';
 import 'package:framework/ui/bottomnavigation/layout.dart';
-import 'package:login/app/shared/auth/repositories/auth_repository.dart';
-import 'package:login/app/shared/repositories/proposal_strings.dart';
 import 'package:login/app/shared/styles/main_colors.dart';
 import 'package:login/app/shared/styles/main_style.dart';
 import 'package:login/app/shared/utils/database_helper.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'home_controller.dart';
@@ -27,25 +20,13 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends ModularState<HomePage, HomeController> with SingleTickerProviderStateMixin {
-  String _lastSelected = 'TAB: 0';
-
+class _HomePageState extends ModularState<HomePage, HomeController>
+    with SingleTickerProviderStateMixin {
   void _selectedTab(int index) {
     tabController.animateTo(index);
-
-    setState(() {
-      _lastSelected = 'TAB: $index';
-    });
-  }
-
-  void _selectedFab(int index) {
-    setState(() {
-      _lastSelected = 'FAB: $index';
-    });
   }
 
   static TabController tabController;
-  static int tabIndex = 0;
   Future<Database> get db => DatabaseHelper.getInstance().db;
 
   @override
@@ -75,7 +56,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                       child: LayoutBuilder(
                         builder: (context, constraint) {
                           return ConstrainedBox(
-                            constraints: BoxConstraints(minHeight: constraint.maxHeight),
+                            constraints:
+                                BoxConstraints(minHeight: constraint.maxHeight),
                             child: IntrinsicHeight(
                               child: Column(
                                 children: <Widget>[
@@ -85,7 +67,12 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                     child: AspectRatio(
                                       aspectRatio: 100 / 40,
                                       child: Container(
-                                        decoration: BoxDecoration(color: Color(0XFF2184AA), borderRadius: new BorderRadius.only(bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0))),
+                                        decoration: BoxDecoration(
+                                            color: Color(0XFF2184AA),
+                                            borderRadius: new BorderRadius.only(
+                                                bottomLeft: Radius.circular(0),
+                                                bottomRight:
+                                                    Radius.circular(0))),
                                         child: Column(
                                           // mainAxisAlignment
                                           children: <Widget>[
@@ -94,15 +81,18 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                             ),
                                             Text(
                                               'App Soleads',
-                                              style: heading16Bold.copyWith(color: Colors.white),
+                                              style: heading16Bold.copyWith(
+                                                  color: Colors.white),
                                             ),
                                             SizedBox(
                                               height: 10,
                                             ),
                                             Padding(
-                                              padding: EdgeInsets.only(left: 16),
+                                              padding:
+                                                  EdgeInsets.only(left: 16),
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
                                                 children: <Widget>[
                                                   Text(
                                                     'Olá, Heitor Klaus!',
@@ -110,7 +100,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                   ),
                                                   FlatButton(
                                                     child: Text('Sair'),
-                                                    onPressed: controller.logoff,
+                                                    onPressed:
+                                                        controller.logoff,
                                                   ),
                                                   // FlatButton(
                                                   //     child: Text('Set DATA'),
@@ -141,13 +132,16 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                               ),
                                             ),
                                             Padding(
-                                              padding: EdgeInsets.only(left: 16),
+                                              padding:
+                                                  EdgeInsets.only(left: 16),
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
                                                 children: <Widget>[
                                                   Text(
                                                     'S.Klaus Serviços Elétricos',
-                                                    style: ubuntu14WhiteLight100,
+                                                    style:
+                                                        ubuntu14WhiteLight100,
                                                   )
                                                 ],
                                               ),
@@ -161,14 +155,16 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                   Container(
                                     margin: EdgeInsets.all(10),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Expanded(
                                           child: AspectRatio(
                                             aspectRatio: 3 / 3,
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.all(
+                                                  borderRadius:
+                                                      BorderRadius.all(
                                                     Radius.circular(20.0),
                                                   ),
                                                   // Box decoration takes a gradient
@@ -176,8 +172,10 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                   boxShadow: [
                                                     BoxShadow(
                                                       color: Colors.black12,
-                                                      blurRadius: 4, // has the effect of softening the shadow
-                                                      spreadRadius: 0.2, // has the effect of extending the shadow
+                                                      blurRadius:
+                                                          4, // has the effect of softening the shadow
+                                                      spreadRadius:
+                                                          0.2, // has the effect of extending the shadow
                                                       offset: Offset(
                                                         -1, // horizontal, move right 10
                                                         1, // vertical, move down 10
@@ -185,7 +183,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                     ),
                                                   ]),
                                               child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: <Widget>[
                                                   Text('Leads'),
                                                   IconButton(
@@ -215,7 +214,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                             aspectRatio: 3 / 3,
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.all(
+                                                  borderRadius:
+                                                      BorderRadius.all(
                                                     Radius.circular(20.0),
                                                   ),
                                                   // Box decoration takes a gradient
@@ -223,8 +223,10 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                   boxShadow: [
                                                     BoxShadow(
                                                       color: Colors.black12,
-                                                      blurRadius: 4, // has the effect of softening the shadow
-                                                      spreadRadius: 0.2, // has the effect of extending the shadow
+                                                      blurRadius:
+                                                          4, // has the effect of softening the shadow
+                                                      spreadRadius:
+                                                          0.2, // has the effect of extending the shadow
                                                       offset: Offset(
                                                         -1, // horizontal, move right 10
                                                         1, // vertical, move down 10
@@ -232,7 +234,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                     ),
                                                   ]),
                                               child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: <Widget>[
                                                   Text('Negociando'),
                                                   IconButton(
@@ -262,15 +265,18 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                             aspectRatio: 3 / 3,
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.all(
+                                                  borderRadius:
+                                                      BorderRadius.all(
                                                     Radius.circular(20.0),
                                                   ),
                                                   color: Colors.white,
                                                   boxShadow: [
                                                     BoxShadow(
                                                       color: Colors.black12,
-                                                      blurRadius: 4, // has the effect of softening the shadow
-                                                      spreadRadius: 0.2, // has the effect of extending the shadow
+                                                      blurRadius:
+                                                          4, // has the effect of softening the shadow
+                                                      spreadRadius:
+                                                          0.2, // has the effect of extending the shadow
                                                       offset: Offset(
                                                         -1, // horizontal, move right 10
                                                         1, // vertical, move down 10
@@ -278,11 +284,14 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                     ),
                                                   ]),
                                               child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: <Widget>[
                                                   Text('Fechados'),
                                                   IconButton(
-                                                    icon: Icon(Icons.wb_sunny, color: Colors.yellow[700]),
+                                                    icon: Icon(Icons.wb_sunny,
+                                                        color:
+                                                            Colors.yellow[700]),
                                                     onPressed: () {},
                                                   ),
                                                   SizedBox(
@@ -347,7 +356,6 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
           position: Offset(offset.dx, offset.dy - icons.length * 35.0),
           child: FabWithIcons(
             icons: icons,
-            onIconTapped: _selectedFab,
           ),
         );
       },
