@@ -87,19 +87,14 @@ abstract class _SimulatorControllerBase with Store {
     if (mediaKW.text.length > 2) {
       disableAdd = false;
 
-      final irradiation =
-          await AuthRepository().getCitiesPreferences('irradiation');
+      final irradiation = await AuthRepository().getCitiesPreferences('irradiation');
 
-      final result = (int.parse(mediaKW.text).toInt() / 30) /
-          double.parse(irradiation.replaceAll(',', '.')).toDouble() /
-          .75;
+      final result = (int.parse(mediaKW.text).toInt() / 30) / double.parse(irradiation.replaceAll(',', '.')).toDouble() / .75;
 
       potencia.text = result.toStringAsFixed(2);
 
-      var potenciaProximaMaior =
-          await ProposalStringsDao().findPotenciaKit(result.toStringAsFixed(2));
-      var potenciaProximaMenor = await ProposalStringsDao()
-          .findPotenciaKitMenor(result.toStringAsFixed(2));
+      var potenciaProximaMaior = await ProposalStringsDao().findPotenciaKit(result.toStringAsFixed(2));
+      var potenciaProximaMenor = await ProposalStringsDao().findPotenciaKitMenor(result.toStringAsFixed(2));
 
       //  print(valor.id.toString());
       print('valor.potencia');
@@ -125,10 +120,8 @@ abstract class _SimulatorControllerBase with Store {
       powerPlantsMenor.numeroDeModulo = potenciaProximaMenor.numero_de_modulo;
       powerPlantsMenor.peso = potenciaProximaMenor.peso;
       powerPlantsMenor.potencia = potenciaProximaMenor.potencia;
-      powerPlantsMenor.potenciaDoModulo =
-          potenciaProximaMenor.potencia_do_modulo.toString();
-      powerPlantsMenor.potenciaNovo =
-          powerPlantsMenor.valor = potenciaProximaMenor.valor;
+      powerPlantsMenor.potenciaDoModulo = potenciaProximaMenor.potencia_do_modulo.toString();
+      powerPlantsMenor.potenciaNovo = powerPlantsMenor.valor = potenciaProximaMenor.valor;
       powerPlantsMenor.dados = potenciaProximaMenor.dados;
 
       powerPlantsMaior.id = potenciaProximaMaior.id;
@@ -139,10 +132,8 @@ abstract class _SimulatorControllerBase with Store {
       powerPlantsMaior.marcaDoModulo = potenciaProximaMaior.marca_do_modulo;
       powerPlantsMaior.peso = potenciaProximaMaior.peso;
       powerPlantsMaior.potencia = potenciaProximaMaior.potencia;
-      powerPlantsMaior.potenciaDoModulo =
-          potenciaProximaMaior.potencia_do_modulo.toString();
-      powerPlantsMaior.potenciaNovo =
-          powerPlantsMaior.valor = potenciaProximaMaior.valor;
+      powerPlantsMaior.potenciaDoModulo = potenciaProximaMaior.potencia_do_modulo.toString();
+      powerPlantsMaior.potenciaNovo = powerPlantsMaior.valor = potenciaProximaMaior.valor;
       powerPlantsMaior.dados = potenciaProximaMaior.dados;
     } else {
       potencia.text = '';
@@ -160,22 +151,15 @@ abstract class _SimulatorControllerBase with Store {
     if (mediaMoney.text.length > 2) {
       disableAdd = false;
 
-      final irradiation =
-          await AuthRepository().getCitiesPreferences('irradiation');
+      final irradiation = await AuthRepository().getCitiesPreferences('irradiation');
       final tarifa = await AuthRepository().getCitiesPreferences('price');
 
-      final result = (int.parse(mediaMoney.text).toInt() *
-              double.parse(tarifa.replaceAll(',', '.')).toDouble() /
-              (30)) /
-          double.parse(irradiation.replaceAll(',', '.')).toDouble() /
-          .75;
+      final result = (int.parse(mediaMoney.text).toInt() * double.parse(tarifa.replaceAll(',', '.')).toDouble() / (30)) / double.parse(irradiation.replaceAll(',', '.')).toDouble() / .75;
 
       potencia.text = result.toStringAsFixed(2);
 
-      var potenciaProximaMaior =
-          await ProposalStringsDao().findPotenciaKit(result.toStringAsFixed(2));
-      var potenciaProximaMenor = await ProposalStringsDao()
-          .findPotenciaKitMenor(result.toStringAsFixed(2));
+      var potenciaProximaMaior = await ProposalStringsDao().findPotenciaKit(result.toStringAsFixed(2));
+      var potenciaProximaMenor = await ProposalStringsDao().findPotenciaKitMenor(result.toStringAsFixed(2));
 
       potenciaIndicada1.text = (potenciaProximaMenor.potencia).toString();
       valorKit1.text = potenciaProximaMenor.valor;
@@ -190,10 +174,8 @@ abstract class _SimulatorControllerBase with Store {
       powerPlantsMenor.numeroDeModulo = potenciaProximaMenor.numero_de_modulo;
       powerPlantsMenor.peso = potenciaProximaMenor.peso;
       powerPlantsMenor.potencia = potenciaProximaMenor.potencia;
-      powerPlantsMenor.potenciaDoModulo =
-          potenciaProximaMenor.potencia_do_modulo.toString();
-      powerPlantsMenor.potenciaNovo =
-          powerPlantsMenor.valor = potenciaProximaMenor.valor;
+      powerPlantsMenor.potenciaDoModulo = potenciaProximaMenor.potencia_do_modulo.toString();
+      powerPlantsMenor.potenciaNovo = powerPlantsMenor.valor = potenciaProximaMenor.valor;
       powerPlantsMenor.dados = potenciaProximaMenor.dados;
 
       final mediaNova = double.parse((mediaMoney.text));
@@ -214,10 +196,8 @@ abstract class _SimulatorControllerBase with Store {
       powerPlantsMaior.marcaDoModulo = potenciaProximaMaior.marca_do_modulo;
       powerPlantsMaior.peso = potenciaProximaMaior.peso;
       powerPlantsMaior.potencia = potenciaProximaMaior.potencia;
-      powerPlantsMaior.potenciaDoModulo =
-          potenciaProximaMaior.potencia_do_modulo.toString();
-      powerPlantsMaior.potenciaNovo =
-          powerPlantsMaior.valor = potenciaProximaMaior.valor;
+      powerPlantsMaior.potenciaDoModulo = potenciaProximaMaior.potencia_do_modulo.toString();
+      powerPlantsMaior.potenciaNovo = powerPlantsMaior.valor = potenciaProximaMaior.valor;
       powerPlantsMaior.dados = potenciaProximaMaior.dados;
     } else {
       potencia.text = '';
@@ -241,68 +221,44 @@ abstract class _SimulatorControllerBase with Store {
       final valor = await Prefs.getStringList("CITIES");
 
       var jan = double.parse(valor[1].split(":")[1]);
-      var janValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(1) * jan * .75;
+      var janValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(1) * jan * .75;
 
       final teste = val.format(janValue).split(",")[0];
 
       var fev = double.parse(valor[2].split(":")[1]);
-      var fevValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(2) * fev * .75;
+      var fevValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(2) * fev * .75;
 
       var mar = double.parse(valor[3].split(":")[1]);
-      var marValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(3) * mar * .75;
+      var marValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(3) * mar * .75;
 
       var abr = double.parse(valor[4].split(":")[1]);
-      var abrValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(4) * abr * .75;
+      var abrValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(4) * abr * .75;
 
       var mai = double.parse(valor[5].split(":")[1]);
-      var maiValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(5) * mai * .75;
+      var maiValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(5) * mai * .75;
 
       var jun = double.parse(valor[6].split(":")[1]);
-      var junValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(6) * jun * .75;
+      var junValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(6) * jun * .75;
 
       var jul = double.parse(valor[7].split(":")[1]);
-      var julValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(7) * jul * .75;
+      var julValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(7) * jul * .75;
 
       var ago = double.parse(valor[8].split(":")[1]);
-      var agoValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(8) * ago * .75;
+      var agoValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(8) * ago * .75;
 
       var sep = double.parse(valor[9].split(":")[1]);
-      var sepValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(9) * sep * .75;
+      var sepValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(9) * sep * .75;
 
       var out = double.parse(valor[10].split(":")[1]);
-      var outValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(10) * out * .75;
+      var outValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(10) * out * .75;
 
       var nov = double.parse(valor[11].split(":")[1]);
-      var novValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(11) * nov * .75;
+      var novValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(11) * nov * .75;
 
       var dez = double.parse(valor[12].split(":")[1]);
-      var dezValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(12) * dez * .75;
+      var dezValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(12) * dez * .75;
 
-      final mediaGeracaoKwpMenor = (janValue +
-              fevValue +
-              marValue +
-              abrValue +
-              maiValue +
-              junValue +
-              julValue +
-              agoValue +
-              sepValue +
-              outValue +
-              novValue +
-              dezValue) /
-          12;
+      final mediaGeracaoKwpMenor = (janValue + fevValue + marValue + abrValue + maiValue + junValue + julValue + agoValue + sepValue + outValue + novValue + dezValue) / 12;
 
       return mediaGeracaoKwpMenor.round();
     }
@@ -313,54 +269,42 @@ abstract class _SimulatorControllerBase with Store {
       final valor = await Prefs.getStringList("CITIES");
 
       var jan = double.parse(valor[1].split(":")[1]);
-      var janValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(1) * jan * .75;
+      var janValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(1) * jan * .75;
 
       //final teste = val.format(janValue).split(",")[0];
 
       var fev = double.parse(valor[2].split(":")[1]);
-      var fevValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(2) * fev * .75;
+      var fevValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(2) * fev * .75;
 
       var mar = double.parse(valor[3].split(":")[1]);
-      var marValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(3) * mar * .75;
+      var marValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(3) * mar * .75;
 
       var abr = double.parse(valor[4].split(":")[1]);
-      var abrValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(4) * abr * .75;
+      var abrValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(4) * abr * .75;
 
       var mai = double.parse(valor[5].split(":")[1]);
-      var maiValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(5) * mai * .75;
+      var maiValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(5) * mai * .75;
 
       var jun = double.parse(valor[6].split(":")[1]);
-      var junValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(6) * jun * .75;
+      var junValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(6) * jun * .75;
 
       var jul = double.parse(valor[7].split(":")[1]);
-      var julValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(7) * jul * .75;
+      var julValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(7) * jul * .75;
 
       var ago = double.parse(valor[8].split(":")[1]);
-      var agoValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(8) * ago * .75;
+      var agoValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(8) * ago * .75;
 
       var sep = double.parse(valor[9].split(":")[1]);
-      var sepValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(9) * sep * .75;
+      var sepValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(9) * sep * .75;
 
       var out = double.parse(valor[10].split(":")[1]);
-      var outValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(10) * out * .75;
+      var outValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(10) * out * .75;
 
       var nov = double.parse(valor[11].split(":")[1]);
-      var novValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(11) * nov * .75;
+      var novValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(11) * nov * .75;
 
       var dez = double.parse(valor[12].split(":")[1]);
-      var dezValue =
-          (powerPlantsMenor.potencia) * returnDaysOfMonth(12) * dez * .75;
+      var dezValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(12) * dez * .75;
 
       List<Map<String, double>> allValues;
 
@@ -408,6 +352,7 @@ abstract class _SimulatorControllerBase with Store {
       }
     }
 
+    final role = await Prefs.getString("ROLE");
     final tax = await returnTax();
     showDialog(
         context: context,
@@ -420,9 +365,7 @@ abstract class _SimulatorControllerBase with Store {
 
               return AlertDialog(
                 content: Scaffold(
-                  body: SingleChildScrollView(
-                      child: buildDialog(context, powerPlantsMenor, mediaMenor,
-                          returnAll, returnConsumo(), tax, setState)),
+                  body: SingleChildScrollView(child: buildDialog(context, powerPlantsMenor, mediaMenor, returnAll, returnConsumo(), tax, setState, role)),
                 ),
               );
             },
@@ -442,68 +385,44 @@ abstract class _SimulatorControllerBase with Store {
       final valor = await Prefs.getStringList("CITIES");
 
       var jan = double.parse(valor[1].split(":")[1]);
-      var janValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(1) * jan * .75;
+      var janValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(1) * jan * .75;
 
       final teste = val.format(janValue).split(",")[0];
 
       var fev = double.parse(valor[2].split(":")[1]);
-      var fevValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(2) * fev * .75;
+      var fevValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(2) * fev * .75;
 
       var mar = double.parse(valor[3].split(":")[1]);
-      var marValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(3) * mar * .75;
+      var marValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(3) * mar * .75;
 
       var abr = double.parse(valor[4].split(":")[1]);
-      var abrValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(4) * abr * .75;
+      var abrValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(4) * abr * .75;
 
       var mai = double.parse(valor[5].split(":")[1]);
-      var maiValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(5) * mai * .75;
+      var maiValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(5) * mai * .75;
 
       var jun = double.parse(valor[6].split(":")[1]);
-      var junValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(6) * jun * .75;
+      var junValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(6) * jun * .75;
 
       var jul = double.parse(valor[7].split(":")[1]);
-      var julValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(7) * jul * .75;
+      var julValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(7) * jul * .75;
 
       var ago = double.parse(valor[8].split(":")[1]);
-      var agoValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(8) * ago * .75;
+      var agoValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(8) * ago * .75;
 
       var sep = double.parse(valor[9].split(":")[1]);
-      var sepValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(9) * sep * .75;
+      var sepValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(9) * sep * .75;
 
       var out = double.parse(valor[10].split(":")[1]);
-      var outValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(10) * out * .75;
+      var outValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(10) * out * .75;
 
       var nov = double.parse(valor[11].split(":")[1]);
-      var novValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(11) * nov * .75;
+      var novValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(11) * nov * .75;
 
       var dez = double.parse(valor[12].split(":")[1]);
-      var dezValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(12) * dez * .75;
+      var dezValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(12) * dez * .75;
 
-      final mediaGeracaoKwpMaior = (janValue +
-              fevValue +
-              marValue +
-              abrValue +
-              maiValue +
-              junValue +
-              julValue +
-              agoValue +
-              sepValue +
-              outValue +
-              novValue +
-              dezValue) /
-          12;
+      final mediaGeracaoKwpMaior = (janValue + fevValue + marValue + abrValue + maiValue + junValue + julValue + agoValue + sepValue + outValue + novValue + dezValue) / 12;
 
       return mediaGeracaoKwpMaior.round();
     }
@@ -514,54 +433,42 @@ abstract class _SimulatorControllerBase with Store {
       final valor = await Prefs.getStringList("CITIES");
 
       var jan = double.parse(valor[1].split(":")[1]);
-      var janValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(1) * jan * .75;
+      var janValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(1) * jan * .75;
 
       final teste = val.format(janValue).split(",")[0];
 
       var fev = double.parse(valor[2].split(":")[1]);
-      var fevValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(2) * fev * .75;
+      var fevValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(2) * fev * .75;
 
       var mar = double.parse(valor[3].split(":")[1]);
-      var marValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(3) * mar * .75;
+      var marValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(3) * mar * .75;
 
       var abr = double.parse(valor[4].split(":")[1]);
-      var abrValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(4) * abr * .75;
+      var abrValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(4) * abr * .75;
 
       var mai = double.parse(valor[5].split(":")[1]);
-      var maiValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(5) * mai * .75;
+      var maiValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(5) * mai * .75;
 
       var jun = double.parse(valor[6].split(":")[1]);
-      var junValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(6) * jun * .75;
+      var junValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(6) * jun * .75;
 
       var jul = double.parse(valor[7].split(":")[1]);
-      var julValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(7) * jul * .75;
+      var julValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(7) * jul * .75;
 
       var ago = double.parse(valor[8].split(":")[1]);
-      var agoValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(8) * ago * .75;
+      var agoValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(8) * ago * .75;
 
       var sep = double.parse(valor[9].split(":")[1]);
-      var sepValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(9) * sep * .75;
+      var sepValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(9) * sep * .75;
 
       var out = double.parse(valor[10].split(":")[1]);
-      var outValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(10) * out * .75;
+      var outValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(10) * out * .75;
 
       var nov = double.parse(valor[11].split(":")[1]);
-      var novValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(11) * nov * .75;
+      var novValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(11) * nov * .75;
 
       var dez = double.parse(valor[12].split(":")[1]);
-      var dezValue =
-          (powerPlantsMaior.potencia) * returnDaysOfMonth(12) * dez * .75;
+      var dezValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(12) * dez * .75;
 
       List<Map<String, double>> allValues;
 
@@ -612,6 +519,7 @@ abstract class _SimulatorControllerBase with Store {
       }
     }
 
+    final role = await Prefs.getString("ROLE");
     showDialog(
         context: context,
         builder: (context) {
@@ -623,9 +531,7 @@ abstract class _SimulatorControllerBase with Store {
 
               return AlertDialog(
                 content: Scaffold(
-                  body: SingleChildScrollView(
-                      child: buildDialog(context, powerPlantsMaior, mediaMaior,
-                          returnAll, returnConsumo(), tax, setState)),
+                  body: SingleChildScrollView(child: buildDialog(context, powerPlantsMaior, mediaMaior, returnAll, returnConsumo(), tax, setState, role)),
                 ),
               );
             },
@@ -671,8 +577,7 @@ int returnDaysOfMonth(xx) {
 
 // DIALOG GERADA
 @override
-buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
-    returnTax, setState) {
+buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax, setState, role) {
   final inversor = TextEditingController();
   final potencia = TextEditingController();
   final marcaModulos = TextEditingController();
@@ -688,8 +593,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
   final dados = TextEditingController();
   final cpf = MaskedTextController(mask: '000.000.000-00');
 
-  final valor = new MoneyMaskedTextController(
-      decimalSeparator: ',', thousandSeparator: '.', leftSymbol: 'R\$ ');
+  final valor = new MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.', leftSymbol: 'R\$ ');
 
   final endereco = TextEditingController();
 
@@ -711,8 +615,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
 
   potencia.addListener(() {
     print('teste');
-    geracao.text =
-        (5.11 * double.parse(potencia.text) * 30 * .75).round().toString();
+    geracao.text = (5.11 * double.parse(potencia.text) * 30 * .75).round().toString();
   });
 
   dados.text = pw.dados.replaceAll('<BR>', '\n');
@@ -720,218 +623,131 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
   final pdf = pwa.Document();
 
   final List<Map<String, double>> valorEconomiaMensal = [
-    {
-      "valorPaga": double.parse(pw.consumoEmReais),
-      "valorIraPagar": 91.00,
-      "tarifaCidade": 0.91
-    }
+    {"valorPaga": double.parse(pw.consumoEmReais), "valorIraPagar": 91.00, "tarifaCidade": 0.91}
   ];
 
-  final double valorEconomiaMensalTotal =
-      valorEconomiaMensal[0]["valorPaga"].toDouble() +
-          valorEconomiaMensal[0]["valorIraPagar"].toDouble();
+  final double valorEconomiaMensalTotal = valorEconomiaMensal[0]["valorPaga"].toDouble() + valorEconomiaMensal[0]["valorIraPagar"].toDouble();
 
-  final double parc2 = (valorEconomiaMensal[0]["valorIraPagar"].toDouble() /
-      valorEconomiaMensalTotal *
-      100);
+  final double parc2 = (valorEconomiaMensal[0]["valorIraPagar"].toDouble() / valorEconomiaMensalTotal * 100);
 
   final val = new NumberFormat("#,##0.00", "pt_BR");
 
-  final double valor_paga_ano =
-      (valorEconomiaMensal[0]["valorPaga"].toDouble()) * 12.toDouble();
-  final double valor_ira_pagar_ano =
-      (valorEconomiaMensal[0]["valorIraPagar"].toDouble()) * 12.toDouble();
+  final double valor_paga_ano = (valorEconomiaMensal[0]["valorPaga"].toDouble()) * 12.toDouble();
+  final double valor_ira_pagar_ano = (valorEconomiaMensal[0]["valorIraPagar"].toDouble()) * 12.toDouble();
 
-  final valor_economia_1_ano =
-      val.format((valor_paga_ano - valor_ira_pagar_ano));
-  final valor_economia_25_anos =
-      val.format((valor_paga_ano - valor_ira_pagar_ano) * 25);
+  final valor_economia_1_ano = val.format((valor_paga_ano - valor_ira_pagar_ano));
+  final valor_economia_25_anos = val.format((valor_paga_ano - valor_ira_pagar_ano) * 25);
 
   final String valor_paga_ano_pdf = val.format(valor_paga_ano).toString();
 
-  final String valor_ira_paga_ano_pdf =
-      val.format(valor_ira_pagar_ano).toString();
+  final String valor_ira_paga_ano_pdf = val.format(valor_ira_pagar_ano).toString();
 
 // Economia em MES
-  final valQuantoPagaBR =
-      val.format(valorEconomiaMensal[0]["valorPaga"].toDouble());
+  final valQuantoPagaBR = val.format(valorEconomiaMensal[0]["valorPaga"].toDouble());
 
-  final valQuantoIraPagarBR =
-      val.format(valorEconomiaMensal[0]["valorIraPagar"].toDouble());
+  final valQuantoIraPagarBR = val.format(valorEconomiaMensal[0]["valorIraPagar"].toDouble());
 
   // economia 25 vanos
-  final double economia_25_anos_paga =
-      (valor_paga_ano - valor_ira_pagar_ano) * 111.346;
+  final double economia_25_anos_paga = (valor_paga_ano - valor_ira_pagar_ano) * 111.346;
 
   final double economia_25_anos_pagara = ((91 * 12 * 25).toDouble() * 3.82);
 
-  var vals = pw.valor
-      .toString()
-      .trim()
-      .replaceAll('R\$', '')
-      .toString()
-      .replaceAll(',', '')
-      .replaceAll('.', '')
-      .trim();
+  var vals = pw.valor.toString().trim().replaceAll('R\$', '').toString().replaceAll(',', '').replaceAll('.', '').trim();
 
   final value = int.parse(vals) / 100;
 
-  var sicredi3x =
-      value * (double.parse(returnTax[0].split(":")[1].split(",")[0]) / 3);
-  var sicredi6x =
-      value * (double.parse(returnTax[0].split(":")[1].split(",")[1]) / 6);
-  var sicredi12x =
-      value * (double.parse(returnTax[0].split(":")[1].split(",")[2]) / 12);
-  var sicredi24x =
-      value * (double.parse(returnTax[0].split(":")[1].split(",")[4])) / 24;
-  var sicredi36x =
-      value * (double.parse(returnTax[0].split(":")[1].split(",")[5]) / 36);
-  var sicredi48x =
-      value * (double.parse(returnTax[0].split(":")[1].split(",")[6]) / 48);
-  var sicredi60x =
-      value * (double.parse(returnTax[0].split(":")[1].split(",")[7]) / 60);
-  var sicredi72x =
-      value * (double.parse(returnTax[0].split(":")[1].split(",")[8]) / 72);
+  var sicredi3x = value * (double.parse(returnTax[0].split(":")[1].split(",")[0]) / 3);
+  var sicredi6x = value * (double.parse(returnTax[0].split(":")[1].split(",")[1]) / 6);
+  var sicredi12x = value * (double.parse(returnTax[0].split(":")[1].split(",")[2]) / 12);
+  var sicredi24x = value * (double.parse(returnTax[0].split(":")[1].split(",")[4])) / 24;
+  var sicredi36x = value * (double.parse(returnTax[0].split(":")[1].split(",")[5]) / 36);
+  var sicredi48x = value * (double.parse(returnTax[0].split(":")[1].split(",")[6]) / 48);
+  var sicredi60x = value * (double.parse(returnTax[0].split(":")[1].split(",")[7]) / 60);
+  var sicredi72x = value * (double.parse(returnTax[0].split(":")[1].split(",")[8]) / 72);
   //var sicrediTax = double.parse(returnTax[0].split(":")[1].split(",")[9]);
 
   var santanderEntrada = 14 * (value / 100);
 
   var value2 = (value - santanderEntrada);
-  var santander3x =
-      value2 * (double.parse(returnTax[1].split(":")[1].split(",")[0]) / 3);
-  var santander6x =
-      value2 * (double.parse(returnTax[1].split(":")[1].split(",")[1]) / 6);
-  var santander12x =
-      value2 * (double.parse(returnTax[1].split(":")[1].split(",")[2]) / 12);
-  var santander18x =
-      value2 * (double.parse(returnTax[1].split(":")[1].split(",")[3]) / 18);
-  var santander24x =
-      value2 * (double.parse(returnTax[1].split(":")[1].split(",")[4]) / 24);
-  var santander36x =
-      value2 * (double.parse(returnTax[1].split(":")[1].split(",")[5]) / 36);
+  var santander3x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[0]) / 3);
+  var santander6x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[1]) / 6);
+  var santander12x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[2]) / 12);
+  var santander18x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[3]) / 18);
+  var santander24x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[4]) / 24);
+  var santander36x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[5]) / 36);
 
   //var santanderTax = double.parse(returnTax[1].split(":")[1].split(",")[8]);
 
   //
-  var bvFinanceira3x =
-      value * (double.parse(returnTax[2].split(":")[1].split(",")[0]) / 3);
-  var bvFinanceira6x =
-      value * (double.parse(returnTax[2].split(":")[1].split(",")[1]) / 6);
-  var bvFinanceira12x =
-      value * (double.parse(returnTax[2].split(":")[1].split(",")[2]) / 12);
-  var bvFinanceira24x =
-      value * (double.parse(returnTax[2].split(":")[1].split(",")[4]) / 24);
-  var bvFinanceira36x =
-      value * (double.parse(returnTax[2].split(":")[1].split(",")[5]) / 36);
-  var bvFinanceira48x =
-      value * (double.parse(returnTax[2].split(":")[1].split(",")[6]) / 48);
-  var bvFinanceira60x =
-      value * (double.parse(returnTax[2].split(":")[1].split(",")[7]) / 60);
-  var bvFinanceira72x =
-      value * (double.parse(returnTax[2].split(":")[1].split(",")[8]) / 72);
+  var bvFinanceira3x = value * (double.parse(returnTax[2].split(":")[1].split(",")[0]) / 3);
+  var bvFinanceira6x = value * (double.parse(returnTax[2].split(":")[1].split(",")[1]) / 6);
+  var bvFinanceira12x = value * (double.parse(returnTax[2].split(":")[1].split(",")[2]) / 12);
+  var bvFinanceira24x = value * (double.parse(returnTax[2].split(":")[1].split(",")[4]) / 24);
+  var bvFinanceira36x = value * (double.parse(returnTax[2].split(":")[1].split(",")[5]) / 36);
+  var bvFinanceira48x = value * (double.parse(returnTax[2].split(":")[1].split(",")[6]) / 48);
+  var bvFinanceira60x = value * (double.parse(returnTax[2].split(":")[1].split(",")[7]) / 60);
+  var bvFinanceira72x = value * (double.parse(returnTax[2].split(":")[1].split(",")[8]) / 72);
 
   //
 
-  var cartaoCredito3x =
-      value * (double.parse(returnTax[3].split(":")[1].split(",")[0]) / 3);
-  var cartaoCredito6x =
-      value * (double.parse(returnTax[3].split(":")[1].split(",")[1]) / 6);
+  var cartaoCredito3x = value * (double.parse(returnTax[3].split(":")[1].split(",")[0]) / 3);
+  var cartaoCredito6x = value * (double.parse(returnTax[3].split(":")[1].split(",")[1]) / 6);
   var cartaoCredito12x = (value / (1 - 0.0745) / 12);
-  var cartaoCredito24x =
-      value * (double.parse(returnTax[3].split(":")[1].split(",")[3]) / 24);
-  var cartaoCredito36x =
-      value * (double.parse(returnTax[3].split(":")[1].split(",")[4]) / 36);
-  var cartaoCredito48x =
-      value * (double.parse(returnTax[3].split(":")[1].split(",")[5]) / 48);
-  var cartaoCredito60x =
-      value * (double.parse(returnTax[3].split(":")[1].split(",")[6]) / 60);
-  var cartaoCredito72x =
-      value * (double.parse(returnTax[3].split(":")[1].split(",")[7]) / 72);
+  var cartaoCredito24x = value * (double.parse(returnTax[3].split(":")[1].split(",")[3]) / 24);
+  var cartaoCredito36x = value * (double.parse(returnTax[3].split(":")[1].split(",")[4]) / 36);
+  var cartaoCredito48x = value * (double.parse(returnTax[3].split(":")[1].split(",")[5]) / 48);
+  var cartaoCredito60x = value * (double.parse(returnTax[3].split(":")[1].split(",")[6]) / 60);
+  var cartaoCredito72x = value * (double.parse(returnTax[3].split(":")[1].split(",")[7]) / 72);
   var cartaoCreditoTax = double.parse(returnTax[3].split(":")[1].split(",")[8]);
 
   valor.addListener(() {
-    var vals = valor.text
-        .trim()
-        .replaceAll('R\$', '')
-        .toString()
-        .replaceAll(',', '')
-        .replaceAll('.', '')
-        .trim();
+    var vals = valor.text.trim().replaceAll('R\$', '').toString().replaceAll(',', '').replaceAll('.', '').trim();
 
     //final double value = double.parse(vals[1].replaceAll('.', ''));
 
     final double value = double.parse(vals) / 100;
 
-    sicredi3x =
-        value * (double.parse(returnTax[0].split(":")[1].split(",")[0]) / 3);
-    sicredi6x =
-        value * (double.parse(returnTax[0].split(":")[1].split(",")[1]) / 6);
-    sicredi12x =
-        value * (double.parse(returnTax[0].split(":")[1].split(",")[2]) / 12);
-    sicredi24x =
-        value * (double.parse(returnTax[0].split(":")[1].split(",")[4])) / 24;
-    sicredi36x =
-        value * (double.parse(returnTax[0].split(":")[1].split(",")[5]) / 36);
-    sicredi48x =
-        value * (double.parse(returnTax[0].split(":")[1].split(",")[6]) / 48);
-    sicredi60x =
-        value * (double.parse(returnTax[0].split(":")[1].split(",")[7]) / 60);
-    sicredi72x =
-        value * (double.parse(returnTax[0].split(":")[1].split(",")[8]) / 72);
+    sicredi3x = value * (double.parse(returnTax[0].split(":")[1].split(",")[0]) / 3);
+    sicredi6x = value * (double.parse(returnTax[0].split(":")[1].split(",")[1]) / 6);
+    sicredi12x = value * (double.parse(returnTax[0].split(":")[1].split(",")[2]) / 12);
+    sicredi24x = value * (double.parse(returnTax[0].split(":")[1].split(",")[4])) / 24;
+    sicredi36x = value * (double.parse(returnTax[0].split(":")[1].split(",")[5]) / 36);
+    sicredi48x = value * (double.parse(returnTax[0].split(":")[1].split(",")[6]) / 48);
+    sicredi60x = value * (double.parse(returnTax[0].split(":")[1].split(",")[7]) / 60);
+    sicredi72x = value * (double.parse(returnTax[0].split(":")[1].split(",")[8]) / 72);
 
     var santanderEntrada = 14 * (value / 100);
 
     value2 = (value - santanderEntrada);
-    santander3x =
-        value2 * (double.parse(returnTax[1].split(":")[1].split(",")[0]) / 3);
-    santander6x =
-        value2 * (double.parse(returnTax[1].split(":")[1].split(",")[1]) / 6);
-    santander12x =
-        value2 * (double.parse(returnTax[1].split(":")[1].split(",")[2]) / 12);
-    santander18x =
-        value2 * (double.parse(returnTax[1].split(":")[1].split(",")[3]) / 18);
-    santander24x =
-        value2 * (double.parse(returnTax[1].split(":")[1].split(",")[4]) / 24);
-    santander36x =
-        value2 * (double.parse(returnTax[1].split(":")[1].split(",")[5]) / 36);
+    santander3x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[0]) / 3);
+    santander6x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[1]) / 6);
+    santander12x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[2]) / 12);
+    santander18x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[3]) / 18);
+    santander24x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[4]) / 24);
+    santander36x = value2 * (double.parse(returnTax[1].split(":")[1].split(",")[5]) / 36);
 
     //var santanderTax = double.parse(returnTax[1].split(":")[1].split(",")[8]);
 
     //
-    bvFinanceira3x =
-        value * (double.parse(returnTax[2].split(":")[1].split(",")[0]) / 3);
-    bvFinanceira6x =
-        value * (double.parse(returnTax[2].split(":")[1].split(",")[1]) / 6);
-    bvFinanceira12x =
-        value * (double.parse(returnTax[2].split(":")[1].split(",")[2]) / 12);
-    bvFinanceira24x =
-        value * (double.parse(returnTax[2].split(":")[1].split(",")[4]) / 24);
-    bvFinanceira36x =
-        value * (double.parse(returnTax[2].split(":")[1].split(",")[5]) / 36);
-    bvFinanceira48x =
-        value * (double.parse(returnTax[2].split(":")[1].split(",")[6]) / 48);
-    bvFinanceira60x =
-        value * (double.parse(returnTax[2].split(":")[1].split(",")[7]) / 60);
-    bvFinanceira72x =
-        value * (double.parse(returnTax[2].split(":")[1].split(",")[8]) / 72);
+    bvFinanceira3x = value * (double.parse(returnTax[2].split(":")[1].split(",")[0]) / 3);
+    bvFinanceira6x = value * (double.parse(returnTax[2].split(":")[1].split(",")[1]) / 6);
+    bvFinanceira12x = value * (double.parse(returnTax[2].split(":")[1].split(",")[2]) / 12);
+    bvFinanceira24x = value * (double.parse(returnTax[2].split(":")[1].split(",")[4]) / 24);
+    bvFinanceira36x = value * (double.parse(returnTax[2].split(":")[1].split(",")[5]) / 36);
+    bvFinanceira48x = value * (double.parse(returnTax[2].split(":")[1].split(",")[6]) / 48);
+    bvFinanceira60x = value * (double.parse(returnTax[2].split(":")[1].split(",")[7]) / 60);
+    bvFinanceira72x = value * (double.parse(returnTax[2].split(":")[1].split(",")[8]) / 72);
 
     //
 
-    cartaoCredito3x =
-        value * (double.parse(returnTax[3].split(":")[1].split(",")[0]) / 3);
-    cartaoCredito6x =
-        value * (double.parse(returnTax[3].split(":")[1].split(",")[1]) / 6);
+    cartaoCredito3x = value * (double.parse(returnTax[3].split(":")[1].split(",")[0]) / 3);
+    cartaoCredito6x = value * (double.parse(returnTax[3].split(":")[1].split(",")[1]) / 6);
     cartaoCredito12x = (value / (1 - 0.0745) / 12);
-    cartaoCredito24x =
-        value * (double.parse(returnTax[3].split(":")[1].split(",")[3]) / 24);
-    cartaoCredito36x =
-        value * (double.parse(returnTax[3].split(":")[1].split(",")[4]) / 36);
-    cartaoCredito48x =
-        value * (double.parse(returnTax[3].split(":")[1].split(",")[5]) / 48);
-    cartaoCredito60x =
-        value * (double.parse(returnTax[3].split(":")[1].split(",")[6]) / 60);
-    cartaoCredito72x =
-        value * (double.parse(returnTax[3].split(":")[1].split(",")[7]) / 72);
+    cartaoCredito24x = value * (double.parse(returnTax[3].split(":")[1].split(",")[3]) / 24);
+    cartaoCredito36x = value * (double.parse(returnTax[3].split(":")[1].split(",")[4]) / 36);
+    cartaoCredito48x = value * (double.parse(returnTax[3].split(":")[1].split(",")[5]) / 48);
+    cartaoCredito60x = value * (double.parse(returnTax[3].split(":")[1].split(",")[6]) / 60);
+    cartaoCredito72x = value * (double.parse(returnTax[3].split(":")[1].split(",")[7]) / 72);
     cartaoCreditoTax = double.parse(returnTax[3].split(":")[1].split(",")[8]);
   });
 
@@ -940,13 +756,10 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
   GlobalKey globalKey2 = GlobalKey();
 
   runChartGenerateImage1(img) async {
-    RenderRepaintBoundary boundary =
-        globalKey.currentContext.findRenderObject();
+    RenderRepaintBoundary boundary = globalKey.currentContext.findRenderObject();
     ui.Image image = await boundary.toImage();
     ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    final result = await ImageGallerySaver.saveImage(
-        byteData.buffer.asUint8List(),
-        name: img);
+    final result = await ImageGallerySaver.saveImage(byteData.buffer.asUint8List(), name: img);
 
     return result;
   }
@@ -969,8 +782,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
     returnImageChart(img) {
       final image = PdfImage.file(
         pdf.document,
-        bytes:
-            File(('/storage/emulated/0/Soli Leads/$img.jpg')).readAsBytesSync(),
+        bytes: File(('/storage/emulated/0/Soli Leads/$img.jpg')).readAsBytesSync(),
       );
 
       return image;
@@ -1025,27 +837,15 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                   width: 535,
                   // FINANCIAMENTO financiamento
                   margin: pwa.EdgeInsets.only(top: 432, left: 44),
-                  child: pwa.Column(
-                      crossAxisAlignment: pwa.CrossAxisAlignment.start,
-                      mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween,
-                      children: <pwa.Widget>[
-                        pwa.Row(children: <pwa.Widget>[
-                          pwa.Text(cliente.text,
-                              style: pwa.TextStyle(
-                                  fontSize: 35,
-                                  fontWeight: pwa.FontWeight.bold,
-                                  color: PdfColor.fromHex("#FFFFFF")))
-                        ]),
-                        pwa.SizedBox(
-                          height: 7,
-                        ),
-                        pwa.Row(children: <pwa.Widget>[
-                          pwa.Text(endereco.text,
-                              style: pwa.TextStyle(
-                                  fontSize: 22,
-                                  color: PdfColor.fromHex("#FFFFFF"))),
-                        ]),
-                      ]),
+                  child: pwa.Column(crossAxisAlignment: pwa.CrossAxisAlignment.start, mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[
+                    pwa.Row(children: <pwa.Widget>[pwa.Text(cliente.text, style: pwa.TextStyle(fontSize: 35, fontWeight: pwa.FontWeight.bold, color: PdfColor.fromHex("#FFFFFF")))]),
+                    pwa.SizedBox(
+                      height: 7,
+                    ),
+                    pwa.Row(children: <pwa.Widget>[
+                      pwa.Text(endereco.text, style: pwa.TextStyle(fontSize: 22, color: PdfColor.fromHex("#FFFFFF"))),
+                    ]),
+                  ]),
                 ),
               ])),
         ],
@@ -1136,11 +936,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                   //color: PdfColor.fromHex("#FFC000"),
                   //
                   margin: pwa.EdgeInsets.only(top: 369, left: 400),
-                  child: pwa.Text(potencia.text + ' kWp',
-                      style: pwa.TextStyle(
-                          color: PdfColor.fromHex("#FFFFFF"),
-                          fontSize: 25,
-                          fontWeight: pwa.FontWeight.bold)),
+                  child: pwa.Text(potencia.text + ' kWp', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                 ),
               ])),
           pwa.Container(
@@ -1153,11 +949,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                   //color: PdfColor.fromHex("#FFC000"),
                   //
                   margin: pwa.EdgeInsets.only(top: 25, left: 400),
-                  child: pwa.Text(qtdModulos.text,
-                      style: pwa.TextStyle(
-                          color: PdfColor.fromHex("#FFFFFF"),
-                          fontSize: 25,
-                          fontWeight: pwa.FontWeight.bold)),
+                  child: pwa.Text(qtdModulos.text, style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                 ),
               ])),
           pwa.Container(
@@ -1170,11 +962,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                   //color: PdfColor.fromHex("#FFC000"),
                   //f
                   margin: pwa.EdgeInsets.only(top: 25, left: 400),
-                  child: pwa.Text(geracao.text + ' kWh',
-                      style: pwa.TextStyle(
-                          color: PdfColor.fromHex("#FFFFFF"),
-                          fontSize: 25,
-                          fontWeight: pwa.FontWeight.bold)),
+                  child: pwa.Text(geracao.text + ' kWh', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                 ),
               ])),
           pwa.Container(
@@ -1187,11 +975,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                   //color: PdfColor.fromHex("#FFC000"),
                   //
                   margin: pwa.EdgeInsets.only(top: 20, left: 400),
-                  child: pwa.Text('${area.text} m²',
-                      style: pwa.TextStyle(
-                          color: PdfColor.fromHex("#FFFFFF"),
-                          fontSize: 25,
-                          fontWeight: pwa.FontWeight.bold)),
+                  child: pwa.Text('${area.text} m²', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                 ),
               ])),
           pwa.Container(
@@ -1204,8 +988,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                   //color: PdfColor.fromHex("#FFC000"),
                   //
                   margin: pwa.EdgeInsets.only(top: 20, left: 44),
-                  child: pwa.Center(
-                      child: pwa.Image(returnImageChart('grafico-1'))),
+                  child: pwa.Center(child: pwa.Image(returnImageChart('grafico-1'))),
                 ),
               ])),
         ],
@@ -1258,11 +1041,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                     alignment: pwa.Alignment.center,
                     //
                     margin: pwa.EdgeInsets.only(top: 145, left: 15),
-                    child: pwa.Text('R\$ $valor_paga_ano_pdf',
-                        style: pwa.TextStyle(
-                            color: PdfColor.fromHex("#FFFFFF"),
-                            fontSize: 25,
-                            fontWeight: pwa.FontWeight.bold)),
+                    child: pwa.Text('R\$ $valor_paga_ano_pdf', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                   ),
                   pwa.Container(
                     width: 185,
@@ -1270,11 +1049,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                     alignment: pwa.Alignment.center,
                     //
                     margin: pwa.EdgeInsets.only(top: 0, left: 0),
-                    child: pwa.Text('R\$ $valor_ira_paga_ano_pdf',
-                        style: pwa.TextStyle(
-                            color: PdfColor.fromHex("#FFFFFF"),
-                            fontSize: 25,
-                            fontWeight: pwa.FontWeight.bold)),
+                    child: pwa.Text('R\$ $valor_ira_paga_ano_pdf', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                   ),
                 ]),
             // SUA ECONOMIA ANUAL
@@ -1284,11 +1059,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
 
               //
               margin: pwa.EdgeInsets.only(top: 110, left: 392),
-              child: pwa.Text('R\$ $valor_economia_1_ano',
-                  style: pwa.TextStyle(
-                      color: PdfColor.fromHex("#FFFFFF"),
-                      fontSize: 20,
-                      fontWeight: pwa.FontWeight.bold)),
+              child: pwa.Text('R\$ $valor_economia_1_ano', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 20, fontWeight: pwa.FontWeight.bold)),
             ),
             pwa.Container(
               width: 185,
@@ -1296,11 +1067,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
 
               //
               margin: pwa.EdgeInsets.only(top: 154, left: 392),
-              child: pwa.Text('R\$ $valor_economia_25_anos',
-                  style: pwa.TextStyle(
-                      color: PdfColor.fromHex("#FFFFFF"),
-                      fontSize: 20,
-                      fontWeight: pwa.FontWeight.bold)),
+              child: pwa.Text('R\$ $valor_economia_25_anos', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 20, fontWeight: pwa.FontWeight.bold)),
             ),
             pwa.Container(
                 margin: pwa.EdgeInsets.only(
@@ -1316,8 +1083,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                           //color: PdfColor.fromHex("#FFC000"),
                           //
                           margin: pwa.EdgeInsets.only(top: 67, left: 38),
-                          child: pwa.Center(
-                              child: pwa.Image(returnImg('investimento'))),
+                          child: pwa.Center(child: pwa.Image(returnImg('investimento'))),
                         ),
                       ]),
                   pwa.Row(children: <pwa.Widget>[
@@ -1334,84 +1100,12 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                     width: 535,
                     // FINANCIAMENTO financiamento
                     margin: pwa.EdgeInsets.only(top: 168, left: 26),
-                    child: pwa.Row(
-                        crossAxisAlignment: pwa.CrossAxisAlignment.start,
-                        mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween,
-                        children: <pwa.Widget>[
-                          pwa.Column(children: <pwa.Widget>[
-                            pwa.SizedBox(height: 20),
-                            pwa.Container(
-                                margin: pwa.EdgeInsets.only(left: 58, top: 2),
-                                child:
-                                    pwa.Text('R\$ ${val.format(sicredi24x)}')),
-                            pwa.Container(
-                                margin: pwa.EdgeInsets.only(left: 58, top: 8),
-                                child:
-                                    pwa.Text('R\$ ${val.format(sicredi36x)}')),
-                            pwa.Container(
-                                margin: pwa.EdgeInsets.only(left: 58, top: 8),
-                                child:
-                                    pwa.Text('R\$ ${val.format(sicredi48x)}')),
-                            pwa.Container(
-                                margin: pwa.EdgeInsets.only(left: 58, top: 8),
-                                child:
-                                    pwa.Text('R\$ ${val.format(sicredi60x)}'))
-                          ]),
-                          pwa.Column(children: <pwa.Widget>[
-                            pwa.SizedBox(height: 15),
-                            pwa.Container(
-                                margin: pwa.EdgeInsets.only(left: 85, top: 6),
-                                child: pwa.Text(
-                                    'R\$ ${val.format(santanderEntrada)}')),
-                            pwa.Container(
-                                margin: pwa.EdgeInsets.only(left: 85, top: 5),
-                                child: pwa.Text(
-                                    'R\$ ${val.format(santander12x)}')),
-                            pwa.Container(
-                                margin: pwa.EdgeInsets.only(left: 85, top: 4),
-                                child: pwa.Text(
-                                    'R\$ ${val.format(santander18x)}')),
-                            pwa.Container(
-                                margin: pwa.EdgeInsets.only(left: 85, top: 1),
-                                child: pwa.Text(
-                                    'R\$ ${val.format(santander24x)}')),
-                            pwa.Container(
-                                margin: pwa.EdgeInsets.only(left: 85, top: 3),
-                                child:
-                                    pwa.Text('R\$ ${val.format(santander36x)}'))
-                          ]),
-                          pwa.Column(children: <pwa.Widget>[
-                            pwa.SizedBox(height: 1),
-                            pwa.Container(
-                                margin: pwa.EdgeInsets.only(left: 48, top: 5),
-                                child: pwa.Text(
-                                    'R\$ ${val.format(bvFinanceira24x)}')),
-                            pwa.Container(
-                                margin: pwa.EdgeInsets.only(left: 48, top: 8),
-                                child: pwa.Text(
-                                    'R\$ ${val.format(bvFinanceira36x)}')),
-                            pwa.Container(
-                                margin: pwa.EdgeInsets.only(left: 48, top: 8),
-                                child: pwa.Text(
-                                    'R\$ ${val.format(bvFinanceira48x)}')),
-                            pwa.Container(
-                                margin: pwa.EdgeInsets.only(left: 48, top: 7),
-                                child: pwa.Text(
-                                    'R\$ ${val.format(bvFinanceira60x)}')),
-                            pwa.Container(
-                                margin: pwa.EdgeInsets.only(left: 48, top: 7),
-                                child: pwa.Text(
-                                    'R\$ ${val.format(bvFinanceira72x)}'))
-                          ]),
-                          pwa.Column(children: <pwa.Widget>[
-                            pwa.SizedBox(height: 17),
-                            pwa.Container(
-                                margin: pwa.EdgeInsets.only(left: 28, top: 60),
-                                child: pwa.Text(
-                                    'R\$ ${val.format(cartaoCredito12x)}',
-                                    style: pwa.TextStyle(fontSize: 20)))
-                          ]),
-                        ]),
+                    child: pwa.Row(crossAxisAlignment: pwa.CrossAxisAlignment.start, mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[
+                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 20), pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 2), child: pwa.Text('R\$ ${val.format(sicredi24x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi36x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi48x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi60x)}'))]),
+                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 15), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 6), child: pwa.Text('R\$ ${val.format(santanderEntrada)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 5), child: pwa.Text('R\$ ${val.format(santander12x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 4), child: pwa.Text('R\$ ${val.format(santander18x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 1), child: pwa.Text('R\$ ${val.format(santander24x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 3), child: pwa.Text('R\$ ${val.format(santander36x)}'))]),
+                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 1), pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 5), child: pwa.Text('R\$ ${val.format(bvFinanceira24x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 8), child: pwa.Text('R\$ ${val.format(bvFinanceira36x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 8), child: pwa.Text('R\$ ${val.format(bvFinanceira48x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 7), child: pwa.Text('R\$ ${val.format(bvFinanceira60x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 7), child: pwa.Text('R\$ ${val.format(bvFinanceira72x)}'))]),
+                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 17), pwa.Container(margin: pwa.EdgeInsets.only(left: 28, top: 60), child: pwa.Text('R\$ ${val.format(cartaoCredito12x)}', style: pwa.TextStyle(fontSize: 20)))]),
+                    ]),
                   ),
                   pwa.Row(
                       // mainAxisAlignment: pwa.MainAxisAlignment.end,
@@ -1423,9 +1117,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                           //
                           margin: pwa.EdgeInsets.only(top: 347, left: 38),
                           //#TODO SE A QUANTIDADE DE DADOS DO SISTEMA FOR MUITO GRANDE VAI QUEBRAR O PDF
-                          child: pwa.Text(dados.text.replaceAll('\n', '\n'),
-                              style:
-                                  pwa.TextStyle(lineSpacing: 5, fontSize: 8)),
+                          child: pwa.Text(dados.text.replaceAll('\n', '\n'), style: pwa.TextStyle(lineSpacing: 5, fontSize: 8)),
                         ),
                       ]),
                 ])),
@@ -1477,21 +1169,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                           width: 310,
                           color: PdfColor.fromHex("#FFFFFF"),
                           margin: pwa.EdgeInsets.only(top: 188, left: 210),
-                          child: pwa.Row(
-                              mainAxisAlignment:
-                                  pwa.MainAxisAlignment.spaceBetween,
-                              children: <pwa.Widget>[
-                                pwa.Text(inversor.text,
-                                    style: pwa.TextStyle(
-                                        color: PdfColor.fromHex("#666666"),
-                                        fontSize: 14,
-                                        fontWeight: pwa.FontWeight.bold)),
-                                pwa.Text("12 Anos",
-                                    style: pwa.TextStyle(
-                                        color: PdfColor.fromHex("#666666"),
-                                        fontSize: 14,
-                                        fontWeight: pwa.FontWeight.bold))
-                              ]),
+                          child: pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[pwa.Text(inversor.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)), pwa.Text("12 Anos", style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold))]),
                         ),
                       ]),
                   pwa.Row(
@@ -1503,21 +1181,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                           color: PdfColor.fromHex("#FFFFFF"),
                           //
                           margin: pwa.EdgeInsets.only(top: 243, left: 210),
-                          child: pwa.Row(
-                              mainAxisAlignment:
-                                  pwa.MainAxisAlignment.spaceBetween,
-                              children: <pwa.Widget>[
-                                pwa.Text(marcaModulos.text,
-                                    style: pwa.TextStyle(
-                                        color: PdfColor.fromHex("#666666"),
-                                        fontSize: 14,
-                                        fontWeight: pwa.FontWeight.bold)),
-                                pwa.Text("25 Anos",
-                                    style: pwa.TextStyle(
-                                        color: PdfColor.fromHex("#666666"),
-                                        fontSize: 14,
-                                        fontWeight: pwa.FontWeight.bold))
-                              ]),
+                          child: pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[pwa.Text(marcaModulos.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)), pwa.Text("25 Anos", style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold))]),
                         ),
                       ]),
                 ])),
@@ -1710,9 +1374,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                     text: TextSpan(
                       style: DefaultTextStyle.of(context).style,
                       children: <TextSpan>[
-                        TextSpan(
-                            text: 'Código do sistema: ',
-                            style: ubuntu16BlackBold500),
+                        TextSpan(text: 'Código do sistema: ', style: ubuntu16BlackBold500),
                         TextSpan(text: pw.codigo, style: ubuntu16BlueBold500),
                       ],
                     ),
@@ -1725,9 +1387,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                     text: TextSpan(
                       style: DefaultTextStyle.of(context).style,
                       children: <TextSpan>[
-                        TextSpan(
-                            text: 'Marca do inversor: ',
-                            style: ubuntu16BlackBold500),
+                        TextSpan(text: 'Marca do inversor: ', style: ubuntu16BlackBold500),
                         TextSpan(text: pw.inversor, style: ubuntu16BlueBold500),
                       ],
                     ),
@@ -1740,11 +1400,8 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                     text: TextSpan(
                       style: DefaultTextStyle.of(context).style,
                       children: <TextSpan>[
-                        TextSpan(
-                            text: 'Marca das placas: ',
-                            style: ubuntu16BlackBold500),
-                        TextSpan(
-                            text: pw.marcaDoModulo, style: ubuntu16BlueBold500),
+                        TextSpan(text: 'Marca das placas: ', style: ubuntu16BlackBold500),
+                        TextSpan(text: pw.marcaDoModulo, style: ubuntu16BlueBold500),
                       ],
                     ),
                   ),
@@ -1756,12 +1413,8 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                     text: TextSpan(
                       style: DefaultTextStyle.of(context).style,
                       children: <TextSpan>[
-                        TextSpan(
-                            text: 'Numero de Placas: ',
-                            style: ubuntu16BlackBold500),
-                        TextSpan(
-                            text: pw.numeroDeModulo.toString(),
-                            style: ubuntu16BlueBold500),
+                        TextSpan(text: 'Numero de Placas: ', style: ubuntu16BlackBold500),
+                        TextSpan(text: pw.numeroDeModulo.toString(), style: ubuntu16BlueBold500),
                       ],
                     ),
                   ),
@@ -1774,9 +1427,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                       style: DefaultTextStyle.of(context).style,
                       children: <TextSpan>[
                         TextSpan(text: 'Área: ', style: ubuntu16BlackBold500),
-                        TextSpan(
-                            text: pw.area.toString(),
-                            style: ubuntu16BlueBold500),
+                        TextSpan(text: pw.area.toString(), style: ubuntu16BlueBold500),
                       ],
                     ),
                   ),
@@ -1788,12 +1439,8 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                     text: TextSpan(
                       style: DefaultTextStyle.of(context).style,
                       children: <TextSpan>[
-                        TextSpan(
-                            text: 'Potência do sistema: ',
-                            style: ubuntu16BlackBold500),
-                        TextSpan(
-                            text: pw.potencia.toString(),
-                            style: ubuntu16BlueBold500),
+                        TextSpan(text: 'Potência do sistema: ', style: ubuntu16BlackBold500),
+                        TextSpan(text: pw.potencia.toString(), style: ubuntu16BlueBold500),
                       ],
                     ),
                   ),
@@ -1805,12 +1452,8 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                     text: TextSpan(
                       style: DefaultTextStyle.of(context).style,
                       children: <TextSpan>[
-                        TextSpan(
-                            text: 'Geração do sistema: ',
-                            style: ubuntu16BlackBold500),
-                        TextSpan(
-                            text: returnGenerationKW.toString() + ' KWp',
-                            style: ubuntu16BlueBold500),
+                        TextSpan(text: 'Geração do sistema: ', style: ubuntu16BlackBold500),
+                        TextSpan(text: returnGenerationKW.toString() + ' KWp', style: ubuntu16BlueBold500),
                       ],
                     ),
                   ),
@@ -1822,12 +1465,8 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                     text: TextSpan(
                       style: DefaultTextStyle.of(context).style,
                       children: <TextSpan>[
-                        TextSpan(
-                            text: 'Valor do sistema: ',
-                            style: ubuntu16BlackBold500),
-                        TextSpan(
-                            text: pw.valor.toString(),
-                            style: ubuntu16BlueBold500),
+                        TextSpan(text: 'Valor do sistema: ', style: ubuntu16BlackBold500),
+                        TextSpan(text: pw.valor.toString(), style: ubuntu16BlueBold500),
                       ],
                     ),
                   ),
@@ -1841,9 +1480,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                     TextSpan(
                       style: DefaultTextStyle.of(context).style,
                       children: <TextSpan>[
-                        TextSpan(
-                            text: pw.dados.replaceAll('<BR>', '\n'),
-                            style: TextStyle(fontSize: 10, color: Colors.blue)),
+                        TextSpan(text: pw.dados.replaceAll('<BR>', '\n'), style: TextStyle(fontSize: 10, color: Colors.blue)),
                       ],
                     ),
                   ),
@@ -1878,10 +1515,8 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                       //onPressed:controller.loginWithGoogle,
 
                       onPressed: () {
-                        SystemChrome.setSystemUIOverlayStyle(
-                            SystemUiOverlayStyle(
-                          statusBarColor: main.MainColors
-                              .cielo, //or set color with: Color(0xFF0000FF)
+                        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+                          statusBarColor: main.MainColors.cielo, //or set color with: Color(0xFF0000FF)
                         ));
                         Navigator.of(context).pop();
                       },
@@ -1919,83 +1554,54 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                               return StatefulBuilder(
                                 builder: (context, setState) {
                                   goGeneratePDF() async {
-                                    scrollController.animateTo(
-                                        scrollController
-                                            .position.minScrollExtent,
-                                        duration: Duration(milliseconds: 500),
-                                        curve: Curves.ease);
+                                    scrollController.animateTo(scrollController.position.minScrollExtent, duration: Duration(milliseconds: 500), curve: Curves.ease);
                                     setState(() {
                                       _loaderGenerateGraph = true;
                                     });
 
-                                    Future.delayed(
-                                        const Duration(milliseconds: 4000),
-                                        () async {
+                                    Future.delayed(const Duration(milliseconds: 4000), () async {
                                       await runChartGenerateImage1("grafico-1");
 
-                                      await writeOnPdf(
-                                          "Soli-Energia-Solar(pré-proposta)");
+                                      await writeOnPdf("Soli-Energia-Solar(pré-proposta)");
 
-                                      Directory documentDirectory =
-                                          await getExternalStorageDirectory();
+                                      Directory documentDirectory = await getExternalStorageDirectory();
 
-                                      String documentPath =
-                                          documentDirectory.path;
+                                      String documentPath = documentDirectory.path;
 
-                                      String fullPath =
-                                          "$documentPath/Soli-Energia-Solar(pré-proposta).pdf";
+                                      String fullPath = "$documentPath/Soli-Energia-Solar(pré-proposta).pdf";
 
                                       setState(() {
                                         _loaderGenerateGraph = false;
                                       });
 
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  PdfPreviewScreen(
-                                                      path: fullPath, pw: pw)));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => PdfPreviewScreen(path: fullPath, pw: pw)));
                                     });
                                   }
 
                                   Future<void> paste(name) async {
-                                    final ClipboardData data =
-                                        await Clipboard.getData(
-                                            Clipboard.kTextPlain);
+                                    final ClipboardData data = await Clipboard.getData(Clipboard.kTextPlain);
                                     // print('Dados do clienteee' + data.text);
 
-                                    if (name == "cliente")
-                                      cliente.text = data.text;
+                                    if (name == "cliente") cliente.text = data.text;
                                     if (name == "cpf") cpf.text = data.text;
                                     if (name == "cep") cep.text = data.text;
-                                    if (name == "bairro")
-                                      bairro.text = data.text;
-                                    if (name == "endereco")
-                                      endereco.text = data.text;
+                                    if (name == "bairro") bairro.text = data.text;
+                                    if (name == "endereco") endereco.text = data.text;
 
-                                    if (name == "inversor")
-                                      inversor.text = data.text;
-                                    if (name == "potencia")
-                                      potencia.text = data.text;
-                                    if (name == "modulos")
-                                      marcaModulos.text = data.text;
-                                    if (name == "qtd")
-                                      qtdModulos.text = data.text;
-                                    if (name == "geracao")
-                                      geracao.text = data.text;
+                                    if (name == "inversor") inversor.text = data.text;
+                                    if (name == "potencia") potencia.text = data.text;
+                                    if (name == "modulos") marcaModulos.text = data.text;
+                                    if (name == "qtd") qtdModulos.text = data.text;
+                                    if (name == "geracao") geracao.text = data.text;
                                     if (name == "area") area.text = data.text;
-                                    if (name == "codigo")
-                                      codigo.text = data.text;
+                                    if (name == "codigo") codigo.text = data.text;
                                     if (name == "dados") dados.text = data.text;
 
                                     // return data;
                                   }
 
                                   final focusNode = FocusNode();
-                                  final bool showFab = MediaQuery.of(context)
-                                          .viewInsets
-                                          .bottom ==
-                                      0.0;
+                                  final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
                                   return AlertDialog(
                                     content: Scaffold(
                                       resizeToAvoidBottomPadding: true,
@@ -2004,14 +1610,10 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                                         child: Stack(
                                           children: [
                                             Container(
-                                              padding:
-                                                  EdgeInsets.only(bottom: 50),
-                                              margin:
-                                                  EdgeInsets.only(bottom: 50),
+                                              padding: EdgeInsets.only(bottom: 50),
+                                              margin: EdgeInsets.only(bottom: 50),
                                               child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   Container(
                                                     child: Wrap(
@@ -2020,527 +1622,329 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                                                           children: [
                                                             Text(
                                                               'Dados do cliente2',
-                                                              style:
-                                                                  ubuntu16BlueBold500,
+                                                              style: ubuntu16BlueBold500,
                                                             ),
                                                           ],
                                                         ),
                                                         Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  top: 18),
-                                                          child:
-                                                              OutlinedTextEdit(
-                                                            prefixIcon: Icon(Icons
-                                                                .account_circle),
-                                                            onChanged:
-                                                                (value) => {},
-                                                            label:
-                                                                "Nome do cliente",
-                                                            inputType: InputType
-                                                                .EXTRA_SMALL,
+                                                          margin: EdgeInsets.only(top: 18),
+                                                          child: OutlinedTextEdit(
+                                                            prefixIcon: Icon(Icons.account_circle),
+                                                            onChanged: (value) => {},
+                                                            label: "Nome do cliente",
+                                                            inputType: InputType.EXTRA_SMALL,
                                                             controller: cliente,
-                                                            suffixIcon:
-                                                                IconButton(
-                                                                    icon: Icon(Icons
-                                                                        .content_paste),
-                                                                    onPressed:
-                                                                        () {
-                                                                      paste(
-                                                                          "cliente");
-                                                                    }),
+                                                            suffixIcon: IconButton(
+                                                                icon: Icon(Icons.content_paste),
+                                                                onPressed: () {
+                                                                  paste("cliente");
+                                                                }),
                                                           ),
                                                         ),
                                                         Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  top: 18),
-                                                          child:
-                                                              OutlinedTextEdit(
-                                                            prefixIcon: Icon(
-                                                                Icons.chat),
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .number,
-                                                            onChanged:
-                                                                (value) => {},
-                                                            label:
-                                                                "CPF do cliente",
+                                                          margin: EdgeInsets.only(top: 18),
+                                                          child: OutlinedTextEdit(
+                                                            prefixIcon: Icon(Icons.chat),
+                                                            keyboardType: TextInputType.number,
+                                                            onChanged: (value) => {},
+                                                            label: "CPF do cliente",
                                                             controller: cpf,
-                                                            inputType: InputType
-                                                                .EXTRA_SMALL,
-                                                            suffixIcon:
-                                                                IconButton(
-                                                                    icon: Icon(Icons
-                                                                        .content_paste),
-                                                                    onPressed:
-                                                                        () {
-                                                                      paste(
-                                                                          "cpf");
-                                                                    }),
+                                                            inputType: InputType.EXTRA_SMALL,
+                                                            suffixIcon: IconButton(
+                                                                icon: Icon(Icons.content_paste),
+                                                                onPressed: () {
+                                                                  paste("cpf");
+                                                                }),
                                                           ),
                                                         ),
                                                         Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  top: 18),
+                                                          margin: EdgeInsets.only(top: 18),
                                                           child: Row(
                                                             children: [
                                                               Expanded(
-                                                                child:
-                                                                    OutlinedTextEdit(
-                                                                  prefixIcon:
-                                                                      Icon(Icons
-                                                                          .assistant_photo),
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .number,
-                                                                  onChanged:
-                                                                      (value) =>
-                                                                          {},
+                                                                child: OutlinedTextEdit(
+                                                                  prefixIcon: Icon(Icons.assistant_photo),
+                                                                  keyboardType: TextInputType.number,
+                                                                  onChanged: (value) => {},
                                                                   label: "CEP",
-                                                                  controller:
-                                                                      cep,
-                                                                  inputType:
-                                                                      InputType
-                                                                          .EXTRA_SMALL,
-                                                                  suffixIcon:
-                                                                      IconButton(
-                                                                          icon: Icon(Icons
-                                                                              .content_paste),
-                                                                          onPressed:
-                                                                              () {
-                                                                            paste("cep");
-                                                                          }),
+                                                                  controller: cep,
+                                                                  inputType: InputType.EXTRA_SMALL,
+                                                                  suffixIcon: IconButton(
+                                                                      icon: Icon(Icons.content_paste),
+                                                                      onPressed: () {
+                                                                        paste("cep");
+                                                                      }),
                                                                 ),
                                                               ),
-                                                              SizedBox(
-                                                                  width: 10),
+                                                              SizedBox(width: 10),
                                                               Expanded(
-                                                                child:
-                                                                    OutlinedTextEdit(
-                                                                  prefixIcon:
-                                                                      Icon(Icons
-                                                                          .dialpad),
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .number,
-                                                                  onChanged:
-                                                                      (value) =>
-                                                                          {},
-                                                                  label:
-                                                                      "Bairro",
-                                                                  controller:
-                                                                      bairro,
-                                                                  suffixIcon:
-                                                                      IconButton(
-                                                                          icon: Icon(Icons
-                                                                              .content_paste),
-                                                                          onPressed:
-                                                                              () {
-                                                                            paste("bairro");
-                                                                          }),
-                                                                  inputType:
-                                                                      InputType
-                                                                          .EXTRA_SMALL,
+                                                                child: OutlinedTextEdit(
+                                                                  prefixIcon: Icon(Icons.dialpad),
+                                                                  keyboardType: TextInputType.number,
+                                                                  onChanged: (value) => {},
+                                                                  label: "Bairro",
+                                                                  controller: bairro,
+                                                                  suffixIcon: IconButton(
+                                                                      icon: Icon(Icons.content_paste),
+                                                                      onPressed: () {
+                                                                        paste("bairro");
+                                                                      }),
+                                                                  inputType: InputType.EXTRA_SMALL,
                                                                 ),
                                                               ),
                                                             ],
                                                           ),
                                                         ),
                                                         Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  top: 18),
+                                                          margin: EdgeInsets.only(top: 18),
                                                           child: Row(
                                                             children: [
                                                               Expanded(
                                                                 flex: 2,
-                                                                child:
-                                                                    OutlinedTextEdit(
-                                                                  prefixIcon:
-                                                                      Icon(Icons
-                                                                          .dvr),
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .text,
-                                                                  onChanged:
-                                                                      (value) =>
-                                                                          {},
-                                                                  label:
-                                                                      "Endereço",
-                                                                  controller:
-                                                                      endereco,
-                                                                  inputType:
-                                                                      InputType
-                                                                          .EXTRA_SMALL,
-                                                                  suffixIcon:
-                                                                      IconButton(
-                                                                          icon: Icon(Icons
-                                                                              .content_paste),
-                                                                          onPressed:
-                                                                              () {
-                                                                            paste("endereco");
-                                                                          }),
+                                                                child: OutlinedTextEdit(
+                                                                  prefixIcon: Icon(Icons.dvr),
+                                                                  keyboardType: TextInputType.text,
+                                                                  onChanged: (value) => {},
+                                                                  label: "Endereço",
+                                                                  controller: endereco,
+                                                                  inputType: InputType.EXTRA_SMALL,
+                                                                  suffixIcon: IconButton(
+                                                                      icon: Icon(Icons.content_paste),
+                                                                      onPressed: () {
+                                                                        paste("endereco");
+                                                                      }),
                                                                 ),
                                                               ),
-                                                              SizedBox(
-                                                                  width: 10),
+                                                              SizedBox(width: 10),
                                                               Expanded(
                                                                 flex: 1,
-                                                                child:
-                                                                    OutlinedTextEdit(
-                                                                  prefixIcon:
-                                                                      Icon(Icons
-                                                                          .texture),
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .number,
-                                                                  controller:
-                                                                      numero,
-                                                                  onChanged:
-                                                                      (value) =>
-                                                                          {},
-                                                                  label:
-                                                                      "Número",
-                                                                  inputType:
-                                                                      InputType
-                                                                          .EXTRA_SMALL,
+                                                                child: OutlinedTextEdit(
+                                                                  prefixIcon: Icon(Icons.texture),
+                                                                  keyboardType: TextInputType.number,
+                                                                  controller: numero,
+                                                                  onChanged: (value) => {},
+                                                                  label: "Número",
+                                                                  inputType: InputType.EXTRA_SMALL,
                                                                 ),
                                                               ),
                                                             ],
                                                           ),
                                                         ),
-                                                        InkWell(
-                                                          onTap: () {
-                                                            setState(() {
-                                                              dadosDaUsina_view =
-                                                                  !dadosDaUsina_view;
-                                                            });
-                                                          },
-                                                          child: Container(
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                                    top: 30),
-                                                            child: Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              children: [
-                                                                Text(
-                                                                  'Dados da usina',
-                                                                  style:
-                                                                      ubuntu16BlueBold500,
+                                                        role == "ROLE_ADMIN"
+                                                            ? InkWell(
+                                                                onTap: () {
+                                                                  setState(() {
+                                                                    dadosDaUsina_view = !dadosDaUsina_view;
+                                                                  });
+                                                                },
+                                                                child: Container(
+                                                                  margin: EdgeInsets.only(top: 30),
+                                                                  child: Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                    children: [
+                                                                      Text(
+                                                                        'Dados da usina',
+                                                                        style: ubuntu16BlueBold500,
+                                                                      ),
+                                                                      IconButton(
+                                                                          iconSize: 30,
+                                                                          icon: dadosDaUsina_view == false ? Icon(Icons.arrow_drop_down_circle, color: MainColors.cielo) : Icon(Icons.arrow_drop_up, color: Colors.grey),
+                                                                          onPressed: () {
+                                                                            setState(() {
+                                                                              dadosDaUsina_view = !dadosDaUsina_view;
+                                                                            });
+                                                                          })
+                                                                    ],
+                                                                  ),
                                                                 ),
-                                                                IconButton(
-                                                                    iconSize:
-                                                                        30,
-                                                                    icon: dadosDaUsina_view ==
-                                                                            false
-                                                                        ? Icon(
-                                                                            Icons
-                                                                                .arrow_drop_down_circle,
-                                                                            color: MainColors
-                                                                                .cielo)
-                                                                        : Icon(
-                                                                            Icons
-                                                                                .arrow_drop_up,
-                                                                            color: Colors
-                                                                                .grey),
-                                                                    onPressed:
-                                                                        () {
-                                                                      setState(
-                                                                          () {
-                                                                        dadosDaUsina_view =
-                                                                            !dadosDaUsina_view;
-                                                                      });
-                                                                    })
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Visibility(
-                                                          visible:
-                                                              dadosDaUsina_view,
-                                                          child: Wrap(
-                                                            children: [
-                                                              Container(
-                                                                margin: EdgeInsets
-                                                                    .only(
-                                                                        top:
-                                                                            16),
-                                                                child: Row(
-                                                                  children: [
-                                                                    Expanded(
-                                                                      flex: 2,
-                                                                      child:
-                                                                          OutlinedTextEdit(
-                                                                        prefixIcon:
-                                                                            Icon(Icons.add_to_queue),
-                                                                        keyboardType:
-                                                                            TextInputType.text,
-                                                                        onChanged:
-                                                                            (value) =>
-                                                                                {},
-                                                                        label:
-                                                                            "Inversor",
-                                                                        controller:
-                                                                            inversor,
-                                                                        suffixIcon: IconButton(
-                                                                            icon: Icon(Icons.content_paste),
-                                                                            onPressed: () {
-                                                                              paste("inversor");
-                                                                            }),
-                                                                        inputType:
-                                                                            InputType.EXTRA_SMALL,
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                        width:
-                                                                            10),
-                                                                    Expanded(
-                                                                      flex: 1,
-                                                                      child:
-                                                                          OutlinedTextEdit(
-                                                                        prefixIcon:
-                                                                            Icon(Icons.toys),
-                                                                        keyboardType:
-                                                                            TextInputType.number,
-                                                                        onChanged:
-                                                                            (value) =>
-                                                                                {},
-                                                                        controller:
-                                                                            potencia,
-                                                                        label:
-                                                                            "Potência",
-                                                                        inputType:
-                                                                            InputType.EXTRA_SMALL,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                margin: EdgeInsets
-                                                                    .only(
-                                                                        top:
-                                                                            16),
-                                                                child: Row(
-                                                                  children: [
-                                                                    Expanded(
-                                                                      flex: 1,
-                                                                      child:
-                                                                          OutlinedTextEdit(
-                                                                        prefixIcon:
-                                                                            Icon(Icons.view_comfy),
-                                                                        keyboardType:
-                                                                            TextInputType.text,
-                                                                        onChanged:
-                                                                            (value) =>
-                                                                                {},
-                                                                        label:
-                                                                            "Módulos",
-                                                                        controller:
-                                                                            marcaModulos,
-                                                                        suffixIcon: IconButton(
-                                                                            icon: Icon(Icons.content_paste),
-                                                                            onPressed: () {
-                                                                              paste("modulos");
-                                                                            }),
-                                                                        inputType:
-                                                                            InputType.EXTRA_SMALL,
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                        width:
-                                                                            10),
-                                                                    Expanded(
-                                                                      flex: 1,
-                                                                      child:
-                                                                          OutlinedTextEdit(
-                                                                        prefixIcon:
-                                                                            Icon(Icons.format_list_numbered),
-                                                                        keyboardType:
-                                                                            TextInputType.number,
-                                                                        onChanged:
-                                                                            (value) =>
-                                                                                {},
-                                                                        suffixIcon: IconButton(
-                                                                            icon: Icon(Icons.content_paste),
-                                                                            onPressed: () {
-                                                                              paste("qtd");
-                                                                            }),
-                                                                        label:
-                                                                            "Quant.",
-                                                                        controller:
-                                                                            qtdModulos,
-                                                                        inputType:
-                                                                            InputType.EXTRA_SMALL,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                margin: EdgeInsets
-                                                                    .only(
-                                                                        top:
-                                                                            16),
-                                                                child: Row(
-                                                                  children: [
-                                                                    Expanded(
-                                                                      flex: 1,
-                                                                      child:
-                                                                          OutlinedTextEdit(
-                                                                        prefixIcon:
-                                                                            Icon(Icons.usb),
-                                                                        keyboardType:
-                                                                            TextInputType.number,
-                                                                        onChanged:
-                                                                            (value) =>
-                                                                                {},
-                                                                        suffixIcon: IconButton(
-                                                                            icon: Icon(Icons.content_paste),
-                                                                            onPressed: () {
-                                                                              paste("geracao");
-                                                                            }),
-                                                                        label:
-                                                                            "Geração kWp",
-                                                                        controller:
-                                                                            geracao,
-                                                                        inputType:
-                                                                            InputType.EXTRA_SMALL,
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                        width:
-                                                                            10),
-                                                                    Expanded(
-                                                                      flex: 1,
-                                                                      child:
-                                                                          OutlinedTextEdit(
-                                                                        prefixIcon:
-                                                                            Icon(Icons.aspect_ratio),
-                                                                        keyboardType:
-                                                                            TextInputType.number,
-                                                                        onChanged:
-                                                                            (value) =>
-                                                                                {},
-                                                                        label:
-                                                                            "Área",
-                                                                        suffixIcon: IconButton(
-                                                                            icon: Icon(Icons.content_paste),
-                                                                            onPressed: () {
-                                                                              paste("area");
-                                                                            }),
-                                                                        controller:
-                                                                            area,
-                                                                        inputType:
-                                                                            InputType.EXTRA_SMALL,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                margin: EdgeInsets
-                                                                    .only(
-                                                                        top:
-                                                                            16),
-                                                                child: Row(
-                                                                  children: [
-                                                                    Expanded(
-                                                                      flex: 1,
-                                                                      child:
-                                                                          OutlinedTextEdit(
-                                                                        keyboardType:
-                                                                            TextInputType.number,
-                                                                        onChanged:
-                                                                            (value) =>
-                                                                                {},
-                                                                        label:
-                                                                            "Código",
-                                                                        suffixIcon: IconButton(
-                                                                            icon: Icon(Icons.content_paste),
-                                                                            onPressed: () {
-                                                                              paste("codigo");
-                                                                            }),
-                                                                        controller:
-                                                                            codigo,
-                                                                        inputType:
-                                                                            InputType.EXTRA_SMALL,
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                        width:
-                                                                            10),
-                                                                    Expanded(
-                                                                      flex: 1,
-                                                                      child:
-                                                                          OutlinedTextEdit(
-                                                                        prefixIcon:
-                                                                            Icon(Icons.monetization_on),
-                                                                        keyboardType:
-                                                                            TextInputType.number,
-                                                                        onChanged:
-                                                                            (value) =>
-                                                                                {},
-                                                                        label:
-                                                                            "R\$ Valor",
-                                                                        controller:
-                                                                            valor,
-                                                                        inputType:
-                                                                            InputType.EXTRA_SMALL,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                margin: EdgeInsets
-                                                                    .only(
-                                                                        top:
-                                                                            16),
-                                                                child: Row(
-                                                                  children: [
-                                                                    Expanded(
-                                                                      flex: 1,
-                                                                      child:
-                                                                          OutlinedTextEdit(
-                                                                        keyboardType:
-                                                                            TextInputType.multiline,
-                                                                        maxLines:
-                                                                            10,
-                                                                        minLines:
-                                                                            10,
-                                                                        suffixIcon: IconButton(
-                                                                            icon: Icon(Icons.content_paste),
-                                                                            onPressed: () {
-                                                                              paste("dados");
-                                                                            }),
-                                                                        onChanged:
-                                                                            (value) =>
-                                                                                {},
-                                                                        label:
-                                                                            "Dados da usina",
-                                                                        controller:
-                                                                            dados,
-                                                                        inputType:
-                                                                            InputType.EXTRA_SMALL,
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                        width:
-                                                                            10),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                height: 100,
                                                               )
-                                                            ],
-                                                          ),
-                                                        ),
+                                                            : SizedBox(),
+                                                        role == "ROLE_ADMIN"
+                                                            ? Visibility(
+                                                                visible: dadosDaUsina_view,
+                                                                child: Wrap(
+                                                                  children: [
+                                                                    Container(
+                                                                      margin: EdgeInsets.only(top: 16),
+                                                                      child: Row(
+                                                                        children: [
+                                                                          Expanded(
+                                                                            flex: 2,
+                                                                            child: OutlinedTextEdit(
+                                                                              prefixIcon: Icon(Icons.add_to_queue),
+                                                                              keyboardType: TextInputType.text,
+                                                                              onChanged: (value) => {},
+                                                                              label: "Inversor",
+                                                                              controller: inversor,
+                                                                              suffixIcon: IconButton(
+                                                                                  icon: Icon(Icons.content_paste),
+                                                                                  onPressed: () {
+                                                                                    paste("inversor");
+                                                                                  }),
+                                                                              inputType: InputType.EXTRA_SMALL,
+                                                                            ),
+                                                                          ),
+                                                                          SizedBox(width: 10),
+                                                                          Expanded(
+                                                                            flex: 1,
+                                                                            child: OutlinedTextEdit(
+                                                                              prefixIcon: Icon(Icons.toys),
+                                                                              keyboardType: TextInputType.number,
+                                                                              onChanged: (value) => {},
+                                                                              controller: potencia,
+                                                                              label: "Potência",
+                                                                              inputType: InputType.EXTRA_SMALL,
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    Container(
+                                                                      margin: EdgeInsets.only(top: 16),
+                                                                      child: Row(
+                                                                        children: [
+                                                                          Expanded(
+                                                                            flex: 1,
+                                                                            child: OutlinedTextEdit(
+                                                                              prefixIcon: Icon(Icons.view_comfy),
+                                                                              keyboardType: TextInputType.text,
+                                                                              onChanged: (value) => {},
+                                                                              label: "Módulos",
+                                                                              controller: marcaModulos,
+                                                                              suffixIcon: IconButton(
+                                                                                  icon: Icon(Icons.content_paste),
+                                                                                  onPressed: () {
+                                                                                    paste("modulos");
+                                                                                  }),
+                                                                              inputType: InputType.EXTRA_SMALL,
+                                                                            ),
+                                                                          ),
+                                                                          SizedBox(width: 10),
+                                                                          Expanded(
+                                                                            flex: 1,
+                                                                            child: OutlinedTextEdit(
+                                                                              prefixIcon: Icon(Icons.format_list_numbered),
+                                                                              keyboardType: TextInputType.number,
+                                                                              onChanged: (value) => {},
+                                                                              suffixIcon: IconButton(
+                                                                                  icon: Icon(Icons.content_paste),
+                                                                                  onPressed: () {
+                                                                                    paste("qtd");
+                                                                                  }),
+                                                                              label: "Quant.",
+                                                                              controller: qtdModulos,
+                                                                              inputType: InputType.EXTRA_SMALL,
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    Container(
+                                                                      margin: EdgeInsets.only(top: 16),
+                                                                      child: Row(
+                                                                        children: [
+                                                                          Expanded(
+                                                                            flex: 1,
+                                                                            child: OutlinedTextEdit(
+                                                                              prefixIcon: Icon(Icons.usb),
+                                                                              keyboardType: TextInputType.number,
+                                                                              onChanged: (value) => {},
+                                                                              suffixIcon: IconButton(
+                                                                                  icon: Icon(Icons.content_paste),
+                                                                                  onPressed: () {
+                                                                                    paste("geracao");
+                                                                                  }),
+                                                                              label: "Geração kWp",
+                                                                              controller: geracao,
+                                                                              inputType: InputType.EXTRA_SMALL,
+                                                                            ),
+                                                                          ),
+                                                                          SizedBox(width: 10),
+                                                                          Expanded(
+                                                                            flex: 1,
+                                                                            child: OutlinedTextEdit(
+                                                                              prefixIcon: Icon(Icons.aspect_ratio),
+                                                                              keyboardType: TextInputType.number,
+                                                                              onChanged: (value) => {},
+                                                                              label: "Área",
+                                                                              suffixIcon: IconButton(
+                                                                                  icon: Icon(Icons.content_paste),
+                                                                                  onPressed: () {
+                                                                                    paste("area");
+                                                                                  }),
+                                                                              controller: area,
+                                                                              inputType: InputType.EXTRA_SMALL,
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    Container(
+                                                                      margin: EdgeInsets.only(top: 16),
+                                                                      child: Row(
+                                                                        children: [
+                                                                          Expanded(
+                                                                            flex: 1,
+                                                                            child: OutlinedTextEdit(
+                                                                              keyboardType: TextInputType.number,
+                                                                              onChanged: (value) => {},
+                                                                              label: "Código",
+                                                                              suffixIcon: IconButton(
+                                                                                  icon: Icon(Icons.content_paste),
+                                                                                  onPressed: () {
+                                                                                    paste("codigo");
+                                                                                  }),
+                                                                              controller: codigo,
+                                                                              inputType: InputType.EXTRA_SMALL,
+                                                                            ),
+                                                                          ),
+                                                                          SizedBox(width: 10),
+                                                                          Expanded(
+                                                                            flex: 1,
+                                                                            child: OutlinedTextEdit(
+                                                                              prefixIcon: Icon(Icons.monetization_on),
+                                                                              keyboardType: TextInputType.number,
+                                                                              onChanged: (value) => {},
+                                                                              label: "R\$ Valor",
+                                                                              controller: valor,
+                                                                              inputType: InputType.EXTRA_SMALL,
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    Container(
+                                                                      margin: EdgeInsets.only(top: 16),
+                                                                      child: Row(
+                                                                        children: [
+                                                                          Expanded(
+                                                                            flex: 1,
+                                                                            child: OutlinedTextEdit(
+                                                                              keyboardType: TextInputType.multiline,
+                                                                              maxLines: 10,
+                                                                              minLines: 10,
+                                                                              suffixIcon: IconButton(
+                                                                                  icon: Icon(Icons.content_paste),
+                                                                                  onPressed: () {
+                                                                                    paste("dados");
+                                                                                  }),
+                                                                              onChanged: (value) => {},
+                                                                              label: "Dados da usina",
+                                                                              controller: dados,
+                                                                              inputType: InputType.EXTRA_SMALL,
+                                                                            ),
+                                                                          ),
+                                                                          SizedBox(width: 10),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 100,
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              )
+                                                            : SizedBox()
                                                       ],
                                                     ),
                                                   ),
@@ -2550,38 +1954,24 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                                                     child: Stack(
                                                       children: <Widget>[
                                                         Center(
-                                                          child:
-                                                              SingleChildScrollView(
-                                                            scrollDirection:
-                                                                Axis.horizontal,
+                                                          child: SingleChildScrollView(
+                                                            scrollDirection: Axis.horizontal,
                                                             child: Row(
-                                                              children: <
-                                                                  Widget>[
+                                                              children: <Widget>[
                                                                 SingleChildScrollView(
                                                                   child: Column(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .center,
-                                                                    children: <
-                                                                        Widget>[
+                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                    children: <Widget>[
                                                                       RepaintBoundary(
-                                                                        key:
-                                                                            globalKey,
-                                                                        child:
-                                                                            Container(
-                                                                          color:
-                                                                              Colors.white,
-                                                                          child:
-                                                                              Chart(
-                                                                            meses:
-                                                                                returnAllMonths,
-                                                                            consumo:
-                                                                                consumo,
+                                                                        key: globalKey,
+                                                                        child: Container(
+                                                                          color: Colors.white,
+                                                                          child: Chart(
+                                                                            meses: returnAllMonths,
+                                                                            consumo: consumo,
                                                                           ),
-                                                                          height:
-                                                                              700,
-                                                                          width:
-                                                                              1500,
+                                                                          height: 700,
+                                                                          width: 1500,
                                                                         ),
                                                                       ),
                                                                     ],
@@ -2601,27 +1991,20 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                                               visible: _loaderGenerateGraph,
                                               child: Container(
                                                 color: Colors.white,
-                                                height: MediaQuery.of(context)
-                                                    .size
-                                                    .height,
+                                                height: MediaQuery.of(context).size.height,
                                                 child: Center(
                                                   //color: Colors.white,
                                                   // height: MediaQuery.of(context).size.height,
 
                                                   child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
                                                       Stack(
                                                         children: <Widget>[
                                                           Center(
                                                             child: Container(
-                                                              margin: EdgeInsets
-                                                                  .only(
-                                                                      top: 60),
-                                                              child:
-                                                                  Image.asset(
+                                                              margin: EdgeInsets.only(top: 60),
+                                                              child: Image.asset(
                                                                 'lib/app/shared/assets/images/l.png',
                                                                 width: 70,
                                                               ),
@@ -2631,17 +2014,10 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                                                             child: Container(
                                                               width: 200,
                                                               height: 200,
-                                                              child:
-                                                                  CircularProgressIndicator(
+                                                              child: CircularProgressIndicator(
                                                                 strokeWidth: 1,
-                                                                backgroundColor:
-                                                                    Colors.blue[
-                                                                        500],
-                                                                valueColor:
-                                                                    new AlwaysStoppedAnimation<
-                                                                            Color>(
-                                                                        Color(
-                                                                            0xFFFFFFFF)),
+                                                                backgroundColor: Colors.blue[500],
+                                                                valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFFFFFFF)),
                                                               ),
                                                             ),
                                                           ),
@@ -2651,21 +2027,17 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                                                   ),
                                                 ),
                                               ),
-                                            ),
+                                            )
                                           ],
                                         ),
                                       ),
                                       floatingActionButton: showFab
                                           ? Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: <Widget>[
-                                                Observer(builder:
-                                                    (BuildContext context) {
+                                                Observer(builder: (BuildContext context) {
                                                   return Container(
-                                                    margin: EdgeInsets.only(
-                                                        left: 13),
+                                                    margin: EdgeInsets.only(left: 13),
                                                     child: DangerButton(
                                                       child: Row(
                                                         children: <Widget>[
@@ -2676,20 +2048,14 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
                                                           ),
                                                           Text(
                                                             'Voltar',
-                                                            style:
-                                                                buttonLargeWhite,
+                                                            style: buttonLargeWhite,
                                                           ),
                                                         ],
                                                       ),
 
                                                       ////onPressed:controller.loginWithGoogle,
 
-                                                      onPressed:
-                                                          !_loaderGenerateGraph
-                                                              ? Navigator.of(
-                                                                      context)
-                                                                  .pop
-                                                              : null,
+                                                      onPressed: !_loaderGenerateGraph ? Navigator.of(context).pop : null,
                                                     ).getLarge(),
                                                   );
                                                 }),
@@ -2717,10 +2083,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo,
 
                                                   // SETANDO NOVA
 
-                                                  onPressed:
-                                                      !_loaderGenerateGraph
-                                                          ? goGeneratePDF
-                                                          : null,
+                                                  onPressed: !_loaderGenerateGraph ? goGeneratePDF : null,
                                                 ).getLarge(),
                                               ],
                                             )

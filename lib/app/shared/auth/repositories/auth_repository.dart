@@ -45,6 +45,8 @@ class AuthRepository implements IAuthRepository {
 
     // Set Token
     Prefs.setString("TOKEN", data.accessToken);
+    // Set ROle
+    Prefs.setString("ROLE", data.roles[0]["name"]);
 
     return data;
   }

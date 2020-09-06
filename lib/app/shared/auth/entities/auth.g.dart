@@ -99,18 +99,18 @@ mixin _$Auth on _Auth, Store {
     });
   }
 
-  final _$roleAtom = Atom(name: '_Auth.role');
+  final _$rolesAtom = Atom(name: '_Auth.roles');
 
   @override
-  String get role {
-    _$roleAtom.reportRead();
-    return super.role;
+  dynamic get roles {
+    _$rolesAtom.reportRead();
+    return super.roles;
   }
 
   @override
-  set role(String value) {
-    _$roleAtom.reportWrite(value, super.role, () {
-      super.role = value;
+  set roles(dynamic value) {
+    _$rolesAtom.reportWrite(value, super.roles, () {
+      super.roles = value;
     });
   }
 
@@ -138,7 +138,7 @@ name: ${name},
 tokenType: ${tokenType},
 accessToken: ${accessToken},
 password: ${password},
-role: ${role},
+roles: ${roles},
 username: ${username}
     ''';
   }
