@@ -5,6 +5,8 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:framework/ui/bottomnavigation/fab_bottom_app_bar.dart';
 import 'package:framework/ui/bottomnavigation/fab_with_icons.dart';
 import 'package:framework/ui/bottomnavigation/layout.dart';
+import 'package:login/app/shared/auth/auth_controller.dart';
+import 'package:login/app/shared/auth/repositories/auth_repository.dart';
 import 'package:login/app/shared/styles/main_colors.dart';
 import 'package:login/app/shared/styles/main_style.dart';
 import 'package:login/app/shared/utils/database_helper.dart';
@@ -20,8 +22,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends ModularState<HomePage, HomeController>
-    with SingleTickerProviderStateMixin {
+class _HomePageState extends ModularState<HomePage, HomeController> with SingleTickerProviderStateMixin {
   void _selectedTab(int index) {
     tabController.animateTo(index);
   }
@@ -56,8 +57,7 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                       child: LayoutBuilder(
                         builder: (context, constraint) {
                           return ConstrainedBox(
-                            constraints:
-                                BoxConstraints(minHeight: constraint.maxHeight),
+                            constraints: BoxConstraints(minHeight: constraint.maxHeight),
                             child: IntrinsicHeight(
                               child: Column(
                                 children: <Widget>[
@@ -65,84 +65,114 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                   Container(
                                     //   margin: EdgeInsets.symmetric(horizontal: 10),
                                     child: AspectRatio(
-                                      aspectRatio: 100 / 40,
+                                      aspectRatio: 100 / 45,
                                       child: Container(
-                                        decoration: BoxDecoration(
-                                            color: Color(0XFF2184AA),
-                                            borderRadius: new BorderRadius.only(
-                                                bottomLeft: Radius.circular(0),
-                                                bottomRight:
-                                                    Radius.circular(0))),
+                                        decoration: BoxDecoration(color: Color(0XFF2184AA), borderRadius: new BorderRadius.only(bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0))),
                                         child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           // mainAxisAlignment
                                           children: <Widget>[
                                             SizedBox(
-                                              height: 40,
+                                              height: 30,
                                             ),
-                                            Text(
-                                              'App Soleads',
-                                              style: heading16Bold.copyWith(
-                                                  color: Colors.white),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  'App Soleads',
+                                                  style: heading16Bold.copyWith(color: Colors.white),
+                                                ),
+                                              ],
                                             ),
                                             Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 16),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                              padding: EdgeInsets.only(left: 16, top: 10),
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: <Widget>[
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      FutureBuilder<String>(
+                                                        future: AuthRepository().getName(),
+                                                        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                                          switch (snapshot.connectionState) {
+                                                            case ConnectionState.waiting:
+                                                              return CircularProgressIndicator(
+                                                                strokeWidth: 1,
+                                                              );
+                                                            default:
+                                                              if (snapshot.hasError)
+                                                                return Text('${snapshot.error}');
+                                                              else
+                                                                return Text(
+                                                                  'Olá, ${snapshot.data}!',
+                                                                  style: ubuntu16WhiteBold500,
+                                                                );
+                                                          }
+                                                        },
+                                                      ),
+                                                      InkWell(
+                                                        onTap: controller.logoff,
+                                                        child: Container(
+                                                          margin: EdgeInsets.only(right: 25),
+                                                          child: Icon(
+                                                            Icons.wb_sunny,
+                                                            color: Colors.white,
+                                                            size: 30,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
                                                   Text(
-                                                    'Olá, Heitor Klaus!',
+                                                    'S.K.A Serviços Elétricos',
+                                                    style: ubuntu14WhiteLight100,
+                                                  ),
+                                                  SizedBox(
+                                                    height: 15,
+                                                  ),
+                                                  Text(
+                                                    'Saldo em comissões',
                                                     style: ubuntu16WhiteBold500,
                                                   ),
-                                                  FlatButton(
-                                                    child: Text('Sair'),
-                                                    onPressed:
-                                                        controller.logoff,
+                                                  Row(
+                                                    children: [
+                                                      Column(
+                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                                        children: [
+                                                          SizedBox(height: 8),
+                                                          Text(
+                                                            'R\$',
+                                                            style: TextStyle(fontSize: 10, color: Colors.green[200]),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      Column(
+                                                        children: [
+                                                          Text(
+                                                            '3900,00',
+                                                            style: TextStyle(fontSize: 22, color: Colors.green[200]),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      SizedBox(width: 10),
+                                                      Column(
+                                                        children: [
+                                                          SizedBox(height: 8),
+                                                          Text(
+                                                            'Transferir',
+                                                            style: TextStyle(fontSize: 10, color: Colors.green[200]),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    ],
                                                   ),
-                                                  // FlatButton(
-                                                  //     child: Text('Set DATA'),
-                                                  //     onPressed: () {
-                                                  //      DatabaseHelper().downloadFile("http://www.klausmetal.com.br/file55.csv",
-                                                  //           "file55.csv");
-                                                  //     }),
-                                                  // FlatButton(
-                                                  //     child: Text('Get DATA'),
-                                                  //     onPressed: () {
-                                                  //       ProposalStringsDao().findPotenciaKit('10.53');
-                                                  //       // DatabaseHelper()
-                                                  //       //     .populateDadosKits(
-                                                  //       //         2,
-                                                  //       //         'area',
-                                                  //       //         'codigo',
-                                                  //       //         'dados',
-                                                  //       //         'inversor',
-                                                  //       //         'marca_do_modulo',
-                                                  //       //         'numero_de_modulo',
-                                                  //       //         'peso',
-                                                  //       //         'potencia',
-                                                  //       //         'potencia_do_modulo',
-                                                  //       //         'valor',
-                                                  //       //         'potencia_novo');
-                                                  //     })
-                                                ],
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 16),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: <Widget>[
-                                                  Text(
-                                                    'S.Klaus Serviços Elétricos',
-                                                    style:
-                                                        ubuntu14WhiteLight100,
-                                                  )
                                                 ],
                                               ),
                                             ),
@@ -155,16 +185,14 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                   Container(
                                     margin: EdgeInsets.all(10),
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Expanded(
                                           child: AspectRatio(
                                             aspectRatio: 3 / 3,
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
+                                                  borderRadius: BorderRadius.all(
                                                     Radius.circular(20.0),
                                                   ),
                                                   // Box decoration takes a gradient
@@ -172,10 +200,8 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                                   boxShadow: [
                                                     BoxShadow(
                                                       color: Colors.black12,
-                                                      blurRadius:
-                                                          4, // has the effect of softening the shadow
-                                                      spreadRadius:
-                                                          0.2, // has the effect of extending the shadow
+                                                      blurRadius: 4, // has the effect of softening the shadow
+                                                      spreadRadius: 0.2, // has the effect of extending the shadow
                                                       offset: Offset(
                                                         -1, // horizontal, move right 10
                                                         1, // vertical, move down 10
@@ -183,8 +209,7 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                                     ),
                                                   ]),
                                               child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 children: <Widget>[
                                                   Text('Leads'),
                                                   IconButton(
@@ -214,8 +239,7 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                             aspectRatio: 3 / 3,
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
+                                                  borderRadius: BorderRadius.all(
                                                     Radius.circular(20.0),
                                                   ),
                                                   // Box decoration takes a gradient
@@ -223,10 +247,8 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                                   boxShadow: [
                                                     BoxShadow(
                                                       color: Colors.black12,
-                                                      blurRadius:
-                                                          4, // has the effect of softening the shadow
-                                                      spreadRadius:
-                                                          0.2, // has the effect of extending the shadow
+                                                      blurRadius: 4, // has the effect of softening the shadow
+                                                      spreadRadius: 0.2, // has the effect of extending the shadow
                                                       offset: Offset(
                                                         -1, // horizontal, move right 10
                                                         1, // vertical, move down 10
@@ -234,8 +256,7 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                                     ),
                                                   ]),
                                               child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 children: <Widget>[
                                                   Text('Negociando'),
                                                   IconButton(
@@ -265,18 +286,15 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                             aspectRatio: 3 / 3,
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
+                                                  borderRadius: BorderRadius.all(
                                                     Radius.circular(20.0),
                                                   ),
                                                   color: Colors.white,
                                                   boxShadow: [
                                                     BoxShadow(
                                                       color: Colors.black12,
-                                                      blurRadius:
-                                                          4, // has the effect of softening the shadow
-                                                      spreadRadius:
-                                                          0.2, // has the effect of extending the shadow
+                                                      blurRadius: 4, // has the effect of softening the shadow
+                                                      spreadRadius: 0.2, // has the effect of extending the shadow
                                                       offset: Offset(
                                                         -1, // horizontal, move right 10
                                                         1, // vertical, move down 10
@@ -284,14 +302,11 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                                     ),
                                                   ]),
                                               child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 children: <Widget>[
                                                   Text('Fechados'),
                                                   IconButton(
-                                                    icon: Icon(Icons.wb_sunny,
-                                                        color:
-                                                            Colors.yellow[700]),
+                                                    icon: Icon(Icons.wb_sunny, color: Colors.yellow[700]),
                                                     onPressed: () {},
                                                   ),
                                                   SizedBox(

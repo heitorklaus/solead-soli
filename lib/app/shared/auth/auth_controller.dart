@@ -23,7 +23,7 @@ abstract class _AuthControllerBase with Store {
 
   _AuthControllerBase() {
     _authRepository.getUser().then(auth).catchError((e) {
-      print('ERRORRRRRR');
+      print('E~~RRORRRRRR');
     });
   }
 

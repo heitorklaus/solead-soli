@@ -359,10 +359,6 @@ abstract class _SimulatorControllerBase with Store {
         builder: (context) {
           return StatefulBuilder(
             builder: (context, setState) {
-              // Get available height and width of the build area of this widget. Make a choice depending on the size.
-              var height = MediaQuery.of(context).size.height;
-              var width = MediaQuery.of(context).size.width;
-
               return AlertDialog(
                 content: Scaffold(
                   body: SingleChildScrollView(child: buildDialog(context, powerPlantsMenor, mediaMenor, returnAll, returnConsumo(), tax, setState, role)),
@@ -1497,7 +1493,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                         child: Row(
                           children: <Widget>[
                             Icon(
-                              Icons.sync,
+                              Icons.backspace,
                               color: Colors.white,
                               size: 30,
                             ),
@@ -1528,17 +1524,14 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                         child: Center(
                           child: Row(
                             children: [
-                              Icon(
-                                Icons.add_to_home_screen,
-                                color: Colors.white,
-                                size: 30,
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
                               Text(
                                 'Avançar',
                                 style: buttonLargeWhite,
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                color: Colors.white,
+                                size: 30,
                               ),
                             ],
                           ),
@@ -2037,15 +2030,16 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                               children: <Widget>[
                                                 Observer(builder: (BuildContext context) {
                                                   return Container(
-                                                    margin: EdgeInsets.only(left: 13),
+                                                    margin: EdgeInsets.only(left: 16),
                                                     child: DangerButton(
                                                       child: Row(
                                                         children: <Widget>[
                                                           Icon(
-                                                            Icons.sync,
+                                                            Icons.backspace,
                                                             color: Colors.white,
                                                             size: 30,
                                                           ),
+                                                          SizedBox(width: 5),
                                                           Text(
                                                             'Voltar',
                                                             style: buttonLargeWhite,
@@ -2059,23 +2053,17 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                     ).getLarge(),
                                                   );
                                                 }),
-                                                SizedBox(
-                                                  width: 20,
-                                                ),
                                                 PrimaryButton(
                                                   child: Row(
                                                     children: <Widget>[
-                                                      Icon(
-                                                        Icons.assignment,
-                                                        color: Colors.white,
-                                                        size: 30,
-                                                      ),
                                                       Text(
-                                                        'Gerar',
+                                                        'Gerar PDF',
                                                         style: buttonLargeWhite,
                                                       ),
-                                                      SizedBox(
-                                                        width: 4,
+                                                      Icon(
+                                                        Icons.assignment_turned_in,
+                                                        color: Colors.white,
+                                                        size: 30,
                                                       ),
                                                     ],
                                                   ),

@@ -47,6 +47,8 @@ class AuthRepository implements IAuthRepository {
     Prefs.setString("TOKEN", data.accessToken);
     // Set ROle
     Prefs.setString("ROLE", data.roles[0]["name"]);
+    // Set Token
+    Prefs.setString("NAME", data.name);
 
     return data;
   }
@@ -92,6 +94,11 @@ class AuthRepository implements IAuthRepository {
   Future getUser() async {
     final valor = await Prefs.getString("TOKEN");
     return valor;
+  }
+
+  Future<String> getName() async {
+    final valor = await Prefs.getString("NAME");
+    return valor.toString();
   }
 
   @override
