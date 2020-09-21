@@ -24,6 +24,21 @@ mixin _$Auth on _Auth, Store {
     });
   }
 
+  final _$idAtom = Atom(name: '_Auth.id');
+
+  @override
+  int get id {
+    _$idAtom.reportRead();
+    return super.id;
+  }
+
+  @override
+  set id(int value) {
+    _$idAtom.reportWrite(value, super.id, () {
+      super.id = value;
+    });
+  }
+
   final _$emailAtom = Atom(name: '_Auth.email');
 
   @override
@@ -51,6 +66,36 @@ mixin _$Auth on _Auth, Store {
   set name(String value) {
     _$nameAtom.reportWrite(value, super.name, () {
       super.name = value;
+    });
+  }
+
+  final _$cashAtom = Atom(name: '_Auth.cash');
+
+  @override
+  String get cash {
+    _$cashAtom.reportRead();
+    return super.cash;
+  }
+
+  @override
+  set cash(String value) {
+    _$cashAtom.reportWrite(value, super.cash, () {
+      super.cash = value;
+    });
+  }
+
+  final _$companyAtom = Atom(name: '_Auth.company');
+
+  @override
+  String get company {
+    _$companyAtom.reportRead();
+    return super.company;
+  }
+
+  @override
+  set company(String value) {
+    _$companyAtom.reportWrite(value, super.company, () {
+      super.company = value;
     });
   }
 
@@ -133,8 +178,11 @@ mixin _$Auth on _Auth, Store {
   String toString() {
     return '''
 avatar: ${avatar},
+id: ${id},
 email: ${email},
 name: ${name},
+cash: ${cash},
+company: ${company},
 tokenType: ${tokenType},
 accessToken: ${accessToken},
 password: ${password},

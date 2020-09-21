@@ -91,47 +91,53 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: <Widget>[
-                                                  Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  Stack(
                                                     children: [
-                                                      FutureBuilder<String>(
-                                                        future: AuthRepository().getName(),
-                                                        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                                                          switch (snapshot.connectionState) {
-                                                            case ConnectionState.waiting:
-                                                              return CircularProgressIndicator(
-                                                                strokeWidth: 1,
-                                                              );
-                                                            default:
-                                                              if (snapshot.hasError)
-                                                                return Text('${snapshot.error}');
-                                                              else
-                                                                return Text(
-                                                                  'Olá, ${snapshot.data}!',
-                                                                  style: ubuntu16WhiteBold500,
-                                                                );
-                                                          }
-                                                        },
+                                                      Container(
+                                                        margin: EdgeInsets.only(top: 15),
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          children: [
+                                                            FutureBuilder<String>(
+                                                              future: AuthRepository().getName(),
+                                                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                                                switch (snapshot.connectionState) {
+                                                                  case ConnectionState.waiting:
+                                                                    return CircularProgressIndicator(
+                                                                      strokeWidth: 1,
+                                                                    );
+                                                                  default:
+                                                                    if (snapshot.hasError)
+                                                                      return Text('${snapshot.error}');
+                                                                    else
+                                                                      return Text(
+                                                                        'Olá, ${snapshot.data.toString()}!',
+                                                                        style: ubuntu16WhiteBold500,
+                                                                      );
+                                                                }
+                                                              },
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
-                                                      InkWell(
-                                                        onTap: controller.logoff,
-                                                        child: Container(
-                                                          margin: EdgeInsets.only(right: 25),
-                                                          child: Icon(
-                                                            Icons.wb_sunny,
-                                                            color: Colors.white,
-                                                            size: 30,
-                                                          ),
+                                                      Container(
+                                                        margin: EdgeInsets.only(left: 335),
+                                                        child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment.end,
+                                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                                          children: [
+                                                            Icon(
+                                                              Icons.account_circle,
+                                                              size: 50,
+                                                              color: Colors.white,
+                                                            )
+                                                          ],
                                                         ),
                                                       )
                                                     ],
                                                   ),
-                                                  Text(
-                                                    'S.K.A Serviços Elétricos',
-                                                    style: ubuntu14WhiteLight100,
-                                                  ),
                                                   SizedBox(
-                                                    height: 15,
+                                                    height: 9,
                                                   ),
                                                   Text(
                                                     'Saldo em comissões',
@@ -140,24 +146,37 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                   Row(
                                                     children: [
                                                       Column(
-                                                        mainAxisAlignment: MainAxisAlignment.end,
-                                                        crossAxisAlignment: CrossAxisAlignment.end,
                                                         children: [
-                                                          SizedBox(height: 8),
-                                                          Text(
-                                                            'R\$',
-                                                            style: TextStyle(fontSize: 10, color: Colors.green[200]),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      Column(
-                                                        children: [
-                                                          Text(
-                                                            '3900,00',
-                                                            style: TextStyle(fontSize: 22, color: Colors.green[200]),
+                                                          FutureBuilder(
+                                                            future: AuthRepository().getDataUser(),
+                                                            builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                                              switch (snapshot.connectionState) {
+                                                                case ConnectionState.waiting:
+                                                                  return Container(
+                                                                    margin: EdgeInsets.only(top: 7),
+                                                                    width: 22,
+                                                                    height: 22,
+                                                                    child: CircularProgressIndicator(
+                                                                      strokeWidth: 2,
+                                                                      backgroundColor: Colors.white,
+                                                                    ),
+                                                                  );
+                                                                default:
+                                                                  if (snapshot.hasError)
+                                                                    return Text(
+                                                                      'R\$ 0,00',
+                                                                      style: ubuntu35WhiteLight100,
+                                                                    );
+                                                                  else
+                                                                    return Container(
+                                                                      margin: EdgeInsets.only(top: 5),
+                                                                      child: Text(
+                                                                        '${snapshot.data.cash}',
+                                                                        style: ubuntu35WhiteLight100,
+                                                                      ),
+                                                                    );
+                                                              }
+                                                            },
                                                           ),
                                                         ],
                                                       ),
@@ -170,7 +189,23 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                             style: TextStyle(fontSize: 10, color: Colors.green[200]),
                                                           ),
                                                         ],
-                                                      )
+                                                      ),
+                                                      Spacer(),
+                                                      Column(
+                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                                        children: [
+                                                          InkWell(
+                                                            onTap: controller.logoff,
+                                                            child: Icon(
+                                                              Icons.exit_to_app,
+                                                              color: Colors.white,
+                                                              size: 22,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      SizedBox(width: 25),
                                                     ],
                                                   ),
                                                 ],

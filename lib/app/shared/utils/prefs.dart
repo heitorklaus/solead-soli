@@ -40,6 +40,18 @@ class Prefs {
     prefs.setString(key, s);
   }
 
+  static Future getDouble(String key) async {
+    var prefs = await SharedPreferences.getInstance();
+
+    return prefs.getDouble(key) ?? "";
+  }
+
+  static void setDouble(String key, double s) async {
+    var prefs = await SharedPreferences.getInstance();
+
+    prefs.setDouble(key, s);
+  }
+
   static void setStringList(String key, List<String> ax) async {
     var prefs = await SharedPreferences.getInstance();
 

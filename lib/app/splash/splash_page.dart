@@ -10,6 +10,7 @@ import 'package:framework/ui/form/buttons/primary_button.dart';
 import 'package:framework/ui/form/buttons/secondary_button.dart';
 import 'package:framework/ui/form/buttons/success_button.dart';
 import 'package:login/app/shared/auth/auth_controller.dart';
+import 'package:login/app/shared/auth/entities/pref_irradiation.dart';
 import 'package:login/app/shared/repositories/entities/cities_irradiation_month.dart';
 import 'package:login/app/shared/repositories/entities/tax.dart';
 import 'package:login/app/shared/auth/repositories/auth_repository.dart';
@@ -132,6 +133,17 @@ class _SplashPageState extends State<SplashPage> {
       ];
 
       Prefs.setStringList("CITIES", someMap);
+
+      final list_citi = await dbClient.rawQuery('select * from CITIES_IRRADIATION where id = 1');
+
+      final first = PrefIrradiation.fromJson(list_citi.first);
+
+      // Set Irradiation
+
+      Prefs.setString("IRRADIATION", first.media);
+      Prefs.setString("PRICE", first.price);
+      // DEFAULT VALUE
+      Prefs.setDouble("EFFICIENCY", 0.75);
     }
 
     return null;

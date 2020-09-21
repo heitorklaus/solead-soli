@@ -13,8 +13,9 @@ import 'package:login/app/shared/styles/main_style.dart';
 class PdfPreviewScreen extends StatefulWidget {
   final String path;
   final PowerPlants pw;
+  final String file;
 
-  PdfPreviewScreen({this.path, this.pw});
+  PdfPreviewScreen({this.path, this.pw, this.file});
 
   @override
   _PdfPreviewScreenState createState() => _PdfPreviewScreenState();
@@ -35,7 +36,8 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
     Directory documentDirectory = await getExternalStorageDirectory();
 
     String documentPath = documentDirectory.path;
-    final String localPath = '$documentPath/Soli-Energia-Solar(pré-proposta).pdf';
+    String filenmae = widget.file;
+    final String localPath = '$documentPath/$filenmae.pdf';
 
     Directory dir = await getApplicationDocumentsDirectory();
     File testFile = new File("$localPath");

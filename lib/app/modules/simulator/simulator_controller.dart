@@ -20,6 +20,7 @@ import 'package:login/app/shared/auth/repositories/auth_repository.dart';
 import 'package:login/app/shared/repositories/entities/dados_kits.dart';
 import 'package:login/app/shared/repositories/entities/power_plants.dart';
 import 'package:login/app/shared/styles/main_style.dart';
+import 'package:login/app/shared/utils/database_helper.dart';
 import 'package:login/app/shared/utils/prefs.dart';
 import 'package:mobx/mobx.dart';
 import 'dart:ui' as ui;
@@ -87,14 +88,17 @@ abstract class _SimulatorControllerBase with Store {
     if (mediaKW.text.length > 2) {
       disableAdd = false;
 
-      final irradiation = await AuthRepository().getCitiesPreferences('irradiation');
+      final irradiation = await AuthRepository().getIrradiation();
+      final efficiency = await AuthRepository().getEfficiency();
 
-      final result = (int.parse(mediaKW.text).toInt() / 30) / double.parse(irradiation.replaceAll(',', '.')).toDouble() / .75;
+      final result = (int.parse(mediaKW.text).toInt() / 30) / double.parse(irradiation.replaceAll(',', '.')).toDouble() / efficiency;
 
       potencia.text = result.toStringAsFixed(2);
 
       var potenciaProximaMaior = await ProposalStringsDao().findPotenciaKit(result.toStringAsFixed(2));
       var potenciaProximaMenor = await ProposalStringsDao().findPotenciaKitMenor(result.toStringAsFixed(2));
+
+      final tarifa = await AuthRepository().getPrice();
 
       //  print(valor.id.toString());
       print('valor.potencia');
@@ -105,8 +109,8 @@ abstract class _SimulatorControllerBase with Store {
       valorKit2.text = potenciaProximaMaior.valor;
 
       final mediaNova = double.parse((mediaKW.text));
-      powerPlantsMenor.consumoEmReais = (mediaNova / 0.91).toString();
-      powerPlantsMaior.consumoEmReais = (mediaNova / 0.91).toString();
+      powerPlantsMenor.consumoEmReais = (mediaNova / double.parse(tarifa.replaceAll(',', '.')).toDouble()).toString();
+      powerPlantsMaior.consumoEmReais = (mediaNova / double.parse(tarifa.replaceAll(',', '.')).toDouble()).toString();
 
       final mediaNovaKw = double.parse((mediaKW.text));
       powerPlantsMenor.consumoEmKw = (mediaNovaKw).toString();
@@ -151,10 +155,11 @@ abstract class _SimulatorControllerBase with Store {
     if (mediaMoney.text.length > 2) {
       disableAdd = false;
 
-      final irradiation = await AuthRepository().getCitiesPreferences('irradiation');
-      final tarifa = await AuthRepository().getCitiesPreferences('price');
+      final irradiation = await AuthRepository().getIrradiation();
+      final tarifa = await AuthRepository().getPrice();
+      final efficiency = await AuthRepository().getEfficiency();
 
-      final result = (int.parse(mediaMoney.text).toInt() * double.parse(tarifa.replaceAll(',', '.')).toDouble() / (30)) / double.parse(irradiation.replaceAll(',', '.')).toDouble() / .75;
+      final result = (int.parse(mediaMoney.text).toInt() * double.parse(tarifa.replaceAll(',', '.')).toDouble() / (30)) / double.parse(irradiation.replaceAll(',', '.')).toDouble() / efficiency;
 
       potencia.text = result.toStringAsFixed(2);
 
@@ -185,8 +190,8 @@ abstract class _SimulatorControllerBase with Store {
 
       final mediaNovaKw = double.parse((mediaMoney.text));
 
-      powerPlantsMenor.consumoEmKw = (mediaNovaKw * 0.91).toString();
-      powerPlantsMaior.consumoEmKw = (mediaNovaKw * 0.91).toString();
+      powerPlantsMenor.consumoEmKw = (mediaNovaKw * double.parse(tarifa.replaceAll(',', '.')).toDouble()).toString();
+      powerPlantsMaior.consumoEmKw = (mediaNovaKw * double.parse(tarifa.replaceAll(',', '.')).toDouble()).toString();
 
       powerPlantsMaior.id = potenciaProximaMaior.id;
       powerPlantsMaior.inversor = potenciaProximaMaior.inversor;
@@ -219,44 +224,45 @@ abstract class _SimulatorControllerBase with Store {
       final val = new NumberFormat("#,##0.00", "pt_BR");
       // RETORNA A GERACAO MES A MES
       final valor = await Prefs.getStringList("CITIES");
+      final efficiency = await AuthRepository().getEfficiency();
 
       var jan = double.parse(valor[1].split(":")[1]);
-      var janValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(1) * jan * .75;
+      var janValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(1) * jan * efficiency;
 
       final teste = val.format(janValue).split(",")[0];
 
       var fev = double.parse(valor[2].split(":")[1]);
-      var fevValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(2) * fev * .75;
+      var fevValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(2) * fev * efficiency;
 
       var mar = double.parse(valor[3].split(":")[1]);
-      var marValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(3) * mar * .75;
+      var marValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(3) * mar * efficiency;
 
       var abr = double.parse(valor[4].split(":")[1]);
-      var abrValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(4) * abr * .75;
+      var abrValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(4) * abr * efficiency;
 
       var mai = double.parse(valor[5].split(":")[1]);
-      var maiValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(5) * mai * .75;
+      var maiValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(5) * mai * efficiency;
 
       var jun = double.parse(valor[6].split(":")[1]);
-      var junValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(6) * jun * .75;
+      var junValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(6) * jun * efficiency;
 
       var jul = double.parse(valor[7].split(":")[1]);
-      var julValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(7) * jul * .75;
+      var julValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(7) * jul * efficiency;
 
       var ago = double.parse(valor[8].split(":")[1]);
-      var agoValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(8) * ago * .75;
+      var agoValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(8) * ago * efficiency;
 
       var sep = double.parse(valor[9].split(":")[1]);
-      var sepValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(9) * sep * .75;
+      var sepValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(9) * sep * efficiency;
 
       var out = double.parse(valor[10].split(":")[1]);
-      var outValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(10) * out * .75;
+      var outValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(10) * out * efficiency;
 
       var nov = double.parse(valor[11].split(":")[1]);
-      var novValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(11) * nov * .75;
+      var novValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(11) * nov * efficiency;
 
       var dez = double.parse(valor[12].split(":")[1]);
-      var dezValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(12) * dez * .75;
+      var dezValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(12) * dez * efficiency;
 
       final mediaGeracaoKwpMenor = (janValue + fevValue + marValue + abrValue + maiValue + junValue + julValue + agoValue + sepValue + outValue + novValue + dezValue) / 12;
 
@@ -267,44 +273,45 @@ abstract class _SimulatorControllerBase with Store {
       final val = new NumberFormat("#,##0.00", "pt_BR");
       // RETORNA A GERACAO MES A MES
       final valor = await Prefs.getStringList("CITIES");
+      final efficiency = await AuthRepository().getEfficiency();
 
       var jan = double.parse(valor[1].split(":")[1]);
-      var janValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(1) * jan * .75;
+      var janValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(1) * jan * efficiency;
 
       //final teste = val.format(janValue).split(",")[0];
 
       var fev = double.parse(valor[2].split(":")[1]);
-      var fevValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(2) * fev * .75;
+      var fevValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(2) * fev * efficiency;
 
       var mar = double.parse(valor[3].split(":")[1]);
-      var marValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(3) * mar * .75;
+      var marValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(3) * mar * efficiency;
 
       var abr = double.parse(valor[4].split(":")[1]);
-      var abrValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(4) * abr * .75;
+      var abrValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(4) * abr * efficiency;
 
       var mai = double.parse(valor[5].split(":")[1]);
-      var maiValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(5) * mai * .75;
+      var maiValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(5) * mai * efficiency;
 
       var jun = double.parse(valor[6].split(":")[1]);
-      var junValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(6) * jun * .75;
+      var junValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(6) * jun * efficiency;
 
       var jul = double.parse(valor[7].split(":")[1]);
-      var julValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(7) * jul * .75;
+      var julValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(7) * jul * efficiency;
 
       var ago = double.parse(valor[8].split(":")[1]);
-      var agoValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(8) * ago * .75;
+      var agoValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(8) * ago * efficiency;
 
       var sep = double.parse(valor[9].split(":")[1]);
-      var sepValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(9) * sep * .75;
+      var sepValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(9) * sep * efficiency;
 
       var out = double.parse(valor[10].split(":")[1]);
-      var outValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(10) * out * .75;
+      var outValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(10) * out * efficiency;
 
       var nov = double.parse(valor[11].split(":")[1]);
-      var novValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(11) * nov * .75;
+      var novValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(11) * nov * efficiency;
 
       var dez = double.parse(valor[12].split(":")[1]);
-      var dezValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(12) * dez * .75;
+      var dezValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(12) * dez * efficiency;
 
       List<Map<String, double>> allValues;
 
@@ -330,6 +337,8 @@ abstract class _SimulatorControllerBase with Store {
 
     final returnAll = await returnAllMonths();
 
+    final tarifa = await AuthRepository().getPrice();
+
     @observable
     Future returnTax() async {
       final valor = await Prefs.getStringList("TAX");
@@ -342,9 +351,10 @@ abstract class _SimulatorControllerBase with Store {
       return valor;
     }
 
-    returnConsumo() {
+    returnConsumo(x) {
+      print('chamo 1');
       if (mediaMoney.text.length > 0) {
-        final consumo = (double.parse(mediaMoney.text) / .91);
+        final consumo = (double.parse(mediaMoney.text) / x);
         return consumo;
       } else {
         final consumo = (double.parse(mediaKW.text));
@@ -361,7 +371,7 @@ abstract class _SimulatorControllerBase with Store {
             builder: (context, setState) {
               return AlertDialog(
                 content: Scaffold(
-                  body: SingleChildScrollView(child: buildDialog(context, powerPlantsMenor, mediaMenor, returnAll, returnConsumo(), tax, setState, role)),
+                  body: SingleChildScrollView(child: buildDialog(tarifa, context, powerPlantsMenor, mediaMenor, returnAll, returnConsumo(double.parse(tarifa.replaceAll(',', '.'))), tax, setState, role)),
                 ),
               );
             },
@@ -379,44 +389,45 @@ abstract class _SimulatorControllerBase with Store {
       final val = new NumberFormat("#,##0.00", "pt_BR");
       // RETORNA A GERACAO MES A MES
       final valor = await Prefs.getStringList("CITIES");
+      final efficiency = await AuthRepository().getEfficiency();
 
       var jan = double.parse(valor[1].split(":")[1]);
-      var janValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(1) * jan * .75;
+      var janValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(1) * jan * efficiency;
 
       final teste = val.format(janValue).split(",")[0];
 
       var fev = double.parse(valor[2].split(":")[1]);
-      var fevValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(2) * fev * .75;
+      var fevValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(2) * fev * efficiency;
 
       var mar = double.parse(valor[3].split(":")[1]);
-      var marValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(3) * mar * .75;
+      var marValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(3) * mar * efficiency;
 
       var abr = double.parse(valor[4].split(":")[1]);
-      var abrValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(4) * abr * .75;
+      var abrValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(4) * abr * efficiency;
 
       var mai = double.parse(valor[5].split(":")[1]);
-      var maiValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(5) * mai * .75;
+      var maiValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(5) * mai * efficiency;
 
       var jun = double.parse(valor[6].split(":")[1]);
-      var junValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(6) * jun * .75;
+      var junValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(6) * jun * efficiency;
 
       var jul = double.parse(valor[7].split(":")[1]);
-      var julValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(7) * jul * .75;
+      var julValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(7) * jul * efficiency;
 
       var ago = double.parse(valor[8].split(":")[1]);
-      var agoValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(8) * ago * .75;
+      var agoValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(8) * ago * efficiency;
 
       var sep = double.parse(valor[9].split(":")[1]);
-      var sepValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(9) * sep * .75;
+      var sepValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(9) * sep * efficiency;
 
       var out = double.parse(valor[10].split(":")[1]);
-      var outValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(10) * out * .75;
+      var outValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(10) * out * efficiency;
 
       var nov = double.parse(valor[11].split(":")[1]);
-      var novValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(11) * nov * .75;
+      var novValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(11) * nov * efficiency;
 
       var dez = double.parse(valor[12].split(":")[1]);
-      var dezValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(12) * dez * .75;
+      var dezValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(12) * dez * efficiency;
 
       final mediaGeracaoKwpMaior = (janValue + fevValue + marValue + abrValue + maiValue + junValue + julValue + agoValue + sepValue + outValue + novValue + dezValue) / 12;
 
@@ -427,44 +438,45 @@ abstract class _SimulatorControllerBase with Store {
       final val = new NumberFormat("#,##0.00", "pt_BR");
       // RETORNA A GERACAO MES A MES
       final valor = await Prefs.getStringList("CITIES");
+      final efficiency = await AuthRepository().getEfficiency();
 
       var jan = double.parse(valor[1].split(":")[1]);
-      var janValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(1) * jan * .75;
+      var janValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(1) * jan * efficiency;
 
       final teste = val.format(janValue).split(",")[0];
 
       var fev = double.parse(valor[2].split(":")[1]);
-      var fevValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(2) * fev * .75;
+      var fevValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(2) * fev * efficiency;
 
       var mar = double.parse(valor[3].split(":")[1]);
-      var marValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(3) * mar * .75;
+      var marValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(3) * mar * efficiency;
 
       var abr = double.parse(valor[4].split(":")[1]);
-      var abrValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(4) * abr * .75;
+      var abrValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(4) * abr * efficiency;
 
       var mai = double.parse(valor[5].split(":")[1]);
-      var maiValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(5) * mai * .75;
+      var maiValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(5) * mai * efficiency;
 
       var jun = double.parse(valor[6].split(":")[1]);
-      var junValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(6) * jun * .75;
+      var junValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(6) * jun * efficiency;
 
       var jul = double.parse(valor[7].split(":")[1]);
-      var julValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(7) * jul * .75;
+      var julValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(7) * jul * efficiency;
 
       var ago = double.parse(valor[8].split(":")[1]);
-      var agoValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(8) * ago * .75;
+      var agoValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(8) * ago * efficiency;
 
       var sep = double.parse(valor[9].split(":")[1]);
-      var sepValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(9) * sep * .75;
+      var sepValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(9) * sep * efficiency;
 
       var out = double.parse(valor[10].split(":")[1]);
-      var outValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(10) * out * .75;
+      var outValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(10) * out * efficiency;
 
       var nov = double.parse(valor[11].split(":")[1]);
-      var novValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(11) * nov * .75;
+      var novValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(11) * nov * efficiency;
 
       var dez = double.parse(valor[12].split(":")[1]);
-      var dezValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(12) * dez * .75;
+      var dezValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(12) * dez * efficiency;
 
       List<Map<String, double>> allValues;
 
@@ -503,11 +515,14 @@ abstract class _SimulatorControllerBase with Store {
     }
 
     final tax = await returnTax();
+    final tarifa = await AuthRepository().getPrice();
 
     //var sicredi3x = returnTax('sicredi3x');
-    returnConsumo() {
+    returnConsumo(x) {
+      print('chamo 2');
+
       if (mediaMoney.text.length > 0) {
-        final consumo = (double.parse(mediaMoney.text) / .91);
+        final consumo = (double.parse(mediaMoney.text) / x);
         return consumo;
       } else {
         final consumo = (double.parse(mediaKW.text));
@@ -522,12 +537,10 @@ abstract class _SimulatorControllerBase with Store {
           return StatefulBuilder(
             builder: (context, setState) {
               // Get available height and width of the build area of this widget. Make a choice depending on the size.
-              var height = MediaQuery.of(context).size.height;
-              var width = MediaQuery.of(context).size.width;
 
               return AlertDialog(
                 content: Scaffold(
-                  body: SingleChildScrollView(child: buildDialog(context, powerPlantsMaior, mediaMaior, returnAll, returnConsumo(), tax, setState, role)),
+                  body: SingleChildScrollView(child: buildDialog(tarifa, context, powerPlantsMaior, mediaMaior, returnAll, returnConsumo(double.parse(tarifa.replaceAll(',', '.'))), tax, setState, role)),
                 ),
               );
             },
@@ -573,8 +586,10 @@ int returnDaysOfMonth(xx) {
 
 // DIALOG GERADA
 @override
-buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax, setState, role) {
+buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax, setState, role) {
   final inversor = TextEditingController();
+
+  final garantia = TextEditingController();
   final potencia = TextEditingController();
   final marcaModulos = TextEditingController();
   final qtdModulos = TextEditingController();
@@ -604,14 +619,17 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
   area.text = pw.area.toString();
   codigo.text = pw.codigo.toString();
   valor.text = pw.valor.toString();
+  garantia.text = "5 anos";
 
   qtdModulos.addListener(() {
     area.text = (2.25 * double.parse(qtdModulos.text)).round().toString();
   });
 
-  potencia.addListener(() {
-    print('teste');
-    geracao.text = (5.11 * double.parse(potencia.text) * 30 * .75).round().toString();
+  potencia.addListener(() async {
+    final irradiation = await AuthRepository().getIrradiation();
+    final efficiency = await AuthRepository().getEfficiency();
+
+    geracao.text = (double.parse(irradiation.replaceAll(',', '.')).toDouble() * double.parse(potencia.text) * 30 * efficiency).round().toString();
   });
 
   dados.text = pw.dados.replaceAll('<BR>', '\n');
@@ -619,7 +637,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
   final pdf = pwa.Document();
 
   final List<Map<String, double>> valorEconomiaMensal = [
-    {"valorPaga": double.parse(pw.consumoEmReais), "valorIraPagar": 91.00, "tarifaCidade": 0.91}
+    {"valorPaga": double.parse(pw.consumoEmReais), "valorIraPagar": 91.00, "tarifaCidade": double.parse(tarifa.replaceAll(',', '.'))}
   ];
 
   final double valorEconomiaMensalTotal = valorEconomiaMensal[0]["valorPaga"].toDouble() + valorEconomiaMensal[0]["valorIraPagar"].toDouble();
@@ -1165,7 +1183,7 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                           width: 310,
                           color: PdfColor.fromHex("#FFFFFF"),
                           margin: pwa.EdgeInsets.only(top: 188, left: 210),
-                          child: pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[pwa.Text(inversor.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)), pwa.Text("12 Anos", style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold))]),
+                          child: pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[pwa.Text(inversor.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)), pwa.Text(garantia.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold))]),
                         ),
                       ]),
                   pwa.Row(
@@ -1348,12 +1366,15 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
           children: <Widget>[
             Wrap(children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
+                  Icon(Icons.assessment, color: Colors.blue),
+                  SizedBox(width: 20),
                   Text(
                     'Dados da Usina ',
                     style: ubuntu16BlueBold500,
                   ),
+                  SizedBox(height: 40),
                   // IconButton(
                   //   icon: Icon(
                   //     Icons.highlight_off,
@@ -1555,32 +1576,33 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                     Future.delayed(const Duration(milliseconds: 4000), () async {
                                       await runChartGenerateImage1("grafico-1");
 
-                                      await writeOnPdf("Soli-Energia-Solar(pré-proposta)");
+                                      final String file = "Pré-Proposta($returnGenerationKW kWh) Soli Energia";
+
+                                      await writeOnPdf(file);
 
                                       Directory documentDirectory = await getExternalStorageDirectory();
 
                                       String documentPath = documentDirectory.path;
 
-                                      String fullPath = "$documentPath/Soli-Energia-Solar(pré-proposta).pdf";
+                                      String fullPath = "$documentPath/$file.pdf";
 
                                       setState(() {
                                         _loaderGenerateGraph = false;
                                       });
 
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => PdfPreviewScreen(path: fullPath, pw: pw)));
+                                      DatabaseHelper().savePlant(pw);
+
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => PdfPreviewScreen(path: fullPath, pw: pw, file: file)));
                                     });
                                   }
 
                                   Future<void> paste(name) async {
                                     final ClipboardData data = await Clipboard.getData(Clipboard.kTextPlain);
-                                    // print('Dados do clienteee' + data.text);
-
                                     if (name == "cliente") cliente.text = data.text;
                                     if (name == "cpf") cpf.text = data.text;
                                     if (name == "cep") cep.text = data.text;
                                     if (name == "bairro") bairro.text = data.text;
                                     if (name == "endereco") endereco.text = data.text;
-
                                     if (name == "inversor") inversor.text = data.text;
                                     if (name == "potencia") potencia.text = data.text;
                                     if (name == "modulos") marcaModulos.text = data.text;
@@ -1589,9 +1611,16 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                     if (name == "area") area.text = data.text;
                                     if (name == "codigo") codigo.text = data.text;
                                     if (name == "dados") dados.text = data.text;
-
                                     // return data;
                                   }
+
+                                  cliente.addListener(() {
+                                    pw.cliente = cliente.text;
+                                  });
+
+                                  endereco.addListener(() {
+                                    pw.endereco = endereco.text;
+                                  });
 
                                   final focusNode = FocusNode();
                                   final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
@@ -1764,7 +1793,6 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                                           Expanded(
                                                                             flex: 2,
                                                                             child: OutlinedTextEdit(
-                                                                              prefixIcon: Icon(Icons.add_to_queue),
                                                                               keyboardType: TextInputType.text,
                                                                               onChanged: (value) => {},
                                                                               label: "Inversor",
@@ -1777,11 +1805,20 @@ buildDialog(context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax
                                                                               inputType: InputType.EXTRA_SMALL,
                                                                             ),
                                                                           ),
+                                                                          Expanded(
+                                                                            flex: 1,
+                                                                            child: OutlinedTextEdit(
+                                                                              keyboardType: TextInputType.text,
+                                                                              onChanged: (value) => {},
+                                                                              label: "Garantia",
+                                                                              controller: garantia,
+                                                                              inputType: InputType.EXTRA_SMALL,
+                                                                            ),
+                                                                          ),
                                                                           SizedBox(width: 10),
                                                                           Expanded(
                                                                             flex: 1,
                                                                             child: OutlinedTextEdit(
-                                                                              prefixIcon: Icon(Icons.toys),
                                                                               keyboardType: TextInputType.number,
                                                                               onChanged: (value) => {},
                                                                               controller: potencia,

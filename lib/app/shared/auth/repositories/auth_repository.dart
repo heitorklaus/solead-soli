@@ -45,6 +45,9 @@ class AuthRepository implements IAuthRepository {
 
     // Set Token
     Prefs.setString("TOKEN", data.accessToken);
+    // Set UserId
+    Prefs.setInt("USERID", data.id);
+
     // Set ROle
     Prefs.setString("ROLE", data.roles[0]["name"]);
     // Set Token
@@ -53,20 +56,37 @@ class AuthRepository implements IAuthRepository {
     return data;
   }
 
+  Future getDataUser() async {
+    Map<String, String> headers = await getHeaders();
+
+    var idUsuario = await Prefs.getInt("USERID");
+
+    headers["Content-Type"] = "application/json";
+    final auth = await http.get('https://soleadapp.herokuapp.com/api/cash/get/$idUsuario', headers: headers);
+
+    final data = Auth.fromJson(json.decode(auth.body));
+    return data;
+  }
+
   @override
-  Future getCitiesPreferences(value) async {
-    var dbClient = await db;
-    final list = await dbClient.rawQuery('select * from CITIES_IRRADIATION where id = 1');
+  Future getIrradiation() async {
+    final val = await Prefs.getString("IRRADIATION");
 
-    final first = PrefIrradiation.fromJson(list.first);
+    return val;
+  }
 
-    // Set Irradiation
+  @override
+  Future getEfficiency() async {
+    final val = await Prefs.getDouble("EFFICIENCY");
 
-    Prefs.setString("IRRADIATION", first.media);
-    Prefs.setString("PRICE", first.price);
+    return val;
+  }
 
-    if (value == 'irradiation') return first.media;
-    if (value == 'price') return first.price;
+  @override
+  Future getPrice() async {
+    final val = await Prefs.getString("PRICE");
+
+    return val;
   }
 
   @override

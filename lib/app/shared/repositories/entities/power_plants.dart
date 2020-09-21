@@ -3,22 +3,8 @@ import 'package:mobx/mobx.dart';
 part 'power_plants.g.dart';
 
 class PowerPlants extends _PowerPlants with _$PowerPlants {
-  PowerPlants({
-    int id,
-    String area,
-    String codigo,
-    String dados,
-    String inversor,
-    String marcaDoModulo,
-    int numeroDeModulo,
-    String peso,
-    double potencia,
-    String potenciaDoModulo,
-    String valor,
-    String potenciaNovo,
-    String consumoEmReais,
-    String consumoEmKw,
-  }) : super(
+  PowerPlants({int id, String area, String codigo, String dados, String inversor, String marcaDoModulo, int numeroDeModulo, String peso, double potencia, String potenciaDoModulo, String valor, String potenciaNovo, String consumoEmReais, String consumoEmKw, String cliente, String endereco})
+      : super(
           id: id,
           area: area,
           codigo: codigo,
@@ -33,6 +19,8 @@ class PowerPlants extends _PowerPlants with _$PowerPlants {
           potenciaNovo: potenciaNovo,
           consumoEmReais: consumoEmReais,
           consumoEmKw: consumoEmKw,
+          cliente: cliente,
+          endereco: endereco,
         );
 
   toJson() {
@@ -51,11 +39,13 @@ class PowerPlants extends _PowerPlants with _$PowerPlants {
       "potenciaNovo": potenciaNovo,
       "consumoEmReais": consumoEmReais,
       "consumoEmKw": consumoEmKw,
+      "cliente": cliente,
+      "endereco": endereco,
     };
   }
 
   factory PowerPlants.fromJson(Map json) {
-    return PowerPlants(id: json['id'], area: json['area'], codigo: json['codigo'], dados: json['dados'], inversor: json['inversor'], marcaDoModulo: json['marcaDoModulo'], numeroDeModulo: json['numeroDeModulo'], peso: json['peso'], potencia: json['potencia'], potenciaDoModulo: json['potenciaDoModulo'], valor: json['valor'], consumoEmReais: json['consumoEmReais'], consumoEmKw: json['consumoEmKw']);
+    return PowerPlants(id: json['id'], area: json['area'], codigo: json['codigo'], dados: json['dados'], inversor: json['inversor'], marcaDoModulo: json['marcaDoModulo'], numeroDeModulo: json['numeroDeModulo'], peso: json['peso'], potencia: json['potencia'], potenciaDoModulo: json['potenciaDoModulo'], valor: json['valor'], consumoEmReais: json['consumoEmReais'], consumoEmKw: json['consumoEmKw'], cliente: json['cliente'], endereco: json['endereco']);
   }
 }
 
@@ -90,5 +80,9 @@ abstract class _PowerPlants with Store {
   @observable
   String consumoEmKw;
 
-  _PowerPlants({this.id, this.area, this.codigo, this.dados, this.inversor, this.marcaDoModulo, this.numeroDeModulo, this.peso, this.potencia, this.potenciaDoModulo, this.valor, this.potenciaNovo, this.consumoEmReais, this.consumoEmKw});
+  @observable
+  String cliente;
+  @observable
+  String endereco;
+  _PowerPlants({this.id, this.area, this.codigo, this.dados, this.inversor, this.marcaDoModulo, this.numeroDeModulo, this.peso, this.potencia, this.potenciaDoModulo, this.valor, this.potenciaNovo, this.consumoEmReais, this.consumoEmKw, this.cliente, this.endereco});
 }
