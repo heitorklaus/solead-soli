@@ -21,11 +21,11 @@ class DatabaseHelper {
 
   static Database _db;
 
-  static const String _zipPath = 'https://drive.google.com/u/0/uc?id=1U-cjEyKotwvB-ATVVuFn3CKEow_CfGKG&export=download';
+  static const String _zipPath = 'https://drive.google.com/u/0/uc?id=1ChYypaJOghIipqqJdk-yb3DHR-mPxBdg&export=download';
 
   static const String _localZipFileName = 'images_to_pdf.zip';
 
-  static const String dbase = "solead12.db";
+  static const String dbase = "solead25.db";
 
   Future<Database> get db async {
     if (_db != null) {
@@ -47,7 +47,8 @@ class DatabaseHelper {
   void _onCreate(Database db, int newVersion) async {
     print("[ FIRST RUN DATABASE GENERATED]" + db.toString());
     // Dao create tables
-    await db.execute('CREATE TABLE PROPOSAL_STRINGS(ID INTEGER PRIMARY KEY, TOKEN TEXT, SESSION TEXT' ', WIDTH TEXT, HEIGHT TEXT)');
+    await db.execute('CREATE TABLE PROPOSAL_STRINGS(ID INTEGER PRIMARY KEY, TOKEN TEXT, SESSION TEXT'
+        ', WIDTH TEXT, HEIGHT TEXT)');
     await db.execute('CREATE TABLE TAX(ID INTEGER PRIMARY KEY, BANCO TEXT, TAX3X TEXT, TAX6X TEXT, TAX12X TEXT, TAX24X TEXT, TAX36X TEXT, TAX48X TEXT, TAX60X TEXT, TAX72X TEXT, TAX TEXT)');
     await db.execute('CREATE TABLE CITIES_IRRADIATION(ID INTEGER PRIMARY KEY, CITY TEXT, DEF TEXT , N TEXT, L TEXT, O TEXT, S TEXT, NE TEXT, NO TEXT, SE TEXT, SO TEXT, PRICE TEXT)');
     await db.execute('CREATE TABLE tb_dados_kits (id int8 NOT NULL, area varchar(255) NULL, codigo varchar(255) NULL,dados text NULL,inversor varchar(255) NULL,marca_do_modulo varchar(255) NULL,numero_de_modulo int4 NULL,peso varchar(255) NULL,potencia  int4 NULL,potencia_do_modulo int4 NULL,valor varchar(255) NULL,CONSTRAINT tb_dados_kits_pkey PRIMARY KEY (id))');

@@ -103,10 +103,14 @@ abstract class _SimulatorControllerBase with Store {
       //  print(valor.id.toString());
       print('valor.potencia');
 
-      potenciaIndicada1.text = (potenciaProximaMenor.potencia).toString();
+      final v1 = (potenciaProximaMenor.potencia.toDouble() * 30 * efficiency * double.parse(irradiation.replaceAll(',', '.'))).round();
+      final v2 = (potenciaProximaMaior.potencia.toDouble() * 30 * efficiency * double.parse(irradiation.replaceAll(',', '.'))).round();
+
       valorKit1.text = potenciaProximaMenor.valor;
-      potenciaIndicada2.text = (potenciaProximaMaior.potencia).toString();
       valorKit2.text = potenciaProximaMaior.valor;
+
+      potenciaIndicada1.text = "${potenciaProximaMenor.potencia} / $v1 kWh";
+      potenciaIndicada2.text = "${potenciaProximaMaior.potencia} / $v2 kWh";
 
       final mediaNova = double.parse((mediaKW.text));
       powerPlantsMenor.consumoEmReais = (mediaNova / double.parse(tarifa.replaceAll(',', '.')).toDouble()).toString();
@@ -166,9 +170,13 @@ abstract class _SimulatorControllerBase with Store {
       var potenciaProximaMaior = await ProposalStringsDao().findPotenciaKit(result.toStringAsFixed(2));
       var potenciaProximaMenor = await ProposalStringsDao().findPotenciaKitMenor(result.toStringAsFixed(2));
 
-      potenciaIndicada1.text = (potenciaProximaMenor.potencia).toString();
+      final v1 = (potenciaProximaMenor.potencia.toDouble() * 30 * efficiency * double.parse(irradiation.replaceAll(',', '.'))).round();
+      final v2 = (potenciaProximaMaior.potencia.toDouble() * 30 * efficiency * double.parse(irradiation.replaceAll(',', '.'))).round();
+
+      potenciaIndicada1.text = "${potenciaProximaMenor.potencia} / $v1 kWh";
+      potenciaIndicada2.text = "${potenciaProximaMaior.potencia} / $v2 kWh";
+
       valorKit1.text = potenciaProximaMenor.valor;
-      potenciaIndicada2.text = (potenciaProximaMaior.potencia).toString();
       valorKit2.text = potenciaProximaMaior.valor;
 
       powerPlantsMenor.id = potenciaProximaMenor.id;
@@ -371,6 +379,7 @@ abstract class _SimulatorControllerBase with Store {
             builder: (context, setState) {
               return AlertDialog(
                 content: Scaffold(
+                  backgroundColor: Colors.white,
                   body: SingleChildScrollView(child: buildDialog(tarifa, context, powerPlantsMenor, mediaMenor, returnAll, returnConsumo(double.parse(tarifa.replaceAll(',', '.'))), tax, setState, role)),
                 ),
               );
@@ -540,6 +549,7 @@ abstract class _SimulatorControllerBase with Store {
 
               return AlertDialog(
                 content: Scaffold(
+                  backgroundColor: Colors.white,
                   body: SingleChildScrollView(child: buildDialog(tarifa, context, powerPlantsMaior, mediaMaior, returnAll, returnConsumo(double.parse(tarifa.replaceAll(',', '.'))), tax, setState, role)),
                 ),
               );
@@ -836,7 +846,7 @@ buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, r
               '${context.pageNumber} / ${context.pagesCount}',
               textAlign: pwa.TextAlign.right,
               style: pwa.TextStyle(
-                color: PdfColors.grey,
+                color: PdfColors.white,
               ),
             ),
           );
@@ -1358,775 +1368,803 @@ buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, r
 
   return Center(
     child: SingleChildScrollView(
-      child: Container(
-        height: MediaQuery.of(context).size.height - 90,
-        margin: EdgeInsets.only(left: 0.0, right: 0.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Wrap(children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Icon(Icons.assessment, color: Colors.blue),
-                  SizedBox(width: 20),
-                  Text(
-                    'Dados da Usina ',
-                    style: ubuntu16BlueBold500,
-                  ),
-                  SizedBox(height: 40),
-                  // IconButton(
-                  //   icon: Icon(
-                  //     Icons.highlight_off,
-                  //     color: Colors.blue,
-                  //     size: 30,
-                  //   ),
-                  //   onPressed: Navigator.of(context).pop,
-                  // ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  RichText(
-                    text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                        TextSpan(text: 'Código do sistema: ', style: ubuntu16BlackBold500),
-                        TextSpan(text: pw.codigo, style: ubuntu16BlueBold500),
-                      ],
+      child: Center(
+        child: Container(
+          color: Colors.white,
+          height: MediaQuery.of(context).size.height - 90,
+          margin: EdgeInsets.only(left: 0.0, right: 0.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Wrap(children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Icon(Icons.assessment, color: Colors.blue),
+                    SizedBox(width: 20),
+                    Text(
+                      'Dados da Usina ',
+                      style: ubuntu16BlueBold500,
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  RichText(
-                    text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                        TextSpan(text: 'Marca do inversor: ', style: ubuntu16BlackBold500),
-                        TextSpan(text: pw.inversor, style: ubuntu16BlueBold500),
-                      ],
+                    SizedBox(height: 40),
+                    // IconButton(
+                    //   icon: Icon(
+                    //     Icons.highlight_off,
+                    //     color: Colors.blue,
+                    //     size: 30,
+                    //   ),
+                    //   onPressed: Navigator.of(context).pop,
+                    // ),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(text: 'Código do sistema: ', style: ubuntu16BlackBold500),
+                          TextSpan(text: pw.codigo, style: ubuntu16BlueBold500),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  RichText(
-                    text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                        TextSpan(text: 'Marca das placas: ', style: ubuntu16BlackBold500),
-                        TextSpan(text: pw.marcaDoModulo, style: ubuntu16BlueBold500),
-                      ],
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(text: 'Marca do inversor: ', style: ubuntu16BlackBold500),
+                          TextSpan(text: pw.inversor, style: ubuntu16BlueBold500),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  RichText(
-                    text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                        TextSpan(text: 'Numero de Placas: ', style: ubuntu16BlackBold500),
-                        TextSpan(text: pw.numeroDeModulo.toString(), style: ubuntu16BlueBold500),
-                      ],
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(text: 'Marca das placas: ', style: ubuntu16BlackBold500),
+                          TextSpan(text: pw.marcaDoModulo, style: ubuntu16BlueBold500),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  RichText(
-                    text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                        TextSpan(text: 'Área: ', style: ubuntu16BlackBold500),
-                        TextSpan(text: pw.area.toString(), style: ubuntu16BlueBold500),
-                      ],
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(text: 'Quantidade de Placas: ', style: ubuntu16BlackBold500),
+                          TextSpan(text: pw.numeroDeModulo.toString(), style: ubuntu16BlueBold500),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  RichText(
-                    text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                        TextSpan(text: 'Potência do sistema: ', style: ubuntu16BlackBold500),
-                        TextSpan(text: pw.potencia.toString(), style: ubuntu16BlueBold500),
-                      ],
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(text: 'Área: ', style: ubuntu16BlackBold500),
+                          TextSpan(text: pw.area.toString(), style: ubuntu16BlueBold500),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  RichText(
-                    text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                        TextSpan(text: 'Geração do sistema: ', style: ubuntu16BlackBold500),
-                        TextSpan(text: returnGenerationKW.toString() + ' KWp', style: ubuntu16BlueBold500),
-                      ],
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(text: 'Potência do sistema: ', style: ubuntu16BlackBold500),
+                          TextSpan(text: pw.potencia.toString(), style: ubuntu16BlueBold500),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  RichText(
-                    text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                        TextSpan(text: 'Valor do sistema: ', style: ubuntu16BlackBold500),
-                        TextSpan(text: pw.valor.toString(), style: ubuntu16BlueBold500),
-                      ],
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(text: 'Geração do sistema: ', style: ubuntu16BlackBold500),
+                          TextSpan(text: returnGenerationKW.toString() + ' KWp', style: ubuntu16BlueBold500),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 20),
-                height: 200,
-                child: SingleChildScrollView(
-                  child: SelectableText.rich(
-                    TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                        TextSpan(text: pw.dados.replaceAll('<BR>', '\n'), style: TextStyle(fontSize: 10, color: Colors.blue)),
-                      ],
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(text: 'Valor do sistema: ', style: ubuntu16BlackBold500),
+                          TextSpan(text: pw.valor.toString(), style: ubuntu16BlueBold500),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  color: Colors.white,
+                  margin: EdgeInsets.only(top: 20),
+                  child: SingleChildScrollView(
+                    child: SelectableText.rich(
+                      TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(text: pw.dados.replaceAll('<BR>', '\n'), style: TextStyle(fontSize: 14, color: Colors.blue)),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ]),
-            Center(
-              child: Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    DangerButton(
-                      child: Center(
-                        child: Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.backspace,
-                              color: Colors.white,
-                              size: 30,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              'Voltar',
-                              style: buttonLargeWhite,
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      //onPressed:controller.loginWithGoogle,
-
-                      onPressed: () {
-                        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-                          statusBarColor: main.MainColors.cielo, //or set color with: Color(0xFF0000FF)
-                        ));
-                        Navigator.of(context).pop();
-                      },
-                    ).getLarge(),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    PrimaryButton(
+              ]),
+              Center(
+                child: Container(
+                  color: Colors.white,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      DangerButton(
                         child: Center(
                           child: Row(
-                            children: [
-                              Text(
-                                'Avançar',
-                                style: buttonLargeWhite,
-                              ),
+                            children: <Widget>[
                               Icon(
-                                Icons.arrow_forward_ios,
+                                Icons.backspace,
                                 color: Colors.white,
                                 size: 30,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                'Voltar',
+                                style: buttonLargeWhite,
                               ),
                             ],
                           ),
                         ),
+
                         //onPressed:controller.loginWithGoogle,
 
                         onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              bool _loaderGenerateGraph = false;
+                          SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+                            statusBarColor: main.MainColors.cielo, //or set color with: Color(0xFF0000FF)
+                          ));
+                          Navigator.of(context).pop();
+                        },
+                      ).getLarge(),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      PrimaryButton(
+                          child: Center(
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Avançar',
+                                  style: buttonLargeWhite,
+                                ),
+                                Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
+                              ],
+                            ),
+                          ),
+                          //onPressed:controller.loginWithGoogle,
 
-                              return StatefulBuilder(
-                                builder: (context, setState) {
-                                  goGeneratePDF() async {
-                                    scrollController.animateTo(scrollController.position.minScrollExtent, duration: Duration(milliseconds: 500), curve: Curves.ease);
-                                    setState(() {
-                                      _loaderGenerateGraph = true;
-                                    });
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                bool _loaderGenerateGraph = false;
 
-                                    Future.delayed(const Duration(milliseconds: 4000), () async {
-                                      await runChartGenerateImage1("grafico-1");
-
-                                      final String file = "Pré-Proposta($returnGenerationKW kWh) Soli Energia";
-
-                                      await writeOnPdf(file);
-
-                                      Directory documentDirectory = await getExternalStorageDirectory();
-
-                                      String documentPath = documentDirectory.path;
-
-                                      String fullPath = "$documentPath/$file.pdf";
-
+                                return StatefulBuilder(
+                                  builder: (context, setState) {
+                                    goGeneratePDF() async {
+                                      scrollController.animateTo(scrollController.position.minScrollExtent, duration: Duration(milliseconds: 500), curve: Curves.ease);
                                       setState(() {
-                                        _loaderGenerateGraph = false;
+                                        _loaderGenerateGraph = true;
                                       });
 
-                                      DatabaseHelper().savePlant(pw);
+                                      Future.delayed(const Duration(milliseconds: 4000), () async {
+                                        await runChartGenerateImage1("grafico-1");
 
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => PdfPreviewScreen(path: fullPath, pw: pw, file: file)));
+                                        final String file = "Pré-Proposta($returnGenerationKW kWh) Soli Energia";
+
+                                        await writeOnPdf(file);
+
+                                        Directory documentDirectory = await getExternalStorageDirectory();
+
+                                        String documentPath = documentDirectory.path;
+
+                                        String fullPath = "$documentPath/$file.pdf";
+
+                                        setState(() {
+                                          _loaderGenerateGraph = false;
+                                        });
+
+                                        DatabaseHelper().savePlant(pw);
+
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => PdfPreviewScreen(path: fullPath, pw: pw, file: file)));
+                                      });
+                                    }
+
+                                    Future<void> paste(name) async {
+                                      final ClipboardData data = await Clipboard.getData(Clipboard.kTextPlain);
+                                      if (name == "cliente") cliente.text = data.text;
+                                      if (name == "cpf") cpf.text = data.text;
+                                      if (name == "cep") cep.text = data.text;
+                                      if (name == "bairro") bairro.text = data.text;
+                                      if (name == "endereco") endereco.text = data.text;
+                                      if (name == "inversor") inversor.text = data.text;
+                                      if (name == "potencia") potencia.text = data.text;
+                                      if (name == "modulos") marcaModulos.text = data.text;
+                                      if (name == "qtd") qtdModulos.text = data.text;
+                                      if (name == "geracao") geracao.text = data.text;
+                                      if (name == "area") area.text = data.text;
+                                      if (name == "codigo") codigo.text = data.text;
+                                      if (name == "dados") dados.text = data.text;
+                                      // return data;
+                                    }
+
+                                    cliente.addListener(() {
+                                      pw.cliente = cliente.text;
                                     });
-                                  }
 
-                                  Future<void> paste(name) async {
-                                    final ClipboardData data = await Clipboard.getData(Clipboard.kTextPlain);
-                                    if (name == "cliente") cliente.text = data.text;
-                                    if (name == "cpf") cpf.text = data.text;
-                                    if (name == "cep") cep.text = data.text;
-                                    if (name == "bairro") bairro.text = data.text;
-                                    if (name == "endereco") endereco.text = data.text;
-                                    if (name == "inversor") inversor.text = data.text;
-                                    if (name == "potencia") potencia.text = data.text;
-                                    if (name == "modulos") marcaModulos.text = data.text;
-                                    if (name == "qtd") qtdModulos.text = data.text;
-                                    if (name == "geracao") geracao.text = data.text;
-                                    if (name == "area") area.text = data.text;
-                                    if (name == "codigo") codigo.text = data.text;
-                                    if (name == "dados") dados.text = data.text;
-                                    // return data;
-                                  }
+                                    endereco.addListener(() {
+                                      pw.endereco = endereco.text;
+                                    });
 
-                                  cliente.addListener(() {
-                                    pw.cliente = cliente.text;
-                                  });
-
-                                  endereco.addListener(() {
-                                    pw.endereco = endereco.text;
-                                  });
-
-                                  final focusNode = FocusNode();
-                                  final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
-                                  return AlertDialog(
-                                    content: Scaffold(
-                                      resizeToAvoidBottomPadding: true,
-                                      body: SingleChildScrollView(
-                                        controller: scrollController,
-                                        child: Stack(
-                                          children: [
-                                            Container(
-                                              padding: EdgeInsets.only(bottom: 50),
-                                              margin: EdgeInsets.only(bottom: 50),
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Container(
-                                                    child: Wrap(
-                                                      children: [
-                                                        Row(
+                                    final focusNode = FocusNode();
+                                    final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
+                                    return AlertDialog(
+                                      content: Scaffold(
+                                        backgroundColor: Colors.white,
+                                        resizeToAvoidBottomPadding: true,
+                                        body: SingleChildScrollView(
+                                          controller: scrollController,
+                                          child: Container(
+                                            color: Colors.white,
+                                            child: Stack(
+                                              children: [
+                                                Container(
+                                                  color: Colors.white,
+                                                  padding: EdgeInsets.only(bottom: 50),
+                                                  margin: EdgeInsets.only(bottom: 50),
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Container(
+                                                        color: Colors.white,
+                                                        child: Wrap(
                                                           children: [
-                                                            Text(
-                                                              'Dados do cliente2',
-                                                              style: ubuntu16BlueBold500,
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Container(
-                                                          margin: EdgeInsets.only(top: 18),
-                                                          child: OutlinedTextEdit(
-                                                            prefixIcon: Icon(Icons.account_circle),
-                                                            onChanged: (value) => {},
-                                                            label: "Nome do cliente",
-                                                            inputType: InputType.EXTRA_SMALL,
-                                                            controller: cliente,
-                                                            suffixIcon: IconButton(
-                                                                icon: Icon(Icons.content_paste),
-                                                                onPressed: () {
-                                                                  paste("cliente");
-                                                                }),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          margin: EdgeInsets.only(top: 18),
-                                                          child: OutlinedTextEdit(
-                                                            prefixIcon: Icon(Icons.chat),
-                                                            keyboardType: TextInputType.number,
-                                                            onChanged: (value) => {},
-                                                            label: "CPF do cliente",
-                                                            controller: cpf,
-                                                            inputType: InputType.EXTRA_SMALL,
-                                                            suffixIcon: IconButton(
-                                                                icon: Icon(Icons.content_paste),
-                                                                onPressed: () {
-                                                                  paste("cpf");
-                                                                }),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          margin: EdgeInsets.only(top: 18),
-                                                          child: Row(
-                                                            children: [
-                                                              Expanded(
-                                                                child: OutlinedTextEdit(
-                                                                  prefixIcon: Icon(Icons.assistant_photo),
-                                                                  keyboardType: TextInputType.number,
-                                                                  onChanged: (value) => {},
-                                                                  label: "CEP",
-                                                                  controller: cep,
-                                                                  inputType: InputType.EXTRA_SMALL,
-                                                                  suffixIcon: IconButton(
-                                                                      icon: Icon(Icons.content_paste),
-                                                                      onPressed: () {
-                                                                        paste("cep");
-                                                                      }),
-                                                                ),
-                                                              ),
-                                                              SizedBox(width: 10),
-                                                              Expanded(
-                                                                child: OutlinedTextEdit(
-                                                                  prefixIcon: Icon(Icons.dialpad),
-                                                                  keyboardType: TextInputType.number,
-                                                                  onChanged: (value) => {},
-                                                                  label: "Bairro",
-                                                                  controller: bairro,
-                                                                  suffixIcon: IconButton(
-                                                                      icon: Icon(Icons.content_paste),
-                                                                      onPressed: () {
-                                                                        paste("bairro");
-                                                                      }),
-                                                                  inputType: InputType.EXTRA_SMALL,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          margin: EdgeInsets.only(top: 18),
-                                                          child: Row(
-                                                            children: [
-                                                              Expanded(
-                                                                flex: 2,
-                                                                child: OutlinedTextEdit(
-                                                                  prefixIcon: Icon(Icons.dvr),
-                                                                  keyboardType: TextInputType.text,
-                                                                  onChanged: (value) => {},
-                                                                  label: "Endereço",
-                                                                  controller: endereco,
-                                                                  inputType: InputType.EXTRA_SMALL,
-                                                                  suffixIcon: IconButton(
-                                                                      icon: Icon(Icons.content_paste),
-                                                                      onPressed: () {
-                                                                        paste("endereco");
-                                                                      }),
-                                                                ),
-                                                              ),
-                                                              SizedBox(width: 10),
-                                                              Expanded(
-                                                                flex: 1,
-                                                                child: OutlinedTextEdit(
-                                                                  prefixIcon: Icon(Icons.texture),
-                                                                  keyboardType: TextInputType.number,
-                                                                  controller: numero,
-                                                                  onChanged: (value) => {},
-                                                                  label: "Número",
-                                                                  inputType: InputType.EXTRA_SMALL,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        role == "ROLE_ADMIN"
-                                                            ? InkWell(
-                                                                onTap: () {
-                                                                  setState(() {
-                                                                    dadosDaUsina_view = !dadosDaUsina_view;
-                                                                  });
-                                                                },
-                                                                child: Container(
-                                                                  margin: EdgeInsets.only(top: 30),
-                                                                  child: Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                    children: [
-                                                                      Text(
-                                                                        'Dados da usina',
-                                                                        style: ubuntu16BlueBold500,
-                                                                      ),
-                                                                      IconButton(
-                                                                          iconSize: 30,
-                                                                          icon: dadosDaUsina_view == false ? Icon(Icons.arrow_drop_down_circle, color: MainColors.cielo) : Icon(Icons.arrow_drop_up, color: Colors.grey),
-                                                                          onPressed: () {
-                                                                            setState(() {
-                                                                              dadosDaUsina_view = !dadosDaUsina_view;
-                                                                            });
-                                                                          })
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            : SizedBox(),
-                                                        role == "ROLE_ADMIN"
-                                                            ? Visibility(
-                                                                visible: dadosDaUsina_view,
-                                                                child: Wrap(
-                                                                  children: [
-                                                                    Container(
-                                                                      margin: EdgeInsets.only(top: 16),
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Expanded(
-                                                                            flex: 2,
-                                                                            child: OutlinedTextEdit(
-                                                                              keyboardType: TextInputType.text,
-                                                                              onChanged: (value) => {},
-                                                                              label: "Inversor",
-                                                                              controller: inversor,
-                                                                              suffixIcon: IconButton(
-                                                                                  icon: Icon(Icons.content_paste),
-                                                                                  onPressed: () {
-                                                                                    paste("inversor");
-                                                                                  }),
-                                                                              inputType: InputType.EXTRA_SMALL,
-                                                                            ),
-                                                                          ),
-                                                                          Expanded(
-                                                                            flex: 1,
-                                                                            child: OutlinedTextEdit(
-                                                                              keyboardType: TextInputType.text,
-                                                                              onChanged: (value) => {},
-                                                                              label: "Garantia",
-                                                                              controller: garantia,
-                                                                              inputType: InputType.EXTRA_SMALL,
-                                                                            ),
-                                                                          ),
-                                                                          SizedBox(width: 10),
-                                                                          Expanded(
-                                                                            flex: 1,
-                                                                            child: OutlinedTextEdit(
-                                                                              keyboardType: TextInputType.number,
-                                                                              onChanged: (value) => {},
-                                                                              controller: potencia,
-                                                                              label: "Potência",
-                                                                              inputType: InputType.EXTRA_SMALL,
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    Container(
-                                                                      margin: EdgeInsets.only(top: 16),
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Expanded(
-                                                                            flex: 1,
-                                                                            child: OutlinedTextEdit(
-                                                                              prefixIcon: Icon(Icons.view_comfy),
-                                                                              keyboardType: TextInputType.text,
-                                                                              onChanged: (value) => {},
-                                                                              label: "Módulos",
-                                                                              controller: marcaModulos,
-                                                                              suffixIcon: IconButton(
-                                                                                  icon: Icon(Icons.content_paste),
-                                                                                  onPressed: () {
-                                                                                    paste("modulos");
-                                                                                  }),
-                                                                              inputType: InputType.EXTRA_SMALL,
-                                                                            ),
-                                                                          ),
-                                                                          SizedBox(width: 10),
-                                                                          Expanded(
-                                                                            flex: 1,
-                                                                            child: OutlinedTextEdit(
-                                                                              prefixIcon: Icon(Icons.format_list_numbered),
-                                                                              keyboardType: TextInputType.number,
-                                                                              onChanged: (value) => {},
-                                                                              suffixIcon: IconButton(
-                                                                                  icon: Icon(Icons.content_paste),
-                                                                                  onPressed: () {
-                                                                                    paste("qtd");
-                                                                                  }),
-                                                                              label: "Quant.",
-                                                                              controller: qtdModulos,
-                                                                              inputType: InputType.EXTRA_SMALL,
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    Container(
-                                                                      margin: EdgeInsets.only(top: 16),
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Expanded(
-                                                                            flex: 1,
-                                                                            child: OutlinedTextEdit(
-                                                                              prefixIcon: Icon(Icons.usb),
-                                                                              keyboardType: TextInputType.number,
-                                                                              onChanged: (value) => {},
-                                                                              suffixIcon: IconButton(
-                                                                                  icon: Icon(Icons.content_paste),
-                                                                                  onPressed: () {
-                                                                                    paste("geracao");
-                                                                                  }),
-                                                                              label: "Geração kWp",
-                                                                              controller: geracao,
-                                                                              inputType: InputType.EXTRA_SMALL,
-                                                                            ),
-                                                                          ),
-                                                                          SizedBox(width: 10),
-                                                                          Expanded(
-                                                                            flex: 1,
-                                                                            child: OutlinedTextEdit(
-                                                                              prefixIcon: Icon(Icons.aspect_ratio),
-                                                                              keyboardType: TextInputType.number,
-                                                                              onChanged: (value) => {},
-                                                                              label: "Área",
-                                                                              suffixIcon: IconButton(
-                                                                                  icon: Icon(Icons.content_paste),
-                                                                                  onPressed: () {
-                                                                                    paste("area");
-                                                                                  }),
-                                                                              controller: area,
-                                                                              inputType: InputType.EXTRA_SMALL,
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    Container(
-                                                                      margin: EdgeInsets.only(top: 16),
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Expanded(
-                                                                            flex: 1,
-                                                                            child: OutlinedTextEdit(
-                                                                              keyboardType: TextInputType.number,
-                                                                              onChanged: (value) => {},
-                                                                              label: "Código",
-                                                                              suffixIcon: IconButton(
-                                                                                  icon: Icon(Icons.content_paste),
-                                                                                  onPressed: () {
-                                                                                    paste("codigo");
-                                                                                  }),
-                                                                              controller: codigo,
-                                                                              inputType: InputType.EXTRA_SMALL,
-                                                                            ),
-                                                                          ),
-                                                                          SizedBox(width: 10),
-                                                                          Expanded(
-                                                                            flex: 1,
-                                                                            child: OutlinedTextEdit(
-                                                                              prefixIcon: Icon(Icons.monetization_on),
-                                                                              keyboardType: TextInputType.number,
-                                                                              onChanged: (value) => {},
-                                                                              label: "R\$ Valor",
-                                                                              controller: valor,
-                                                                              inputType: InputType.EXTRA_SMALL,
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    Container(
-                                                                      margin: EdgeInsets.only(top: 16),
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Expanded(
-                                                                            flex: 1,
-                                                                            child: OutlinedTextEdit(
-                                                                              keyboardType: TextInputType.multiline,
-                                                                              maxLines: 10,
-                                                                              minLines: 10,
-                                                                              suffixIcon: IconButton(
-                                                                                  icon: Icon(Icons.content_paste),
-                                                                                  onPressed: () {
-                                                                                    paste("dados");
-                                                                                  }),
-                                                                              onChanged: (value) => {},
-                                                                              label: "Dados da usina",
-                                                                              controller: dados,
-                                                                              inputType: InputType.EXTRA_SMALL,
-                                                                            ),
-                                                                          ),
-                                                                          SizedBox(width: 10),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height: 100,
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              )
-                                                            : SizedBox()
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    height: 1,
-                                                    width: 1,
-                                                    child: Stack(
-                                                      children: <Widget>[
-                                                        Center(
-                                                          child: SingleChildScrollView(
-                                                            scrollDirection: Axis.horizontal,
-                                                            child: Row(
-                                                              children: <Widget>[
-                                                                SingleChildScrollView(
-                                                                  child: Column(
-                                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                                    children: <Widget>[
-                                                                      RepaintBoundary(
-                                                                        key: globalKey,
-                                                                        child: Container(
-                                                                          color: Colors.white,
-                                                                          child: Chart(
-                                                                            meses: returnAllMonths,
-                                                                            consumo: consumo,
-                                                                          ),
-                                                                          height: 700,
-                                                                          width: 1500,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
+                                                            Row(
+                                                              children: [
+                                                                Icon(Icons.verified_user, color: Colors.blue),
+                                                                SizedBox(width: 10),
+                                                                Text(
+                                                                  'Dados do cliente',
+                                                                  style: ubuntu16BlueBold500,
                                                                 ),
                                                               ],
                                                             ),
-                                                          ),
+                                                            Container(
+                                                              color: Colors.white,
+                                                              margin: EdgeInsets.only(top: 18),
+                                                              child: OutlinedTextEdit(
+                                                                prefixIcon: Icon(Icons.account_circle),
+                                                                onChanged: (value) => {},
+                                                                label: "Nome do cliente",
+                                                                inputType: InputType.EXTRA_SMALL,
+                                                                controller: cliente,
+                                                                suffixIcon: IconButton(
+                                                                    icon: Icon(Icons.content_paste),
+                                                                    onPressed: () {
+                                                                      paste("cliente");
+                                                                    }),
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              color: Colors.white,
+                                                              margin: EdgeInsets.only(top: 18),
+                                                              child: OutlinedTextEdit(
+                                                                prefixIcon: Icon(Icons.chat),
+                                                                keyboardType: TextInputType.number,
+                                                                onChanged: (value) => {},
+                                                                label: "CPF do cliente",
+                                                                controller: cpf,
+                                                                inputType: InputType.EXTRA_SMALL,
+                                                                suffixIcon: IconButton(
+                                                                    icon: Icon(Icons.content_paste),
+                                                                    onPressed: () {
+                                                                      paste("cpf");
+                                                                    }),
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              color: Colors.white,
+                                                              margin: EdgeInsets.only(top: 18),
+                                                              child: Row(
+                                                                children: [
+                                                                  Expanded(
+                                                                    child: OutlinedTextEdit(
+                                                                      prefixIcon: Icon(Icons.assistant_photo),
+                                                                      keyboardType: TextInputType.number,
+                                                                      onChanged: (value) => {},
+                                                                      label: "CEP",
+                                                                      controller: cep,
+                                                                      inputType: InputType.EXTRA_SMALL,
+                                                                      suffixIcon: IconButton(
+                                                                          icon: Icon(Icons.content_paste),
+                                                                          onPressed: () {
+                                                                            paste("cep");
+                                                                          }),
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(width: 10),
+                                                                  Expanded(
+                                                                    child: OutlinedTextEdit(
+                                                                      prefixIcon: Icon(Icons.dialpad),
+                                                                      keyboardType: TextInputType.number,
+                                                                      onChanged: (value) => {},
+                                                                      label: "Bairro",
+                                                                      controller: bairro,
+                                                                      suffixIcon: IconButton(
+                                                                          icon: Icon(Icons.content_paste),
+                                                                          onPressed: () {
+                                                                            paste("bairro");
+                                                                          }),
+                                                                      inputType: InputType.EXTRA_SMALL,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              color: Colors.white,
+                                                              margin: EdgeInsets.only(top: 18),
+                                                              child: Row(
+                                                                children: [
+                                                                  Expanded(
+                                                                    flex: 2,
+                                                                    child: OutlinedTextEdit(
+                                                                      prefixIcon: Icon(Icons.dvr),
+                                                                      keyboardType: TextInputType.text,
+                                                                      onChanged: (value) => {},
+                                                                      label: "Endereço",
+                                                                      controller: endereco,
+                                                                      inputType: InputType.EXTRA_SMALL,
+                                                                      suffixIcon: IconButton(
+                                                                          icon: Icon(Icons.content_paste),
+                                                                          onPressed: () {
+                                                                            paste("endereco");
+                                                                          }),
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(width: 10),
+                                                                  Expanded(
+                                                                    flex: 1,
+                                                                    child: OutlinedTextEdit(
+                                                                      prefixIcon: Icon(Icons.texture),
+                                                                      keyboardType: TextInputType.number,
+                                                                      controller: numero,
+                                                                      onChanged: (value) => {},
+                                                                      label: "Número",
+                                                                      inputType: InputType.EXTRA_SMALL,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            role == "ROLE_ADMIN"
+                                                                ? InkWell(
+                                                                    onTap: () {
+                                                                      setState(() {
+                                                                        dadosDaUsina_view = !dadosDaUsina_view;
+                                                                      });
+                                                                    },
+                                                                    child: Container(
+                                                                      color: Colors.white,
+                                                                      margin: EdgeInsets.only(top: 30),
+                                                                      child: Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                                        children: [
+                                                                          Icon(Icons.view_module, color: Colors.blue),
+                                                                          SizedBox(width: 10),
+                                                                          Text(
+                                                                            'Dados da Usina',
+                                                                            style: ubuntu16BlueBold500,
+                                                                          ),
+                                                                          Spacer(),
+                                                                          IconButton(
+                                                                              iconSize: 30,
+                                                                              icon: dadosDaUsina_view == false ? Icon(Icons.arrow_drop_down_circle, color: MainColors.cielo) : Icon(Icons.arrow_drop_up, color: Colors.grey),
+                                                                              onPressed: () {
+                                                                                setState(() {
+                                                                                  dadosDaUsina_view = !dadosDaUsina_view;
+                                                                                });
+                                                                              })
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  )
+                                                                : SizedBox(),
+                                                            role == "ROLE_ADMIN"
+                                                                ? Visibility(
+                                                                    visible: dadosDaUsina_view,
+                                                                    child: Wrap(
+                                                                      children: [
+                                                                        Container(
+                                                                          color: Colors.white,
+                                                                          margin: EdgeInsets.only(top: 16),
+                                                                          child: Row(
+                                                                            children: [
+                                                                              Expanded(
+                                                                                flex: 2,
+                                                                                child: OutlinedTextEdit(
+                                                                                  keyboardType: TextInputType.text,
+                                                                                  onChanged: (value) => {},
+                                                                                  label: "Inversor",
+                                                                                  controller: inversor,
+                                                                                  suffixIcon: IconButton(
+                                                                                      icon: Icon(Icons.content_paste),
+                                                                                      onPressed: () {
+                                                                                        paste("inversor");
+                                                                                      }),
+                                                                                  inputType: InputType.EXTRA_SMALL,
+                                                                                ),
+                                                                              ),
+                                                                              Expanded(
+                                                                                flex: 1,
+                                                                                child: OutlinedTextEdit(
+                                                                                  keyboardType: TextInputType.text,
+                                                                                  onChanged: (value) => {},
+                                                                                  label: "Garantia",
+                                                                                  controller: garantia,
+                                                                                  inputType: InputType.EXTRA_SMALL,
+                                                                                ),
+                                                                              ),
+                                                                              SizedBox(width: 10),
+                                                                              Expanded(
+                                                                                flex: 1,
+                                                                                child: OutlinedTextEdit(
+                                                                                  keyboardType: TextInputType.number,
+                                                                                  onChanged: (value) => {},
+                                                                                  controller: potencia,
+                                                                                  label: "Potência",
+                                                                                  inputType: InputType.EXTRA_SMALL,
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                        Container(
+                                                                          color: Colors.white,
+                                                                          margin: EdgeInsets.only(top: 16),
+                                                                          child: Row(
+                                                                            children: [
+                                                                              Expanded(
+                                                                                flex: 1,
+                                                                                child: OutlinedTextEdit(
+                                                                                  prefixIcon: Icon(Icons.view_comfy),
+                                                                                  keyboardType: TextInputType.text,
+                                                                                  onChanged: (value) => {},
+                                                                                  label: "Módulos",
+                                                                                  controller: marcaModulos,
+                                                                                  suffixIcon: IconButton(
+                                                                                      icon: Icon(Icons.content_paste),
+                                                                                      onPressed: () {
+                                                                                        paste("modulos");
+                                                                                      }),
+                                                                                  inputType: InputType.EXTRA_SMALL,
+                                                                                ),
+                                                                              ),
+                                                                              SizedBox(width: 10),
+                                                                              Expanded(
+                                                                                flex: 1,
+                                                                                child: OutlinedTextEdit(
+                                                                                  prefixIcon: Icon(Icons.format_list_numbered),
+                                                                                  keyboardType: TextInputType.number,
+                                                                                  onChanged: (value) => {},
+                                                                                  suffixIcon: IconButton(
+                                                                                      icon: Icon(Icons.content_paste),
+                                                                                      onPressed: () {
+                                                                                        paste("qtd");
+                                                                                      }),
+                                                                                  label: "Quant.",
+                                                                                  controller: qtdModulos,
+                                                                                  inputType: InputType.EXTRA_SMALL,
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                        Container(
+                                                                          color: Colors.white,
+                                                                          margin: EdgeInsets.only(top: 16),
+                                                                          child: Row(
+                                                                            children: [
+                                                                              Expanded(
+                                                                                flex: 1,
+                                                                                child: OutlinedTextEdit(
+                                                                                  prefixIcon: Icon(Icons.usb),
+                                                                                  keyboardType: TextInputType.number,
+                                                                                  onChanged: (value) => {},
+                                                                                  suffixIcon: IconButton(
+                                                                                      icon: Icon(Icons.content_paste),
+                                                                                      onPressed: () {
+                                                                                        paste("geracao");
+                                                                                      }),
+                                                                                  label: "Geração kWp",
+                                                                                  controller: geracao,
+                                                                                  inputType: InputType.EXTRA_SMALL,
+                                                                                ),
+                                                                              ),
+                                                                              SizedBox(width: 10),
+                                                                              Expanded(
+                                                                                flex: 1,
+                                                                                child: OutlinedTextEdit(
+                                                                                  prefixIcon: Icon(Icons.aspect_ratio),
+                                                                                  keyboardType: TextInputType.number,
+                                                                                  onChanged: (value) => {},
+                                                                                  label: "Área",
+                                                                                  suffixIcon: IconButton(
+                                                                                      icon: Icon(Icons.content_paste),
+                                                                                      onPressed: () {
+                                                                                        paste("area");
+                                                                                      }),
+                                                                                  controller: area,
+                                                                                  inputType: InputType.EXTRA_SMALL,
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                        Container(
+                                                                          color: Colors.white,
+                                                                          margin: EdgeInsets.only(top: 16),
+                                                                          child: Row(
+                                                                            children: [
+                                                                              Expanded(
+                                                                                flex: 1,
+                                                                                child: OutlinedTextEdit(
+                                                                                  keyboardType: TextInputType.number,
+                                                                                  onChanged: (value) => {},
+                                                                                  label: "Código",
+                                                                                  suffixIcon: IconButton(
+                                                                                      icon: Icon(Icons.content_paste),
+                                                                                      onPressed: () {
+                                                                                        paste("codigo");
+                                                                                      }),
+                                                                                  controller: codigo,
+                                                                                  inputType: InputType.EXTRA_SMALL,
+                                                                                ),
+                                                                              ),
+                                                                              SizedBox(width: 10),
+                                                                              Expanded(
+                                                                                flex: 1,
+                                                                                child: OutlinedTextEdit(
+                                                                                  prefixIcon: Icon(Icons.monetization_on),
+                                                                                  keyboardType: TextInputType.number,
+                                                                                  onChanged: (value) => {},
+                                                                                  label: "R\$ Valor",
+                                                                                  controller: valor,
+                                                                                  inputType: InputType.EXTRA_SMALL,
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                        Container(
+                                                                          color: Colors.white,
+                                                                          margin: EdgeInsets.only(top: 16),
+                                                                          child: Row(
+                                                                            children: [
+                                                                              Expanded(
+                                                                                flex: 1,
+                                                                                child: OutlinedTextEdit(
+                                                                                  keyboardType: TextInputType.multiline,
+                                                                                  maxLines: 20,
+                                                                                  minLines: 10,
+                                                                                  suffixIcon: IconButton(
+                                                                                      icon: Icon(Icons.content_paste),
+                                                                                      onPressed: () {
+                                                                                        paste("dados");
+                                                                                      }),
+                                                                                  onChanged: (value) => {},
+                                                                                  label: "Dados da usina",
+                                                                                  controller: dados,
+                                                                                  inputType: InputType.EXTRA_SMALL,
+                                                                                ),
+                                                                              ),
+                                                                              SizedBox(width: 10),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                        SizedBox(
+                                                                          height: 100,
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  )
+                                                                : SizedBox()
+                                                          ],
                                                         ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Visibility(
-                                              visible: _loaderGenerateGraph,
-                                              child: Container(
-                                                color: Colors.white,
-                                                height: MediaQuery.of(context).size.height,
-                                                child: Center(
-                                                  //color: Colors.white,
-                                                  // height: MediaQuery.of(context).size.height,
-
-                                                  child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    children: [
-                                                      Stack(
-                                                        children: <Widget>[
-                                                          Center(
-                                                            child: Container(
-                                                              margin: EdgeInsets.only(top: 60),
-                                                              child: Image.asset(
-                                                                'lib/app/shared/assets/images/l.png',
-                                                                width: 70,
+                                                      ),
+                                                      Container(
+                                                        color: Colors.white,
+                                                        height: 1,
+                                                        width: 1,
+                                                        child: Stack(
+                                                          children: <Widget>[
+                                                            Center(
+                                                              child: SingleChildScrollView(
+                                                                scrollDirection: Axis.horizontal,
+                                                                child: Row(
+                                                                  children: <Widget>[
+                                                                    SingleChildScrollView(
+                                                                      child: Column(
+                                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                                        children: <Widget>[
+                                                                          RepaintBoundary(
+                                                                            key: globalKey,
+                                                                            child: Container(
+                                                                              color: Colors.white,
+                                                                              child: Chart(
+                                                                                meses: returnAllMonths,
+                                                                                consumo: consumo,
+                                                                              ),
+                                                                              height: 700,
+                                                                              width: 1500,
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                          Center(
-                                                            child: Container(
-                                                              width: 200,
-                                                              height: 200,
-                                                              child: CircularProgressIndicator(
-                                                                strokeWidth: 1,
-                                                                backgroundColor: Colors.blue[500],
-                                                                valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFFFFFFF)),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
+                                                          ],
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
                                                 ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      floatingActionButton: showFab
-                                          ? Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: <Widget>[
-                                                Observer(builder: (BuildContext context) {
-                                                  return Container(
-                                                    margin: EdgeInsets.only(left: 16),
-                                                    child: DangerButton(
-                                                      child: Row(
-                                                        children: <Widget>[
-                                                          Icon(
-                                                            Icons.backspace,
-                                                            color: Colors.white,
-                                                            size: 30,
-                                                          ),
-                                                          SizedBox(width: 5),
-                                                          Text(
-                                                            'Voltar',
-                                                            style: buttonLargeWhite,
+                                                Visibility(
+                                                  visible: _loaderGenerateGraph,
+                                                  child: Container(
+                                                    color: Colors.white,
+                                                    height: MediaQuery.of(context).size.height,
+                                                    child: Center(
+                                                      //color: Colors.white,
+                                                      // height: MediaQuery.of(context).size.height,
+
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          Stack(
+                                                            children: <Widget>[
+                                                              Center(
+                                                                child: Container(
+                                                                  color: Colors.white,
+                                                                  margin: EdgeInsets.only(top: 60),
+                                                                  child: Image.asset(
+                                                                    'lib/app/shared/assets/images/l.png',
+                                                                    width: 70,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Center(
+                                                                child: Container(
+                                                                  width: 200,
+                                                                  height: 200,
+                                                                  child: CircularProgressIndicator(
+                                                                    strokeWidth: 1,
+                                                                    backgroundColor: Colors.blue[500],
+                                                                    valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFFFFFFF)),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
                                                         ],
                                                       ),
-
-                                                      ////onPressed:controller.loginWithGoogle,
-
-                                                      onPressed: !_loaderGenerateGraph ? Navigator.of(context).pop : null,
-                                                    ).getLarge(),
-                                                  );
-                                                }),
-                                                PrimaryButton(
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Text(
-                                                        'Gerar PDF',
-                                                        style: buttonLargeWhite,
-                                                      ),
-                                                      Icon(
-                                                        Icons.assignment_turned_in,
-                                                        color: Colors.white,
-                                                        size: 30,
-                                                      ),
-                                                    ],
+                                                    ),
                                                   ),
-                                                  //onPressed:controller.loginWithGoogle,
-
-                                                  // SETANDO NOVA
-
-                                                  onPressed: !_loaderGenerateGraph ? goGeneratePDF : null,
-                                                ).getLarge(),
+                                                )
                                               ],
-                                            )
-                                          : null,
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                          );
+                                            ),
+                                          ),
+                                        ),
+                                        floatingActionButton: showFab
+                                            ? Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: <Widget>[
+                                                  Observer(builder: (BuildContext context) {
+                                                    return Container(
+                                                      color: Colors.white,
+                                                      margin: EdgeInsets.only(left: 16),
+                                                      child: DangerButton(
+                                                        child: Row(
+                                                          children: <Widget>[
+                                                            Icon(
+                                                              Icons.backspace,
+                                                              color: Colors.white,
+                                                              size: 30,
+                                                            ),
+                                                            SizedBox(width: 5),
+                                                            Text(
+                                                              'Voltar',
+                                                              style: buttonLargeWhite,
+                                                            ),
+                                                          ],
+                                                        ),
 
-                          //Navigator.of(context).pop();
-                        }).getLarge(),
-                  ],
+                                                        ////onPressed:controller.loginWithGoogle,
+
+                                                        onPressed: !_loaderGenerateGraph ? Navigator.of(context).pop : null,
+                                                      ).getLarge(),
+                                                    );
+                                                  }),
+                                                  PrimaryButton(
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        Text(
+                                                          'Gerar PDF',
+                                                          style: buttonLargeWhite,
+                                                        ),
+                                                        Icon(
+                                                          Icons.assignment_turned_in,
+                                                          color: Colors.white,
+                                                          size: 30,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    //onPressed:controller.loginWithGoogle,
+
+                                                    // SETANDO NOVA
+
+                                                    onPressed: !_loaderGenerateGraph ? goGeneratePDF : null,
+                                                  ).getLarge(),
+                                                ],
+                                              )
+                                            : null,
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            );
+
+                            //Navigator.of(context).pop();
+                          }).getLarge(),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     ),

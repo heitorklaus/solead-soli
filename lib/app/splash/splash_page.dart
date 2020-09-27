@@ -60,7 +60,11 @@ class _SplashPageState extends State<SplashPage> {
       }
 
       try {
-        await DatabaseHelper().downloadFile("http://www.klausmetal.com.br/nexendata.csv", "nexendata.csv").then((value) async {
+        await DatabaseHelper()
+            .downloadFile(
+                "https://drive.google.com/u/0/uc?id=1op1LhVL-ZwB8ZEsM5ncBAqUYU1C8hfDP&export=download",
+                "nexendata.csv")
+            .then((value) async {
           if (value.statusCode == 200) {
             print('[ LOADED DATA FROM KLAUSMETAL]');
             loadCitiesIrradiationData();
@@ -107,7 +111,8 @@ class _SplashPageState extends State<SplashPage> {
 
   Future loadCitiesIrradiationData() async {
     var dbClient = await db;
-    final list = await dbClient.rawQuery('select * from CITIES_IRRADIATION_MONTH where id = 1');
+    final list = await dbClient
+        .rawQuery('select * from CITIES_IRRADIATION_MONTH where id = 1');
 
     if (list.length > 0) {
       final eco = await CitiesData.fromJson(list.first);
@@ -134,7 +139,8 @@ class _SplashPageState extends State<SplashPage> {
 
       Prefs.setStringList("CITIES", someMap);
 
-      final list_citi = await dbClient.rawQuery('select * from CITIES_IRRADIATION where id = 1');
+      final list_citi = await dbClient
+          .rawQuery('select * from CITIES_IRRADIATION where id = 1');
 
       final first = PrefIrradiation.fromJson(list_citi.first);
 
@@ -182,7 +188,8 @@ class _SplashPageState extends State<SplashPage> {
                     child: CircularProgressIndicator(
                       strokeWidth: 1,
                       backgroundColor: Colors.blue[500],
-                      valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFFFFFFF)),
+                      valueColor:
+                          new AlwaysStoppedAnimation<Color>(Color(0xFFFFFFFF)),
                     ),
                   ),
                 ),

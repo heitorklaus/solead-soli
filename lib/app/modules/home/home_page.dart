@@ -22,7 +22,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends ModularState<HomePage, HomeController> with SingleTickerProviderStateMixin {
+class _HomePageState extends ModularState<HomePage, HomeController>
+    with SingleTickerProviderStateMixin {
   void _selectedTab(int index) {
     tabController.animateTo(index);
   }
@@ -57,7 +58,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                       child: LayoutBuilder(
                         builder: (context, constraint) {
                           return ConstrainedBox(
-                            constraints: BoxConstraints(minHeight: constraint.maxHeight),
+                            constraints:
+                                BoxConstraints(minHeight: constraint.maxHeight),
                             child: IntrinsicHeight(
                               child: Column(
                                 children: <Widget>[
@@ -67,52 +69,80 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                     child: AspectRatio(
                                       aspectRatio: 100 / 45,
                                       child: Container(
-                                        decoration: BoxDecoration(color: Color(0XFF2184AA), borderRadius: new BorderRadius.only(bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0))),
+                                        decoration: BoxDecoration(
+                                            color: Color(0XFF2184AA),
+                                            borderRadius: new BorderRadius.only(
+                                                bottomLeft: Radius.circular(0),
+                                                bottomRight:
+                                                    Radius.circular(0))),
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           // mainAxisAlignment
                                           children: <Widget>[
                                             SizedBox(
-                                              height: 30,
+                                              height: 40,
                                             ),
                                             Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
                                                 Text(
                                                   'App Soleads',
-                                                  style: heading16Bold.copyWith(color: Colors.white),
+                                                  style: heading16Bold.copyWith(
+                                                      color: Colors.white),
                                                 ),
                                               ],
                                             ),
                                             Padding(
-                                              padding: EdgeInsets.only(left: 16, top: 10),
+                                              padding: EdgeInsets.only(
+                                                  left: 16, top: 10),
                                               child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: <Widget>[
                                                   Stack(
                                                     children: [
                                                       Container(
-                                                        margin: EdgeInsets.only(top: 15),
+                                                        margin: EdgeInsets.only(
+                                                            top: 15),
                                                         child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
                                                           children: [
-                                                            FutureBuilder<String>(
-                                                              future: AuthRepository().getName(),
-                                                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                                                                switch (snapshot.connectionState) {
-                                                                  case ConnectionState.waiting:
+                                                            FutureBuilder<
+                                                                String>(
+                                                              future:
+                                                                  AuthRepository()
+                                                                      .getName(),
+                                                              builder: (BuildContext
+                                                                      context,
+                                                                  AsyncSnapshot<
+                                                                          String>
+                                                                      snapshot) {
+                                                                switch (snapshot
+                                                                    .connectionState) {
+                                                                  case ConnectionState
+                                                                      .waiting:
                                                                     return CircularProgressIndicator(
-                                                                      strokeWidth: 1,
+                                                                      strokeWidth:
+                                                                          1,
                                                                     );
                                                                   default:
-                                                                    if (snapshot.hasError)
-                                                                      return Text('${snapshot.error}');
+                                                                    if (snapshot
+                                                                        .hasError)
+                                                                      return Text(
+                                                                          '${snapshot.error}');
                                                                     else
                                                                       return Text(
                                                                         'Olá, ${snapshot.data.toString()}!',
-                                                                        style: ubuntu16WhiteBold500,
+                                                                        style:
+                                                                            ubuntu16WhiteBold500,
                                                                       );
                                                                 }
                                                               },
@@ -121,23 +151,27 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                         ),
                                                       ),
                                                       Container(
-                                                        margin: EdgeInsets.only(left: 335),
+                                                        margin: EdgeInsets.only(
+                                                            left: 335),
                                                         child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment.end,
-                                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .end,
                                                           children: [
                                                             Icon(
-                                                              Icons.account_circle,
+                                                              Icons
+                                                                  .account_circle,
                                                               size: 50,
-                                                              color: Colors.white,
+                                                              color:
+                                                                  Colors.white,
                                                             )
                                                           ],
                                                         ),
                                                       )
                                                     ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 9,
                                                   ),
                                                   Text(
                                                     'Saldo em comissões',
@@ -148,31 +182,51 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                       Column(
                                                         children: [
                                                           FutureBuilder(
-                                                            future: AuthRepository().getDataUser(),
-                                                            builder: (BuildContext context, AsyncSnapshot snapshot) {
-                                                              switch (snapshot.connectionState) {
-                                                                case ConnectionState.waiting:
+                                                            future:
+                                                                AuthRepository()
+                                                                    .getDataUser(),
+                                                            builder: (BuildContext
+                                                                    context,
+                                                                AsyncSnapshot
+                                                                    snapshot) {
+                                                              switch (snapshot
+                                                                  .connectionState) {
+                                                                case ConnectionState
+                                                                    .waiting:
                                                                   return Container(
-                                                                    margin: EdgeInsets.only(top: 7),
+                                                                    margin: EdgeInsets
+                                                                        .only(
+                                                                            top:
+                                                                                7),
                                                                     width: 22,
                                                                     height: 22,
-                                                                    child: CircularProgressIndicator(
-                                                                      strokeWidth: 2,
-                                                                      backgroundColor: Colors.white,
+                                                                    child:
+                                                                        CircularProgressIndicator(
+                                                                      strokeWidth:
+                                                                          2,
+                                                                      backgroundColor:
+                                                                          Colors
+                                                                              .white,
                                                                     ),
                                                                   );
                                                                 default:
-                                                                  if (snapshot.hasError)
+                                                                  if (snapshot
+                                                                      .hasError)
                                                                     return Text(
                                                                       'R\$ 0,00',
-                                                                      style: ubuntu35WhiteLight100,
+                                                                      style:
+                                                                          ubuntu35WhiteLight100,
                                                                     );
                                                                   else
                                                                     return Container(
-                                                                      margin: EdgeInsets.only(top: 5),
-                                                                      child: Text(
+                                                                      margin: EdgeInsets
+                                                                          .only(
+                                                                              top: 5),
+                                                                      child:
+                                                                          Text(
                                                                         '${snapshot.data.cash}',
-                                                                        style: ubuntu35WhiteLight100,
+                                                                        style:
+                                                                            ubuntu35WhiteLight100,
                                                                       ),
                                                                     );
                                                               }
@@ -186,20 +240,30 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                           SizedBox(height: 8),
                                                           Text(
                                                             'Transferir',
-                                                            style: TextStyle(fontSize: 10, color: Colors.green[200]),
+                                                            style: TextStyle(
+                                                                fontSize: 10,
+                                                                color: Colors
+                                                                        .green[
+                                                                    200]),
                                                           ),
                                                         ],
                                                       ),
                                                       Spacer(),
                                                       Column(
-                                                        mainAxisAlignment: MainAxisAlignment.end,
-                                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .end,
                                                         children: [
                                                           InkWell(
-                                                            onTap: controller.logoff,
+                                                            onTap: controller
+                                                                .logoff,
                                                             child: Icon(
                                                               Icons.exit_to_app,
-                                                              color: Colors.white,
+                                                              color:
+                                                                  Colors.white,
                                                               size: 22,
                                                             ),
                                                           ),
@@ -220,14 +284,16 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                   Container(
                                     margin: EdgeInsets.all(10),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Expanded(
                                           child: AspectRatio(
                                             aspectRatio: 3 / 3,
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.all(
+                                                  borderRadius:
+                                                      BorderRadius.all(
                                                     Radius.circular(20.0),
                                                   ),
                                                   // Box decoration takes a gradient
@@ -235,8 +301,10 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                   boxShadow: [
                                                     BoxShadow(
                                                       color: Colors.black12,
-                                                      blurRadius: 4, // has the effect of softening the shadow
-                                                      spreadRadius: 0.2, // has the effect of extending the shadow
+                                                      blurRadius:
+                                                          4, // has the effect of softening the shadow
+                                                      spreadRadius:
+                                                          0.2, // has the effect of extending the shadow
                                                       offset: Offset(
                                                         -1, // horizontal, move right 10
                                                         1, // vertical, move down 10
@@ -244,7 +312,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                     ),
                                                   ]),
                                               child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: <Widget>[
                                                   Text('Leads'),
                                                   IconButton(
@@ -274,7 +343,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                             aspectRatio: 3 / 3,
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.all(
+                                                  borderRadius:
+                                                      BorderRadius.all(
                                                     Radius.circular(20.0),
                                                   ),
                                                   // Box decoration takes a gradient
@@ -282,8 +352,10 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                   boxShadow: [
                                                     BoxShadow(
                                                       color: Colors.black12,
-                                                      blurRadius: 4, // has the effect of softening the shadow
-                                                      spreadRadius: 0.2, // has the effect of extending the shadow
+                                                      blurRadius:
+                                                          4, // has the effect of softening the shadow
+                                                      spreadRadius:
+                                                          0.2, // has the effect of extending the shadow
                                                       offset: Offset(
                                                         -1, // horizontal, move right 10
                                                         1, // vertical, move down 10
@@ -291,7 +363,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                     ),
                                                   ]),
                                               child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: <Widget>[
                                                   Text('Negociando'),
                                                   IconButton(
@@ -321,15 +394,18 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                             aspectRatio: 3 / 3,
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.all(
+                                                  borderRadius:
+                                                      BorderRadius.all(
                                                     Radius.circular(20.0),
                                                   ),
                                                   color: Colors.white,
                                                   boxShadow: [
                                                     BoxShadow(
                                                       color: Colors.black12,
-                                                      blurRadius: 4, // has the effect of softening the shadow
-                                                      spreadRadius: 0.2, // has the effect of extending the shadow
+                                                      blurRadius:
+                                                          4, // has the effect of softening the shadow
+                                                      spreadRadius:
+                                                          0.2, // has the effect of extending the shadow
                                                       offset: Offset(
                                                         -1, // horizontal, move right 10
                                                         1, // vertical, move down 10
@@ -337,11 +413,14 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                     ),
                                                   ]),
                                               child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: <Widget>[
                                                   Text('Fechados'),
                                                   IconButton(
-                                                    icon: Icon(Icons.wb_sunny, color: Colors.yellow[700]),
+                                                    icon: Icon(Icons.wb_sunny,
+                                                        color:
+                                                            Colors.yellow[700]),
                                                     onPressed: () {},
                                                   ),
                                                   SizedBox(

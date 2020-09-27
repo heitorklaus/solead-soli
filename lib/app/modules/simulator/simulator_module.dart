@@ -11,8 +11,8 @@ class SimulatorModule extends ChildModule {
       ];
 
   @override
-  List<Router> get routers => [
-        Router(Modular.initialRoute, child: (_, args) => SimulatorPage()),
+  List<ModularRouter> get routers => [
+        ModularRouter(Modular.initialRoute, child: (_, args) => SimulatorPage()),
       ];
 
   static Inject get to => Inject<SimulatorModule>.of();
