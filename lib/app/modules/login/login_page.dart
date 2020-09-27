@@ -4,6 +4,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import 'package:framework/ui/form/buttons/primary_button.dart';
 import 'package:framework/ui/form/inputs/outlined_text_edit.dart';
+import 'package:login/app/modules/home/home_controller.dart';
 import 'package:login/app/shared/styles/main_style.dart';
 //controller.loginWithGoogle
 
@@ -46,7 +47,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                           Expanded(
                             child: Container(
                               child: Image.asset(
-                                'lib/app/shared/assets/images/logo.png',
+                                'lib/app/shared/assets/images/logo1.png',
                                 width: 150,
                               ),
                               color: Colors.transparent,
@@ -176,11 +177,21 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                                           ),
                                         );
                                       } else {
-                                        return CircularProgressIndicator();
+                                        return Center(
+                                          child: Container(
+                                            height: 40,
+                                            width: 40,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 1,
+                                            ),
+                                          ),
+                                        );
                                       }
                                     }),
                                     InkWell(
-                                      onTap: () async {},
+                                      onTap: () async {
+                                        HomeController().getDataLogin();
+                                      },
                                       child: Container(
                                           child: Text(
                                         'Esqueceu sua senha?',

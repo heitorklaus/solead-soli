@@ -1,16 +1,23 @@
 import 'package:date_util/date_util.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'package:framework/config/main_colors.dart';
 import 'package:framework/config/styles/button_styles.dart';
 import 'package:framework/ui/form/buttons/primary_button.dart';
+import 'package:framework/ui/form/inputs/input_type.dart';
 import 'package:framework/ui/form/inputs/outlined_dropdown.dart';
 import 'package:framework/ui/form/inputs/outlined_text_edit.dart';
 import 'package:login/app/modules/simulator/simulator_module.dart';
 import 'package:login/app/shared/auth/repositories/auth_repository.dart';
 import 'package:login/app/shared/repositories/entities/proposal_strings.dart';
 import 'package:login/app/shared/repositories/proposal_strings.dart';
+
+import 'package:login/app/shared/styles/main_colors.dart' as main;
 import 'package:login/app/shared/styles/main_style.dart';
-import 'form/form_widget.dart';
 import 'simulator_controller.dart';
 
 class SimulatorPage extends StatefulWidget {
@@ -26,301 +33,410 @@ class SimulatorPage extends StatefulWidget {
 class _SimulatorPageState
     extends ModularState<SimulatorPage, SimulatorController> {
   //use 'controller' variable to access controller
+  bool isChecked = false;
+  bool isVisible = false;
 
-  List<Widget> _children = [];
-  int _count = 1;
+  static var dateUtility = DateUtil();
+
+  @override
+  void dispose() {
+    super.dispose();
+    print('saiu do simulat');
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor:
+          main.MainColors.cielo, //or set color with: Color(0xFF0000FF)
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Simulador de Proposta"),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            if (widget.qtd == 0)
-              Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      children: <Widget>[
-                        Text(
-                          'Quantidade de STRINGS?',
-                          style: heading16Bold,
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                    width: 10,
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: PrimaryButton(
-                                  child: Text(
-                                    '1',
-                                    style: buttonLargeWhite,
-                                  ),
-                                  //onPressed:controller.loginWithGoogle,
-
-                                  onPressed: () {})
-                              .getLarge(),
-                        ),
-                        SizedBox(
-                          height: 10,
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: PrimaryButton(
-                                  child: Text(
-                                    '2',
-                                    style: buttonLargeWhite,
-                                  ),
-                                  //onPressed:controller.loginWithGoogle,
-
-                                  onPressed: () {})
-                              .getLarge(),
-                        ),
-                        SizedBox(
-                          height: 10,
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: PrimaryButton(
-                                  child: Text(
-                                    '3',
-                                    style: buttonLargeWhite,
-                                  ),
-                                  //onPressed:controller.loginWithGoogle,
-
-                                  onPressed: () {})
-                              .getLarge(),
-                        ),
-                        SizedBox(
-                          height: 10,
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: PrimaryButton(
-                              child: Text(
-                                '4',
-                                style: buttonLargeWhite,
-                              ),
-                              //onPressed:controller.loginWithGoogle,
-
-                              onPressed: () {
-                                Modular.to.push(MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        SimulatorPage(
-                                          qtd: 4,
-                                        )));
-                              }).getLarge(),
-                        ),
-                        SizedBox(
-                          height: 10,
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: PrimaryButton(
-                              child: Text(
-                                '5',
-                                style: buttonLargeWhite,
-                              ),
-                              //onPressed:controller.loginWithGoogle,
-
-                              onPressed: () {
-                                Modular.to.push(MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        SimulatorPage(
-                                          qtd: 5,
-                                        )));
-                              }).getLarge(),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: PrimaryButton(
-                                  child: Text(
-                                    '6',
-                                    style: buttonLargeWhite,
-                                  ),
-                                  //onPressed:controller.loginWithGoogle,
-
-                                  onPressed: () {})
-                              .getLarge(),
-                        ),
-                        SizedBox(
-                          height: 10,
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: PrimaryButton(
-                                  child: Text(
-                                    '7',
-                                    style: buttonLargeWhite,
-                                  ),
-                                  //onPressed:controller.loginWithGoogle,
-
-                                  onPressed: () {})
-                              .getLarge(),
-                        ),
-                        SizedBox(
-                          height: 10,
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: PrimaryButton(
-                                  child: Text(
-                                    '8',
-                                    style: buttonLargeWhite,
-                                  ),
-                                  //onPressed:controller.loginWithGoogle,
-
-                                  onPressed: () {})
-                              .getLarge(),
-                        ),
-                        SizedBox(
-                          height: 10,
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: PrimaryButton(
-                                  child: Text(
-                                    '9',
-                                    style: buttonLargeWhite,
-                                  ),
-                                  //onPressed:controller.loginWithGoogle,
-
-                                  onPressed: () {})
-                              .getLarge(),
-                        ),
-                        SizedBox(
-                          height: 10,
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: PrimaryButton(
-                                  child: Text(
-                                    '10',
-                                    style: buttonLargeWhite,
-                                  ),
-                                  //onPressed:controller.loginWithGoogle,
-
-                                  onPressed: () {})
-                              .getLarge(),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Container(
-                  //   margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                  //   child: Row(
-                  //     children: <Widget>[
-                  //       Expanded(
-                  //         child: OutlinedTextEdit(
-                  //           onChanged: (value) => {},
-                  //           label: "Comprimento",
-                  //         ),
-                  //       ),
-                  //       SizedBox(
-                  //         width: 20,
-                  //       ),
-                  //       Expanded(
-                  //         child: OutlinedTextEdit(
-                  //           onChanged: (value) => {},
-                  //           label: "Largura",
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                  // Container(
-                  //   margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                  //   child: Expanded(
-                  //     child: OutlinedDropdown<String>(
-                  //       hint: Padding(
-                  //         padding: EdgeInsets.only(left: 8),
-                  //         child: Text(
-                  //           'Direção',
-                  //         ),
-                  //       ),
-                  //       items: <String>[
-                  //         'NORTE',
-                  //         'NORDESTE',
-                  //         'NOROESTE',
-                  //         'SUL',
-                  //         'SUDESTE',
-                  //         'SUDOESTE',
-                  //       ].map((String value) {
-                  //         return DropdownMenuItem<String>(
-                  //           value: value,
-                  //           child: Text(value),
-                  //         );
-                  //       }).toList(),
-                  //       onChanged: (value) {},
-                  //     ),
-                  //   ),
-                  // )
-                ],
-              ),
-            FormWidget(
-              qtd: widget.qtd,
-            ),
-          ],
+        title: Text(
+          "Simulador de proposta",
+          style: ubuntu17WhiteBold500,
         ),
+        // actions: <Widget>[
+        //   Container(
+        //     margin: EdgeInsets.only(right: 15),
+        //     child: Image.asset(
+        //       'lib/app/shared/assets/images/l.png',
+        //       width: 40,
+        //     ),
+        //     color: Colors.transparent,
+        //   ),
+        // ],
       ),
-      bottomNavigationBar: widget.qtd > 0
-          ? PrimaryButton(
-              child: Text(
-                'Avançar >>',
-                style: buttonLargeWhite,
-              ),
-              shape: shapeButtonBlock,
-              //onPressed:controller.loginWithGoogle,
+      body: Stack(
+        children: <Widget>[
+          Container(
+            decoration: new BoxDecoration(
+                image: new DecorationImage(
+              image: new AssetImage('lib/app/shared/assets/images/bg.jpg'),
+              fit: BoxFit.cover,
+            )),
+          ),
+          Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius:
+                                  3, // has the effect of softening the shadow
+                              spreadRadius:
+                                  0.2, // has the effect of extending the shadow
+                              offset: Offset(
+                                0, // horizontal, move right 10
+                                -3, // vertical, move down 10
+                              ),
+                            )
+                          ],
+                          color: Colors.white,
+                          borderRadius: new BorderRadius.only(
+                            topRight: Radius.circular(20.0),
+                            topLeft: Radius.circular(20.0),
+                            bottomRight: Radius.circular(0.0),
+                            bottomLeft: Radius.circular(0.0),
+                          )),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        // mainAxisAlignment
 
-              onPressed: () async {
-                final proposalStrings = ProposalStringsDao();
-
-                final strings = ProposalStrings();
-
-                final token = await AuthRepository().getUser();
-
-                //print(token);
-
-                var dateUtility = DateUtil();
-                var day1 = dateUtility.daysInMonth(2, 2019);
-                print(day1);
-
-                strings.token = token;
-                strings.session = 'SESSAO';
-                strings.width = '300';
-                strings.height = '400';
-
-                proposalStrings.save(strings);
-              }).getLarge()
-          : null,
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Observer(builder: (BuildContext context) {
+                                return Container(
+                                  height: 307,
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                            top: 15,
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Container(
+                                                width: 100,
+                                                height: 50,
+                                                child: OutlinedTextEdit(
+                                                  decoration: InputDecoration(
+                                                    contentPadding:
+                                                        EdgeInsets.only(
+                                                            bottom: 10,
+                                                            left: 8),
+                                                    hintText: "Média kWp",
+                                                    hintStyle: TextStyle(
+                                                        fontSize: 12.0),
+                                                    border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .all(
+                                                        const Radius.circular(
+                                                            10.0),
+                                                      ),
+                                                      borderSide: BorderSide(
+                                                        color: Colors.teal,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  onTap: () {
+                                                    controller.clearMoney();
+                                                  },
+                                                  controller:
+                                                      controller.mediaKW,
+                                                  inputType:
+                                                      InputType.EXTRA_SMALL,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 2,
+                                              ),
+                                              Container(
+                                                width: 100,
+                                                height: 50,
+                                                child: OutlinedTextEdit(
+                                                  controller:
+                                                      controller.mediaMoney,
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  onTap: () {
+                                                    controller.clearKW();
+                                                  },
+                                                  inputType:
+                                                      InputType.EXTRA_SMALL,
+                                                  decoration: InputDecoration(
+                                                    contentPadding:
+                                                        EdgeInsets.only(
+                                                            bottom: 10,
+                                                            left: 13),
+                                                    hintText: "Média R\$",
+                                                    hintStyle: TextStyle(
+                                                        fontSize: 12.0),
+                                                    border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .all(
+                                                        const Radius.circular(
+                                                            10.0),
+                                                      ),
+                                                      borderSide: BorderSide(
+                                                        color: Colors.teal,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 2,
+                                              ),
+                                              Container(
+                                                width: 125,
+                                                child: OutlinedTextEdit(
+                                                  prefixIcon:
+                                                      Icon(Icons.equalizer),
+                                                  controller:
+                                                      controller.potencia,
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  readOnly: true,
+                                                  onChanged: (value) => {},
+                                                  label: "Potência ",
+                                                  inputType:
+                                                      InputType.EXTRA_SMALL,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(top: 8),
+                                          child: Row(
+                                            children: <Widget>[
+                                              Icon(
+                                                Icons.equalizer,
+                                                size: 20,
+                                                textDirection:
+                                                    TextDirection.ltr,
+                                              ),
+                                              Text(
+                                                '  Potência/Kit indicado (Opção 1)',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                              top: 8, bottom: 8),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Container(
+                                                width: 90,
+                                                child: OutlinedTextEdit(
+                                                  controller: controller
+                                                      .potenciaIndicada1,
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  readOnly: true,
+                                                  onChanged: (value) => {},
+                                                  label: "Potência",
+                                                  inputType:
+                                                      InputType.EXTRA_SMALL,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Container(
+                                                width: 165,
+                                                child: OutlinedTextEdit(
+                                                  controller:
+                                                      controller.valorKit1,
+                                                  prefixIcon: Icon(
+                                                      Icons.monetization_on),
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  onChanged: (value) => {},
+                                                  label: "R\$ Valor",
+                                                  readOnly: true,
+                                                  inputType:
+                                                      InputType.EXTRA_SMALL,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Container(
+                                                width: 65,
+                                                child: Observer(
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    if (controller.disableAdd) {
+                                                      return PrimaryButton(
+                                                        child: Icon(
+                                                            Icons.assignment),
+                                                        onPressed: null,
+                                                        //onPressed:controller.loginWithGoogle,
+                                                      ).getLarge();
+                                                    } else {
+                                                      return PrimaryButton(
+                                                        child: Icon(
+                                                            Icons.assignment),
+                                                        onPressed: () {
+                                                          controller
+                                                              .showDialogKitMenor(
+                                                                  context);
+                                                        },
+                                                        //onPressed:controller.loginWithGoogle,
+                                                      ).getLarge();
+                                                    }
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                              top: 0, bottom: 0),
+                                          child: Row(
+                                            children: <Widget>[
+                                              Icon(
+                                                Icons.equalizer,
+                                                size: 20,
+                                                textDirection:
+                                                    TextDirection.ltr,
+                                              ),
+                                              Text(
+                                                '  Potência/Kit indicado (Opção 2)',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(top: 10),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Container(
+                                                width: 90,
+                                                child: OutlinedTextEdit(
+                                                  controller: controller
+                                                      .potenciaIndicada2,
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  onChanged: (value) => {},
+                                                  readOnly: true,
+                                                  label: "Potência",
+                                                  inputType:
+                                                      InputType.EXTRA_SMALL,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Container(
+                                                width: 165,
+                                                child: OutlinedTextEdit(
+                                                  controller:
+                                                      controller.valorKit2,
+                                                  prefixIcon: Icon(
+                                                      Icons.monetization_on),
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  onChanged: (value) => {},
+                                                  label: "R\$ Valor",
+                                                  readOnly: true,
+                                                  inputType:
+                                                      InputType.EXTRA_SMALL,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Container(
+                                                width: 65,
+                                                child: Observer(
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    if (controller.disableAdd) {
+                                                      return PrimaryButton(
+                                                        child: Icon(
+                                                            Icons.assignment),
+                                                        onPressed: null,
+                                                        //onPressed:controller.loginWithGoogle,
+                                                      ).getLarge();
+                                                    } else {
+                                                      return PrimaryButton(
+                                                        child: Icon(
+                                                            Icons.assignment),
+                                                        onPressed: () {
+                                                          controller
+                                                              .showDialogKitMaior(
+                                                                  context);
+                                                        },
+                                                        //onPressed:controller.loginWithGoogle,
+                                                      ).getLarge();
+                                                    }
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

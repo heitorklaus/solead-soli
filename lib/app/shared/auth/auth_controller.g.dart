@@ -6,68 +6,48 @@ part of 'auth_controller.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$AuthController on _AuthControllerBase, Store {
   final _$statusAtom = Atom(name: '_AuthControllerBase.status');
 
   @override
   AuthStatus get status {
-    _$statusAtom.context.enforceReadPolicy(_$statusAtom);
-    _$statusAtom.reportObserved();
+    _$statusAtom.reportRead();
     return super.status;
   }
 
   @override
   set status(AuthStatus value) {
-    _$statusAtom.context.conditionallyRunInAction(() {
+    _$statusAtom.reportWrite(value, super.status, () {
       super.status = value;
-      _$statusAtom.reportChanged();
-    }, _$statusAtom, name: '${_$statusAtom.name}_set');
-  }
-
-  final _$userAtom = Atom(name: '_AuthControllerBase.user');
-
-  @override
-  FirebaseUser get user {
-    _$userAtom.context.enforceReadPolicy(_$userAtom);
-    _$userAtom.reportObserved();
-    return super.user;
-  }
-
-  @override
-  set user(FirebaseUser value) {
-    _$userAtom.context.conditionallyRunInAction(() {
-      super.user = value;
-      _$userAtom.reportChanged();
-    }, _$userAtom, name: '${_$userAtom.name}_set');
+    });
   }
 
   final _$tokenAtom = Atom(name: '_AuthControllerBase.token');
 
   @override
   String get token {
-    _$tokenAtom.context.enforceReadPolicy(_$tokenAtom);
-    _$tokenAtom.reportObserved();
+    _$tokenAtom.reportRead();
     return super.token;
   }
 
   @override
   set token(String value) {
-    _$tokenAtom.context.conditionallyRunInAction(() {
+    _$tokenAtom.reportWrite(value, super.token, () {
       super.token = value;
-      _$tokenAtom.reportChanged();
-    }, _$tokenAtom, name: '${_$tokenAtom.name}_set');
+    });
   }
 
-  final _$loginWithGoogleAsyncAction = AsyncAction('loginWithGoogle');
+  final _$loginWithGoogleAsyncAction =
+      AsyncAction('_AuthControllerBase.loginWithGoogle');
 
   @override
   Future<dynamic> loginWithGoogle() {
     return _$loginWithGoogleAsyncAction.run(() => super.loginWithGoogle());
   }
 
-  final _$loginAsyncAction = AsyncAction('login');
+  final _$loginAsyncAction = AsyncAction('_AuthControllerBase.login');
 
   @override
   Future<dynamic> login(String user, String pass) {
@@ -78,22 +58,21 @@ mixin _$AuthController on _AuthControllerBase, Store {
       ActionController(name: '_AuthControllerBase');
 
   @override
-  dynamic setUser(FirebaseUser value) {
-    final _$actionInfo = _$_AuthControllerBaseActionController.startAction();
+  dynamic auth(dynamic value) {
+    final _$actionInfo = _$_AuthControllerBaseActionController.startAction(
+        name: '_AuthControllerBase.auth');
     try {
-      return super.setUser(value);
+      return super.auth(value);
     } finally {
       _$_AuthControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic auth(dynamic value) {
-    final _$actionInfo = _$_AuthControllerBaseActionController.startAction();
-    try {
-      return super.auth(value);
-    } finally {
-      _$_AuthControllerBaseActionController.endAction(_$actionInfo);
-    }
+  String toString() {
+    return '''
+status: ${status},
+token: ${token}
+    ''';
   }
 }

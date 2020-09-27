@@ -6,37 +6,80 @@ part of 'simulator_controller.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$SimulatorController on _SimulatorControllerBase, Store {
-  final _$valueAtom = Atom(name: '_SimulatorControllerBase.value');
+  final _$disableAddAtom = Atom(name: '_SimulatorControllerBase.disableAdd');
 
   @override
-  int get value {
-    _$valueAtom.context.enforceReadPolicy(_$valueAtom);
-    _$valueAtom.reportObserved();
-    return super.value;
+  bool get disableAdd {
+    _$disableAddAtom.reportRead();
+    return super.disableAdd;
   }
 
   @override
-  set value(int value) {
-    _$valueAtom.context.conditionallyRunInAction(() {
-      super.value = value;
-      _$valueAtom.reportChanged();
-    }, _$valueAtom, name: '${_$valueAtom.name}_set');
+  set disableAdd(bool value) {
+    _$disableAddAtom.reportWrite(value, super.disableAdd, () {
+      super.disableAdd = value;
+    });
   }
 
-  final _$_SimulatorControllerBaseActionController =
-      ActionController(name: '_SimulatorControllerBase');
+  final _$typePlantAtom = Atom(name: '_SimulatorControllerBase.typePlant');
 
   @override
-  void increment() {
-    final _$actionInfo =
-        _$_SimulatorControllerBaseActionController.startAction();
-    try {
-      return super.increment();
-    } finally {
-      _$_SimulatorControllerBaseActionController.endAction(_$actionInfo);
-    }
+  String get typePlant {
+    _$typePlantAtom.reportRead();
+    return super.typePlant;
+  }
+
+  @override
+  set typePlant(String value) {
+    _$typePlantAtom.reportWrite(value, super.typePlant, () {
+      super.typePlant = value;
+    });
+  }
+
+  @override
+  ObservableFuture clearKW() {
+    final _$future = super.clearKW();
+    return ObservableFuture(_$future);
+  }
+
+  @override
+  ObservableFuture calcMediaKW() {
+    final _$future = super.calcMediaKW();
+    return ObservableFuture(_$future);
+  }
+
+  @override
+  ObservableFuture calcMediaMoney() {
+    final _$future = super.calcMediaMoney();
+    return ObservableFuture(_$future);
+  }
+
+  final _$showDialogKitMenorAsyncAction =
+      AsyncAction('_SimulatorControllerBase.showDialogKitMenor');
+
+  @override
+  Future showDialogKitMenor(dynamic context) {
+    return _$showDialogKitMenorAsyncAction
+        .run(() => super.showDialogKitMenor(context));
+  }
+
+  final _$showDialogKitMaiorAsyncAction =
+      AsyncAction('_SimulatorControllerBase.showDialogKitMaior');
+
+  @override
+  Future showDialogKitMaior(dynamic context) {
+    return _$showDialogKitMaiorAsyncAction
+        .run(() => super.showDialogKitMaior(context));
+  }
+
+  @override
+  String toString() {
+    return '''
+disableAdd: ${disableAdd},
+typePlant: ${typePlant}
+    ''';
   }
 }

@@ -1,18 +1,17 @@
 import 'dart:async';
 
+import 'package:login/app/shared/repositories/entities/dados_kits.dart';
 import 'package:login/app/shared/repositories/entities/proposal_strings.dart';
 import 'package:login/app/shared/utils/database_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
 // Data Access Object
 class ProposalStringsDao {
-
   Future<Database> get db => DatabaseHelper.getInstance().db;
 
   Future<int> save(ProposalStrings strings) async {
     var dbClient = await db;
-    var id = await dbClient.insert("PROPOSAL_STRINGS", strings.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
+    var id = await dbClient.insert("PROPOSAL_STRINGS", strings.toJson(), conflictAlgorithm: ConflictAlgorithm.replace);
     print('id: $id');
     return id;
   }
@@ -27,20 +26,53 @@ class ProposalStringsDao {
     return strings;
   }
 
-  Future<List<ProposalStrings>> findAllByTipo(String tipo) async {
+  Future findPotenciaKitMenor(tipo) async {
     final dbClient = await db;
 
-    final list = await dbClient.rawQuery('select * from PROPOSAL_STRINGS where tipo =? ',[tipo]);
+    final list = await dbClient.rawQuery("select * from tb_dados_kits where potencia <= '$tipo' order by potencia DESC limit 1");
 
-    final strings = list.map<ProposalStrings>((json) => ProposalStrings.fromJson(json)).toList();
+    if (list.length > 0) {
+      final valor = new DadosKits.fromJson(list.first);
 
-    return strings;
+      return valor;
+    }
+
+    return null;
+  }
+
+  Future selectTest() async {
+    final dbClient = await db;
+
+    final list = await dbClient.rawQuery("select * from tb_dados_kits");
+
+    if (list.length > 0) {
+      final valor = new DadosKits.fromJson(list.first);
+
+      // print(valor.dados);
+
+      return valor;
+    }
+
+    return null;
+  }
+
+  Future findPotenciaKit(tipo) async {
+    final dbClient = await db;
+
+    final list = await dbClient.rawQuery("select * from tb_dados_kits where potencia >= '$tipo' order by potencia asc limit 1");
+
+    if (list.length > 0) {
+      final valor = new DadosKits.fromJson(list.first);
+
+      return valor;
+    }
+
+    return null;
   }
 
   Future<ProposalStrings> findById(int id) async {
     var dbClient = await db;
-    final list =
-        await dbClient.rawQuery('select * from PROPOSAL_STRINGS where id = ?', [id]);
+    final list = await dbClient.rawQuery('select * from PROPOSAL_STRINGS where id = ?', [id]);
 
     if (list.length > 0) {
       return new ProposalStrings.fromJson(list.first);
