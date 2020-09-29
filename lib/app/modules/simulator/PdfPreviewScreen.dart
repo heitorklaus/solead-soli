@@ -54,25 +54,34 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: main.MainColors.cielo, //or set color with: Color(0xFF0000FF)
     ));
-    return PDFViewerScaffold(
-        appBar: AppBar(
-          iconTheme: IconThemeData(
-            color: Colors.black, //change your color here
-          ),
-          backgroundColor: Colors.white,
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.share,
-                size: 25,
-                color: Colors.black,
-              ),
-              onPressed: () {
-                share();
-              },
+
+    Future<bool> _onWillPop() async {
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+    }
+
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: PDFViewerScaffold(
+          appBar: AppBar(
+            iconTheme: IconThemeData(
+              color: Colors.black, //change your color here
             ),
-          ],
-        ),
-        path: widget.path);
+            backgroundColor: Colors.white,
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.share,
+                  size: 25,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  share();
+                },
+              ),
+            ],
+          ),
+          path: widget.path),
+    );
   }
 }

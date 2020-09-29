@@ -38,6 +38,7 @@ dependencies:
   image_gallery_saver:
   permission_handler:
   share_extend:
+  random_string:
   flutter_statusbarcolor: any
   documents_picker:
   flutter:

@@ -3,7 +3,8 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-
+import 'package:random_string/random_string.dart';
+import 'dart:math' show Random;
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:framework/config/main_colors.dart';
@@ -163,7 +164,9 @@ abstract class _SimulatorControllerBase with Store {
       final tarifa = await AuthRepository().getPrice();
       final efficiency = await AuthRepository().getEfficiency();
 
-      final result = (int.parse(mediaMoney.text).toInt() * double.parse(tarifa.replaceAll(',', '.')).toDouble() / (30)) / double.parse(irradiation.replaceAll(',', '.')).toDouble() / efficiency;
+      final result = (int.parse(mediaMoney.text).toInt() * double.parse(tarifa.replaceAll(',', '.')).toDouble() / (30)) /
+          double.parse(irradiation.replaceAll(',', '.')).toDouble() /
+          efficiency;
 
       potencia.text = result.toStringAsFixed(2);
 
@@ -272,7 +275,8 @@ abstract class _SimulatorControllerBase with Store {
       var dez = double.parse(valor[12].split(":")[1]);
       var dezValue = (powerPlantsMenor.potencia) * returnDaysOfMonth(12) * dez * efficiency;
 
-      final mediaGeracaoKwpMenor = (janValue + fevValue + marValue + abrValue + maiValue + junValue + julValue + agoValue + sepValue + outValue + novValue + dezValue) / 12;
+      final mediaGeracaoKwpMenor =
+          (janValue + fevValue + marValue + abrValue + maiValue + junValue + julValue + agoValue + sepValue + outValue + novValue + dezValue) / 12;
 
       return mediaGeracaoKwpMenor.round();
     }
@@ -372,6 +376,7 @@ abstract class _SimulatorControllerBase with Store {
 
     final role = await Prefs.getString("ROLE");
     final tax = await returnTax();
+    var valora = await Prefs.getStringList("BUDGET");
     showDialog(
         context: context,
         builder: (context) {
@@ -380,7 +385,9 @@ abstract class _SimulatorControllerBase with Store {
               return AlertDialog(
                 content: Scaffold(
                   backgroundColor: Colors.white,
-                  body: SingleChildScrollView(child: buildDialog(tarifa, context, powerPlantsMenor, mediaMenor, returnAll, returnConsumo(double.parse(tarifa.replaceAll(',', '.'))), tax, setState, role)),
+                  body: SingleChildScrollView(
+                      child: buildDialog(valora, tarifa, context, powerPlantsMenor, mediaMenor, returnAll,
+                          returnConsumo(double.parse(tarifa.replaceAll(',', '.'))), tax, setState, role)),
                 ),
               );
             },
@@ -438,7 +445,8 @@ abstract class _SimulatorControllerBase with Store {
       var dez = double.parse(valor[12].split(":")[1]);
       var dezValue = (powerPlantsMaior.potencia) * returnDaysOfMonth(12) * dez * efficiency;
 
-      final mediaGeracaoKwpMaior = (janValue + fevValue + marValue + abrValue + maiValue + junValue + julValue + agoValue + sepValue + outValue + novValue + dezValue) / 12;
+      final mediaGeracaoKwpMaior =
+          (janValue + fevValue + marValue + abrValue + maiValue + junValue + julValue + agoValue + sepValue + outValue + novValue + dezValue) / 12;
 
       return mediaGeracaoKwpMaior.round();
     }
@@ -529,6 +537,7 @@ abstract class _SimulatorControllerBase with Store {
     //var sicredi3x = returnTax('sicredi3x');
     returnConsumo(x) {
       print('chamo 2');
+      final pdf = pwa.Document();
 
       if (mediaMoney.text.length > 0) {
         final consumo = (double.parse(mediaMoney.text) / x);
@@ -540,6 +549,7 @@ abstract class _SimulatorControllerBase with Store {
     }
 
     final role = await Prefs.getString("ROLE");
+    var valora = await Prefs.getStringList("BUDGET");
     showDialog(
         context: context,
         builder: (context) {
@@ -550,7 +560,9 @@ abstract class _SimulatorControllerBase with Store {
               return AlertDialog(
                 content: Scaffold(
                   backgroundColor: Colors.white,
-                  body: SingleChildScrollView(child: buildDialog(tarifa, context, powerPlantsMaior, mediaMaior, returnAll, returnConsumo(double.parse(tarifa.replaceAll(',', '.'))), tax, setState, role)),
+                  body: SingleChildScrollView(
+                      child: buildDialog(valora, tarifa, context, powerPlantsMaior, mediaMaior, returnAll,
+                          returnConsumo(double.parse(tarifa.replaceAll(',', '.'))), tax, setState, role)),
                 ),
               );
             },
@@ -596,7 +608,7 @@ int returnDaysOfMonth(xx) {
 
 // DIALOG GERADA
 @override
-buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax, setState, role) {
+buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax, setState, role) {
   final inversor = TextEditingController();
 
   final garantia = TextEditingController();
@@ -618,6 +630,15 @@ buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, r
 
   final endereco = TextEditingController();
 
+  if (valora[6] != "null") inversor.text = valora[6];
+  if (valora[7] != "null") marcaModulos.text = valora[7];
+  if (valora[8] != "null") qtdModulos.text = valora[8];
+  if (valora[9] != "null") area.text = valora[9];
+  if (valora[10] != "null") dados.text = valora[10];
+  if (valora[12] != "null") potencia.text = valora[12];
+  if (valora[13] != "null") valor.text = valora[13];
+  if (valora[14] != "null") geracao.text = valora[14];
+
   inversor.text = pw.inversor;
   potencia.text = pw.potencia.toString();
   marcaModulos.text = pw.marcaDoModulo.toString();
@@ -630,6 +651,8 @@ buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, r
   codigo.text = pw.codigo.toString();
   valor.text = pw.valor.toString();
   garantia.text = "5 anos";
+
+  pw.geracao = "${returnGenerationKW.toString()}";
 
   qtdModulos.addListener(() {
     area.text = (2.25 * double.parse(qtdModulos.text)).round().toString();
@@ -818,6 +841,8 @@ buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, r
     var co2 = consumoMostrar * (12 * 0.08);
     var anoscarro = consumoMostrar * 0.0090;
 
+    print('CHAMMMMMMM');
+
     pdf.addPage(
       pwa.MultiPage(
         crossAxisAlignment: pwa.CrossAxisAlignment.start,
@@ -861,15 +886,21 @@ buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, r
                   width: 535,
                   // FINANCIAMENTO financiamento
                   margin: pwa.EdgeInsets.only(top: 432, left: 44),
-                  child: pwa.Column(crossAxisAlignment: pwa.CrossAxisAlignment.start, mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[
-                    pwa.Row(children: <pwa.Widget>[pwa.Text(cliente.text, style: pwa.TextStyle(fontSize: 35, fontWeight: pwa.FontWeight.bold, color: PdfColor.fromHex("#FFFFFF")))]),
-                    pwa.SizedBox(
-                      height: 7,
-                    ),
-                    pwa.Row(children: <pwa.Widget>[
-                      pwa.Text(endereco.text, style: pwa.TextStyle(fontSize: 22, color: PdfColor.fromHex("#FFFFFF"))),
-                    ]),
-                  ]),
+                  child: pwa.Column(
+                      crossAxisAlignment: pwa.CrossAxisAlignment.start,
+                      mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween,
+                      children: <pwa.Widget>[
+                        pwa.Row(children: <pwa.Widget>[
+                          pwa.Text(cliente.text,
+                              style: pwa.TextStyle(fontSize: 35, fontWeight: pwa.FontWeight.bold, color: PdfColor.fromHex("#FFFFFF")))
+                        ]),
+                        pwa.SizedBox(
+                          height: 7,
+                        ),
+                        pwa.Row(children: <pwa.Widget>[
+                          pwa.Text(endereco.text, style: pwa.TextStyle(fontSize: 22, color: PdfColor.fromHex("#FFFFFF"))),
+                        ]),
+                      ]),
                 ),
               ])),
         ],
@@ -960,7 +991,8 @@ buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, r
                   //color: PdfColor.fromHex("#FFC000"),
                   //
                   margin: pwa.EdgeInsets.only(top: 369, left: 400),
-                  child: pwa.Text(potencia.text + ' kWp', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                  child: pwa.Text(potencia.text + ' kWp',
+                      style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                 ),
               ])),
           pwa.Container(
@@ -973,7 +1005,8 @@ buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, r
                   //color: PdfColor.fromHex("#FFC000"),
                   //
                   margin: pwa.EdgeInsets.only(top: 25, left: 400),
-                  child: pwa.Text(qtdModulos.text, style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                  child: pwa.Text(qtdModulos.text,
+                      style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                 ),
               ])),
           pwa.Container(
@@ -986,7 +1019,8 @@ buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, r
                   //color: PdfColor.fromHex("#FFC000"),
                   //f
                   margin: pwa.EdgeInsets.only(top: 25, left: 400),
-                  child: pwa.Text(geracao.text + ' kWh', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                  child: pwa.Text(geracao.text + ' kWh',
+                      style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                 ),
               ])),
           pwa.Container(
@@ -999,7 +1033,8 @@ buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, r
                   //color: PdfColor.fromHex("#FFC000"),
                   //
                   margin: pwa.EdgeInsets.only(top: 20, left: 400),
-                  child: pwa.Text('${area.text} m²', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                  child: pwa.Text('${area.text} m²',
+                      style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                 ),
               ])),
           pwa.Container(
@@ -1065,7 +1100,8 @@ buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, r
                     alignment: pwa.Alignment.center,
                     //
                     margin: pwa.EdgeInsets.only(top: 145, left: 15),
-                    child: pwa.Text('R\$ $valor_paga_ano_pdf', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                    child: pwa.Text('R\$ $valor_paga_ano_pdf',
+                        style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                   ),
                   pwa.Container(
                     width: 185,
@@ -1073,7 +1109,8 @@ buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, r
                     alignment: pwa.Alignment.center,
                     //
                     margin: pwa.EdgeInsets.only(top: 0, left: 0),
-                    child: pwa.Text('R\$ $valor_ira_paga_ano_pdf', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                    child: pwa.Text('R\$ $valor_ira_paga_ano_pdf',
+                        style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
                   ),
                 ]),
             // SUA ECONOMIA ANUAL
@@ -1083,7 +1120,8 @@ buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, r
 
               //
               margin: pwa.EdgeInsets.only(top: 110, left: 392),
-              child: pwa.Text('R\$ $valor_economia_1_ano', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 20, fontWeight: pwa.FontWeight.bold)),
+              child: pwa.Text('R\$ $valor_economia_1_ano',
+                  style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 20, fontWeight: pwa.FontWeight.bold)),
             ),
             pwa.Container(
               width: 185,
@@ -1091,7 +1129,8 @@ buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, r
 
               //
               margin: pwa.EdgeInsets.only(top: 154, left: 392),
-              child: pwa.Text('R\$ $valor_economia_25_anos', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 20, fontWeight: pwa.FontWeight.bold)),
+              child: pwa.Text('R\$ $valor_economia_25_anos',
+                  style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 20, fontWeight: pwa.FontWeight.bold)),
             ),
             pwa.Container(
                 margin: pwa.EdgeInsets.only(
@@ -1124,12 +1163,40 @@ buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, r
                     width: 535,
                     // FINANCIAMENTO financiamento
                     margin: pwa.EdgeInsets.only(top: 168, left: 26),
-                    child: pwa.Row(crossAxisAlignment: pwa.CrossAxisAlignment.start, mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[
-                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 20), pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 2), child: pwa.Text('R\$ ${val.format(sicredi24x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi36x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi48x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi60x)}'))]),
-                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 15), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 6), child: pwa.Text('R\$ ${val.format(santanderEntrada)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 5), child: pwa.Text('R\$ ${val.format(santander12x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 4), child: pwa.Text('R\$ ${val.format(santander18x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 1), child: pwa.Text('R\$ ${val.format(santander24x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 3), child: pwa.Text('R\$ ${val.format(santander36x)}'))]),
-                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 1), pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 5), child: pwa.Text('R\$ ${val.format(bvFinanceira24x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 8), child: pwa.Text('R\$ ${val.format(bvFinanceira36x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 8), child: pwa.Text('R\$ ${val.format(bvFinanceira48x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 7), child: pwa.Text('R\$ ${val.format(bvFinanceira60x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 7), child: pwa.Text('R\$ ${val.format(bvFinanceira72x)}'))]),
-                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 17), pwa.Container(margin: pwa.EdgeInsets.only(left: 28, top: 60), child: pwa.Text('R\$ ${val.format(cartaoCredito12x)}', style: pwa.TextStyle(fontSize: 20)))]),
-                    ]),
+                    child: pwa.Row(
+                        crossAxisAlignment: pwa.CrossAxisAlignment.start,
+                        mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween,
+                        children: <pwa.Widget>[
+                          pwa.Column(children: <pwa.Widget>[
+                            pwa.SizedBox(height: 20),
+                            pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 2), child: pwa.Text('R\$ ${val.format(sicredi24x)}')),
+                            pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi36x)}')),
+                            pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi48x)}')),
+                            pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi60x)}'))
+                          ]),
+                          pwa.Column(children: <pwa.Widget>[
+                            pwa.SizedBox(height: 15),
+                            pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 6), child: pwa.Text('R\$ ${val.format(santanderEntrada)}')),
+                            pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 5), child: pwa.Text('R\$ ${val.format(santander12x)}')),
+                            pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 4), child: pwa.Text('R\$ ${val.format(santander18x)}')),
+                            pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 1), child: pwa.Text('R\$ ${val.format(santander24x)}')),
+                            pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 3), child: pwa.Text('R\$ ${val.format(santander36x)}'))
+                          ]),
+                          pwa.Column(children: <pwa.Widget>[
+                            pwa.SizedBox(height: 1),
+                            pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 5), child: pwa.Text('R\$ ${val.format(bvFinanceira24x)}')),
+                            pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 8), child: pwa.Text('R\$ ${val.format(bvFinanceira36x)}')),
+                            pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 8), child: pwa.Text('R\$ ${val.format(bvFinanceira48x)}')),
+                            pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 7), child: pwa.Text('R\$ ${val.format(bvFinanceira60x)}')),
+                            pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 7), child: pwa.Text('R\$ ${val.format(bvFinanceira72x)}'))
+                          ]),
+                          pwa.Column(children: <pwa.Widget>[
+                            pwa.SizedBox(height: 17),
+                            pwa.Container(
+                                margin: pwa.EdgeInsets.only(left: 28, top: 60),
+                                child: pwa.Text('R\$ ${val.format(cartaoCredito12x)}', style: pwa.TextStyle(fontSize: 20)))
+                          ]),
+                        ]),
                   ),
                   pwa.Row(
                       // mainAxisAlignment: pwa.MainAxisAlignment.end,
@@ -1193,7 +1260,12 @@ buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, r
                           width: 310,
                           color: PdfColor.fromHex("#FFFFFF"),
                           margin: pwa.EdgeInsets.only(top: 188, left: 210),
-                          child: pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[pwa.Text(inversor.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)), pwa.Text(garantia.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold))]),
+                          child: pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[
+                            pwa.Text(inversor.text,
+                                style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)),
+                            pwa.Text(garantia.text,
+                                style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold))
+                          ]),
                         ),
                       ]),
                   pwa.Row(
@@ -1205,7 +1277,12 @@ buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, r
                           color: PdfColor.fromHex("#FFFFFF"),
                           //
                           margin: pwa.EdgeInsets.only(top: 243, left: 210),
-                          child: pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[pwa.Text(marcaModulos.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)), pwa.Text("25 Anos", style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold))]),
+                          child: pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[
+                            pwa.Text(marcaModulos.text,
+                                style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)),
+                            pwa.Text("25 Anos",
+                                style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold))
+                          ]),
                         ),
                       ]),
                 ])),
@@ -1572,24 +1649,36 @@ buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, r
                           ),
                           //onPressed:controller.loginWithGoogle,
 
-                          onPressed: () {
+                          onPressed: () async {
+                            // saved last budget
+                            var valora = await Prefs.getStringList("BUDGET");
+
                             showDialog(
                               context: context,
                               builder: (context) {
                                 bool _loaderGenerateGraph = false;
 
+                                if (valora[0] != "null") cliente.text = valora[0];
+                                if (valora[1] != "null") cpf.text = valora[1];
+                                if (valora[2] != "null") cep.text = valora[2];
+                                if (valora[3] != "null") bairro.text = valora[3];
+                                if (valora[4] != "null") endereco.text = valora[4];
+                                if (valora[5] != "null") numero.text = valora[5];
+
                                 return StatefulBuilder(
                                   builder: (context, setState) {
                                     goGeneratePDF() async {
-                                      scrollController.animateTo(scrollController.position.minScrollExtent, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                                      scrollController.animateTo(scrollController.position.minScrollExtent,
+                                          duration: Duration(milliseconds: 500), curve: Curves.ease);
                                       setState(() {
                                         _loaderGenerateGraph = true;
                                       });
 
                                       Future.delayed(const Duration(milliseconds: 4000), () async {
                                         await runChartGenerateImage1("grafico-1");
+                                        print(randomAlphaNumeric(10)); // random sequence of 10 alpha numeric i.e. aRztC1y32B
 
-                                        final String file = "Pré-Proposta($returnGenerationKW kWh) Soli Energia";
+                                        final String file = "${randomAlphaNumeric(10)} Pré-Proposta($returnGenerationKW kWh) ";
 
                                         await writeOnPdf(file);
 
@@ -1605,7 +1694,8 @@ buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, r
 
                                         DatabaseHelper().savePlant(pw);
 
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => PdfPreviewScreen(path: fullPath, pw: pw, file: file)));
+                                        Navigator.push(
+                                            context, MaterialPageRoute(builder: (context) => PdfPreviewScreen(path: fullPath, pw: pw, file: file)));
                                       });
                                     }
 
@@ -1627,12 +1717,51 @@ buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, r
                                       // return data;
                                     }
 
+                                    /*
+                                    List<String> someMap = [
+      '${powerPlant.cliente}',
+      '${powerPlant.cpf}',
+      '${powerPlant.cep}',
+      '${powerPlant.bairro}',
+      '${powerPlant.endereco}',
+      '${powerPlant.numero}',
+      '${powerPlant.inversor}',
+      '${powerPlant.marcaDoModulo}',
+      '${powerPlant.numeroDeModulo}',
+      '${powerPlant.area}',
+      '${powerPlant.dados}',
+      '${powerPlant.peso}',
+      '${powerPlant.potencia}',
+      '${powerPlant.valor}',
+      '${powerPlant.geracao}',
+    ];
+
+                                     */
+
+                                    // cliente.text = valora[0][1];
+
                                     cliente.addListener(() {
                                       pw.cliente = cliente.text;
                                     });
 
                                     endereco.addListener(() {
                                       pw.endereco = endereco.text;
+                                    });
+
+                                    cpf.addListener(() {
+                                      pw.cpf = cpf.text;
+                                    });
+
+                                    cep.addListener(() {
+                                      pw.cep = cep.text;
+                                    });
+
+                                    bairro.addListener(() {
+                                      pw.bairro = bairro.text;
+                                    });
+
+                                    numero.addListener(() {
+                                      pw.numero = numero.text;
                                     });
 
                                     final focusNode = FocusNode();
@@ -1798,7 +1927,9 @@ buildDialog(tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, r
                                                                           Spacer(),
                                                                           IconButton(
                                                                               iconSize: 30,
-                                                                              icon: dadosDaUsina_view == false ? Icon(Icons.arrow_drop_down_circle, color: MainColors.cielo) : Icon(Icons.arrow_drop_up, color: Colors.grey),
+                                                                              icon: dadosDaUsina_view == false
+                                                                                  ? Icon(Icons.arrow_drop_down_circle, color: MainColors.cielo)
+                                                                                  : Icon(Icons.arrow_drop_up, color: Colors.grey),
                                                                               onPressed: () {
                                                                                 setState(() {
                                                                                   dadosDaUsina_view = !dadosDaUsina_view;

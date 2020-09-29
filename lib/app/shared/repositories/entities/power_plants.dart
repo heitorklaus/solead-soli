@@ -1,11 +1,38 @@
 import 'package:mobx/mobx.dart';
 
 part 'power_plants.g.dart';
+//    await db.execute('CREATE TABLE PLANTS_BUDGET (ID int8 NOT NULL, CPF TEXT, CEP TEXT, BAIRRO TEXT, NUMERO INT AREA TEXT, CODIGO TEXT, DADOS TEXT, INVERSOR TEXT, MARCADOMODULO TEXT, NUMERODEMODULO INT, PESO TEXT, POTENCIA TEXT, POTENCIADOMODULO TEXT, VALOR TEXT, POTENCIANOVO TEXT, CONSUMOEMREAIS TEXT, CONSUMOEMKW TEXT, CLIENTE TEXT,ENDERECO TEXT, CONSTRAINT PLANTS_BUDGET_pkey PRIMARY KEY (ID))');
 
 class PowerPlants extends _PowerPlants with _$PowerPlants {
-  PowerPlants({int id, String area, String codigo, String dados, String inversor, String marcaDoModulo, int numeroDeModulo, String peso, double potencia, String potenciaDoModulo, String valor, String potenciaNovo, String consumoEmReais, String consumoEmKw, String cliente, String endereco})
+  PowerPlants(
+      {int id,
+      String geracao,
+      String cpf,
+      String cep,
+      String bairro,
+      String numero,
+      String area,
+      String codigo,
+      String dados,
+      String inversor,
+      String marcaDoModulo,
+      int numeroDeModulo,
+      String peso,
+      double potencia,
+      String potenciaDoModulo,
+      String valor,
+      String potenciaNovo,
+      String consumoEmReais,
+      String consumoEmKw,
+      String cliente,
+      String endereco})
       : super(
           id: id,
+          geracao: geracao,
+          cpf: cpf,
+          cep: cep,
+          bairro: bairro,
+          numero: numero,
           area: area,
           codigo: codigo,
           dados: dados,
@@ -26,6 +53,11 @@ class PowerPlants extends _PowerPlants with _$PowerPlants {
   toJson() {
     return {
       "id": id,
+      "geracao": geracao,
+      "cpf": cpf,
+      "cep": cep,
+      "bairro": bairro,
+      "numero": numero,
       "area": area,
       "codigo": codigo,
       "dados": dados,
@@ -45,7 +77,27 @@ class PowerPlants extends _PowerPlants with _$PowerPlants {
   }
 
   factory PowerPlants.fromJson(Map json) {
-    return PowerPlants(id: json['id'], area: json['area'], codigo: json['codigo'], dados: json['dados'], inversor: json['inversor'], marcaDoModulo: json['marcaDoModulo'], numeroDeModulo: json['numeroDeModulo'], peso: json['peso'], potencia: json['potencia'], potenciaDoModulo: json['potenciaDoModulo'], valor: json['valor'], consumoEmReais: json['consumoEmReais'], consumoEmKw: json['consumoEmKw'], cliente: json['cliente'], endereco: json['endereco']);
+    return PowerPlants(
+        id: json['id'],
+        geracao: json['geracao'],
+        area: json['area'],
+        cpf: json['cpf'],
+        cep: json['cep'],
+        bairro: json['bairro'],
+        numero: json['numero'],
+        codigo: json['codigo'],
+        dados: json['dados'],
+        inversor: json['inversor'],
+        marcaDoModulo: json['marcaDoModulo'],
+        numeroDeModulo: json['numeroDeModulo'],
+        peso: json['peso'],
+        potencia: json['potencia'],
+        potenciaDoModulo: json['potenciaDoModulo'],
+        valor: json['valor'],
+        consumoEmReais: json['consumoEmReais'],
+        consumoEmKw: json['consumoEmKw'],
+        cliente: json['cliente'],
+        endereco: json['endereco']);
   }
 }
 
@@ -53,7 +105,17 @@ abstract class _PowerPlants with Store {
   @observable
   int id;
   @observable
+  String geracao;
+  @observable
   String area;
+  @observable
+  String cpf;
+  @observable
+  String cep;
+  @observable
+  String bairro;
+  @observable
+  String numero;
   @observable
   String codigo;
   @observable
@@ -84,5 +146,26 @@ abstract class _PowerPlants with Store {
   String cliente;
   @observable
   String endereco;
-  _PowerPlants({this.id, this.area, this.codigo, this.dados, this.inversor, this.marcaDoModulo, this.numeroDeModulo, this.peso, this.potencia, this.potenciaDoModulo, this.valor, this.potenciaNovo, this.consumoEmReais, this.consumoEmKw, this.cliente, this.endereco});
+  _PowerPlants(
+      {this.id,
+      this.geracao,
+      this.area,
+      this.cpf,
+      this.cep,
+      this.bairro,
+      this.numero,
+      this.codigo,
+      this.dados,
+      this.inversor,
+      this.marcaDoModulo,
+      this.numeroDeModulo,
+      this.peso,
+      this.potencia,
+      this.potenciaDoModulo,
+      this.valor,
+      this.potenciaNovo,
+      this.consumoEmReais,
+      this.consumoEmKw,
+      this.cliente,
+      this.endereco});
 }
