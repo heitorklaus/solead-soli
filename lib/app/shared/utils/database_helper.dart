@@ -22,11 +22,12 @@ class DatabaseHelper {
 
   static Database _db;
 
-  static const String _zipPath = 'https://drive.google.com/u/0/uc?id=1ChYypaJOghIipqqJdk-yb3DHR-mPxBdg&export=download';
+  static const String _zipPath =
+      'https://drive.google.com/u/0/uc?id=1ChYypaJOghIipqqJdk-yb3DHR-mPxBdg&export=download';
 
   static const String _localZipFileName = 'images_to_pdf.zip';
 
-  static const String dbase = "solead29.db";
+  static const String dbase = "solead34.db";
 
   Future<Database> get db async {
     if (_db != null) {
@@ -41,14 +42,16 @@ class DatabaseHelper {
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, dbase);
     print("[ USING DATABASE ] $path");
-    var db = await openDatabase(path, version: 6, onCreate: _onCreate, onUpgrade: _onUpgrade);
+    var db = await openDatabase(path,
+        version: 6, onCreate: _onCreate, onUpgrade: _onUpgrade);
     return db;
   }
 
   void _onCreate(Database db, int newVersion) async {
     print("[ FIRST RUN DATABASE GENERATED]" + db.toString());
     // Dao create tables
-    await db.execute('CREATE TABLE PROPOSAL_STRINGS(ID INTEGER PRIMARY KEY, TOKEN TEXT, SESSION TEXT'
+    await db.execute(
+        'CREATE TABLE PROPOSAL_STRINGS(ID INTEGER PRIMARY KEY, TOKEN TEXT, SESSION TEXT'
         ', WIDTH TEXT, HEIGHT TEXT)');
     await db.execute(
         'CREATE TABLE TAX(ID INTEGER PRIMARY KEY, BANCO TEXT, TAX3X TEXT, TAX6X TEXT, TAX12X TEXT, TAX24X TEXT, TAX36X TEXT, TAX48X TEXT, TAX60X TEXT, TAX72X TEXT, TAX TEXT)');
@@ -63,7 +66,7 @@ class DatabaseHelper {
     //potenciaDoModulo, String valor, String potenciaNovo, String consumoEmReais,
     //String consumoEmKw, String cliente, String endereco})
     await db.execute(
-        'CREATE TABLE PLANTS_BUDGET (id int8 NOT NULL, cpf TEXT, cep TEXT, bairro TEXT, numero INT, area TEXT, codigo TEXT, dados TEXT, inversor TEXT, marca_do_modulo TEXT, numero_de_modulo INT, peso TEXT, potencia TEXT, potencia_do_modulo TEXT, valor TEXT, potencianovo TEXT, consumoemreais TEXT, consumoemkw TEXT, cliente TEXT,endereco TEXT, CONSTRAINT PLANTS_BUDGET_pkey PRIMARY KEY (id))');
+        'CREATE TABLE PLANTS_BUDGET (id INTEGER PRIMARY KEY   AUTOINCREMENT, saveOnline INT, cpf TEXT, cep TEXT, bairro TEXT, numero INT, area TEXT, codigo TEXT, dados TEXT, inversor TEXT, marca_do_modulo TEXT, numero_de_modulo INT, peso TEXT, potencia TEXT, potencia_do_modulo TEXT, valor TEXT, potencianovo TEXT, consumoemreais TEXT, consumoemkw TEXT, cliente TEXT,endereco TEXT)');
 
     await db.execute(
         "insert  into CITIES_IRRADIATION (ID,CITY,DEF,N,L,O,S,NE,NO,SE,SO,PRICE) VALUES (1,'CUIABÁ','5,11','5,25','4,95','4,96','4,53','5,21','5,22','4,66','4,68','0,91')");
@@ -76,9 +79,30 @@ class DatabaseHelper {
 
     await db.execute(
         "INSERT INTO CITIES_IRRADIATION_MONTH (ID,INCLINACAO,JAN,FEV,MAR,ABR,MAI,JUN,JUL,AGO,SEP,OUT,NOV,DEZ,MEDIA) VALUES (2,'16','5.04','5.11','5.21','5.28','5.03','5.16','5.28','6.01','5.31','5.17','5.17','5.21','5.25') ");
+
+    List<String> someMap = [
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+    ];
+
+    Prefs.setStringList("BUDGET", someMap);
   }
 
-  Future<FutureOr<void>> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+  Future<FutureOr<void>> _onUpgrade(
+      Database db, int oldVersion, int newVersion) async {
     print("_onUpgrade: oldVersion: $oldVersion > newVersion: $newVersion");
 
     if (oldVersion == 1 && newVersion == 2) {
@@ -100,7 +124,8 @@ class DatabaseHelper {
     String tempDir = (await getApplicationDocumentsDirectory()).path;
     String fullPath = tempDir + "/$filename";
 
-    final valueDownloaded = await dio.download(url, fullPath, onReceiveProgress: (received, total) {
+    final valueDownloaded =
+        await dio.download(url, fullPath, onReceiveProgress: (received, total) {
       if (total != -1) {
         print((received / total * 100).toStringAsFixed(0) + "%");
         final aa = (received / total * 100).toStringAsFixed(0) + "%";
@@ -143,32 +168,13 @@ class DatabaseHelper {
     //
   }
 
-  savePlant(PowerPlants powerPlant) {
-    //print(powerPlant.cliente);
-    /*
-    
-area:"32"
-bairro:null
-cep:null
-cliente:null
-codigo:"2002080010"
-consumoEmKw:"633.36"
-consumoEmReais:"696.0"
-cpf:null
-dados:""Peso (kg)	412,72
-Tipo de Telhado	Telhado Colonial
-Potência (kWp)	5.36
-Quantidade de Módulos	16
-Modelo do Inversor	SG5K-D
-Quanti…"
-endereco:null
-id:8
-inversor:"SUNGROW SG5K "
-marcaDoModulo:"BYD"
-numero:null
+  savePlant(PowerPlants powerPlant) async {
+    // SAVE A SECTION TO USE WHEN APP SHUTDOWN (EVENTUALY)
 
-     */
-
+    final String dados = powerPlant.dados
+        .replaceAll('"', "")
+        .replaceAll("'", "")
+        .replaceAll(',', " ");
     List<String> someMap = [
       '${powerPlant.cliente}',
       '${powerPlant.cpf}',
@@ -180,7 +186,7 @@ numero:null
       '${powerPlant.marcaDoModulo}',
       '${powerPlant.numeroDeModulo}',
       '${powerPlant.area}',
-      '${powerPlant.dados}',
+      '$dados',
       '${powerPlant.peso}',
       '${powerPlant.potencia}',
       '${powerPlant.valor}',
@@ -188,9 +194,24 @@ numero:null
     ];
 
     Prefs.setStringList("BUDGET", someMap);
+
+    String databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, dbase);
+    var db = await openDatabase(path, version: 2);
+
+    try {
+      await db.execute(
+          'INSERT INTO PLANTS_BUDGET (saveOnline,cpf,cep,bairro,numero,area,codigo,dados,inversor,marca_do_modulo,numero_de_modulo,peso,potencia,potencia_do_modulo,valor,potencianovo,consumoemreais,consumoemkw,cliente,endereco) VALUES  (0,"${powerPlant.cpf}","${powerPlant.cep}","${powerPlant.bairro}",${powerPlant.numero},"${powerPlant.area}",${powerPlant.codigo},"$dados","${powerPlant.inversor}","${powerPlant.marcaDoModulo}",${powerPlant.numeroDeModulo},"${powerPlant.peso}","${powerPlant.potencia}","N","${powerPlant.valor}","${powerPlant.potencia}","CONSUMO EM REAIS","CONSUMO EM KW","${powerPlant.cliente}","${powerPlant.endereco}" )');
+      //
+    } catch (e) {
+      print('[ERROR]');
+
+      //print(e.toString());
+    }
   }
 
-  void populateDadosKits(id, area, codigo, dados, inversor, marca_do_modulo, numero_de_modulo, peso, potencia, potencia_do_modulo, valor) async {
+  void populateDadosKits(id, area, codigo, dados, inversor, marca_do_modulo,
+      numero_de_modulo, peso, potencia, potencia_do_modulo, valor) async {
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, dbase);
     var db = await openDatabase(path, version: 2);
@@ -205,7 +226,8 @@ numero:null
     }
   }
 
-  void populateTax(id, banco, tax3x, tax6x, tax12x, tax24x, tax36x, tax48x, tax60x, tax72x, tax) async {
+  void populateTax(id, banco, tax3x, tax6x, tax12x, tax24x, tax36x, tax48x,
+      tax60x, tax72x, tax) async {
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, dbase);
     var db = await openDatabase(path, version: 2);
@@ -284,9 +306,23 @@ numero:null
             DatabaseHelper().deleteOldDataKits();
           } else {
             print('[REFRESH TABLE DADOSKITS]');
-            DatabaseHelper()
-                .populateDadosKits(id, area, codigo, dados, inversor, marca_do_modulo, numero_de_modulo, peso, potencia, potencia_do_modulo, valor);
-            print('[ID: $id] ' + ' [POTÊNCIA: $potencia] ' + ' [CÓD DO PRODUTO: $codigo]  ' + ' [INVERSOR: $inversor]  ' + ' [VALOR: $valor]  ');
+            DatabaseHelper().populateDadosKits(
+                id,
+                area,
+                codigo,
+                dados,
+                inversor,
+                marca_do_modulo,
+                numero_de_modulo,
+                peso,
+                potencia,
+                potencia_do_modulo,
+                valor);
+            print('[ID: $id] ' +
+                ' [POTÊNCIA: $potencia] ' +
+                ' [CÓD DO PRODUTO: $codigo]  ' +
+                ' [INVERSOR: $inversor]  ' +
+                ' [VALOR: $valor]  ');
           }
         } catch (e) {
           print('[ERROR] ' + e.toString());
@@ -312,7 +348,8 @@ numero:null
             DatabaseHelper().deleteOldDataTax();
           } else {
             print('[REFRESH TABLE DADOSKITS]');
-            DatabaseHelper().populateTax(id, banco, tax3x, tax6x, tax12x, tax24x, tax36x, tax48x, tax60x, tax72x, tax);
+            DatabaseHelper().populateTax(id, banco, tax3x, tax6x, tax12x,
+                tax24x, tax36x, tax48x, tax60x, tax72x, tax);
             print('[REFRESH TABLE TAX]');
             print('[ID: $id] ' + ' [BANCO: $banco] ');
           }
