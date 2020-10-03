@@ -27,7 +27,7 @@ class DatabaseHelper {
 
   static const String _localZipFileName = 'images_to_pdf.zip';
 
-  static const String dbase = "solead34.db";
+  static const String dbase = "solead40.db";
 
   Future<Database> get db async {
     if (_db != null) {
@@ -66,7 +66,7 @@ class DatabaseHelper {
     //potenciaDoModulo, String valor, String potenciaNovo, String consumoEmReais,
     //String consumoEmKw, String cliente, String endereco})
     await db.execute(
-        'CREATE TABLE PLANTS_BUDGET (id INTEGER PRIMARY KEY   AUTOINCREMENT, saveOnline INT, cpf TEXT, cep TEXT, bairro TEXT, numero INT, area TEXT, codigo TEXT, dados TEXT, inversor TEXT, marca_do_modulo TEXT, numero_de_modulo INT, peso TEXT, potencia TEXT, potencia_do_modulo TEXT, valor TEXT, potencianovo TEXT, consumoemreais TEXT, consumoemkw TEXT, cliente TEXT,endereco TEXT)');
+        'CREATE TABLE PLANTS_BUDGET (id INTEGER PRIMARY KEY   AUTOINCREMENT, saveOnline INT, cpf TEXT, cep TEXT, bairro TEXT, numero INT, area TEXT, codigo TEXT, dados TEXT, inversor TEXT, marca_do_modulo TEXT, numero_de_modulo INT, peso TEXT, potencia REAL, potencia_do_modulo TEXT, valor TEXT, potencianovo TEXT, consumoemreais TEXT, consumoemkw TEXT, cliente TEXT,endereco TEXT)');
 
     await db.execute(
         "insert  into CITIES_IRRADIATION (ID,CITY,DEF,N,L,O,S,NE,NO,SE,SO,PRICE) VALUES (1,'CUIABÁ','5,11','5,25','4,95','4,96','4,53','5,21','5,22','4,66','4,68','0,91')");
@@ -240,6 +240,17 @@ class DatabaseHelper {
 
       //print(e.toString());
     }
+  }
+
+  Future<List<PowerPlants>> saveBudgetOnline() async {
+    final dbClient = await db;
+
+    final list = await dbClient.rawQuery('select * from PLANTS_BUDGET');
+
+    final strings =
+        list.map<PowerPlants>((json) => PowerPlants.fromJson(json)).toList();
+
+    return strings;
   }
 
   Future<File> _downloadFile(String url, String fileName) async {

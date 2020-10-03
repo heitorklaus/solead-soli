@@ -24,6 +24,21 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
+  final _$geracaoAtom = Atom(name: '_PowerPlants.geracao');
+
+  @override
+  String get geracao {
+    _$geracaoAtom.reportRead();
+    return super.geracao;
+  }
+
+  @override
+  set geracao(String value) {
+    _$geracaoAtom.reportWrite(value, super.geracao, () {
+      super.geracao = value;
+    });
+  }
+
   final _$areaAtom = Atom(name: '_PowerPlants.area');
 
   @override
@@ -36,6 +51,66 @@ mixin _$PowerPlants on _PowerPlants, Store {
   set area(String value) {
     _$areaAtom.reportWrite(value, super.area, () {
       super.area = value;
+    });
+  }
+
+  final _$cpfAtom = Atom(name: '_PowerPlants.cpf');
+
+  @override
+  String get cpf {
+    _$cpfAtom.reportRead();
+    return super.cpf;
+  }
+
+  @override
+  set cpf(String value) {
+    _$cpfAtom.reportWrite(value, super.cpf, () {
+      super.cpf = value;
+    });
+  }
+
+  final _$cepAtom = Atom(name: '_PowerPlants.cep');
+
+  @override
+  String get cep {
+    _$cepAtom.reportRead();
+    return super.cep;
+  }
+
+  @override
+  set cep(String value) {
+    _$cepAtom.reportWrite(value, super.cep, () {
+      super.cep = value;
+    });
+  }
+
+  final _$bairroAtom = Atom(name: '_PowerPlants.bairro');
+
+  @override
+  String get bairro {
+    _$bairroAtom.reportRead();
+    return super.bairro;
+  }
+
+  @override
+  set bairro(String value) {
+    _$bairroAtom.reportWrite(value, super.bairro, () {
+      super.bairro = value;
+    });
+  }
+
+  final _$numeroAtom = Atom(name: '_PowerPlants.numero');
+
+  @override
+  String get numero {
+    _$numeroAtom.reportRead();
+    return super.numero;
+  }
+
+  @override
+  set numero(String value) {
+    _$numeroAtom.reportWrite(value, super.numero, () {
+      super.numero = value;
     });
   }
 
@@ -253,7 +328,12 @@ mixin _$PowerPlants on _PowerPlants, Store {
   String toString() {
     return '''
 id: ${id},
+geracao: ${geracao},
 area: ${area},
+cpf: ${cpf},
+cep: ${cep},
+bairro: ${bairro},
+numero: ${numero},
 codigo: ${codigo},
 dados: ${dados},
 inversor: ${inversor},
