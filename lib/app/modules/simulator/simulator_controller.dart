@@ -2087,6 +2087,39 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths,
                                           _loaderGenerateGraph = false;
                                         });
 
+                                        pw.inversor = inversor.text;
+                                        pw.potencia =
+                                            double.parse(potencia.text)
+                                                .toDouble();
+                                        pw.potenciaNovo = "${potencia.text}";
+                                        pw.marcaDoModulo = marcaModulos.text;
+                                        pw.numeroDeModulo =
+                                            int.parse(qtdModulos.text).toInt();
+                                        pw.area = area.text;
+                                        pw.codigo = codigo.text;
+                                        pw.valor = valor.text;
+                                        pw.dados = dados.text;
+                                        pw.geracao = geracao.text;
+
+                                        /**
+                                         *   inversor.text = pw.inversor;
+  potencia.text = pw.potencia.toString();
+  marcaModulos.text = pw.marcaDoModulo.toString();
+  qtdModulos.text = pw.numeroDeModulo.toString();
+
+  geracao.text = returnGenerationKW.toString();
+  marcaModulos.text = pw.marcaDoModulo.toString();
+  qtdModulos.text = pw.numeroDeModulo.toString();
+  area.text = pw.area.toString();
+  codigo.text = pw.codigo.toString();
+  valor.text = pw.valor.toString();
+  garantia.text = "5 anos";
+
+  pw.geracao = "${returnGenerationKW.toString()}";
+                                         * 
+                                         * 
+                                         */
+
                                         DatabaseHelper().savePlant(pw);
 
                                         Navigator.push(
@@ -2332,7 +2365,7 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths,
                                                                               .dialpad),
                                                                       keyboardType:
                                                                           TextInputType
-                                                                              .number,
+                                                                              .text,
                                                                       onChanged:
                                                                           (value) =>
                                                                               {},

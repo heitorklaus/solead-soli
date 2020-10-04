@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:login/app/app_controller.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -7,7 +8,9 @@ import 'package:login/app/app_widget.dart';
 import 'package:login/app/modules/home/home_module.dart';
 import 'package:login/app/modules/simulator/simulator_module.dart';
 import 'package:login/app/shared/auth/auth_controller.dart';
+import 'package:http/http.dart' as http;
 import 'package:login/app/shared/auth/repositories/auth_repository.dart';
+import 'package:login/app/shared/repositories/entities/power_plants.dart';
 import 'package:login/app/shared/repositories/localstorage/local_storage_interface.dart';
 import 'package:login/app/shared/repositories/localstorage/local_storage_share.dart';
 import 'package:login/app/shared/utils/database_helper.dart';
@@ -17,8 +20,20 @@ import 'shared/auth/repositories/auth_repository_interface.dart';
 import 'splash/splash_page.dart';
 
 class AppModule extends MainModule {
-  final timer = Timer.periodic(Duration(seconds: 45), (Timer t) {
-    DatabaseHelper().saveBudgetOnline();
+  final timer = Timer.periodic(Duration(seconds: 10), (Timer t) {
+    DatabaseHelper().saveBudgetOnline().then((value) async {
+      //print(value.length);
+
+      Map<String, String> headers = await AuthRepository.getHeaders();
+      headers["Content-Type"] = "application/json";
+
+      final encodedResults = jsonEncode(value);
+
+      final auth = await http.post(
+          'https://soleadapp.herokuapp.com/api/cash/get/',
+          headers: headers,
+          body: encodedResults);
+    });
   });
 
   @override

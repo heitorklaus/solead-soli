@@ -27,7 +27,7 @@ class DatabaseHelper {
 
   static const String _localZipFileName = 'images_to_pdf.zip';
 
-  static const String dbase = "solead40.db";
+  static const String dbase = "solead50.db";
 
   Future<Database> get db async {
     if (_db != null) {
@@ -66,7 +66,7 @@ class DatabaseHelper {
     //potenciaDoModulo, String valor, String potenciaNovo, String consumoEmReais,
     //String consumoEmKw, String cliente, String endereco})
     await db.execute(
-        'CREATE TABLE PLANTS_BUDGET (id INTEGER PRIMARY KEY   AUTOINCREMENT, saveOnline INT, cpf TEXT, cep TEXT, bairro TEXT, numero INT, area TEXT, codigo TEXT, dados TEXT, inversor TEXT, marca_do_modulo TEXT, numero_de_modulo INT, peso TEXT, potencia REAL, potencia_do_modulo TEXT, valor TEXT, potencianovo TEXT, consumoemreais TEXT, consumoemkw TEXT, cliente TEXT,endereco TEXT)');
+        'CREATE TABLE PLANTS_BUDGET (id INTEGER PRIMARY KEY   AUTOINCREMENT, usuario_id INT, saveOnline INT, cpf TEXT, cep TEXT, bairro TEXT, numero INT, area TEXT, codigo TEXT, dados TEXT, inversor TEXT, marca_do_modulo TEXT, numero_de_modulo INT, peso TEXT, potencia REAL, potencia_do_modulo TEXT, valor TEXT, potencianovo TEXT, consumoemreais TEXT, consumoemkw TEXT, cliente TEXT,endereco TEXT)');
 
     await db.execute(
         "insert  into CITIES_IRRADIATION (ID,CITY,DEF,N,L,O,S,NE,NO,SE,SO,PRICE) VALUES (1,'CUIABÁ','5,11','5,25','4,95','4,96','4,53','5,21','5,22','4,66','4,68','0,91')");
@@ -200,8 +200,9 @@ class DatabaseHelper {
     var db = await openDatabase(path, version: 2);
 
     try {
+      var idUsuario = await Prefs.getInt("USERID");
       await db.execute(
-          'INSERT INTO PLANTS_BUDGET (saveOnline,cpf,cep,bairro,numero,area,codigo,dados,inversor,marca_do_modulo,numero_de_modulo,peso,potencia,potencia_do_modulo,valor,potencianovo,consumoemreais,consumoemkw,cliente,endereco) VALUES  (0,"${powerPlant.cpf}","${powerPlant.cep}","${powerPlant.bairro}",${powerPlant.numero},"${powerPlant.area}",${powerPlant.codigo},"$dados","${powerPlant.inversor}","${powerPlant.marcaDoModulo}",${powerPlant.numeroDeModulo},"${powerPlant.peso}","${powerPlant.potencia}","N","${powerPlant.valor}","${powerPlant.potencia}","CONSUMO EM REAIS","CONSUMO EM KW","${powerPlant.cliente}","${powerPlant.endereco}" )');
+          'INSERT INTO PLANTS_BUDGET (usuario_id,saveOnline,cpf,cep,bairro,numero,area,codigo,dados,inversor,marca_do_modulo,numero_de_modulo,peso,potencia,potencia_do_modulo,valor,potencianovo,consumoemreais,consumoemkw,cliente,endereco) VALUES  ($idUsuario,0,"${powerPlant.cpf}","${powerPlant.cep}","${powerPlant.bairro}",${powerPlant.numero},"${powerPlant.area}",${powerPlant.codigo},"$dados","${powerPlant.inversor}","${powerPlant.marcaDoModulo}",${powerPlant.numeroDeModulo},"${powerPlant.peso}","${powerPlant.potencia}","N","${powerPlant.valor}","${powerPlant.potencia}","${powerPlant.consumoEmKw}","${powerPlant.consumoEmReais}","${powerPlant.cliente}","${powerPlant.endereco}" )');
       //
     } catch (e) {
       print('[ERROR]');
