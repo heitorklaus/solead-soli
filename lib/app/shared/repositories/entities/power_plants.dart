@@ -6,6 +6,7 @@ part 'power_plants.g.dart';
 class PowerPlants extends _PowerPlants with _$PowerPlants {
   PowerPlants(
       {int id,
+      String usuario_id,
       String geracao,
       String cpf,
       String cep,
@@ -28,6 +29,7 @@ class PowerPlants extends _PowerPlants with _$PowerPlants {
       String endereco})
       : super(
           id: id,
+          usuario_id: usuario_id,
           geracao: geracao,
           cpf: cpf,
           cep: cep,
@@ -53,6 +55,7 @@ class PowerPlants extends _PowerPlants with _$PowerPlants {
   toJson() {
     return {
       "id": id,
+      "usuario_id": usuario_id,
       "geracao": geracao,
       "cpf": cpf,
       "cep": cep,
@@ -78,7 +81,8 @@ class PowerPlants extends _PowerPlants with _$PowerPlants {
 
   factory PowerPlants.fromJson(Map json) {
     return PowerPlants(
-        id: json['id'],
+        // id: json['id'],
+        usuario_id: json['usuario_id'],
         geracao: json['geracao'],
         area: json['area'],
         cpf: json['cpf'],
@@ -104,6 +108,8 @@ class PowerPlants extends _PowerPlants with _$PowerPlants {
 abstract class _PowerPlants with Store {
   @observable
   int id;
+  @observable
+  String usuario_id;
   @observable
   String geracao;
   @observable
@@ -148,6 +154,7 @@ abstract class _PowerPlants with Store {
   String endereco;
   _PowerPlants(
       {this.id,
+      this.usuario_id,
       this.geracao,
       this.area,
       this.cpf,

@@ -20,19 +20,23 @@ import 'shared/auth/repositories/auth_repository_interface.dart';
 import 'splash/splash_page.dart';
 
 class AppModule extends MainModule {
-  final timer = Timer.periodic(Duration(seconds: 10), (Timer t) {
+  final timer = Timer.periodic(Duration(seconds: 30), (Timer t) {
     DatabaseHelper().saveBudgetOnline().then((value) async {
-      //print(value.length);
+      print(value.length);
+      if (value.length > 0) {
+        Map<String, String> headers = await AuthRepository.getHeaders();
+        headers["Content-Type"] = "application/json";
 
-      Map<String, String> headers = await AuthRepository.getHeaders();
-      headers["Content-Type"] = "application/json";
+        final encodedResults = jsonEncode(value).replaceAll("\n", "");
 
-      final encodedResults = jsonEncode(value);
-
-      final auth = await http.post(
-          'https://soleadapp.herokuapp.com/api/cash/get/',
-          headers: headers,
-          body: encodedResults);
+        print('chamada para API');
+        final auth = await http
+            .post('https://soleadapp.herokuapp.com/api/posts/',
+                headers: headers, body: encodedResults)
+            .then((value) {
+          if (value.statusCode == 200) DatabaseHelper().updateBudgetLocal();
+        });
+      }
     });
   });
 

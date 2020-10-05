@@ -24,6 +24,21 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
+  final _$usuario_idAtom = Atom(name: '_PowerPlants.usuario_id');
+
+  @override
+  String get usuario_id {
+    _$usuario_idAtom.reportRead();
+    return super.usuario_id;
+  }
+
+  @override
+  set usuario_id(String value) {
+    _$usuario_idAtom.reportWrite(value, super.usuario_id, () {
+      super.usuario_id = value;
+    });
+  }
+
   final _$geracaoAtom = Atom(name: '_PowerPlants.geracao');
 
   @override
@@ -328,6 +343,7 @@ mixin _$PowerPlants on _PowerPlants, Store {
   String toString() {
     return '''
 id: ${id},
+usuario_id: ${usuario_id},
 geracao: ${geracao},
 area: ${area},
 cpf: ${cpf},
