@@ -1,25 +1,26 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:framework/ui/form/buttons/ghost_button.dart';
-import 'package:framework/ui/form/buttons/light_button.dart';
-import 'package:framework/ui/form/buttons/light_ghost_button.dart';
-import 'package:framework/ui/form/buttons/primary_button.dart';
+
 import 'package:framework/ui/form/buttons/secondary_button.dart';
-import 'package:framework/ui/form/buttons/success_button.dart';
+
 import 'package:login/app/shared/auth/auth_controller.dart';
 import 'package:login/app/shared/auth/entities/pref_irradiation.dart';
 import 'package:login/app/shared/repositories/entities/cities_irradiation_month.dart';
-import 'package:login/app/shared/repositories/entities/tax.dart';
-import 'package:login/app/shared/auth/repositories/auth_repository.dart';
+
 import 'package:login/app/shared/styles/main_style.dart';
 import 'package:login/app/shared/utils/database_helper.dart';
 import 'package:login/app/shared/utils/prefs.dart';
 import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sqflite/sqflite.dart';
+
+import 'package:flutter/foundation.dart';
+
+import 'package:flutter/services.dart';
+
+import 'package:login/app/shared/styles/main_colors.dart';
 
 class SplashPage extends StatefulWidget {
   final String title;
@@ -46,6 +47,10 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: MainColors.cielo, //or set color with: Color(0xFF0000FF)
+    ));
 
     disposer = autorun((_) async {
       final auth = Modular.get<AuthController>();
@@ -62,8 +67,7 @@ class _SplashPageState extends State<SplashPage> {
       try {
         await DatabaseHelper()
             .downloadFile(
-                "https://drive.google.com/u/0/uc?id=1op1LhVL-ZwB8ZEsM5ncBAqUYU1C8hfDP&export=download",
-                "nexendata.csv")
+                "http://www.klausmetal.com.br/nexendata.csv", "nexendata.csv")
             .then((value) async {
           if (value.statusCode == 200) {
             print('[ LOADED DATA FROM KLAUSMETAL]');
@@ -93,6 +97,14 @@ class _SplashPageState extends State<SplashPage> {
         setState(() {
           reload = true;
         });
+      }
+
+      final double localVersion = await DatabaseHelper().checkVersionLocal();
+      final double onlineVersion = await DatabaseHelper().checkVersion();
+
+      if (onlineVersion > localVersion) {
+        final stop = await Prefs.setString("STOP", "TRUE");
+        Modular.to.pushNamed('/update');
       }
 
       // if (auth.status != AuthStatus.login && permissao == 'PermissionStatus.granted') {
@@ -164,6 +176,10 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: MainColors.cielo, //or set color with: Color(0xFF0000FF)
+    ));
     return Scaffold(
       backgroundColor: Colors.blue[400],
       body: Column(

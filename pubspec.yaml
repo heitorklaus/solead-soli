@@ -42,6 +42,7 @@ dependencies:
   random_string:
   flutter_statusbarcolor: any
   documents_picker:
+  
   flutter:
     sdk: flutter
 
@@ -52,6 +53,7 @@ dependencies:
 dev_dependencies:
   mockito:
   mobx_codegen: ^1.0.1
+  url_launcher:
   flutter_masked_text:
   build_runner: ^1.7.3
   flutter_test:

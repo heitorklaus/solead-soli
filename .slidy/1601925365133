@@ -1,0 +1,7 @@
+lib/app/modules/update/update_module.dart
+lib/app/modules/update/update_page.dart
+test/app/modules/update/update_page_test.dart
+lib/app/modules/update/repositories/update_repository.dart
+lib/app/modules/update/update_controller.dart
+test/app/modules/update/repositories/update_repository_test.dart
+test/app/modules/update/update_controller_test.dart

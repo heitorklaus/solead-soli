@@ -12,8 +12,8 @@ class LoginController = _LoginBase with _$LoginController;
 abstract class _LoginBase with Store {
   AuthController auth = Modular.get();
 
-  final username = TextEditingController(text: 'heitorklaus@hotmail.com');
-  final password = TextEditingController(text: 'amesma');
+  final username = TextEditingController();
+  final password = TextEditingController();
 
   @observable
   bool disableAdd = true;

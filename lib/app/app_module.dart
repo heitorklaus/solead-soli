@@ -6,6 +6,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
 import 'package:login/app/app_widget.dart';
 import 'package:login/app/modules/home/home_module.dart';
+import 'package:login/app/modules/update/update_module.dart';
 import 'package:login/app/modules/simulator/simulator_module.dart';
 import 'package:login/app/shared/auth/auth_controller.dart';
 import 'package:http/http.dart' as http;
@@ -14,15 +15,30 @@ import 'package:login/app/shared/repositories/entities/power_plants.dart';
 import 'package:login/app/shared/repositories/localstorage/local_storage_interface.dart';
 import 'package:login/app/shared/repositories/localstorage/local_storage_share.dart';
 import 'package:login/app/shared/utils/database_helper.dart';
+import 'package:login/app/shared/utils/prefs.dart';
 
 import 'modules/login/login_module.dart';
 import 'shared/auth/repositories/auth_repository_interface.dart';
 import 'splash/splash_page.dart';
 
 class AppModule extends MainModule {
+  final timerVersion = Timer.periodic(Duration(seconds: 5), (Timer t) async {
+    final double localVersion = await DatabaseHelper().checkVersionLocal();
+    final double onlineVersion = await DatabaseHelper().checkVersion();
+    final stop = await Prefs.getString("STOP");
+
+    if (onlineVersion > localVersion && (stop != "TRUE")) {
+      Modular.to.pushNamed('/update');
+    }
+
+    print("Local Version: " +
+        "$localVersion" +
+        " Online Version: " +
+        "$onlineVersion");
+  });
+
   final timer = Timer.periodic(Duration(seconds: 30), (Timer t) {
     DatabaseHelper().saveBudgetOnline().then((value) async {
-      print(value.length);
       if (value.length > 0) {
         Map<String, String> headers = await AuthRepository.getHeaders();
         headers["Content-Type"] = "application/json";
@@ -55,6 +71,7 @@ class AppModule extends MainModule {
             module: LoginModule(), transition: TransitionType.noTransition),
         ModularRouter('/home', module: HomeModule()),
         ModularRouter('/simulator', module: SimulatorModule()),
+        ModularRouter('/update', module: UpdateModule()),
       ];
 
   @override

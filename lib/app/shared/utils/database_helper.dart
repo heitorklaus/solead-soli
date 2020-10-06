@@ -3,8 +3,10 @@ import 'package:archive/archive.dart';
 import 'package:http/http.dart' as http;
 import 'package:diacritic/diacritic.dart';
 import 'package:dio/dio.dart';
+import 'package:login/app/shared/auth/repositories/auth_repository.dart';
 import 'package:login/app/shared/repositories/entities/plants_created.dart';
 import 'package:login/app/shared/repositories/entities/power_plants.dart';
+import 'package:login/app/shared/repositories/entities/version.dart';
 import 'package:login/app/shared/utils/prefs.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -26,8 +28,11 @@ class DatabaseHelper {
       'https://drive.google.com/u/0/uc?id=1ChYypaJOghIipqqJdk-yb3DHR-mPxBdg&export=download';
 
   static const String _localZipFileName = 'images_to_pdf.zip';
+  static const String dbase = "solead54.db";
+  static const double version = 7.2;
 
-  static const String dbase = "solead51.db";
+  // not mexer! KKKK
+  final stop = Prefs.setString("STOP", "FALSE");
 
   Future<Database> get db async {
     if (_db != null) {
@@ -42,8 +47,11 @@ class DatabaseHelper {
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, dbase);
     print("[ USING DATABASE ] $path");
+
     var db = await openDatabase(path,
         version: 6, onCreate: _onCreate, onUpgrade: _onUpgrade);
+    var dbClient = await db;
+    await dbClient.rawQuery('update VERSION set version = $version');
     return db;
   }
 
@@ -53,6 +61,10 @@ class DatabaseHelper {
     await db.execute(
         'CREATE TABLE PROPOSAL_STRINGS(ID INTEGER PRIMARY KEY, TOKEN TEXT, SESSION TEXT'
         ', WIDTH TEXT, HEIGHT TEXT)');
+    await db
+        .execute('CREATE TABLE VERSION(id INTEGER PRIMARY KEY, version REAL)');
+    await db.execute("INSERT INTO VERSION (id,version) VALUES (1,2.1) ");
+
     await db.execute(
         'CREATE TABLE TAX(ID INTEGER PRIMARY KEY, BANCO TEXT, TAX3X TEXT, TAX6X TEXT, TAX12X TEXT, TAX24X TEXT, TAX36X TEXT, TAX48X TEXT, TAX60X TEXT, TAX72X TEXT, TAX TEXT)');
     await db.execute(
@@ -245,6 +257,27 @@ class DatabaseHelper {
 
       //print(e.toString());
     }
+  }
+
+  Future checkVersionLocal() async {
+    final dbClient = await db;
+
+    final list = await dbClient.rawQuery('select * from VERSION');
+
+    final valor = new CheckVersion.fromJson(list.first);
+
+    return valor.version;
+  }
+
+  Future checkVersion() async {
+    Map<String, String> headers = await AuthRepository.getHeaders();
+    headers["Content-Type"] = "application/json";
+    final auth = await http.get(
+        'https://soleadapp.herokuapp.com/api/version/get/1',
+        headers: headers);
+
+    final data = CheckVersion.fromJson(json.decode(auth.body));
+    return data.version;
   }
 
   Future<List<PowerPlants>> saveBudgetOnline() async {

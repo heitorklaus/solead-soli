@@ -94,6 +94,32 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                                   style: heading16Bold.copyWith(
                                                       color: Colors.white),
                                                 ),
+                                                FutureBuilder(
+                                                  future: DatabaseHelper()
+                                                      .checkVersionLocal(),
+                                                  builder: (BuildContext
+                                                          context,
+                                                      AsyncSnapshot snapshot) {
+                                                    switch (snapshot
+                                                        .connectionState) {
+                                                      case ConnectionState
+                                                          .waiting:
+                                                        return CircularProgressIndicator(
+                                                          strokeWidth: 1,
+                                                        );
+                                                      default:
+                                                        if (snapshot.hasError)
+                                                          return Text(
+                                                              '${snapshot.error}');
+                                                        else
+                                                          return Text(
+                                                            ' ${snapshot.data.toString()}',
+                                                            style:
+                                                                ubuntu16WhiteBold500,
+                                                          );
+                                                    }
+                                                  },
+                                                ),
                                               ],
                                             ),
                                             Padding(
@@ -327,7 +353,7 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                                     height: 4,
                                                   ),
                                                   Text(
-                                                    '142',
+                                                    '0',
                                                     style: heading16Bold,
                                                   ),
                                                 ],
@@ -378,7 +404,7 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                                     height: 4,
                                                   ),
                                                   Text(
-                                                    '15',
+                                                    '0',
                                                     style: heading16Bold,
                                                   ),
                                                 ],
@@ -427,7 +453,7 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                                     height: 4,
                                                   ),
                                                   Text(
-                                                    '15',
+                                                    '0',
                                                     style: heading16Bold,
                                                   ),
                                                 ],
