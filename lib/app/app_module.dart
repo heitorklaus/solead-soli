@@ -6,6 +6,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
 import 'package:login/app/app_widget.dart';
 import 'package:login/app/modules/home/home_module.dart';
+import 'package:login/app/modules/simulator/simulator_module_edit.dart';
 import 'package:login/app/modules/update/update_module.dart';
 import 'package:login/app/modules/simulator/simulator_module.dart';
 import 'package:login/app/shared/auth/auth_controller.dart';
@@ -37,7 +38,7 @@ class AppModule extends MainModule {
         "$onlineVersion");
   });
 
-  final timer = Timer.periodic(Duration(seconds: 30), (Timer t) {
+  final timer = Timer.periodic(Duration(seconds: 5), (Timer t) {
     DatabaseHelper().saveBudgetOnline().then((value) async {
       if (value.length > 0) {
         Map<String, String> headers = await AuthRepository.getHeaders();
@@ -71,6 +72,7 @@ class AppModule extends MainModule {
             module: LoginModule(), transition: TransitionType.noTransition),
         ModularRouter('/home', module: HomeModule()),
         ModularRouter('/simulator', module: SimulatorModule()),
+        ModularRouter('/simulator-edit', module: SimulatorModuleEdit()),
         ModularRouter('/update', module: UpdateModule()),
       ];
 

@@ -49,7 +49,7 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: MainColors.cielo, //or set color with: Color(0xFF0000FF)
+      statusBarColor: Colors.blue[400], //or set color with: Color(0xFF0000FF)
     ));
 
     disposer = autorun((_) async {
@@ -67,7 +67,7 @@ class _SplashPageState extends State<SplashPage> {
       try {
         await DatabaseHelper()
             .downloadFile(
-                "http://www.klausmetal.com.br/nexendata.csv", "nexendata.csv")
+                DatabaseHelper.csvKitsPath, DatabaseHelper.csvKitsFileName)
             .then((value) async {
           if (value.statusCode == 200) {
             print('[ LOADED DATA FROM KLAUSMETAL]');
@@ -178,7 +178,7 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: MainColors.cielo, //or set color with: Color(0xFF0000FF)
+      statusBarColor: Colors.blue[400], //or set color with: Color(0xFF0000FF)
     ));
     return Scaffold(
       backgroundColor: Colors.blue[400],

@@ -24,8 +24,22 @@ class DatabaseHelper {
 
   static Database _db;
 
+  // IMAGENS COM PDF DE GERACAO DE PROPOSTA
+  // GOOGLEDRIVE/SOLI ENERGIA SOLAR/appdata/images_to_pdf.zip
   static const String _zipPath =
       'https://drive.google.com/u/0/uc?id=1ChYypaJOghIipqqJdk-yb3DHR-mPxBdg&export=download';
+
+// LOCAL DO APP PARA DOWNLOAD E ATUALIZACOES
+// GOOGLEDRIVE/SOLI ENERGIA SOLAR/appdata/solead.apk
+  static const String updateAppPath =
+      'https://drive.google.com/uc?id=1AR-tz1sh0bTF7jH4vEWhNf26lnb53hXs&export=download';
+
+// LOCAL DO CSV COM OS VALORES DOS KITS
+  static const String csvKitsPath =
+      "http://www.klausmetal.com.br/nexendata.csv";
+
+  // name imported
+  static const String csvKitsFileName = "nexendata.csv";
 
   static const String _localZipFileName = 'images_to_pdf.zip';
   static const String dbase = "solead54.db";

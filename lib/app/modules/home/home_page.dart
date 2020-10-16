@@ -26,6 +26,8 @@ class _HomePageState extends ModularState<HomePage, HomeController>
     with SingleTickerProviderStateMixin {
   void _selectedTab(int index) {
     tabController.animateTo(index);
+
+    if (index == 2) Modular.to.pushNamed('/simulator-edit');
   }
 
   static TabController tabController;
@@ -341,7 +343,7 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
                                                 children: <Widget>[
-                                                  Text('Leads'),
+                                                  Text('Minhas Propostas'),
                                                   IconButton(
                                                     icon: Icon(
                                                       Icons.account_box,
@@ -473,7 +475,237 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                 ],
               ),
               Text('teste'),
-              Text('teste'),
+
+              //# INICIO DOS LEADS PAGINA
+              Stack(
+                children: <Widget>[
+                  Container(
+                      decoration: BoxDecoration(color: Colors.white),
+                      child: LayoutBuilder(
+                        builder: (context, constraint) {
+                          return ConstrainedBox(
+                            constraints:
+                                BoxConstraints(minHeight: constraint.maxHeight),
+                            child: IntrinsicHeight(
+                              child: Column(
+                                children: <Widget>[
+                                  //#HEADER
+                                  Container(
+                                    //   margin: EdgeInsets.symmetric(horizontal: 10),
+                                    child: AspectRatio(
+                                      aspectRatio: 100 / 45,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Color(0XFF2184AA),
+                                            borderRadius: new BorderRadius.only(
+                                                bottomLeft: Radius.circular(0),
+                                                bottomRight:
+                                                    Radius.circular(0))),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          // mainAxisAlignment
+                                          children: <Widget>[
+                                            SizedBox(
+                                              height: 60,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  'App Soleads',
+                                                  style: heading16Bold.copyWith(
+                                                      color: Colors.white),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                SizedBox(height: 30),
+                                                Text(
+                                                  'Suas Plantas Orçadas',
+                                                  style: heading16Bold.copyWith(
+                                                      color: Colors.white,
+                                                      fontSize: 25),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  //# CLIENT STATUS
+                                  Container(
+                                    margin: EdgeInsets.all(10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: AspectRatio(
+                                            aspectRatio: 3 / 3,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(20.0),
+                                                  ),
+                                                  // Box decoration takes a gradient
+                                                  color: Colors.white,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.black12,
+                                                      blurRadius:
+                                                          4, // has the effect of softening the shadow
+                                                      spreadRadius:
+                                                          0.2, // has the effect of extending the shadow
+                                                      offset: Offset(
+                                                        -1, // horizontal, move right 10
+                                                        1, // vertical, move down 10
+                                                      ),
+                                                    ),
+                                                  ]),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Text('Leads'),
+                                                  IconButton(
+                                                    icon: Icon(
+                                                      Icons.account_box,
+                                                      color: Colors.blue,
+                                                    ),
+                                                    onPressed: () {},
+                                                  ),
+                                                  SizedBox(
+                                                    height: 4,
+                                                  ),
+                                                  Text(
+                                                    '0',
+                                                    style: heading16Bold,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 8,
+                                        ),
+                                        Expanded(
+                                          child: AspectRatio(
+                                            aspectRatio: 3 / 3,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(20.0),
+                                                  ),
+                                                  // Box decoration takes a gradient
+                                                  color: Colors.white,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.black12,
+                                                      blurRadius:
+                                                          4, // has the effect of softening the shadow
+                                                      spreadRadius:
+                                                          0.2, // has the effect of extending the shadow
+                                                      offset: Offset(
+                                                        -1, // horizontal, move right 10
+                                                        1, // vertical, move down 10
+                                                      ),
+                                                    ),
+                                                  ]),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Text('Negociando'),
+                                                  IconButton(
+                                                    icon: Icon(
+                                                      Icons.whatshot,
+                                                      color: Colors.red,
+                                                    ),
+                                                    onPressed: () {},
+                                                  ),
+                                                  SizedBox(
+                                                    height: 4,
+                                                  ),
+                                                  Text(
+                                                    '0',
+                                                    style: heading16Bold,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 8,
+                                        ),
+                                        Expanded(
+                                          child: AspectRatio(
+                                            aspectRatio: 3 / 3,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(20.0),
+                                                  ),
+                                                  color: Colors.white,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.black12,
+                                                      blurRadius:
+                                                          4, // has the effect of softening the shadow
+                                                      spreadRadius:
+                                                          0.2, // has the effect of extending the shadow
+                                                      offset: Offset(
+                                                        -1, // horizontal, move right 10
+                                                        1, // vertical, move down 10
+                                                      ),
+                                                    ),
+                                                  ]),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Text('Fechados'),
+                                                  IconButton(
+                                                    icon: Icon(Icons.wb_sunny,
+                                                        color:
+                                                            Colors.yellow[700]),
+                                                    onPressed: () {},
+                                                  ),
+                                                  SizedBox(
+                                                    height: 4,
+                                                  ),
+                                                  Text(
+                                                    '0',
+                                                    style: heading16Bold,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      )),
+                ],
+              ),
               Text('teste')
             ],
           )),

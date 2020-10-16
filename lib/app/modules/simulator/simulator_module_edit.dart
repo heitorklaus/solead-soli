@@ -4,7 +4,7 @@ import 'package:login/app/modules/simulator/simulator_controller.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:login/app/modules/simulator/simulator_page.dart';
 
-class SimulatorModule extends ChildModule {
+class SimulatorModuleEdit extends ChildModule {
   @override
   List<Bind> get binds => [
         Bind((i) => SimulatorController()),
@@ -12,11 +12,9 @@ class SimulatorModule extends ChildModule {
 
   @override
   List<ModularRouter> get routers => [
-        ModularRouter(
-          Modular.initialRoute,
-          child: (_, args) => SimulatorPage(mode: "insert"),
-        )
+        ModularRouter(Modular.initialRoute,
+            child: (_, args) => SimulatorPage(mode: "edit")),
       ];
 
-  static Inject get to => Inject<SimulatorModule>.of();
+  static Inject get to => Inject<SimulatorModuleEdit>.of();
 }

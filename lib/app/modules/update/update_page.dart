@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:framework/ui/form/buttons/secondary_button.dart';
 import 'package:login/app/shared/styles/main_style.dart';
+import 'package:login/app/shared/utils/database_helper.dart';
 
 import 'update_controller.dart';
 import 'package:login/app/shared/styles/main_colors.dart';
@@ -24,8 +25,7 @@ class _UpdatePageState extends ModularState<UpdatePage, UpdateController> {
   }
 
   _launchURL() async {
-    const url =
-        'https://drive.google.com/uc?id=1AR-tz1sh0bTF7jH4vEWhNf26lnb53hXs&export=download';
+    const url = DatabaseHelper.updateAppPath;
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -41,23 +41,58 @@ class _UpdatePageState extends ModularState<UpdatePage, UpdateController> {
       onWillPop: _onWillPop,
       child: Scaffold(
         backgroundColor: MainColors.cielo,
-        body: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SecondaryButton(
-                child: Text(
-                  'Atualizar App...',
-                  style: buttonLargeBlue,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Container(
+                margin: EdgeInsets.only(top: 60),
+                child: Image.asset(
+                  'lib/app/shared/assets/images/l.png',
+                  width: 70,
                 ),
-                //onPressed:controller.loginWithGoogle,
+              ),
+            ),
+            SizedBox(
+              height: 25,
+            ),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 240,
+                    child: Text(
+                      'Existe uma nova vesão mais atualizada e com correções para o App Solead!',
+                      textAlign: TextAlign.center,
+                      style: ubuntu16WhiteBold500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 25,
+            ),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SecondaryButton(
+                    child: Text(
+                      'Atualizar App...',
+                      style: buttonLargeBlue,
+                    ),
+                    //onPressed:controller.loginWithGoogle,
 
-                onPressed: () {
-                  _launchURL();
-                },
-              ).getLarge(),
-            ],
-          ),
+                    onPressed: () {
+                      _launchURL();
+                    },
+                  ).getLarge(),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
