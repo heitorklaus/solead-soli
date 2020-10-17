@@ -5,6 +5,7 @@ import 'package:login/app/app_controller.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
 import 'package:login/app/app_widget.dart';
+import 'package:login/app/modules/home/home_controller.dart';
 import 'package:login/app/modules/home/home_module.dart';
 import 'package:login/app/modules/simulator/simulator_module_edit.dart';
 import 'package:login/app/modules/update/update_module.dart';
@@ -32,13 +33,12 @@ class AppModule extends MainModule {
       Modular.to.pushNamed('/update');
     }
 
-    print("Local Version: " +
-        "$localVersion" +
-        " Online Version: " +
-        "$onlineVersion");
+    print("Local Version: " + "$localVersion" + " Online Version: " + "$onlineVersion");
   });
 
   final timer = Timer.periodic(Duration(seconds: 5), (Timer t) {
+    // HomeController().getBudgetsLeads();
+
     DatabaseHelper().saveBudgetOnline().then((value) async {
       if (value.length > 0) {
         Map<String, String> headers = await AuthRepository.getHeaders();
@@ -47,10 +47,7 @@ class AppModule extends MainModule {
         final encodedResults = jsonEncode(value).replaceAll("\n", "");
 
         print('chamada para API');
-        final auth = await http
-            .post('https://soleadapp.herokuapp.com/api/posts/',
-                headers: headers, body: encodedResults)
-            .then((value) {
+        final auth = await http.post('https://soleadapp.herokuapp.com/api/posts/', headers: headers, body: encodedResults).then((value) {
           if (value.statusCode == 200) DatabaseHelper().updateBudgetLocal();
         });
       }
@@ -68,8 +65,7 @@ class AppModule extends MainModule {
   @override
   List<ModularRouter> get routers => [
         ModularRouter('/', child: (_, args) => SplashPage()),
-        ModularRouter('/login',
-            module: LoginModule(), transition: TransitionType.noTransition),
+        ModularRouter('/login', module: LoginModule(), transition: TransitionType.noTransition),
         ModularRouter('/home', module: HomeModule()),
         ModularRouter('/simulator', module: SimulatorModule()),
         ModularRouter('/simulator-edit', module: SimulatorModuleEdit()),

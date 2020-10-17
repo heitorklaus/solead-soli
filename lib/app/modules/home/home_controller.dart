@@ -3,6 +3,7 @@ import 'package:login/app/shared/auth/auth_controller.dart';
 import 'package:login/app/shared/auth/repositories/auth_repository_interface.dart';
 import 'package:login/app/shared/repositories/entities/tax.dart';
 import 'package:login/app/shared/repositories/localstorage/local_storage_interface.dart';
+import 'package:login/app/shared/utils/database_helper.dart';
 import 'package:login/app/shared/utils/prefs.dart';
 import 'package:mobx/mobx.dart';
 
@@ -18,6 +19,9 @@ abstract class _HomeBase with Store {
   _HomeBase() {
     init();
   }
+
+  @observable
+  String loadingLeads = '0';
 
   @action
   init() async {
@@ -89,6 +93,13 @@ abstract class _HomeBase with Store {
     // print(Tax.fromJson(todoMapList['BANCO']));
 
     // return todoList;
+  }
+
+  @action
+  Future getBudgetsLeads() async {
+    final t = await DatabaseHelper().saveBudgetOnline2();
+
+    loadingLeads = '$t';
   }
 
   logoff() async {
