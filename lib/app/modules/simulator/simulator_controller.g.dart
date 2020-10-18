@@ -57,6 +57,15 @@ mixin _$SimulatorController on _SimulatorControllerBase, Store {
     return ObservableFuture(_$future);
   }
 
+  final _$showDialogEditStep1AsyncAction =
+      AsyncAction('_SimulatorControllerBase.showDialogEditStep1');
+
+  @override
+  Future showDialogEditStep1(dynamic context) {
+    return _$showDialogEditStep1AsyncAction
+        .run(() => super.showDialogEditStep1(context));
+  }
+
   final _$showDialogKitMenorAsyncAction =
       AsyncAction('_SimulatorControllerBase.showDialogKitMenor');
 

@@ -244,84 +244,89 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Expanded(
-                                          child: AspectRatio(
-                                            aspectRatio: 3 / 3,
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.all(
-                                                    Radius.circular(20.0),
-                                                  ),
-                                                  // Box decoration takes a gradient
-                                                  color: Colors.white,
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: Colors.black12,
-                                                      blurRadius: 4, // has the effect of softening the shadow
-                                                      spreadRadius: 0.2, // has the effect of extending the shadow
-                                                      offset: Offset(
-                                                        -1, // horizontal, move right 10
-                                                        1, // vertical, move down 10
-                                                      ),
+                                          child: InkWell(
+                                            onTap: () {
+                                              Modular.to.pushNamed('/simulator-edit');
+                                            },
+                                            child: AspectRatio(
+                                              aspectRatio: 3 / 3,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.all(
+                                                      Radius.circular(20.0),
                                                     ),
-                                                  ]),
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Text('Negociando'),
-                                                  IconButton(
-                                                    icon: Icon(
+                                                    // Box decoration takes a gradient
+                                                    color: Colors.white,
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.black12,
+                                                        blurRadius: 4, // has the effect of softening the shadow
+                                                        spreadRadius: 0.2, // has the effect of extending the shadow
+                                                        offset: Offset(
+                                                          -1, // horizontal, move right 10
+                                                          1, // vertical, move down 10
+                                                        ),
+                                                      ),
+                                                    ]),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Text('Orçamentos'),
+                                                    SizedBox(
+                                                      height: 18,
+                                                    ),
+                                                    Icon(
                                                       Icons.account_box,
                                                       color: Colors.blue,
                                                     ),
-                                                    onPressed: () {},
-                                                  ),
-                                                  SizedBox(
-                                                    height: 4,
-                                                  ),
-                                                  Observer(builder: (BuildContext context) {
-                                                    if (controller.loadingLeads == '0') {
-                                                      return Center(
-                                                        child: Container(
-                                                          height: 2,
-                                                          width: 2,
-                                                          child: CircularProgressIndicator(
-                                                            strokeWidth: 1,
+                                                    SizedBox(
+                                                      height: 8,
+                                                    ),
+                                                    Observer(builder: (BuildContext context) {
+                                                      if (controller.loadingLeads == '0') {
+                                                        return Center(
+                                                          child: Container(
+                                                            height: 2,
+                                                            width: 2,
+                                                            child: CircularProgressIndicator(
+                                                              strokeWidth: 1,
+                                                            ),
                                                           ),
-                                                        ),
-                                                      );
-                                                    } else {
-                                                      return Text(
-                                                        controller.loadingLeads.toString(),
-                                                        style: heading16Bold,
-                                                      );
-                                                    }
-                                                  }),
-                                                ],
+                                                        );
+                                                      } else {
+                                                        return Text(
+                                                          controller.loadingLeads.toString(),
+                                                          style: heading16Bold,
+                                                        );
+                                                      }
+                                                    }),
+                                                  ],
+                                                ),
+                                                // child: Column(
+                                                //   mainAxisAlignment: MainAxisAlignment.center,
+                                                //   children: <Widget>[
+                                                //     Text('Minhas Propostas'),
+                                                //     SizedBox(
+                                                //       height: 4,
+                                                //     ),
+                                                //     Observer(builder: (BuildContext context) {
+                                                //       if (controller.loadingLeads == '0') {
+                                                //         return Center(
+                                                //           child: Container(
+                                                //             height: 10,
+                                                //             width: 10,
+                                                //             child: CircularProgressIndicator(
+                                                //               strokeWidth: 1,
+                                                //             ),
+                                                //           ),
+                                                //         );
+                                                //       } else {
+                                                //         return Text(controller.loadingLeads.toString());
+                                                //       }
+                                                //     }),
+                                                //   ],
+                                                // ),
                                               ),
-                                              // child: Column(
-                                              //   mainAxisAlignment: MainAxisAlignment.center,
-                                              //   children: <Widget>[
-                                              //     Text('Minhas Propostas'),
-                                              //     SizedBox(
-                                              //       height: 4,
-                                              //     ),
-                                              //     Observer(builder: (BuildContext context) {
-                                              //       if (controller.loadingLeads == '0') {
-                                              //         return Center(
-                                              //           child: Container(
-                                              //             height: 10,
-                                              //             width: 10,
-                                              //             child: CircularProgressIndicator(
-                                              //               strokeWidth: 1,
-                                              //             ),
-                                              //           ),
-                                              //         );
-                                              //       } else {
-                                              //         return Text(controller.loadingLeads.toString());
-                                              //       }
-                                              //     }),
-                                              //   ],
-                                              // ),
                                             ),
                                           ),
                                         ),
@@ -353,20 +358,34 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                 children: <Widget>[
                                                   Text('Negociando'),
-                                                  IconButton(
-                                                    icon: Icon(
-                                                      Icons.whatshot,
-                                                      color: Colors.red,
-                                                    ),
-                                                    onPressed: () {},
+                                                  SizedBox(
+                                                    height: 18,
+                                                  ),
+                                                  Icon(
+                                                    Icons.whatshot,
+                                                    color: Colors.blue,
                                                   ),
                                                   SizedBox(
-                                                    height: 4,
+                                                    height: 8,
                                                   ),
-                                                  Text(
-                                                    '0',
-                                                    style: heading16Bold,
-                                                  ),
+                                                  Observer(builder: (BuildContext context) {
+                                                    if (controller.loadingLeads == '0') {
+                                                      return Center(
+                                                        child: Container(
+                                                          height: 2,
+                                                          width: 2,
+                                                          child: CircularProgressIndicator(
+                                                            strokeWidth: 1,
+                                                          ),
+                                                        ),
+                                                      );
+                                                    } else {
+                                                      return Text(
+                                                        controller.loadingLeads.toString(),
+                                                        style: heading16Bold,
+                                                      );
+                                                    }
+                                                  }),
                                                 ],
                                               ),
                                             ),
@@ -399,17 +418,34 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                 children: <Widget>[
                                                   Text('Fechados'),
-                                                  IconButton(
-                                                    icon: Icon(Icons.wb_sunny, color: Colors.yellow[700]),
-                                                    onPressed: () {},
+                                                  SizedBox(
+                                                    height: 18,
+                                                  ),
+                                                  Icon(
+                                                    Icons.wb_sunny,
+                                                    color: Colors.blue,
                                                   ),
                                                   SizedBox(
-                                                    height: 4,
+                                                    height: 8,
                                                   ),
-                                                  Text(
-                                                    '0',
-                                                    style: heading16Bold,
-                                                  ),
+                                                  Observer(builder: (BuildContext context) {
+                                                    if (controller.loadingLeads == '0') {
+                                                      return Center(
+                                                        child: Container(
+                                                          height: 2,
+                                                          width: 2,
+                                                          child: CircularProgressIndicator(
+                                                            strokeWidth: 1,
+                                                          ),
+                                                        ),
+                                                      );
+                                                    } else {
+                                                      return Text(
+                                                        controller.loadingLeads.toString(),
+                                                        style: heading16Bold,
+                                                      );
+                                                    }
+                                                  }),
                                                 ],
                                               ),
                                             ),

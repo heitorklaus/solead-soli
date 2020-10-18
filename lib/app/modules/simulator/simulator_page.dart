@@ -25,15 +25,13 @@ class SimulatorPage extends StatefulWidget {
   final String title;
   final int qtd;
   final String mode;
-  SimulatorPage({Key key, this.title = "Simulator", this.qtd, this.mode})
-      : super(key: key);
+  SimulatorPage({Key key, this.title = "Simulator", this.qtd, this.mode}) : super(key: key);
 
   @override
   _SimulatorPageState createState() => _SimulatorPageState();
 }
 
-class _SimulatorPageState
-    extends ModularState<SimulatorPage, SimulatorController> {
+class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorController> {
   //use 'controller' variable to access controller
   bool isChecked = false;
   bool isVisible = false;
@@ -45,8 +43,7 @@ class _SimulatorPageState
     super.dispose();
     print('saiu do simulat');
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor:
-          main.MainColors.cielo, //or set color with: Color(0xFF0000FF)
+      statusBarColor: main.MainColors.cielo, //or set color with: Color(0xFF0000FF)
     ));
   }
 
@@ -95,10 +92,8 @@ class _SimulatorPageState
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black12,
-                            blurRadius:
-                                3, // has the effect of softening the shadow
-                            spreadRadius:
-                                0.2, // has the effect of extending the shadow
+                            blurRadius: 3, // has the effect of softening the shadow
+                            spreadRadius: 0.2, // has the effect of extending the shadow
                             offset: Offset(
                               0, // horizontal, move right 10
                               -3, // vertical, move down 10
@@ -127,8 +122,7 @@ class _SimulatorPageState
                                 height: 307,
                                 child: SingleChildScrollView(
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
                                       Container(
@@ -136,39 +130,31 @@ class _SimulatorPageState
                                           top: 15,
                                         ),
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                                           children: <Widget>[
                                             Container(
                                               width: 100,
                                               height: 50,
                                               child: OutlinedTextEdit(
                                                 decoration: InputDecoration(
-                                                  contentPadding:
-                                                      EdgeInsets.only(
-                                                          bottom: 10, left: 8),
+                                                  contentPadding: EdgeInsets.only(bottom: 10, left: 8),
                                                   hintText: "Média kWp",
-                                                  hintStyle:
-                                                      TextStyle(fontSize: 12.0),
+                                                  hintStyle: TextStyle(fontSize: 12.0),
                                                   border: OutlineInputBorder(
-                                                    borderRadius:
-                                                        const BorderRadius.all(
-                                                      const Radius.circular(
-                                                          10.0),
+                                                    borderRadius: const BorderRadius.all(
+                                                      const Radius.circular(10.0),
                                                     ),
                                                     borderSide: BorderSide(
                                                       color: Colors.teal,
                                                     ),
                                                   ),
                                                 ),
-                                                keyboardType:
-                                                    TextInputType.number,
+                                                keyboardType: TextInputType.number,
                                                 onTap: () {
                                                   controller.clearMoney();
                                                 },
                                                 controller: controller.mediaKW,
-                                                inputType:
-                                                    InputType.EXTRA_SMALL,
+                                                inputType: InputType.EXTRA_SMALL,
                                               ),
                                             ),
                                             SizedBox(
@@ -178,27 +164,19 @@ class _SimulatorPageState
                                               width: 100,
                                               height: 50,
                                               child: OutlinedTextEdit(
-                                                controller:
-                                                    controller.mediaMoney,
-                                                keyboardType:
-                                                    TextInputType.number,
+                                                controller: controller.mediaMoney,
+                                                keyboardType: TextInputType.number,
                                                 onTap: () {
                                                   controller.clearKW();
                                                 },
-                                                inputType:
-                                                    InputType.EXTRA_SMALL,
+                                                inputType: InputType.EXTRA_SMALL,
                                                 decoration: InputDecoration(
-                                                  contentPadding:
-                                                      EdgeInsets.only(
-                                                          bottom: 10, left: 13),
+                                                  contentPadding: EdgeInsets.only(bottom: 10, left: 13),
                                                   hintText: "Média R\$",
-                                                  hintStyle:
-                                                      TextStyle(fontSize: 12.0),
+                                                  hintStyle: TextStyle(fontSize: 12.0),
                                                   border: OutlineInputBorder(
-                                                    borderRadius:
-                                                        const BorderRadius.all(
-                                                      const Radius.circular(
-                                                          10.0),
+                                                    borderRadius: const BorderRadius.all(
+                                                      const Radius.circular(10.0),
                                                     ),
                                                     borderSide: BorderSide(
                                                       color: Colors.teal,
@@ -213,16 +191,13 @@ class _SimulatorPageState
                                             Container(
                                               width: 125,
                                               child: OutlinedTextEdit(
-                                                prefixIcon:
-                                                    Icon(Icons.equalizer),
+                                                prefixIcon: Icon(Icons.equalizer),
                                                 controller: controller.potencia,
-                                                keyboardType:
-                                                    TextInputType.number,
+                                                keyboardType: TextInputType.number,
                                                 readOnly: true,
                                                 onChanged: (value) => {},
                                                 label: "Potência ",
-                                                inputType:
-                                                    InputType.EXTRA_SMALL,
+                                                inputType: InputType.EXTRA_SMALL,
                                               ),
                                             ),
                                           ],
@@ -242,32 +217,25 @@ class _SimulatorPageState
                                             ),
                                             Text(
                                               '  Potência/Kit indicado (Opção 1)',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 12),
+                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                                             )
                                           ],
                                         ),
                                       ),
                                       Container(
-                                        margin:
-                                            EdgeInsets.only(top: 8, bottom: 8),
+                                        margin: EdgeInsets.only(top: 8, bottom: 8),
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                                           children: <Widget>[
                                             Container(
                                               width: 120,
                                               child: OutlinedTextEdit(
-                                                controller: controller
-                                                    .potenciaIndicada1,
-                                                keyboardType:
-                                                    TextInputType.number,
+                                                controller: controller.potenciaIndicada1,
+                                                keyboardType: TextInputType.number,
                                                 readOnly: true,
                                                 onChanged: (value) => {},
                                                 label: "Potência",
-                                                inputType:
-                                                    InputType.EXTRA_SMALL,
+                                                inputType: InputType.EXTRA_SMALL,
                                               ),
                                             ),
                                             SizedBox(
@@ -276,17 +244,13 @@ class _SimulatorPageState
                                             Container(
                                               width: 165,
                                               child: OutlinedTextEdit(
-                                                controller:
-                                                    controller.valorKit1,
-                                                prefixIcon:
-                                                    Icon(Icons.monetization_on),
-                                                keyboardType:
-                                                    TextInputType.number,
+                                                controller: controller.valorKit1,
+                                                prefixIcon: Icon(Icons.monetization_on),
+                                                keyboardType: TextInputType.number,
                                                 onChanged: (value) => {},
                                                 label: "R\$ Valor",
                                                 readOnly: true,
-                                                inputType:
-                                                    InputType.EXTRA_SMALL,
+                                                inputType: InputType.EXTRA_SMALL,
                                               ),
                                             ),
                                             SizedBox(
@@ -295,23 +259,18 @@ class _SimulatorPageState
                                             Container(
                                               width: 65,
                                               child: Observer(
-                                                builder:
-                                                    (BuildContext context) {
+                                                builder: (BuildContext context) {
                                                   if (controller.disableAdd) {
                                                     return PrimaryButton(
-                                                      child: Icon(
-                                                          Icons.assignment),
+                                                      child: Icon(Icons.assignment),
                                                       onPressed: null,
                                                       //onPressed:controller.loginWithGoogle,
                                                     ).getLarge();
                                                   } else {
                                                     return PrimaryButton(
-                                                      child: Icon(
-                                                          Icons.assignment),
+                                                      child: Icon(Icons.assignment),
                                                       onPressed: () {
-                                                        controller
-                                                            .showDialogKitMenor(
-                                                                context);
+                                                        controller.showDialogKitMenor(context);
                                                       },
                                                       //onPressed:controller.loginWithGoogle,
                                                     ).getLarge();
@@ -326,8 +285,7 @@ class _SimulatorPageState
                                         height: 20,
                                       ),
                                       Container(
-                                        margin:
-                                            EdgeInsets.only(top: 0, bottom: 0),
+                                        margin: EdgeInsets.only(top: 0, bottom: 0),
                                         child: Row(
                                           children: <Widget>[
                                             Icon(
@@ -337,9 +295,7 @@ class _SimulatorPageState
                                             ),
                                             Text(
                                               '  Potência/Kit indicado (Opção 2)',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 12),
+                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                                             )
                                           ],
                                         ),
@@ -347,21 +303,17 @@ class _SimulatorPageState
                                       Container(
                                         margin: EdgeInsets.only(top: 10),
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                                           children: <Widget>[
                                             Container(
                                               width: 120,
                                               child: OutlinedTextEdit(
-                                                controller: controller
-                                                    .potenciaIndicada2,
-                                                keyboardType:
-                                                    TextInputType.number,
+                                                controller: controller.potenciaIndicada2,
+                                                keyboardType: TextInputType.number,
                                                 onChanged: (value) => {},
                                                 readOnly: true,
                                                 label: "Potência",
-                                                inputType:
-                                                    InputType.EXTRA_SMALL,
+                                                inputType: InputType.EXTRA_SMALL,
                                               ),
                                             ),
                                             SizedBox(
@@ -370,17 +322,13 @@ class _SimulatorPageState
                                             Container(
                                               width: 165,
                                               child: OutlinedTextEdit(
-                                                controller:
-                                                    controller.valorKit2,
-                                                prefixIcon:
-                                                    Icon(Icons.monetization_on),
-                                                keyboardType:
-                                                    TextInputType.number,
+                                                controller: controller.valorKit2,
+                                                prefixIcon: Icon(Icons.monetization_on),
+                                                keyboardType: TextInputType.number,
                                                 onChanged: (value) => {},
                                                 label: "R\$ Valor",
                                                 readOnly: true,
-                                                inputType:
-                                                    InputType.EXTRA_SMALL,
+                                                inputType: InputType.EXTRA_SMALL,
                                               ),
                                             ),
                                             SizedBox(
@@ -389,23 +337,18 @@ class _SimulatorPageState
                                             Container(
                                               width: 65,
                                               child: Observer(
-                                                builder:
-                                                    (BuildContext context) {
+                                                builder: (BuildContext context) {
                                                   if (controller.disableAdd) {
                                                     return PrimaryButton(
-                                                      child: Icon(
-                                                          Icons.assignment),
+                                                      child: Icon(Icons.assignment),
                                                       onPressed: null,
                                                       //onPressed:controller.loginWithGoogle,
                                                     ).getLarge();
                                                   } else {
                                                     return PrimaryButton(
-                                                      child: Icon(
-                                                          Icons.assignment),
+                                                      child: Icon(Icons.assignment),
                                                       onPressed: () {
-                                                        controller
-                                                            .showDialogKitMaior(
-                                                                context);
+                                                        controller.showDialogKitMaior(context);
                                                       },
                                                       //onPressed:controller.loginWithGoogle,
                                                     ).getLarge();
@@ -445,13 +388,11 @@ class _SimulatorPageState
             children: [
               Text(
                 'Propostas Simuladas',
-                style: ubuntu16BlackBold500.copyWith(
-                    fontSize: 20, color: Colors.black87),
+                style: ubuntu16BlackBold500.copyWith(fontSize: 20, color: Colors.black87),
               ),
               Text(
                 '45 registros(s)',
-                style: ubuntu16BlackBold500.copyWith(
-                    fontWeight: FontWeight.normal),
+                style: ubuntu16BlackBold500.copyWith(fontWeight: FontWeight.normal),
               )
             ],
           ),
@@ -463,8 +404,7 @@ class _SimulatorPageState
           ),
         ),
         Padding(
-            padding:
-                const EdgeInsets.only(left: 8, right: 8, top: 20, bottom: 10),
+            padding: const EdgeInsets.only(left: 8, right: 8, top: 20, bottom: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -534,28 +474,33 @@ class _SimulatorPageState
               color: Colors.black38,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 4),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Icon(Icons.offline_bolt, color: Colors.blue[300]),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'Carlos da Silva ',
-                  style: buttonLargeBlue.copyWith(color: Colors.black38),
-                ),
-                Spacer(),
-                Text(
-                  '12,6 kWp',
-                  style: buttonLargeBlue.copyWith(color: Colors.black38),
-                ),
-                SizedBox(
-                  width: 10,
-                )
-              ],
+          InkWell(
+            onTap: () {
+              controller.showDialogEditStep1(context);
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 4),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(Icons.offline_bolt, color: Colors.blue[300]),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Carlos da Silva ',
+                    style: buttonLargeBlue.copyWith(color: Colors.black38),
+                  ),
+                  Spacer(),
+                  Text(
+                    '12,6 kWp',
+                    style: buttonLargeBlue.copyWith(color: Colors.black38),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  )
+                ],
+              ),
             ),
           ),
           Padding(
@@ -565,14 +510,12 @@ class _SimulatorPageState
               children: [
                 Text(
                   '10/09/2019',
-                  style: buttonLargeBlue.copyWith(
-                      color: Colors.black38, fontWeight: FontWeight.normal),
+                  style: buttonLargeBlue.copyWith(color: Colors.black38, fontWeight: FontWeight.normal),
                 ),
                 Spacer(),
                 Text(
                   'R\$ 25.651,12',
-                  style: buttonLargeBlue.copyWith(
-                      color: Colors.blue[500], fontWeight: FontWeight.normal),
+                  style: buttonLargeBlue.copyWith(color: Colors.blue[500], fontWeight: FontWeight.normal),
                 ),
                 SizedBox(
                   width: 10,
