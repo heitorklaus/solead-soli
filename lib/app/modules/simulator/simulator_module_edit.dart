@@ -12,8 +12,7 @@ class SimulatorModuleEdit extends ChildModule {
 
   @override
   List<ModularRouter> get routers => [
-        ModularRouter(Modular.initialRoute,
-            child: (_, args) => SimulatorPage(mode: "edit")),
+        ModularRouter(Modular.initialRoute, child: (_, args) => SimulatorPage()),
       ];
 
   static Inject get to => Inject<SimulatorModuleEdit>.of();

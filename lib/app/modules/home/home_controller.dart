@@ -23,6 +23,9 @@ abstract class _HomeBase with Store {
   @observable
   String loadingLeads = '0';
 
+  @observable
+  String loadingBudgets = '0';
+
   @action
   init() async {
     print('[LOAD BANK TAX]');
@@ -96,10 +99,17 @@ abstract class _HomeBase with Store {
   }
 
   @action
-  Future getBudgetsLeads() async {
-    final t = await DatabaseHelper().saveBudgetOnline2();
+  Future getLeads() async {
+    final List t = await DatabaseHelper().listLeadsOnline();
+    loadingLeads = '${t.length}';
+    return t;
+  }
 
-    loadingLeads = '$t';
+  @action
+  Future getBudgets() async {
+    final List t = await DatabaseHelper().listBudgetLocal();
+    loadingBudgets = '${t.length}';
+    return t;
   }
 
   logoff() async {

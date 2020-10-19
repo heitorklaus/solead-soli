@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'power_plants.dart';
+part of 'powerPlantsOnline.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,8 +8,8 @@ part of 'power_plants.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$PowerPlants on _PowerPlants, Store {
-  final _$idAtom = Atom(name: '_PowerPlants.id');
+mixin _$PowerPlantsOnline on _PowerPlantsOnline, Store {
+  final _$idAtom = Atom(name: '_PowerPlantsOnline.id');
 
   @override
   int get id {
@@ -24,7 +24,7 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
-  final _$dataCadastroAtom = Atom(name: '_PowerPlants.dataCadastro');
+  final _$dataCadastroAtom = Atom(name: '_PowerPlantsOnline.dataCadastro');
 
   @override
   String get dataCadastro {
@@ -39,7 +39,7 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
-  final _$usuario_idAtom = Atom(name: '_PowerPlants.usuario_id');
+  final _$usuario_idAtom = Atom(name: '_PowerPlantsOnline.usuario_id');
 
   @override
   String get usuario_id {
@@ -54,7 +54,7 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
-  final _$geracaoAtom = Atom(name: '_PowerPlants.geracao');
+  final _$geracaoAtom = Atom(name: '_PowerPlantsOnline.geracao');
 
   @override
   String get geracao {
@@ -69,7 +69,7 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
-  final _$areaAtom = Atom(name: '_PowerPlants.area');
+  final _$areaAtom = Atom(name: '_PowerPlantsOnline.area');
 
   @override
   String get area {
@@ -84,7 +84,7 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
-  final _$cpfAtom = Atom(name: '_PowerPlants.cpf');
+  final _$cpfAtom = Atom(name: '_PowerPlantsOnline.cpf');
 
   @override
   String get cpf {
@@ -99,7 +99,7 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
-  final _$cepAtom = Atom(name: '_PowerPlants.cep');
+  final _$cepAtom = Atom(name: '_PowerPlantsOnline.cep');
 
   @override
   String get cep {
@@ -114,7 +114,7 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
-  final _$bairroAtom = Atom(name: '_PowerPlants.bairro');
+  final _$bairroAtom = Atom(name: '_PowerPlantsOnline.bairro');
 
   @override
   String get bairro {
@@ -129,7 +129,7 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
-  final _$numeroAtom = Atom(name: '_PowerPlants.numero');
+  final _$numeroAtom = Atom(name: '_PowerPlantsOnline.numero');
 
   @override
   String get numero {
@@ -144,7 +144,7 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
-  final _$codigoAtom = Atom(name: '_PowerPlants.codigo');
+  final _$codigoAtom = Atom(name: '_PowerPlantsOnline.codigo');
 
   @override
   String get codigo {
@@ -159,7 +159,7 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
-  final _$dadosAtom = Atom(name: '_PowerPlants.dados');
+  final _$dadosAtom = Atom(name: '_PowerPlantsOnline.dados');
 
   @override
   String get dados {
@@ -174,7 +174,7 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
-  final _$inversorAtom = Atom(name: '_PowerPlants.inversor');
+  final _$inversorAtom = Atom(name: '_PowerPlantsOnline.inversor');
 
   @override
   String get inversor {
@@ -189,7 +189,7 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
-  final _$marcaDoModuloAtom = Atom(name: '_PowerPlants.marcaDoModulo');
+  final _$marcaDoModuloAtom = Atom(name: '_PowerPlantsOnline.marcaDoModulo');
 
   @override
   String get marcaDoModulo {
@@ -204,7 +204,7 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
-  final _$numeroDeModuloAtom = Atom(name: '_PowerPlants.numeroDeModulo');
+  final _$numeroDeModuloAtom = Atom(name: '_PowerPlantsOnline.numeroDeModulo');
 
   @override
   int get numeroDeModulo {
@@ -219,7 +219,7 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
-  final _$pesoAtom = Atom(name: '_PowerPlants.peso');
+  final _$pesoAtom = Atom(name: '_PowerPlantsOnline.peso');
 
   @override
   String get peso {
@@ -234,22 +234,23 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
-  final _$potenciaAtom = Atom(name: '_PowerPlants.potencia');
+  final _$potenciaAtom = Atom(name: '_PowerPlantsOnline.potencia');
 
   @override
-  double get potencia {
+  String get potencia {
     _$potenciaAtom.reportRead();
     return super.potencia;
   }
 
   @override
-  set potencia(double value) {
+  set potencia(String value) {
     _$potenciaAtom.reportWrite(value, super.potencia, () {
       super.potencia = value;
     });
   }
 
-  final _$potenciaDoModuloAtom = Atom(name: '_PowerPlants.potenciaDoModulo');
+  final _$potenciaDoModuloAtom =
+      Atom(name: '_PowerPlantsOnline.potenciaDoModulo');
 
   @override
   String get potenciaDoModulo {
@@ -264,7 +265,7 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
-  final _$valorAtom = Atom(name: '_PowerPlants.valor');
+  final _$valorAtom = Atom(name: '_PowerPlantsOnline.valor');
 
   @override
   String get valor {
@@ -279,7 +280,7 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
-  final _$potenciaNovoAtom = Atom(name: '_PowerPlants.potenciaNovo');
+  final _$potenciaNovoAtom = Atom(name: '_PowerPlantsOnline.potenciaNovo');
 
   @override
   String get potenciaNovo {
@@ -294,7 +295,7 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
-  final _$consumoEmReaisAtom = Atom(name: '_PowerPlants.consumoEmReais');
+  final _$consumoEmReaisAtom = Atom(name: '_PowerPlantsOnline.consumoEmReais');
 
   @override
   String get consumoEmReais {
@@ -309,7 +310,7 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
-  final _$consumoEmKwAtom = Atom(name: '_PowerPlants.consumoEmKw');
+  final _$consumoEmKwAtom = Atom(name: '_PowerPlantsOnline.consumoEmKw');
 
   @override
   String get consumoEmKw {
@@ -324,7 +325,7 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
-  final _$clienteAtom = Atom(name: '_PowerPlants.cliente');
+  final _$clienteAtom = Atom(name: '_PowerPlantsOnline.cliente');
 
   @override
   String get cliente {
@@ -339,7 +340,7 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
-  final _$enderecoAtom = Atom(name: '_PowerPlants.endereco');
+  final _$enderecoAtom = Atom(name: '_PowerPlantsOnline.endereco');
 
   @override
   String get endereco {

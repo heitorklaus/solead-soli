@@ -1626,6 +1626,45 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
                                 return StatefulBuilder(
                                   builder: (context, setState) {
                                     goGeneratePDF() async {
+                                      // FORCANDO O RESGATE DOS VALORES DOS INPUTS
+
+                                      if (cliente.text == "") {
+                                        pw.cliente = "";
+                                      } else {
+                                        pw.cliente = cliente.text;
+                                      }
+
+                                      if (endereco.text == "") {
+                                        pw.endereco = "";
+                                      } else {
+                                        pw.endereco = endereco.text;
+                                      }
+
+                                      if (cpf.text == "") {
+                                        pw.cpf = "";
+                                      } else {
+                                        pw.cpf = cpf.text;
+                                      }
+
+                                      if (cep.text == "") {
+                                        pw.cep = "";
+                                      } else {
+                                        pw.cep = cep.text;
+                                      }
+
+                                      if (bairro.text == "") {
+                                        pw.bairro = "";
+                                      } else {
+                                        pw.bairro = bairro.text;
+                                      }
+
+                                      // pw.cliente = cliente.text == " " ? "www.solienergiasolar.com.br" : cliente.text;
+                                      // pw.endereco = endereco.text == " " ? "0" : endereco.text;
+                                      // pw.cpf = cpf.text == " " ? "0" : cpf.text;
+                                      // pw.cep = cep.text == " " ? "0" : cep.text;
+                                      // pw.bairro = bairro.text == " " ? "0" : bairro.text;
+                                      // pw.numero = numero.text == " " ? "0" : numero.text;
+
                                       scrollController.animateTo(scrollController.position.minScrollExtent, duration: Duration(milliseconds: 500), curve: Curves.ease);
                                       setState(() {
                                         _loaderGenerateGraph = true;

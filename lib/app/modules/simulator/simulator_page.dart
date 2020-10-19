@@ -12,6 +12,7 @@ import 'package:framework/ui/form/buttons/secondary_button.dart';
 import 'package:framework/ui/form/inputs/input_type.dart';
 import 'package:framework/ui/form/inputs/outlined_dropdown.dart';
 import 'package:framework/ui/form/inputs/outlined_text_edit.dart';
+import 'package:login/app/modules/home/home_controller.dart';
 import 'package:login/app/modules/simulator/simulator_module.dart';
 import 'package:login/app/shared/auth/repositories/auth_repository.dart';
 import 'package:login/app/shared/repositories/entities/proposal_strings.dart';
@@ -19,13 +20,15 @@ import 'package:login/app/shared/repositories/proposal_strings.dart';
 
 import 'package:login/app/shared/styles/main_colors.dart' as main;
 import 'package:login/app/shared/styles/main_style.dart';
+import 'package:login/app/shared/utils/database_helper.dart';
 import 'simulator_controller.dart';
 
 class SimulatorPage extends StatefulWidget {
   final String title;
   final int qtd;
   final String mode;
-  SimulatorPage({Key key, this.title = "Simulator", this.qtd, this.mode}) : super(key: key);
+  final String text;
+  SimulatorPage({Key key, this.title = "Simulator", this.qtd, this.mode, this.text}) : super(key: key);
 
   @override
   _SimulatorPageState createState() => _SimulatorPageState();
@@ -52,11 +55,13 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
     // TODO: implement initState
     super.initState();
 
-    print(widget.mode);
+    print(widget.text);
   }
 
   @override
   Widget build(BuildContext context) {
+    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -64,7 +69,7 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
           style: ubuntu17WhiteBold500,
         ),
       ),
-      body: widget.mode == 'insert' ? buildInsert() : buildEdit(),
+      body: widget.mode == 'insert' ? buildInsert() : buildEdit(arguments),
     );
   }
 
@@ -378,7 +383,7 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
     );
   }
 
-  buildEdit() {
+  buildEdit(args) {
     return Column(
       children: <Widget>[
         Padding(
@@ -390,10 +395,25 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
                 'Propostas Simuladas',
                 style: ubuntu16BlackBold500.copyWith(fontSize: 20, color: Colors.black87),
               ),
-              Text(
-                '45 registros(s)',
-                style: ubuntu16BlackBold500.copyWith(fontWeight: FontWeight.normal),
-              )
+              FutureBuilder(
+                future: args['tipo'] == 'leads' ? HomeController().getLeads() : HomeController().getBudgets(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                      return CircularProgressIndicator(
+                        strokeWidth: 1,
+                      );
+                    default:
+                      if (snapshot.hasError)
+                        return Text('${snapshot.error}');
+                      else
+                        return Text(
+                          '${snapshot.data.length} registros(s)',
+                          style: ubuntu16BlackBold500.copyWith(fontWeight: FontWeight.normal),
+                        );
+                  }
+                },
+              ),
             ],
           ),
         ),
@@ -455,74 +475,100 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
                 ).getLarge(),
               ],
             )),
-        buildItemPlant(),
-        buildItemPlant(),
-        buildItemPlant(),
-        buildItemPlant(),
+        //  buildItemPlant(),
+        Expanded(
+          child: FutureBuilder(
+            future: args['tipo'] == 'leads' ? HomeController().getLeads() : HomeController().getBudgets(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(child: CircularProgressIndicator());
+              }
+
+              return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                  return buildItemPlant(args['tipo'], snapshot.data[index].cliente.toString(), snapshot.data[index].potencia.toString(), snapshot.data[index].valor.toString(), snapshot.data[index].dataCadastro.toString());
+                },
+              );
+            },
+          ),
+        )
       ],
     );
   }
 
-  buildItemPlant() {
+  buildItemPlant(tipo, cliente, potencia, valor, data) {
     return Padding(
       padding: const EdgeInsets.only(top: 0, bottom: 0),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 0, right: 0, top: 10),
+            padding: const EdgeInsets.only(left: 0, right: 0, top: 0),
             child: new Divider(
               color: Colors.black38,
             ),
           ),
+          //    onTap: () {
+          //   controller.showDialogEditStep1(context);
+          // },
           InkWell(
             onTap: () {
               controller.showDialogEditStep1(context);
             },
-            child: Padding(
-              padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 4),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(Icons.offline_bolt, color: Colors.blue[300]),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    'Carlos da Silva ',
-                    style: buttonLargeBlue.copyWith(color: Colors.black38),
-                  ),
-                  Spacer(),
-                  Text(
-                    '12,6 kWp',
-                    style: buttonLargeBlue.copyWith(color: Colors.black38),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  )
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+            child: Wrap(
               children: [
-                Text(
-                  '10/09/2019',
-                  style: buttonLargeBlue.copyWith(color: Colors.black38, fontWeight: FontWeight.normal),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 3, top: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(
+                        tipo == 'leads' ? Icons.account_box : Icons.description,
+                        color: tipo == 'leads' ? MainColors.aurora[300] : MainColors.cielo[400],
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        cliente == 'null' ? 'Sem nome' : cliente,
+                        style: buttonLargeBlue.copyWith(color: Colors.black38),
+                      ),
+                      Spacer(),
+                      Text(
+                        potencia + ' kWp',
+                        style: buttonLargeBlue.copyWith(color: Colors.black38),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      )
+                    ],
+                  ),
                 ),
-                Spacer(),
-                Text(
-                  'R\$ 25.651,12',
-                  style: buttonLargeBlue.copyWith(color: Colors.blue[500], fontWeight: FontWeight.normal),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 16, bottom: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        data,
+                        style: buttonLargeBlue.copyWith(color: Colors.black38, fontWeight: FontWeight.normal),
+                      ),
+                      Spacer(),
+                      Text(
+                        valor,
+                        style: buttonLargeBlue.copyWith(color: Colors.blue[500], fontWeight: FontWeight.normal),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      )
+                    ],
+                  ),
                 ),
-                SizedBox(
-                  width: 10,
-                )
               ],
             ),
-          ),
+          )
         ],
       ),
     );

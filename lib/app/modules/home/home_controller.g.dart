@@ -24,6 +24,21 @@ mixin _$HomeController on _HomeBase, Store {
     });
   }
 
+  final _$loadingBudgetsAtom = Atom(name: '_HomeBase.loadingBudgets');
+
+  @override
+  String get loadingBudgets {
+    _$loadingBudgetsAtom.reportRead();
+    return super.loadingBudgets;
+  }
+
+  @override
+  set loadingBudgets(String value) {
+    _$loadingBudgetsAtom.reportWrite(value, super.loadingBudgets, () {
+      super.loadingBudgets = value;
+    });
+  }
+
   final _$initAsyncAction = AsyncAction('_HomeBase.init');
 
   @override
@@ -31,17 +46,25 @@ mixin _$HomeController on _HomeBase, Store {
     return _$initAsyncAction.run(() => super.init());
   }
 
-  final _$getBudgetsLeadsAsyncAction = AsyncAction('_HomeBase.getBudgetsLeads');
+  final _$getLeadsAsyncAction = AsyncAction('_HomeBase.getLeads');
 
   @override
-  Future<dynamic> getBudgetsLeads() {
-    return _$getBudgetsLeadsAsyncAction.run(() => super.getBudgetsLeads());
+  Future<dynamic> getLeads() {
+    return _$getLeadsAsyncAction.run(() => super.getLeads());
+  }
+
+  final _$getBudgetsAsyncAction = AsyncAction('_HomeBase.getBudgets');
+
+  @override
+  Future<dynamic> getBudgets() {
+    return _$getBudgetsAsyncAction.run(() => super.getBudgets());
   }
 
   @override
   String toString() {
     return '''
-loadingLeads: ${loadingLeads}
+loadingLeads: ${loadingLeads},
+loadingBudgets: ${loadingBudgets}
     ''';
   }
 }

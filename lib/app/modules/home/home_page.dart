@@ -6,12 +6,14 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:framework/ui/bottomnavigation/fab_bottom_app_bar.dart';
 import 'package:framework/ui/bottomnavigation/fab_with_icons.dart';
 import 'package:framework/ui/bottomnavigation/layout.dart';
+import 'package:login/app/app_module.dart';
 import 'package:login/app/shared/auth/auth_controller.dart';
 import 'package:login/app/shared/auth/repositories/auth_repository.dart';
 import 'package:login/app/shared/styles/main_colors.dart';
 import 'package:login/app/shared/styles/main_style.dart';
 import 'package:login/app/shared/utils/database_helper.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:intl/intl.dart';
 
 import 'home_controller.dart';
 
@@ -38,12 +40,12 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
     // TODO: implement initState
     super.initState();
     tabController = TabController(vsync: this, length: 4);
-    controller.getBudgetsLeads();
   }
 
   @override
   Widget build(BuildContext context) {
-    controller.getBudgetsLeads();
+    controller.getBudgets();
+    controller.getLeads();
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: MainColors.cielo, //or set color with: Color(0xFF0000FF)
@@ -246,7 +248,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                         Expanded(
                                           child: InkWell(
                                             onTap: () {
-                                              Modular.to.pushNamed('/simulator-edit');
+                                              Modular.to.pushNamed('/simulator-edit', arguments: {'tipo': 'budgets'});
                                             },
                                             child: AspectRatio(
                                               aspectRatio: 3 / 3,
@@ -276,8 +278,74 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                       height: 18,
                                                     ),
                                                     Icon(
+                                                      Icons.description,
+                                                      color: MainColors.cielo[400],
+                                                    ),
+                                                    SizedBox(
+                                                      height: 8,
+                                                    ),
+                                                    Observer(builder: (BuildContext context) {
+                                                      if (controller.loadingBudgets == '0') {
+                                                        return Center(
+                                                          child: Container(
+                                                            height: 2,
+                                                            width: 2,
+                                                            child: CircularProgressIndicator(
+                                                              strokeWidth: 1,
+                                                            ),
+                                                          ),
+                                                        );
+                                                      } else {
+                                                        return Text(
+                                                          controller.loadingBudgets.toString(),
+                                                          style: heading16Bold.copyWith(fontSize: 12),
+                                                        );
+                                                      }
+                                                    }),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 8,
+                                        ),
+                                        Expanded(
+                                          child: InkWell(
+                                            onTap: () {
+                                              Modular.to.pushNamed('/simulator-edit', arguments: {'tipo': 'leads'});
+                                            },
+                                            child: AspectRatio(
+                                              aspectRatio: 3 / 3,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.all(
+                                                      Radius.circular(20.0),
+                                                    ),
+                                                    // Box decoration takes a gradient
+                                                    color: Colors.white,
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.black12,
+                                                        blurRadius: 4, // has the effect of softening the shadow
+                                                        spreadRadius: 0.2, // has the effect of extending the shadow
+                                                        offset: Offset(
+                                                          -1, // horizontal, move right 10
+                                                          1, // vertical, move down 10
+                                                        ),
+                                                      ),
+                                                    ]),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Text('Leads'),
+                                                    SizedBox(
+                                                      height: 18,
+                                                    ),
+                                                    Icon(
                                                       Icons.account_box,
-                                                      color: Colors.blue,
+                                                      color: MainColors.aurora[300],
                                                     ),
                                                     SizedBox(
                                                       height: 8,
@@ -296,36 +364,12 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                       } else {
                                                         return Text(
                                                           controller.loadingLeads.toString(),
-                                                          style: heading16Bold,
+                                                          style: heading16Bold.copyWith(fontSize: 12),
                                                         );
                                                       }
                                                     }),
                                                   ],
                                                 ),
-                                                // child: Column(
-                                                //   mainAxisAlignment: MainAxisAlignment.center,
-                                                //   children: <Widget>[
-                                                //     Text('Minhas Propostas'),
-                                                //     SizedBox(
-                                                //       height: 4,
-                                                //     ),
-                                                //     Observer(builder: (BuildContext context) {
-                                                //       if (controller.loadingLeads == '0') {
-                                                //         return Center(
-                                                //           child: Container(
-                                                //             height: 10,
-                                                //             width: 10,
-                                                //             child: CircularProgressIndicator(
-                                                //               strokeWidth: 1,
-                                                //             ),
-                                                //           ),
-                                                //         );
-                                                //       } else {
-                                                //         return Text(controller.loadingLeads.toString());
-                                                //       }
-                                                //     }),
-                                                //   ],
-                                                // ),
                                               ),
                                             ),
                                           ),
@@ -354,39 +398,47 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                       ),
                                                     ),
                                                   ]),
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Text('Negociando'),
-                                                  SizedBox(
-                                                    height: 18,
-                                                  ),
-                                                  Icon(
-                                                    Icons.whatshot,
-                                                    color: Colors.blue,
-                                                  ),
-                                                  SizedBox(
-                                                    height: 8,
-                                                  ),
-                                                  Observer(builder: (BuildContext context) {
-                                                    if (controller.loadingLeads == '0') {
-                                                      return Center(
-                                                        child: Container(
-                                                          height: 2,
-                                                          width: 2,
-                                                          child: CircularProgressIndicator(
-                                                            strokeWidth: 1,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  DateTime now = DateTime.now();
+                                                  String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
+
+                                                  print(formattedDate);
+                                                },
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Text('Negociando'),
+                                                    SizedBox(
+                                                      height: 18,
+                                                    ),
+                                                    Icon(
+                                                      Icons.whatshot,
+                                                      color: MainColors.danger[300],
+                                                    ),
+                                                    SizedBox(
+                                                      height: 8,
+                                                    ),
+                                                    Observer(builder: (BuildContext context) {
+                                                      if (controller.loadingLeads == '0') {
+                                                        return Center(
+                                                          child: Container(
+                                                            height: 2,
+                                                            width: 2,
+                                                            child: CircularProgressIndicator(
+                                                              strokeWidth: 1,
+                                                            ),
                                                           ),
-                                                        ),
-                                                      );
-                                                    } else {
-                                                      return Text(
-                                                        controller.loadingLeads.toString(),
-                                                        style: heading16Bold,
-                                                      );
-                                                    }
-                                                  }),
-                                                ],
+                                                        );
+                                                      } else {
+                                                        return Text(
+                                                          controller.loadingLeads.toString(),
+                                                          style: heading16Bold.copyWith(fontSize: 12),
+                                                        );
+                                                      }
+                                                    }),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -423,7 +475,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                   ),
                                                   Icon(
                                                     Icons.wb_sunny,
-                                                    color: Colors.blue,
+                                                    color: Colors.yellow[600],
                                                   ),
                                                   SizedBox(
                                                     height: 8,
@@ -442,7 +494,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                     } else {
                                                       return Text(
                                                         controller.loadingLeads.toString(),
-                                                        style: heading16Bold,
+                                                        style: heading16Bold.copyWith(fontSize: 12),
                                                       );
                                                     }
                                                   }),

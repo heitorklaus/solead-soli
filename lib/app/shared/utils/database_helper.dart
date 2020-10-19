@@ -5,12 +5,14 @@ import 'package:diacritic/diacritic.dart';
 import 'package:dio/dio.dart';
 import 'package:login/app/shared/auth/repositories/auth_repository.dart';
 import 'package:login/app/shared/repositories/entities/plants_created.dart';
+import 'package:login/app/shared/repositories/entities/powerPlantsOnline.dart';
 import 'package:login/app/shared/repositories/entities/power_plants.dart';
 import 'package:login/app/shared/repositories/entities/version.dart';
 import 'package:login/app/shared/utils/prefs.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:io' as io;
+import 'package:intl/intl.dart';
 
 import 'dart:convert';
 import 'dart:io';
@@ -39,7 +41,7 @@ class DatabaseHelper {
   static const String csvKitsFileName = "nexendata.csv";
 
   static const String _localZipFileName = 'images_to_pdf.zip';
-  static const String dbase = "solead54.db";
+  static const String dbase = "solead3.91.db";
   static const double version = 7.3;
 
   // not mexer! KKKK
@@ -81,7 +83,7 @@ class DatabaseHelper {
     //String marcaDoModulo, int numeroDeModulo, String peso, double potencia, String
     //potenciaDoModulo, String valor, String potenciaNovo, String consumoEmReais,
     //String consumoEmKw, String cliente, String endereco})
-    await db.execute('CREATE TABLE PLANTS_BUDGET (id INTEGER PRIMARY KEY   AUTOINCREMENT, usuario_id TEXT, saveOnline INT,  status TEXT, cpf TEXT, cep TEXT, bairro TEXT, numero INT, area TEXT, codigo TEXT, dados TEXT, inversor TEXT, marca_do_modulo TEXT, numero_de_modulo INT, peso TEXT, potencia REAL, potencia_do_modulo TEXT, valor TEXT, potencianovo TEXT, consumoemreais TEXT, consumoemkw TEXT, cliente TEXT,endereco TEXT)');
+    await db.execute('CREATE TABLE PLANTS_BUDGET (id INTEGER PRIMARY KEY   AUTOINCREMENT, dataCadastro DATETIME, usuario_id TEXT, saveOnline INT,  status TEXT, cpf TEXT, cep TEXT, bairro TEXT, numero INT, area TEXT, codigo TEXT, dados TEXT, inversor TEXT, marca_do_modulo TEXT, numero_de_modulo INT, peso TEXT, potencia REAL, potencia_do_modulo TEXT, valor TEXT, potencianovo TEXT, consumoemreais TEXT, consumoemkw TEXT, cliente TEXT,endereco TEXT)');
 
     await db.execute("insert  into CITIES_IRRADIATION (ID,CITY,DEF,N,L,O,S,NE,NO,SE,SO,PRICE) VALUES (1,'CUIABÁ','5,11','5,25','4,95','4,96','4,53','5,21','5,22','4,66','4,68','0,91')");
 
@@ -209,10 +211,12 @@ class DatabaseHelper {
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, dbase);
     var db = await openDatabase(path, version: 2);
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('dd-MM-yyyy').format(now);
 
     try {
       final int idUsuario = await Prefs.getInt("USERID");
-      await db.execute('INSERT INTO PLANTS_BUDGET (usuario_id,saveOnline,status,cpf,cep,bairro,numero,area,codigo,dados,inversor,marca_do_modulo,numero_de_modulo,peso,potencia,potencia_do_modulo,valor,potencianovo,consumoemreais,consumoemkw,cliente,endereco) VALUES  ($idUsuario,0,"ORÇAMENTO","${powerPlant.cpf}","${powerPlant.cep}","${powerPlant.bairro}",${powerPlant.numero},"${powerPlant.area}",${powerPlant.codigo},"$dadosfinal","${powerPlant.inversor}","${powerPlant.marcaDoModulo}",${powerPlant.numeroDeModulo},"${powerPlant.peso}","${powerPlant.potencia}","N","${powerPlant.valor}","${powerPlant.potencia}","${powerPlant.consumoEmKw}","${powerPlant.consumoEmReais}","${powerPlant.cliente}","${powerPlant.endereco}" )');
+      await db.execute('INSERT INTO PLANTS_BUDGET (usuario_id,dataCadastro,saveOnline,status,cpf,cep,bairro,numero,area,codigo,dados,inversor,marca_do_modulo,numero_de_modulo,peso,potencia,potencia_do_modulo,valor,potencianovo,consumoemreais,consumoemkw,cliente,endereco) VALUES  ($idUsuario,"$formattedDate",0,"ORÇAMENTO","${powerPlant.cpf}","${powerPlant.cep}","${powerPlant.bairro}",${powerPlant.numero},"${powerPlant.area}",${powerPlant.codigo},"$dadosfinal","${powerPlant.inversor}","${powerPlant.marcaDoModulo}",${powerPlant.numeroDeModulo},"${powerPlant.peso}","${powerPlant.potencia}","N","${powerPlant.valor}","${powerPlant.potencia}","${powerPlant.consumoEmKw}","${powerPlant.consumoEmReais}","${powerPlant.cliente}","${powerPlant.endereco}" )');
       //
     } catch (e) {
       print('[ERROR]');
@@ -278,14 +282,23 @@ class DatabaseHelper {
     return strings;
   }
 
-  Future saveBudgetOnline2() async {
+  Future listBudgetLocal() async {
     final dbClient = await db;
-
-    final list = await dbClient.rawQuery('select * from PLANTS_BUDGET');
-
+    final list = await dbClient.rawQuery('select * from PLANTS_BUDGET order by id DESC');
     final strings = list.map<PowerPlants>((json) => PowerPlants.fromJson(json)).toList();
+    return strings;
+  }
 
-    return strings.length;
+  Future listLeadsOnline() async {
+    Map<String, String> headers = await AuthRepository.getHeaders();
+    headers["Content-Type"] = "application/json";
+    final q = await http.get('https://soleadapp.herokuapp.com/api/posts/get/?size=2000&page=0', headers: headers);
+
+    final data = json.decode(q.body);
+
+    final all = data["content"].map<PowerPlantsOnline>((json) => PowerPlantsOnline.fromJson(json)).toList();
+
+    return all;
   }
 
   Future<PowerPlants> updateBudgetLocal() async {

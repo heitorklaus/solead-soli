@@ -1,10 +1,10 @@
 import 'package:mobx/mobx.dart';
 
-part 'power_plants.g.dart';
+part 'powerPlantsOnline.g.dart';
 //    await db.execute('CREATE TABLE PLANTS_BUDGET (ID int8 NOT NULL, CPF TEXT, CEP TEXT, BAIRRO TEXT, NUMERO INT AREA TEXT, CODIGO TEXT, DADOS TEXT, INVERSOR TEXT, MARCADOMODULO TEXT, NUMERODEMODULO INT, PESO TEXT, POTENCIA TEXT, POTENCIADOMODULO TEXT, VALOR TEXT, POTENCIANOVO TEXT, CONSUMOEMREAIS TEXT, CONSUMOEMKW TEXT, CLIENTE TEXT,ENDERECO TEXT, CONSTRAINT PLANTS_BUDGET_pkey PRIMARY KEY (ID))');
 
-class PowerPlants extends _PowerPlants with _$PowerPlants {
-  PowerPlants({int id, String usuario_id, String dataCadastro, String geracao, String cpf, String cep, String bairro, String numero, String area, String codigo, String dados, String inversor, String marcaDoModulo, int numeroDeModulo, String peso, double potencia, String potenciaDoModulo, String valor, String potenciaNovo, String consumoEmReais, String consumoEmKw, String cliente, String endereco})
+class PowerPlantsOnline extends _PowerPlantsOnline with _$PowerPlantsOnline {
+  PowerPlantsOnline({int id, String usuario_id, String dataCadastro, String geracao, String cpf, String cep, String bairro, String numero, String area, String codigo, String dados, String inversor, String marcaDoModulo, int numeroDeModulo, String peso, String potencia, String potenciaDoModulo, String valor, String potenciaNovo, String consumoEmReais, String consumoEmKw, String cliente, String endereco})
       : super(
           id: id,
           dataCadastro: dataCadastro,
@@ -59,8 +59,8 @@ class PowerPlants extends _PowerPlants with _$PowerPlants {
     };
   }
 
-  factory PowerPlants.fromJson(Map json) {
-    return PowerPlants(
+  factory PowerPlantsOnline.fromJson(Map json) {
+    return PowerPlantsOnline(
         // id: json['id'],
         usuario_id: json['usuario_id'],
         dataCadastro: json['dataCadastro'],
@@ -86,7 +86,7 @@ class PowerPlants extends _PowerPlants with _$PowerPlants {
   }
 }
 
-abstract class _PowerPlants with Store {
+abstract class _PowerPlantsOnline with Store {
   @observable
   int id;
   @observable
@@ -118,7 +118,7 @@ abstract class _PowerPlants with Store {
   @observable
   String peso;
   @observable
-  double potencia;
+  String potencia;
   @observable
   String potenciaDoModulo;
   @observable
@@ -135,5 +135,5 @@ abstract class _PowerPlants with Store {
   String cliente;
   @observable
   String endereco;
-  _PowerPlants({this.id, this.dataCadastro, this.usuario_id, this.geracao, this.area, this.cpf, this.cep, this.bairro, this.numero, this.codigo, this.dados, this.inversor, this.marcaDoModulo, this.numeroDeModulo, this.peso, this.potencia, this.potenciaDoModulo, this.valor, this.potenciaNovo, this.consumoEmReais, this.consumoEmKw, this.cliente, this.endereco});
+  _PowerPlantsOnline({this.id, this.dataCadastro, this.usuario_id, this.geracao, this.area, this.cpf, this.cep, this.bairro, this.numero, this.codigo, this.dados, this.inversor, this.marcaDoModulo, this.numeroDeModulo, this.peso, this.potencia, this.potenciaDoModulo, this.valor, this.potenciaNovo, this.consumoEmReais, this.consumoEmKw, this.cliente, this.endereco});
 }
