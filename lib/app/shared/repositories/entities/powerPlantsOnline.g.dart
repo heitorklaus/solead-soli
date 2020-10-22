@@ -24,18 +24,19 @@ mixin _$PowerPlantsOnline on _PowerPlantsOnline, Store {
     });
   }
 
-  final _$dataCadastroAtom = Atom(name: '_PowerPlantsOnline.dataCadastro');
+  final _$data_cadastroUnusedAtom =
+      Atom(name: '_PowerPlantsOnline.data_cadastroUnused');
 
   @override
-  String get dataCadastro {
-    _$dataCadastroAtom.reportRead();
-    return super.dataCadastro;
+  String get data_cadastroUnused {
+    _$data_cadastroUnusedAtom.reportRead();
+    return super.data_cadastroUnused;
   }
 
   @override
-  set dataCadastro(String value) {
-    _$dataCadastroAtom.reportWrite(value, super.dataCadastro, () {
-      super.dataCadastro = value;
+  set data_cadastroUnused(String value) {
+    _$data_cadastroUnusedAtom.reportWrite(value, super.data_cadastroUnused, () {
+      super.data_cadastroUnused = value;
     });
   }
 
@@ -355,11 +356,26 @@ mixin _$PowerPlantsOnline on _PowerPlantsOnline, Store {
     });
   }
 
+  final _$usuarioAtom = Atom(name: '_PowerPlantsOnline.usuario');
+
+  @override
+  Usuario get usuario {
+    _$usuarioAtom.reportRead();
+    return super.usuario;
+  }
+
+  @override
+  set usuario(Usuario value) {
+    _$usuarioAtom.reportWrite(value, super.usuario, () {
+      super.usuario = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
 id: ${id},
-dataCadastro: ${dataCadastro},
+data_cadastroUnused: ${data_cadastroUnused},
 usuario_id: ${usuario_id},
 geracao: ${geracao},
 area: ${area},
@@ -380,7 +396,8 @@ potenciaNovo: ${potenciaNovo},
 consumoEmReais: ${consumoEmReais},
 consumoEmKw: ${consumoEmKw},
 cliente: ${cliente},
-endereco: ${endereco}
+endereco: ${endereco},
+usuario: ${usuario}
     ''';
   }
 }

@@ -4,10 +4,10 @@ part 'power_plants.g.dart';
 //    await db.execute('CREATE TABLE PLANTS_BUDGET (ID int8 NOT NULL, CPF TEXT, CEP TEXT, BAIRRO TEXT, NUMERO INT AREA TEXT, CODIGO TEXT, DADOS TEXT, INVERSOR TEXT, MARCADOMODULO TEXT, NUMERODEMODULO INT, PESO TEXT, POTENCIA TEXT, POTENCIADOMODULO TEXT, VALOR TEXT, POTENCIANOVO TEXT, CONSUMOEMREAIS TEXT, CONSUMOEMKW TEXT, CLIENTE TEXT,ENDERECO TEXT, CONSTRAINT PLANTS_BUDGET_pkey PRIMARY KEY (ID))');
 
 class PowerPlants extends _PowerPlants with _$PowerPlants {
-  PowerPlants({int id, String usuario_id, String dataCadastro, String geracao, String cpf, String cep, String bairro, String numero, String area, String codigo, String dados, String inversor, String marcaDoModulo, int numeroDeModulo, String peso, double potencia, String potenciaDoModulo, String valor, String potenciaNovo, String consumoEmReais, String consumoEmKw, String cliente, String endereco})
+  PowerPlants({int id, String usuario_id, String data_cadastro, String geracao, String cpf, String cep, String bairro, String numero, String area, String codigo, String dados, String inversor, String marcaDoModulo, int numeroDeModulo, String peso, double potencia, String potenciaDoModulo, String valor, String potenciaNovo, String consumoEmReais, String consumoEmKw, String cliente, String endereco})
       : super(
           id: id,
-          dataCadastro: dataCadastro,
+          data_cadastro: data_cadastro,
           usuario_id: usuario_id,
           geracao: geracao,
           cpf: cpf,
@@ -34,7 +34,6 @@ class PowerPlants extends _PowerPlants with _$PowerPlants {
   toJson() {
     return {
       "id": id,
-      "dataCadastro": dataCadastro,
       "usuario_id": usuario_id,
       "geracao": geracao,
       "cpf": cpf,
@@ -63,7 +62,7 @@ class PowerPlants extends _PowerPlants with _$PowerPlants {
     return PowerPlants(
         // id: json['id'],
         usuario_id: json['usuario_id'],
-        dataCadastro: json['dataCadastro'],
+        data_cadastro: json['data_cadastro'],
         geracao: json['geracao'],
         area: json['area'],
         cpf: json['cpf'],
@@ -90,7 +89,7 @@ abstract class _PowerPlants with Store {
   @observable
   int id;
   @observable
-  String dataCadastro;
+  String data_cadastro;
   @observable
   String usuario_id;
   @observable
@@ -135,5 +134,5 @@ abstract class _PowerPlants with Store {
   String cliente;
   @observable
   String endereco;
-  _PowerPlants({this.id, this.dataCadastro, this.usuario_id, this.geracao, this.area, this.cpf, this.cep, this.bairro, this.numero, this.codigo, this.dados, this.inversor, this.marcaDoModulo, this.numeroDeModulo, this.peso, this.potencia, this.potenciaDoModulo, this.valor, this.potenciaNovo, this.consumoEmReais, this.consumoEmKw, this.cliente, this.endereco});
+  _PowerPlants({this.id, this.data_cadastro, this.usuario_id, this.geracao, this.area, this.cpf, this.cep, this.bairro, this.numero, this.codigo, this.dados, this.inversor, this.marcaDoModulo, this.numeroDeModulo, this.peso, this.potencia, this.potenciaDoModulo, this.valor, this.potenciaNovo, this.consumoEmReais, this.consumoEmKw, this.cliente, this.endereco});
 }

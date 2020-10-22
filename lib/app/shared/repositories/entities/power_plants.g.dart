@@ -24,18 +24,18 @@ mixin _$PowerPlants on _PowerPlants, Store {
     });
   }
 
-  final _$dataCadastroAtom = Atom(name: '_PowerPlants.dataCadastro');
+  final _$data_cadastroAtom = Atom(name: '_PowerPlants.data_cadastro');
 
   @override
-  String get dataCadastro {
-    _$dataCadastroAtom.reportRead();
-    return super.dataCadastro;
+  String get data_cadastro {
+    _$data_cadastroAtom.reportRead();
+    return super.data_cadastro;
   }
 
   @override
-  set dataCadastro(String value) {
-    _$dataCadastroAtom.reportWrite(value, super.dataCadastro, () {
-      super.dataCadastro = value;
+  set data_cadastro(String value) {
+    _$data_cadastroAtom.reportWrite(value, super.data_cadastro, () {
+      super.data_cadastro = value;
     });
   }
 
@@ -358,7 +358,7 @@ mixin _$PowerPlants on _PowerPlants, Store {
   String toString() {
     return '''
 id: ${id},
-dataCadastro: ${dataCadastro},
+data_cadastro: ${data_cadastro},
 usuario_id: ${usuario_id},
 geracao: ${geracao},
 area: ${area},

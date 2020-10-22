@@ -481,13 +481,19 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
             future: args['tipo'] == 'leads' ? HomeController().getLeads() : HomeController().getBudgets(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return Center(child: CircularProgressIndicator());
+                return Center(
+                    child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                ));
               }
 
               return ListView.builder(
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
-                  return buildItemPlant(args['tipo'], snapshot.data[index].cliente.toString(), snapshot.data[index].potencia.toString(), snapshot.data[index].valor.toString(), snapshot.data[index].dataCadastro.toString());
+                  // se for tipo LEADS ele usa o MODEL SavePlantsOnline que tem uma regra pra nao enviar a data pro BACKEND pq no backend gera automatico
+                  final String s = args['tipo'] == 'leads' ? snapshot.data[index].data_cadastroUnused : snapshot.data[index].data_cadastro;
+                  final usuari = args['tipo'] == 'leads' ? snapshot.data[index].usuario.name : ' ';
+                  return buildItemPlant(args['tipo'], snapshot.data[index].cliente.toString(), snapshot.data[index].potencia.toString(), snapshot.data[index].valor.toString(), s, usuari);
                 },
               );
             },
@@ -497,7 +503,7 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
     );
   }
 
-  buildItemPlant(tipo, cliente, potencia, valor, data) {
+  buildItemPlant(tipo, cliente, potencia, valor, data, usuario) {
     return Padding(
       padding: const EdgeInsets.only(top: 0, bottom: 0),
       child: Column(
@@ -536,39 +542,63 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
                         style: buttonLargeBlue.copyWith(color: Colors.black38),
                       ),
                       Spacer(),
-                      Text(
-                        potencia + ' kWp',
-                        style: buttonLargeBlue.copyWith(color: Colors.black38),
-                      ),
                       SizedBox(
                         width: 10,
                       )
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 16, bottom: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        data,
-                        style: buttonLargeBlue.copyWith(color: Colors.black38, fontWeight: FontWeight.normal),
-                      ),
-                      Spacer(),
-                      Text(
-                        valor,
-                        style: buttonLargeBlue.copyWith(color: Colors.blue[500], fontWeight: FontWeight.normal),
-                      ),
-                      SizedBox(
-                        width: 10,
+                tipo == 'leads'
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Feita por: ',
+                              style: buttonLargeBlue.copyWith(color: Colors.black38, fontWeight: FontWeight.normal),
+                            ),
+                            Text(
+                              usuario,
+                              style: buttonLargeBlue.copyWith(color: Colors.blue[500], fontWeight: FontWeight.normal),
+                            ),
+                            Text(
+                              ' em ',
+                              style: buttonLargeBlue.copyWith(color: Colors.black38, fontWeight: FontWeight.normal),
+                            ),
+                            Text(tipo == 'leads' ? data.split("T")[0].split("-")[2] + "/" + data.split("T")[0].split("-")[1] + "/" + data.split("T")[0].split("-")[0] : data, style: buttonLargeBlue.copyWith(color: Colors.black38, fontWeight: FontWeight.normal, fontSize: 16)),
+                            Spacer(),
+                            SizedBox(
+                              width: 10,
+                            )
+                          ],
+                        ),
                       )
-                    ],
-                  ),
+                    : Text(tipo == 'leads' ? data.split("T")[0].split("-")[2] + "/" + data.split("T")[0].split("-")[1] + "/" + data.split("T")[0].split("-")[0] : data, style: buttonLargeBlue.copyWith(color: Colors.black38, fontWeight: FontWeight.normal, fontSize: 16)),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  'Potencia: ',
+                  style: buttonLargeBlue.copyWith(color: Colors.black38, fontWeight: FontWeight.normal),
+                ),
+                Text(
+                  potencia + ' kWp',
+                  style: buttonLargeBlue.copyWith(color: MainColors.aurora[300]),
+                ),
+                Spacer(),
+                Text(
+                  valor,
+                  style: buttonLargeBlue.copyWith(color: MainColors.aurora[300], fontWeight: FontWeight.normal),
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

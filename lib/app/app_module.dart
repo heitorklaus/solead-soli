@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:login/app/app_widget.dart';
 import 'package:login/app/modules/home/home_controller.dart';
 import 'package:login/app/modules/home/home_module.dart';
+import 'package:login/app/modules/login/login_controller.dart';
 import 'package:login/app/modules/simulator/simulator_module_edit.dart';
 import 'package:login/app/modules/update/update_module.dart';
 import 'package:login/app/modules/simulator/simulator_module.dart';
@@ -36,19 +37,37 @@ class AppModule extends MainModule {
     print("Local Version: " + "$localVersion" + " Online Version: " + "$onlineVersion");
   });
 
-  final timer = Timer.periodic(Duration(seconds: 5), (Timer t) {
+  final timer = Timer.periodic(Duration(seconds: 2), (Timer t) {
     // HomeController().getBudgetsLeads();
 
-    DatabaseHelper().saveBudgetOnline().then((value) async {
-      if (value.length > 0) {
-        Map<String, String> headers = await AuthRepository.getHeaders();
-        headers["Content-Type"] = "application/json";
+    DatabaseHelper().saveBudgetOnline().then((value0) async {
+      if (value0.length > 0) {
+        final token = await Prefs.getString("TOKEN");
+        Map<String, String> headers = {
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer 1',
+        };
 
-        final encodedResults = jsonEncode(value).replaceAll("\n", "");
+        Map<String, String> headers2 = {
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        };
 
-        print('chamada para API');
-        final auth = await http.post('https://soleadapp.herokuapp.com/api/posts/', headers: headers, body: encodedResults).then((value) {
-          if (value.statusCode == 200) DatabaseHelper().updateBudgetLocal();
+        final encodedResults = jsonEncode(value0).replaceAll("\n", "");
+
+        await http.post('https://soleadapp.herokuapp.com/api/posts/', headers: headers2, body: encodedResults).then((value1) {
+          if (value1.statusCode == 500) {
+            LoginController().reLogin().then((token) async {
+              if (token != null) {
+                await http.post('https://soleadapp.herokuapp.com/api/posts/', headers: headers2, body: encodedResults).then((value2) {
+                  if (value2.statusCode == 200) DatabaseHelper().updateBudgetLocal();
+                });
+              }
+            });
+          }
+          if (value1.statusCode == 200) DatabaseHelper().updateBudgetLocal();
         });
       }
     });

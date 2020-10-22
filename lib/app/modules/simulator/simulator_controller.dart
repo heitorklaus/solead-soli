@@ -57,7 +57,14 @@ abstract class _SimulatorControllerBase with Store {
           return StatefulBuilder(
             builder: (context, setState) {
               return AlertDialog(
+                contentPadding: EdgeInsets.all(0.0),
                 content: Scaffold(
+                  appBar: AppBar(
+                    title: Text(
+                      "Proposta #455665",
+                      style: ubuntu17WhiteBold500,
+                    ),
+                  ),
                   backgroundColor: Colors.white,
                   body: SingleChildScrollView(child: Text('teste')),
                 ),
@@ -1988,6 +1995,7 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
                                                                                   inputType: InputType.EXTRA_SMALL,
                                                                                 ),
                                                                               ),
+                                                                              SizedBox(width: 10),
                                                                               Expanded(
                                                                                 flex: 1,
                                                                                 child: OutlinedTextEdit(

@@ -25,22 +25,11 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
       body: Stack(
         children: <Widget>[
           Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [
-                      const Color(0xFF3DBAEB),
-                      const Color(0xFF2184AA),
-                    ],
-                    begin: const FractionalOffset(0.0, 0.0),
-                    end: const FractionalOffset(1.0, 0.0),
-                    stops: [0.0, 1.0],
-                    tileMode: TileMode.clamp),
-              ),
+              decoration: BoxDecoration(color: Colors.blue[400]),
               child: LayoutBuilder(
                 builder: (context, constraint) {
                   return ConstrainedBox(
-                    constraints:
-                        BoxConstraints(minHeight: constraint.maxHeight),
+                    constraints: BoxConstraints(minHeight: constraint.maxHeight),
                     child: IntrinsicHeight(
                       child: Column(
                         children: <Widget>[
@@ -62,10 +51,8 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.black12,
-                                        blurRadius:
-                                            3, // has the effect of softening the shadow
-                                        spreadRadius:
-                                            0.2, // has the effect of extending the shadow
+                                        blurRadius: 3, // has the effect of softening the shadow
+                                        spreadRadius: 0.2, // has the effect of extending the shadow
                                         offset: Offset(
                                           0, // horizontal, move right 10
                                           -3, // vertical, move down 10
@@ -78,8 +65,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                                       topLeft: Radius.circular(33.0),
                                     )),
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceBetween, // mainAxisAlignment
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween, // mainAxisAlignment
 
                                   children: <Widget>[
                                     SizedBox(
@@ -88,8 +74,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                                     Row(
                                       children: <Widget>[
                                         Container(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 32),
+                                            margin: EdgeInsets.symmetric(horizontal: 32),
                                             child: Text(
                                               'Entrar no aplicativo',
                                               style: heading16Bold,
@@ -100,16 +85,14 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                                       height: 12,
                                     ),
                                     Container(
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 32),
+                                      margin: EdgeInsets.symmetric(horizontal: 32),
                                       child: Column(
                                         children: <Widget>[
                                           Row(
                                             children: <Widget>[
                                               Expanded(
                                                 child: OutlinedTextEdit(
-                                                  controller:
-                                                      controller.username,
+                                                  controller: controller.username,
                                                   onChanged: (value) => {},
                                                   label: "Dígite seu usuário",
                                                 ),
@@ -126,8 +109,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                                       height: 8,
                                     ),
                                     Container(
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 32),
+                                      margin: EdgeInsets.symmetric(horizontal: 32),
                                       child: Column(
                                         children: <Widget>[
                                           Row(
@@ -135,8 +117,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                                               Expanded(
                                                 child: OutlinedTextEdit(
                                                   obscureText: true,
-                                                  controller:
-                                                      controller.password,
+                                                  controller: controller.password,
                                                   onChanged: (value) => {},
                                                   label: "Dígite sua senha",
                                                 ),
@@ -155,8 +136,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                                     Observer(builder: (BuildContext context) {
                                       if (controller.loading == false) {
                                         return Container(
-                                          margin: EdgeInsets.symmetric(
-                                              horizontal: 32, vertical: 16),
+                                          margin: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                                           child: Row(
                                             children: <Widget>[
                                               Expanded(
@@ -167,10 +147,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                                                   ),
                                                   //onPressed:controller.loginWithGoogle,
 
-                                                  onPressed:
-                                                      controller.disableAdd
-                                                          ? null
-                                                          : controller.loginApi,
+                                                  onPressed: controller.disableAdd ? null : controller.loginApi,
                                                 ).getLarge(),
                                               ),
                                             ],
