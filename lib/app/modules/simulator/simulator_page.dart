@@ -400,8 +400,12 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
-                      return CircularProgressIndicator(
-                        strokeWidth: 1,
+                      return Container(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 1,
+                        ),
                       );
                     default:
                       if (snapshot.hasError)
@@ -483,7 +487,7 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
               if (!snapshot.hasData) {
                 return Center(
                     child: CircularProgressIndicator(
-                  strokeWidth: 2,
+                  strokeWidth: 1,
                 ));
               }
 
@@ -493,7 +497,8 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
                   // se for tipo LEADS ele usa o MODEL SavePlantsOnline que tem uma regra pra nao enviar a data pro BACKEND pq no backend gera automatico
                   final String s = args['tipo'] == 'leads' ? snapshot.data[index].data_cadastroUnused : snapshot.data[index].data_cadastro;
                   final usuari = args['tipo'] == 'leads' ? snapshot.data[index].usuario.name : ' ';
-                  return buildItemPlant(args['tipo'], snapshot.data[index].cliente.toString(), snapshot.data[index].potencia.toString(), snapshot.data[index].valor.toString(), s, usuari);
+                  //return buildItemPlant(args['tipo'], snapshot.data[index].cliente.toString(), snapshot.data[index].potencia.toString(), snapshot.data[index].valor.toString(), s, usuari);
+                  return args['tipo'] == 'leads' ? buildItemPlant(args['tipo'], snapshot.data[index].cliente.toString(), snapshot.data[index].potencia.toString(), snapshot.data[index].valor.toString(), s, usuari, snapshot.data[index].id.toString()) : buildItemPlantLocal(args['tipo'], snapshot.data[index].cliente.toString(), snapshot.data[index].potencia.toString(), snapshot.data[index].valor.toString(), s, snapshot.data[index].id.toString());
                 },
               );
             },
@@ -503,7 +508,7 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
     );
   }
 
-  buildItemPlant(tipo, cliente, potencia, valor, data, usuario) {
+  buildItemPlantLocal(tipo, cliente, potencia, valor, data, id) {
     return Padding(
       padding: const EdgeInsets.only(top: 0, bottom: 0),
       child: Column(
@@ -521,7 +526,7 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
           // },
           InkWell(
             onTap: () {
-              controller.showDialogEditStep1(context);
+              controller.showDialogEditStep1(context, id, 'local');
             },
             child: Wrap(
               children: [
@@ -531,17 +536,92 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Icon(
-                        tipo == 'leads' ? Icons.account_box : Icons.description,
-                        color: tipo == 'leads' ? MainColors.aurora[300] : MainColors.cielo[400],
+                        Icons.description,
                       ),
                       SizedBox(
                         width: 10,
                       ),
                       Text(
                         cliente == 'null' ? 'Sem nome' : cliente,
-                        style: buttonLargeBlue.copyWith(color: Colors.black38),
+                        style: buttonLargeBlue.copyWith(color: Colors.black),
                       ),
                       Spacer(),
+                      Text(data, style: buttonLargeBlue.copyWith(color: Colors.black, fontWeight: FontWeight.normal, fontSize: 16)),
+                      SizedBox(
+                        width: 10,
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 16, bottom: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Potencia: ',
+                        style: buttonLargeBlue.copyWith(color: Colors.black38, fontWeight: FontWeight.normal),
+                      ),
+                      Text(
+                        potencia + ' kWp',
+                        style: buttonLargeBlue.copyWith(color: MainColors.aurora[300]),
+                      ),
+                      Spacer(),
+                      Text(
+                        valor,
+                        style: buttonLargeBlue.copyWith(color: MainColors.aurora[300], fontWeight: FontWeight.normal),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  buildItemPlant(tipo, cliente, potencia, valor, data, usuario, id) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 0, bottom: 0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 0, right: 0, top: 0),
+            child: new Divider(
+              color: Colors.black38,
+            ),
+          ),
+          //    onTap: () {
+          //   controller.showDialogEditStep1(context);
+          // },
+          InkWell(
+            onTap: () {
+              controller.showDialogEditStep1(context, id, 'online');
+            },
+            child: Wrap(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 0, top: 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(
+                        tipo == 'leads' ? Icons.account_box : Icons.description,
+                        color: tipo == 'leads' ? Colors.black : MainColors.cielo[400],
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        cliente == 'null' ? 'Sem nome' : cliente,
+                        style: buttonLargeBlue.copyWith(color: Colors.black),
+                      ),
+                      Spacer(),
+                      Text(tipo == 'leads' ? ' ' : data, style: buttonLargeBlue.copyWith(color: Colors.black38, fontWeight: FontWeight.normal, fontSize: 16)),
                       SizedBox(
                         width: 10,
                       )
@@ -574,27 +654,27 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
                           ],
                         ),
                       )
-                    : Text(tipo == 'leads' ? data.split("T")[0].split("-")[2] + "/" + data.split("T")[0].split("-")[1] + "/" + data.split("T")[0].split("-")[0] : data, style: buttonLargeBlue.copyWith(color: Colors.black38, fontWeight: FontWeight.normal, fontSize: 16)),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  'Potencia: ',
-                  style: buttonLargeBlue.copyWith(color: Colors.black38, fontWeight: FontWeight.normal),
-                ),
-                Text(
-                  potencia + ' kWp',
-                  style: buttonLargeBlue.copyWith(color: MainColors.aurora[300]),
-                ),
-                Spacer(),
-                Text(
-                  valor,
-                  style: buttonLargeBlue.copyWith(color: MainColors.aurora[300], fontWeight: FontWeight.normal),
+                    : Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 16, bottom: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Potencia: ',
+                        style: buttonLargeBlue.copyWith(color: Colors.black38, fontWeight: FontWeight.normal),
+                      ),
+                      Text(
+                        potencia + ' kWp',
+                        style: buttonLargeBlue.copyWith(color: MainColors.aurora[300]),
+                      ),
+                      Spacer(),
+                      Text(
+                        valor,
+                        style: buttonLargeBlue.copyWith(color: MainColors.aurora[300], fontWeight: FontWeight.normal),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

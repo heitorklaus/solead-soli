@@ -37,30 +37,7 @@ class PowerPlantsOnline extends _PowerPlantsOnline with _$PowerPlantsOnline {
   }
 
   factory PowerPlantsOnline.fromJson(Map json) {
-    return PowerPlantsOnline(
-        // id: json['id'],
-        usuario_id: json['usuario_id'],
-        data_cadastroUnused: json['data_cadastro'],
-        geracao: json['geracao'],
-        area: json['area'],
-        cpf: json['cpf'],
-        cep: json['cep'],
-        bairro: json['bairro'],
-        numero: '${json['numero']}',
-        codigo: json['codigo'],
-        dados: json['dados'],
-        inversor: json['inversor'],
-        marcaDoModulo: json['marca_do_modulo'],
-        numeroDeModulo: json['numero_de_modulo'],
-        peso: json['peso'],
-        potencia: '${json['potencia']}',
-        potenciaDoModulo: json['potenciaDoModulo'],
-        valor: json['valor'],
-        consumoEmReais: json['consumoemreais'],
-        consumoEmKw: json['consumoemkw'],
-        cliente: json['cliente'],
-        endereco: json['endereco'],
-        usuario: Usuario.fromJson(json['usuario']));
+    return PowerPlantsOnline(id: json['id'], usuario_id: json['usuario_id'], data_cadastroUnused: json['data_cadastro'], geracao: json['geracao'], area: json['area'], cpf: json['cpf'], cep: json['cep'], bairro: json['bairro'], numero: '${json['numero']}', codigo: json['codigo'], dados: json['dados'], inversor: json['inversor'], marcaDoModulo: json['marca_do_modulo'], numeroDeModulo: json['numero_de_modulo'], peso: json['peso'], potencia: '${json['potencia']}', potenciaDoModulo: json['potenciaDoModulo'], valor: json['valor'], consumoEmReais: json['consumoemreais'], consumoEmKw: json['consumoemkw'], cliente: json['cliente'], endereco: json['endereco'], usuario: Usuario.fromJson(json['usuario']));
   }
 }
 

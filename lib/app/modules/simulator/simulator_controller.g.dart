@@ -57,13 +57,31 @@ mixin _$SimulatorController on _SimulatorControllerBase, Store {
     return ObservableFuture(_$future);
   }
 
+  final _$getLeadSelectedAsyncAction =
+      AsyncAction('_SimulatorControllerBase.getLeadSelected');
+
+  @override
+  Future<dynamic> getLeadSelected(dynamic id) {
+    return _$getLeadSelectedAsyncAction.run(() => super.getLeadSelected(id));
+  }
+
+  final _$getBudgetSelectedLocalAsyncAction =
+      AsyncAction('_SimulatorControllerBase.getBudgetSelectedLocal');
+
+  @override
+  Future<dynamic> getBudgetSelectedLocal(dynamic id) {
+    return _$getBudgetSelectedLocalAsyncAction
+        .run(() => super.getBudgetSelectedLocal(id));
+  }
+
   final _$showDialogEditStep1AsyncAction =
       AsyncAction('_SimulatorControllerBase.showDialogEditStep1');
 
   @override
-  Future showDialogEditStep1(dynamic context) {
+  Future showDialogEditStep1(
+      dynamic context, dynamic a, dynamic localOrOnline) {
     return _$showDialogEditStep1AsyncAction
-        .run(() => super.showDialogEditStep1(context));
+        .run(() => super.showDialogEditStep1(context, a, localOrOnline));
   }
 
   final _$showDialogKitMenorAsyncAction =

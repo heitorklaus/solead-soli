@@ -7,6 +7,8 @@ import 'package:login/app/shared/auth/repositories/auth_repository.dart';
 import 'package:login/app/shared/repositories/entities/plants_created.dart';
 import 'package:login/app/shared/repositories/entities/powerPlantsOnline.dart';
 import 'package:login/app/shared/repositories/entities/power_plants.dart';
+import 'package:login/app/shared/repositories/entities/power_plants_selected.dart';
+import 'package:login/app/shared/repositories/entities/power_plants_selected_local.dart';
 import 'package:login/app/shared/repositories/entities/version.dart';
 import 'package:login/app/shared/utils/prefs.dart';
 import 'package:path/path.dart';
@@ -32,7 +34,7 @@ class DatabaseHelper {
 
 // LOCAL DO APP PARA DOWNLOAD E ATUALIZACOES
 // GOOGLEDRIVE/SOLI ENERGIA SOLAR/appdata/solead.apk
-  static const String updateAppPath = 'https://drive.google.com/uc?id=1AR-tz1sh0bTF7jH4vEWhNf26lnb53hXs&export=download';
+  static const String updateAppPath = 'https://drive.google.com/u/0/uc?export=download&confirm=dJsT&id=1tuzvj-V1Vt9WuLPvbEz-_heBjP9wiKLy';
 
 // LOCAL DO CSV COM OS VALORES DOS KITS
   static const String csvKitsPath = "http://www.klausmetal.com.br/nexendata.csv";
@@ -41,8 +43,8 @@ class DatabaseHelper {
   static const String csvKitsFileName = "nexendata.csv";
 
   static const String _localZipFileName = 'images_to_pdf.zip';
-  static const String dbase = "soleads5.8.db";
-  static const double version = 7.3;
+  static const String dbase = "soleads7.2.db";
+  static const double version = 7.4;
 
   // not mexer! KKKK
   final stop = Prefs.setString("STOP", "FALSE");
@@ -299,6 +301,24 @@ class DatabaseHelper {
     final all = data["content"].map<PowerPlantsOnline>((json) => PowerPlantsOnline.fromJson(json)).toList();
 
     return all;
+  }
+
+  Future listLeadSelected(param) async {
+    Map<String, String> headers = await AuthRepository.getHeaders();
+    headers["Content-Type"] = "application/json";
+    final auth = await http.get('https://soleadapp.herokuapp.com/api/posts/get/$param', headers: headers);
+
+    final data = PowerPlantsSelected.fromJson(json.decode(auth.body));
+    return data;
+  }
+
+  Future listBugetSelectedLocal(param) async {
+    final dbClient = await db;
+
+    final list = await dbClient.rawQuery("select * from PLANTS_BUDGET where id =$param");
+
+    final valor = new PowerPlantsSelectedLocal.fromJson(list.first);
+    return valor;
   }
 
   Future<PowerPlants> updateBudgetLocal() async {

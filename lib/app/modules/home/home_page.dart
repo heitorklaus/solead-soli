@@ -12,6 +12,7 @@ import 'package:login/app/shared/auth/repositories/auth_repository.dart';
 import 'package:login/app/shared/styles/main_colors.dart';
 import 'package:login/app/shared/styles/main_style.dart';
 import 'package:login/app/shared/utils/database_helper.dart';
+import 'package:login/app/shared/utils/prefs.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:intl/intl.dart';
 
@@ -449,77 +450,94 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                   SizedBox(
                                     width: 8,
                                   ),
-                                  Container(
-                                    padding: EdgeInsets.all(10),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: InkWell(
-                                            onTap: () {
-                                              Modular.to.pushNamed('/simulator-edit', arguments: {'tipo': 'leads'});
-                                            },
-                                            child: AspectRatio(
-                                              aspectRatio: 3 / 3,
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.all(
-                                                      Radius.circular(20.0),
-                                                    ),
-                                                    // Box decoration takes a gradient
-                                                    color: Colors.white,
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: Colors.black12,
-                                                        blurRadius: 4, // has the effect of softening the shadow
-                                                        spreadRadius: 0.2, // has the effect of extending the shadow
-                                                        offset: Offset(
-                                                          -1, // horizontal, move right 10
-                                                          1, // vertical, move down 10
+                                  FutureBuilder(
+                                    future: Prefs.getString("ROLE"),
+                                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                      switch (snapshot.connectionState) {
+                                        case ConnectionState.waiting:
+                                          return CircularProgressIndicator(
+                                            strokeWidth: 1,
+                                          );
+                                        default:
+                                          if (snapshot.hasError)
+                                            return Text('${snapshot.error}');
+                                          else if (snapshot.data == 'ROLE_ADMIN')
+                                            return Container(
+                                              padding: EdgeInsets.all(10),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        Modular.to.pushNamed('/simulator-edit', arguments: {'tipo': 'leads'});
+                                                      },
+                                                      child: AspectRatio(
+                                                        aspectRatio: 3 / 3,
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                              borderRadius: BorderRadius.all(
+                                                                Radius.circular(20.0),
+                                                              ),
+                                                              // Box decoration takes a gradient
+                                                              color: Colors.white,
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                  color: Colors.black12,
+                                                                  blurRadius: 4, // has the effect of softening the shadow
+                                                                  spreadRadius: 0.2, // has the effect of extending the shadow
+                                                                  offset: Offset(
+                                                                    -1, // horizontal, move right 10
+                                                                    1, // vertical, move down 10
+                                                                  ),
+                                                                ),
+                                                              ]),
+                                                          child: Column(
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: <Widget>[
+                                                              Text('Leads'),
+                                                              SizedBox(
+                                                                height: 18,
+                                                              ),
+                                                              Icon(
+                                                                Icons.account_box,
+                                                                color: MainColors.aurora[300],
+                                                              ),
+                                                              SizedBox(
+                                                                height: 8,
+                                                              ),
+                                                              Observer(builder: (BuildContext context) {
+                                                                if (controller.loadingLeads == '0') {
+                                                                  return Center(
+                                                                    child: Container(
+                                                                      height: 10,
+                                                                      width: 10,
+                                                                      child: CircularProgressIndicator(
+                                                                        strokeWidth: 1,
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                } else {
+                                                                  return Text(
+                                                                    controller.loadingLeads.toString(),
+                                                                    style: heading16Bold.copyWith(fontSize: 15),
+                                                                  );
+                                                                }
+                                                              }),
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
-                                                    ]),
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    Text('Leads'),
-                                                    SizedBox(
-                                                      height: 18,
                                                     ),
-                                                    Icon(
-                                                      Icons.account_box,
-                                                      color: MainColors.aurora[300],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 8,
-                                                    ),
-                                                    Observer(builder: (BuildContext context) {
-                                                      if (controller.loadingLeads == '0') {
-                                                        return Center(
-                                                          child: Container(
-                                                            height: 10,
-                                                            width: 10,
-                                                            child: CircularProgressIndicator(
-                                                              strokeWidth: 1,
-                                                            ),
-                                                          ),
-                                                        );
-                                                      } else {
-                                                        return Text(
-                                                          controller.loadingLeads.toString(),
-                                                          style: heading16Bold.copyWith(fontSize: 15),
-                                                        );
-                                                      }
-                                                    }),
-                                                  ],
-                                                ),
+                                                  ),
+                                                  Spacer(),
+                                                  Spacer()
+                                                ],
                                               ),
-                                            ),
-                                          ),
-                                        ),
-                                        Spacer(),
-                                        Spacer()
-                                      ],
-                                    ),
+                                            );
+                                          else
+                                            return Spacer();
+                                      }
+                                    },
                                   ),
                                 ],
                               ),

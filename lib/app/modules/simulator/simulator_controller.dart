@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:framework/ui/form/buttons/success_button.dart';
 import 'package:random_string/random_string.dart';
 import 'dart:math' show Random;
 import 'package:flutter/services.dart';
@@ -49,29 +50,534 @@ abstract class _SimulatorControllerBase with Store {
   final valorKit2 = TextEditingController();
   final testValue = TextEditingController();
 
+  /*
+  
+  {
+  "id":955,
+  "geracao":null,
+  "cpf":"",
+  "cep":"",
+  "bairro":"",
+  "numero":"null",
+  "area":"54",
+  "codigo":"2002080016",
+  "inversor":"SGROW, REFUSOL, GROWATT SG8K3-D",
+  "marcaDoModulo":"BYD",
+  "numeroDeModulo":"27",
+  "peso":"649",
+  "potencia":"9.05",
+  "potenciaDoModulo":null,
+  "valor":"R$ 38.211,00",
+  "potenciaNovo":null,
+  "consumoEmReais":"969.0",
+  "consumoEmKw":"1064.8351648351647",
+  "cliente":"João de Deus",
+  "endereco":"",
+  "data_cadastro":"2020-10-22T12:56:44.212+0000",
+  "dados":"Peso kg\t689 70\nTipo de Telhado\tTelhado Colonial\nPotncia kWp\t905\nQuantidade de Mdulos\t27\nModelo do Inversor\tSG8K3D\nQuantidade de Cabo\t60m Preto  60m Vermelho\nQuantidade de Grampo Final\t16\nQuantidade de Grampo Intermedirio\t46\nMonitoramento Incluso\tSim\nrea Necessria Aproximada m\t54\nPeso Sobre o Telhado Aproximado kg\t649\nPar Conector MC4\t3\nQuantidade de Perfil 4 2m\t14\nQuantidade de Perfil 2 1m\t0\nQuantidade de Juno de Perfil\t6\nQuantidade de Bases de Fixao\t42\nFabricante do Mdulo\tBYD\nPotncia do Mdulo Wp\t335",
+  "usuario":{"id":1,"name":"Heitor Klaus","username":"heitorklaus@hotmail.com","company":"Soli Energia Solar","email":"heitorklaus@hotmail.com","foto":null,"avatar":null,"roles":[{"id":1,"name":"ROLE_ADMIN"}
+  
+   */
+
+  editReturnGeneration(potencia) async {
+    final efficiency = await AuthRepository().getEfficiency();
+    final irradiation = await AuthRepository().getIrradiation();
+
+    final geracao = (double.parse(potencia).toDouble()) * 30 * efficiency * double.parse(irradiation.replaceAll(',', '.')).toDouble();
+    return geracao.round();
+  }
+
+  editReturnGenerationLocal(potencia) async {
+    final efficiency = await AuthRepository().getEfficiency();
+    final irradiation = await AuthRepository().getIrradiation();
+
+    final geracao = (potencia) * 30 * efficiency * double.parse(irradiation.replaceAll(',', '.')).toDouble();
+    return geracao.round();
+  }
+
   @action
-  showDialogEditStep1(context) async {
+  Future getLeadSelected(id) async {
+    final t = await DatabaseHelper().listLeadSelected(id);
+    final geracao = await editReturnGeneration(t.potencia);
+
+    List<String> someMap = [t.id, geracao.toString(), t.cpf, t.cep, t.bairro, t.numero, t.area, t.codigo, t.inversor, t.marcaDoModulo, t.numeroDeModulo, t.peso, t.potencia, t.potenciaDoModulo, t.valor, t.potenciaNovo, t.consumoEmReais, t.consumoEmKw, t.cliente, t.endereco, t.dados];
+
+    Prefs.setStringList("UPDATE", someMap);
+  }
+
+  @action
+  Future getBudgetSelectedLocal(id) async {
+    final t = await DatabaseHelper().listBugetSelectedLocal(id);
+    final geracao = await editReturnGenerationLocal(t.potencia);
+
+    List<String> someMap = [t.id, geracao.toString(), t.cpf, t.cep, t.bairro, t.numero, t.area, t.codigo, t.inversor, t.marcaDoModulo, t.numeroDeModulo, t.peso, t.potencia.toString(), t.potenciaDoModulo, t.valor, t.potenciaNovo, t.consumoEmReais, t.consumoEmKw, t.cliente, t.endereco, t.dados];
+
+    Prefs.setStringList("UPDATE", someMap);
+  }
+
+  bool v = false;
+
+  @action
+  showDialogEditStep1(context, a, localOrOnline) async {
+    v = false;
+    Future<bool> onWillPop() async {
+      v = !v;
+      Navigator.of(context).pop();
+    }
+
     showDialog(
         context: context,
         builder: (context) {
-          return StatefulBuilder(
-            builder: (context, setState) {
-              return AlertDialog(
-                contentPadding: EdgeInsets.all(0.0),
-                content: Scaffold(
-                  appBar: AppBar(
-                    title: Text(
-                      "Proposta #455665",
-                      style: ubuntu17WhiteBold500,
+          return WillPopScope(
+            onWillPop: onWillPop,
+            child: StatefulBuilder(
+              builder: (context, setState) {
+                return AlertDialog(
+                  contentPadding: EdgeInsets.all(0.0),
+                  content: Scaffold(
+                    appBar: AppBar(
+                      // automaticallyImplyLeading: false,
+                      title: Text(
+                        "Carregando...",
+                        style: ubuntu17WhiteBold500,
+                      ),
+                    ),
+                    backgroundColor: Colors.white,
+                    body: Center(
+                      child: Center(
+                        child: Stack(
+                          children: <Widget>[
+                            Center(
+                              child: Container(
+                                margin: EdgeInsets.only(top: 0),
+                                child: Image.asset(
+                                  'lib/app/shared/assets/images/l.png',
+                                  width: 70,
+                                ),
+                              ),
+                            ),
+                            Center(
+                              child: Container(
+                                width: 200,
+                                height: 200,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 1,
+                                  backgroundColor: Colors.blue[500],
+                                  valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFFFFFFF)),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                  backgroundColor: Colors.white,
-                  body: SingleChildScrollView(child: Text('teste')),
-                ),
-              );
-            },
+                );
+              },
+            ),
           );
         });
+
+    // verificando se é local ou Online
+    if (localOrOnline == 'online') {
+      await getLeadSelected(a);
+    } else {
+      await getBudgetSelectedLocal(a);
+    }
+    final valor = await Prefs.getStringList("UPDATE");
+
+    var id = valor[0];
+    final idControllerEdit = TextEditingController(text: id);
+    var geracao = valor[1];
+    final geracaoControllerEdit = TextEditingController(text: geracao);
+    var cpf = valor[2];
+    final cpfControllerEdit = TextEditingController(text: cpf);
+    var cep = valor[3];
+    final cepControllerEdit = TextEditingController(text: cep);
+    var bairro = valor[4];
+    final bairroControllerEdit = TextEditingController(text: bairro);
+    var numero = valor[5];
+    final numeroControllerEdit = TextEditingController(text: numero);
+    var area = valor[6];
+    final areaControllerEdit = TextEditingController(text: area);
+    var codigo = valor[7];
+    final codigoControllerEdit = TextEditingController(text: codigo);
+    var inversor = valor[8];
+    final inversorControllerEdit = TextEditingController(text: inversor);
+    var marcaDoModulo = valor[9];
+    final marcaDoModuloControllerEdit = TextEditingController(text: marcaDoModulo);
+    var numeroDeModulo = valor[10];
+    final numeroDeModuloControllerEdit = TextEditingController(text: numeroDeModulo);
+    var peso = valor[11];
+    final pesoControllerEdit = TextEditingController(text: peso);
+    var potencia = valor[12];
+    final potenciaControllerEdit = TextEditingController(text: potencia);
+    var potenciaDoModulo = valor[13];
+    final potenciaDoModuloControllerEdit = TextEditingController(text: potenciaDoModulo);
+    var preco = valor[14];
+    final precoControllerEdit = TextEditingController(text: preco);
+    var potenciaNovo = valor[15];
+    final potenciaNovoControllerEdit = TextEditingController(text: potenciaNovo);
+    var consumoEmReais = valor[16];
+    final consumoEmReaisControllerEdit = TextEditingController(text: consumoEmReais);
+    var consumoEmKw = valor[17];
+    final consumoEmKwControllerEdit = TextEditingController(text: consumoEmKw);
+    var cliente = valor[18];
+    final clienteControllerEdit = TextEditingController(text: cliente);
+    var endereco = valor[19];
+    final enderecoControllerEdit = TextEditingController(text: endereco);
+    var dados = valor[20];
+    final dadosControllerEdit = TextEditingController(text: dados);
+
+    if (v != true) {
+      Navigator.of(context).pop();
+      showDialog(
+          context: context,
+          builder: (context) {
+            return StatefulBuilder(
+              builder: (context, setState) {
+                return AlertDialog(
+                  contentPadding: EdgeInsets.all(0.0),
+                  content: Scaffold(
+                    appBar: AppBar(
+                      title: Text(
+                        "Edição da Proposta",
+                        style: ubuntu17WhiteBold500,
+                      ),
+                    ),
+                    backgroundColor: Colors.white,
+                    body: SingleChildScrollView(
+                        child: Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.all(16),
+                          color: Colors.white,
+                          child: Wrap(
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(Icons.verified_user, color: Colors.blue),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    'Dados do cliente',
+                                    style: ubuntu16BlueBold500,
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.only(top: 18),
+                                child: OutlinedTextEdit(
+                                  prefixIcon: Icon(Icons.account_circle),
+                                  onChanged: (value) => {},
+                                  label: "Nome do cliente",
+                                  controller: clienteControllerEdit,
+                                  inputType: InputType.EXTRA_SMALL,
+                                  suffixIcon: IconButton(
+                                    icon: Icon(Icons.content_paste),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.only(top: 18),
+                                child: OutlinedTextEdit(
+                                  prefixIcon: Icon(Icons.chat),
+                                  keyboardType: TextInputType.number,
+                                  controller: cpfControllerEdit,
+                                  onChanged: (value) => {},
+                                  label: "CPF do cliente",
+                                  inputType: InputType.EXTRA_SMALL,
+                                  suffixIcon: IconButton(
+                                    icon: Icon(Icons.content_paste),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.only(top: 18),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: OutlinedTextEdit(
+                                        prefixIcon: Icon(Icons.assistant_photo),
+                                        keyboardType: TextInputType.number,
+                                        controller: cepControllerEdit,
+                                        onChanged: (value) => {},
+                                        label: "CEP",
+                                        inputType: InputType.EXTRA_SMALL,
+                                        suffixIcon: IconButton(
+                                          icon: Icon(Icons.content_paste),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Expanded(
+                                      child: OutlinedTextEdit(
+                                        prefixIcon: Icon(Icons.dialpad),
+                                        controller: bairroControllerEdit,
+                                        keyboardType: TextInputType.text,
+                                        onChanged: (value) => {},
+                                        label: "Bairro",
+                                        suffixIcon: IconButton(
+                                          icon: Icon(Icons.content_paste),
+                                        ),
+                                        inputType: InputType.EXTRA_SMALL,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.only(top: 18),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: OutlinedTextEdit(
+                                        prefixIcon: Icon(Icons.dvr),
+                                        controller: enderecoControllerEdit,
+                                        keyboardType: TextInputType.text,
+                                        onChanged: (value) => {},
+                                        label: "Endereço",
+                                        inputType: InputType.EXTRA_SMALL,
+                                        suffixIcon: IconButton(
+                                          icon: Icon(Icons.content_paste),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Expanded(
+                                      flex: 1,
+                                      child: OutlinedTextEdit(
+                                        controller: numeroControllerEdit,
+                                        prefixIcon: Icon(Icons.texture),
+                                        keyboardType: TextInputType.number,
+                                        onChanged: (value) => {},
+                                        label: "Número",
+                                        inputType: InputType.EXTRA_SMALL,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              InkWell(
+                                child: Container(
+                                  color: Colors.white,
+                                  margin: EdgeInsets.only(top: 30),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(Icons.view_module, color: Colors.blue),
+                                      SizedBox(width: 10),
+                                      Text(
+                                        'Dados da Usina',
+                                        style: ubuntu16BlueBold500,
+                                      ),
+                                      Spacer(),
+                                      IconButton(
+                                        iconSize: 30,
+                                        icon: Icon(Icons.arrow_drop_down_circle, color: MainColors.cielo),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(),
+                              Visibility(
+                                visible: true,
+                                child: Wrap(
+                                  children: [
+                                    Container(
+                                      color: Colors.white,
+                                      margin: EdgeInsets.only(top: 16),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 2,
+                                            child: OutlinedTextEdit(
+                                              keyboardType: TextInputType.text,
+                                              onChanged: (value) => {},
+                                              label: "Inversor",
+                                              controller: inversorControllerEdit,
+                                              suffixIcon: IconButton(
+                                                icon: Icon(Icons.content_paste),
+                                              ),
+                                              inputType: InputType.EXTRA_SMALL,
+                                            ),
+                                          ),
+                                          SizedBox(width: 10),
+                                          Expanded(
+                                            flex: 1,
+                                            child: OutlinedTextEdit(
+                                              keyboardType: TextInputType.text,
+                                              onChanged: (value) => {},
+                                              label: "Garantia",
+                                              inputType: InputType.EXTRA_SMALL,
+                                            ),
+                                          ),
+                                          SizedBox(width: 10),
+                                          Expanded(
+                                            flex: 1,
+                                            child: OutlinedTextEdit(
+                                              keyboardType: TextInputType.number,
+                                              onChanged: (value) => {},
+                                              controller: potenciaControllerEdit,
+                                              label: "Potência",
+                                              inputType: InputType.EXTRA_SMALL,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      color: Colors.white,
+                                      margin: EdgeInsets.only(top: 16),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 1,
+                                            child: OutlinedTextEdit(
+                                              prefixIcon: Icon(Icons.view_comfy),
+                                              keyboardType: TextInputType.text,
+                                              controller: marcaDoModuloControllerEdit,
+                                              onChanged: (value) => {},
+                                              label: "Módulos",
+                                              suffixIcon: IconButton(
+                                                icon: Icon(Icons.content_paste),
+                                              ),
+                                              inputType: InputType.EXTRA_SMALL,
+                                            ),
+                                          ),
+                                          SizedBox(width: 10),
+                                          Expanded(
+                                            flex: 1,
+                                            child: OutlinedTextEdit(
+                                              prefixIcon: Icon(Icons.format_list_numbered),
+                                              keyboardType: TextInputType.number,
+                                              controller: numeroDeModuloControllerEdit,
+                                              onChanged: (value) => {},
+                                              suffixIcon: IconButton(
+                                                icon: Icon(Icons.content_paste),
+                                              ),
+                                              label: "Quant.",
+                                              inputType: InputType.EXTRA_SMALL,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      color: Colors.white,
+                                      margin: EdgeInsets.only(top: 16),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 1,
+                                            child: OutlinedTextEdit(
+                                              prefixIcon: Icon(Icons.usb),
+                                              keyboardType: TextInputType.number,
+                                              onChanged: (value) => {},
+                                              controller: geracaoControllerEdit,
+                                              suffixIcon: IconButton(
+                                                icon: Icon(Icons.content_paste),
+                                              ),
+                                              label: "Geração kWp",
+                                              inputType: InputType.EXTRA_SMALL,
+                                            ),
+                                          ),
+                                          SizedBox(width: 10),
+                                          Expanded(
+                                            flex: 1,
+                                            child: OutlinedTextEdit(
+                                              prefixIcon: Icon(Icons.aspect_ratio),
+                                              keyboardType: TextInputType.number,
+                                              onChanged: (value) => {},
+                                              controller: areaControllerEdit,
+                                              label: "Área",
+                                              suffixIcon: IconButton(
+                                                icon: Icon(Icons.content_paste),
+                                              ),
+                                              inputType: InputType.EXTRA_SMALL,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      color: Colors.white,
+                                      margin: EdgeInsets.only(top: 16),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 1,
+                                            child: OutlinedTextEdit(
+                                              keyboardType: TextInputType.number,
+                                              onChanged: (value) => {},
+                                              controller: codigoControllerEdit,
+                                              label: "Código",
+                                              suffixIcon: IconButton(
+                                                icon: Icon(Icons.content_paste),
+                                              ),
+                                              inputType: InputType.EXTRA_SMALL,
+                                            ),
+                                          ),
+                                          SizedBox(width: 10),
+                                          Expanded(
+                                            flex: 1,
+                                            child: OutlinedTextEdit(
+                                              prefixIcon: Icon(Icons.monetization_on),
+                                              keyboardType: TextInputType.number,
+                                              onChanged: (value) => {},
+                                              controller: precoControllerEdit,
+                                              label: "R\$ Valor",
+                                              inputType: InputType.EXTRA_SMALL,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      color: Colors.white,
+                                      margin: EdgeInsets.only(top: 16),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 1,
+                                            child: OutlinedTextEdit(
+                                              keyboardType: TextInputType.multiline,
+                                              maxLines: 20,
+                                              controller: dadosControllerEdit,
+                                              minLines: 10,
+                                              suffixIcon: IconButton(icon: Icon(Icons.content_paste), onPressed: () {}),
+                                              onChanged: (value) => {},
+                                              label: "Dados da usina",
+                                              inputType: InputType.EXTRA_SMALL,
+                                            ),
+                                          ),
+                                          SizedBox(width: 10),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 100,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              SizedBox()
+                            ],
+                          ),
+                        )
+                      ],
+                    )),
+                  ),
+                );
+              },
+            );
+          });
+    }
   }
 
   final p1 = Object();
