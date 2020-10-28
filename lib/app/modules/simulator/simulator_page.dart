@@ -486,9 +486,34 @@ class _SimulatorPageState extends ModularState<SimulatorPage, SimulatorControlle
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Center(
-                    child: CircularProgressIndicator(
-                  strokeWidth: 1,
-                ));
+                  child: Center(
+                    child: Stack(
+                      children: <Widget>[
+                        Center(
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 150),
+                            child: Image.asset(
+                              'lib/app/shared/assets/images/l.png',
+                              width: 70,
+                            ),
+                          ),
+                        ),
+                        Center(
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 150),
+                            width: 200,
+                            height: 200,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 1,
+                              backgroundColor: Colors.blue[500],
+                              valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFFFFFFF)),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               }
 
               return ListView.builder(
