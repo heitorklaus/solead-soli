@@ -7,6 +7,7 @@ import 'package:framework/ui/bottomnavigation/fab_bottom_app_bar.dart';
 import 'package:framework/ui/bottomnavigation/fab_with_icons.dart';
 import 'package:framework/ui/bottomnavigation/layout.dart';
 import 'package:login/app/app_module.dart';
+import 'package:login/app/modules/simulator/simulator_edit_page.dart';
 import 'package:login/app/shared/auth/auth_controller.dart';
 import 'package:login/app/shared/auth/repositories/auth_repository.dart';
 import 'package:login/app/shared/styles/main_colors.dart';
@@ -469,6 +470,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                   Expanded(
                                                     child: InkWell(
                                                       onTap: () {
+                                                        //Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => SimulatorEditPage()));
+
                                                         Modular.to.pushNamed('/simulator-edit', arguments: {'tipo': 'leads'});
                                                       },
                                                       child: AspectRatio(

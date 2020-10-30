@@ -1,7 +1,6 @@
 name: login
 description: A new Flutter project.
 
-
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
 # followed by an optional build number separated by a +.
@@ -13,8 +12,6 @@ description: A new Flutter project.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 version: 1.0.0+1
-
-
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -44,11 +41,9 @@ dependencies:
   random_string:
   flutter_statusbarcolor: any
   documents_picker:
-    
-  
+
   flutter:
     sdk: flutter
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -60,6 +55,7 @@ dev_dependencies:
   url_launcher:
   flutter_masked_text:
   build_runner: ^1.7.3
+  flutter_slidable:
   flutter_test:
     sdk: flutter
 
@@ -113,7 +109,6 @@ flutter:
         - asset: lib/app/shared/assets/fonts/Ubuntu-BoldItalic.ttf
           weight: 700
           style: italic
-
 
   # To add assets to your application, add an assets section, like this:
   # assets:

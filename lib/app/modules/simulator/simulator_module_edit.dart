@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:login/app/modules/simulator/simulator_controller.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:login/app/modules/simulator/simulator_edit_page.dart';
 import 'package:login/app/modules/simulator/simulator_page.dart';
 
 class SimulatorModuleEdit extends ChildModule {
@@ -12,7 +13,7 @@ class SimulatorModuleEdit extends ChildModule {
 
   @override
   List<ModularRouter> get routers => [
-        ModularRouter(Modular.initialRoute, child: (_, args) => SimulatorPage()),
+        ModularRouter(Modular.initialRoute, child: (_, args) => SimulatorEditPage()),
       ];
 
   static Inject get to => Inject<SimulatorModuleEdit>.of();
