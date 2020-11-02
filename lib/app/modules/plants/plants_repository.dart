@@ -1,11 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:dio/native_imp.dart';
 import 'package:login/app/modules/plants/plants_interface.dart';
-import 'package:login/app/shared/auth/entities/auth.dart';
+import 'package:login/app/shared/auth/repositories/auth_repository.dart';
 import 'package:login/app/shared/repositories/entities/plants_list.dart';
 import 'package:http/http.dart' as http;
+import 'package:login/app/shared/repositories/entities/powerPlantsOnline.dart';
 
 @Injectable()
 class PlantsRepository implements IPlantsRepository {
@@ -16,15 +15,15 @@ class PlantsRepository implements IPlantsRepository {
 
   @override
   Future fetchPost() async {
-    Map<String, String> headers = await getHeaders();
+    Map<String, String> headers = await AuthRepository.getHeaders();
+    
+    final q = await http.get('https://soleadapp.herokuapp.com/api/posts/get/?size=2000&page=0', headers: headers);
 
-    headers["Content-Type"] = "application/json";
-    final auth = await http.get('https://jsonplaceholder.typicode.com/posts/', headers: headers);
+    final data = json.decode(q.body);
 
-    Iterable list = json.decode(auth.body);
-    final users = list.map((model) => PlantsList.fromJson(model)).toList();
+    final all = data["content"].map<PowerPlantsOnline>((json) => PowerPlantsOnline.fromJson(json)).toList();
 
-    return users;
+    return all;
   }
 
   //dispose will be called automatically

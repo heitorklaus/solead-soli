@@ -1,6 +1,6 @@
 import 'package:login/app/modules/plants/plants_interface.dart';
 
-import 'modules/plants_repository.dart';
+import 'modules/plants/plants_repository.dart';
 import 'package:dio/dio.dart';
 import 'dart:async';
 import 'dart:convert';

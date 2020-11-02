@@ -41,6 +41,7 @@ dependencies:
   random_string:
   flutter_statusbarcolor: any
   documents_picker:
+  flutter_slidable:
 
   flutter:
     sdk: flutter

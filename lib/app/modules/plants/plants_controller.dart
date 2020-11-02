@@ -2,7 +2,7 @@ import 'package:login/app/modules/plants/plants_interface.dart';
 import 'package:login/app/shared/repositories/entities/plants_list.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import '../plants_repository.dart';
+import 'plants_repository.dart';
 
 part 'plants_controller.g.dart';
 

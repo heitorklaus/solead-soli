@@ -3,7 +3,7 @@ import 'package:login/app/modules/plants/plants_page.dart';
 
 import 'plants_controller.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import '../plants_repository.dart';
+import 'plants_repository.dart';
 
 class PlantsModule extends ChildModule {
   @override
