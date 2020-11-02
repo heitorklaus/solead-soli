@@ -1,3 +1,7 @@
+import 'package:login/app/modules/plants/plants_interface.dart';
+
+import 'modules/plants_repository.dart';
+import 'package:dio/dio.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -8,6 +12,7 @@ import 'package:login/app/app_widget.dart';
 import 'package:login/app/modules/home/home_controller.dart';
 import 'package:login/app/modules/home/home_module.dart';
 import 'package:login/app/modules/login/login_controller.dart';
+import 'package:login/app/modules/plants/plants_module.dart';
 import 'package:login/app/modules/simulator/simulator_module_edit.dart';
 import 'package:login/app/modules/update/update_module.dart';
 import 'package:login/app/modules/simulator/simulator_module.dart';
@@ -78,6 +83,7 @@ class AppModule extends MainModule {
         Bind((i) => AppController()),
         Bind<ILocalStorage>((i) => LocalStorageShared()),
         Bind<IAuthRepository>((i) => AuthRepository()),
+        Bind<IPlantsRepository>((i) => PlantsRepository()),
         Bind((i) => AuthController()),
       ];
 
@@ -88,6 +94,7 @@ class AppModule extends MainModule {
         ModularRouter('/home', module: HomeModule()),
         ModularRouter('/simulator', module: SimulatorModule()),
         ModularRouter('/simulator-edit', module: SimulatorModuleEdit()),
+        ModularRouter('/plants', module: PlantsModule()),
         ModularRouter('/update', module: UpdateModule()),
       ];
 

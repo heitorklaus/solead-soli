@@ -3,22 +3,7 @@ import 'package:mobx/mobx.dart';
 part 'cities_irradiation_month.g.dart';
 
 class CitiesData extends _CitiesData with _$CitiesData {
-  CitiesData(
-      {int id,
-      String inclinacao,
-      String jan,
-      String fev,
-      String mar,
-      String abr,
-      String mai,
-      String jun,
-      String jul,
-      String ago,
-      String sep,
-      String out,
-      String nov,
-      String dez,
-      String media})
+  CitiesData({int id, String inclinacao, String jan, String fev, String mar, String abr, String mai, String jun, String jul, String ago, String sep, String out, String nov, String dez, String media})
       : super(
           id: id,
           inclinacao: inclinacao,
@@ -124,20 +109,5 @@ abstract class _CitiesData with Store {
   @observable
   String media;
 
-  _CitiesData(
-      {this.id,
-      this.inclinacao,
-      this.jan,
-      this.fev,
-      this.mar,
-      this.abr,
-      this.mai,
-      this.jun,
-      this.jul,
-      this.ago,
-      this.sep,
-      this.out,
-      this.nov,
-      this.dez,
-      this.media});
+  _CitiesData({this.id, this.inclinacao, this.jan, this.fev, this.mar, this.abr, this.mai, this.jun, this.jul, this.ago, this.sep, this.out, this.nov, this.dez, this.media});
 }

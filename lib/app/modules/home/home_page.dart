@@ -443,7 +443,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                               ),
                                             ),
                                           ),
-                                        )
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -529,8 +529,71 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
                                                       ),
                                                     ),
                                                   ),
+                                                  //  Spacer(),
                                                   Spacer(),
-                                                  Spacer()
+                                                  Spacer(),
+                                                  Expanded(
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        Modular.to.pushNamed('/plants', arguments: {'tipo': 'leads'});
+                                                      },
+                                                      child: AspectRatio(
+                                                        aspectRatio: 3 / 3,
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                              borderRadius: BorderRadius.all(
+                                                                Radius.circular(20.0),
+                                                              ),
+                                                              color: Colors.white,
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                  color: Colors.black12,
+                                                                  blurRadius: 4, // has the effect of softening the shadow
+                                                                  spreadRadius: 0.2, // has the effect of extending the shadow
+                                                                  offset: Offset(
+                                                                    -1, // horizontal, move right 10
+                                                                    1, // vertical, move down 10
+                                                                  ),
+                                                                ),
+                                                              ]),
+                                                          child: Column(
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: <Widget>[
+                                                              Text('Test Lead'),
+                                                              SizedBox(
+                                                                height: 18,
+                                                              ),
+                                                              Icon(
+                                                                Icons.wb_sunny,
+                                                                color: Colors.yellow[600],
+                                                              ),
+                                                              SizedBox(
+                                                                height: 8,
+                                                              ),
+                                                              Observer(builder: (BuildContext context) {
+                                                                if (controller.loadingLeads == '0') {
+                                                                  return Center(
+                                                                    child: Container(
+                                                                      height: 10,
+                                                                      width: 10,
+                                                                      child: CircularProgressIndicator(
+                                                                        strokeWidth: 1,
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                } else {
+                                                                  return Text(
+                                                                    controller.loadingLeads.toString(),
+                                                                    style: heading16Bold.copyWith(fontSize: 15),
+                                                                  );
+                                                                }
+                                                              }),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
                                                 ],
                                               ),
                                             );
