@@ -1,11 +1,13 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:login/app/shared/repositories/entities/plants_list.dart';
+import 'package:framework/ui/form/inputs/input_type.dart';
+import 'package:framework/ui/form/inputs/outlined_text_edit.dart';
 import 'package:login/app/shared/repositories/entities/powerPlantsOnline.dart';
+import 'package:login/app/shared/styles/main_colors.dart';
+import 'package:login/app/shared/styles/main_style.dart';
 import 'plants_controller.dart';
 
 class PlantsPage extends StatefulWidget {
@@ -49,6 +51,8 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
 
   @override
   Widget build(BuildContext context) {
+    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
+
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -64,28 +68,7 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
         ],
         title: Text(widget.title),
       ),
-      // body: Observer(builder: (BuildContext context) {
-      //   List<PowerPlantsOnline> list = controller.lista.value;
-
-      //   if (list == null) {
-      //     return Center(child: Container(child: CircularProgressIndicator()));
-      //   } else {
-      //     return Container(
-      //       child: ListView.builder(
-      //           itemCount: list.length,
-      //           itemBuilder: (_, index) {
-      //             var item = list[index];
-      //             return ListTile(title: Text(item.cliente));
-      //           }),
-      //     );
-      //   }
-      // }),
-
-      body: Center(
-        child: OrientationBuilder(
-          builder: (context, orientation) => _buildList(context, orientation == Orientation.portrait ? Axis.vertical : Axis.horizontal),
-        ),
-      ),
+      body: arguments['mode'] == 'edit' ? _buildEdit(context, arguments['id']) : _buildList(context, Axis.vertical),
     );
   }
 
@@ -94,23 +77,358 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
     controller.getAll();
   }
 
+  Widget _buildEdit(BuildContext context, id) {
+    controller.fillEditText(id);
+    return Observer(builder: (BuildContext context) {
+      final PowerPlantsOnline list = controller.lista2.value;
+
+      if (list == null) {
+        return Center(child: Container(child: CircularProgressIndicator()));
+      } else {
+        return Container(
+          child: SingleChildScrollView(
+              child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.all(16),
+                color: Colors.white,
+                child: Wrap(
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.verified_user, color: Colors.blue),
+                        SizedBox(width: 10),
+                        Text(
+                          'Dados do cliente',
+                          style: ubuntu16BlueBold500,
+                        ),
+                      ],
+                    ),
+                    Container(
+                      color: Colors.white,
+                      margin: EdgeInsets.only(top: 18),
+                      child: OutlinedTextEdit(
+                        //controller: controller.editClienteController,
+                        prefixIcon: Icon(Icons.account_circle),
+                        onChanged: (value) => {},
+                        controller: controller.editClienteController,
+                        label: "Nome do cliente",
+                        inputType: InputType.EXTRA_SMALL,
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.content_paste),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color: Colors.white,
+                      margin: EdgeInsets.only(top: 18),
+                      child: OutlinedTextEdit(
+                        prefixIcon: Icon(Icons.chat),
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) => {},
+                        label: "CPF do cliente",
+                        inputType: InputType.EXTRA_SMALL,
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.content_paste),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color: Colors.white,
+                      margin: EdgeInsets.only(top: 18),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: OutlinedTextEdit(
+                              prefixIcon: Icon(Icons.assistant_photo),
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) => {},
+                              label: "CEP",
+                              inputType: InputType.EXTRA_SMALL,
+                              suffixIcon: IconButton(
+                                icon: Icon(Icons.content_paste),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: OutlinedTextEdit(
+                              prefixIcon: Icon(Icons.dialpad),
+                              keyboardType: TextInputType.text,
+                              onChanged: (value) => {},
+                              label: "Bairro",
+                              suffixIcon: IconButton(
+                                icon: Icon(Icons.content_paste),
+                              ),
+                              inputType: InputType.EXTRA_SMALL,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      color: Colors.white,
+                      margin: EdgeInsets.only(top: 18),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: OutlinedTextEdit(
+                              prefixIcon: Icon(Icons.dvr),
+                              keyboardType: TextInputType.text,
+                              onChanged: (value) => {},
+                              label: "Endereço",
+                              inputType: InputType.EXTRA_SMALL,
+                              suffixIcon: IconButton(
+                                icon: Icon(Icons.content_paste),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            flex: 1,
+                            child: OutlinedTextEdit(
+                              prefixIcon: Icon(Icons.texture),
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) => {},
+                              label: "Número",
+                              inputType: InputType.EXTRA_SMALL,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    InkWell(
+                      child: Container(
+                        color: Colors.white,
+                        margin: EdgeInsets.only(top: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(Icons.view_module, color: Colors.blue),
+                            SizedBox(width: 10),
+                            Text(
+                              'Dados da Usina',
+                              style: ubuntu16BlueBold500,
+                            ),
+                            Spacer(),
+                            IconButton(
+                              iconSize: 30,
+                              icon: Icon(Icons.arrow_drop_down_circle, color: MainColors.cielo),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(),
+                    Visibility(
+                      visible: true,
+                      child: Wrap(
+                        children: [
+                          Container(
+                            color: Colors.white,
+                            margin: EdgeInsets.only(top: 16),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: OutlinedTextEdit(
+                                    keyboardType: TextInputType.text,
+                                    onChanged: (value) => {},
+                                    label: "Inversor",
+                                    suffixIcon: IconButton(
+                                      icon: Icon(Icons.content_paste),
+                                    ),
+                                    inputType: InputType.EXTRA_SMALL,
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  flex: 1,
+                                  child: OutlinedTextEdit(
+                                    keyboardType: TextInputType.text,
+                                    onChanged: (value) => {},
+                                    label: "Garantia",
+                                    inputType: InputType.EXTRA_SMALL,
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  flex: 1,
+                                  child: OutlinedTextEdit(
+                                    keyboardType: TextInputType.number,
+                                    onChanged: (value) => {},
+                                    label: "Potência",
+                                    inputType: InputType.EXTRA_SMALL,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            color: Colors.white,
+                            margin: EdgeInsets.only(top: 16),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: OutlinedTextEdit(
+                                    prefixIcon: Icon(Icons.view_comfy),
+                                    keyboardType: TextInputType.text,
+                                    onChanged: (value) => {},
+                                    label: "Módulos",
+                                    suffixIcon: IconButton(
+                                      icon: Icon(Icons.content_paste),
+                                    ),
+                                    inputType: InputType.EXTRA_SMALL,
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  flex: 1,
+                                  child: OutlinedTextEdit(
+                                    prefixIcon: Icon(Icons.format_list_numbered),
+                                    keyboardType: TextInputType.number,
+                                    onChanged: (value) => {},
+                                    suffixIcon: IconButton(
+                                      icon: Icon(Icons.content_paste),
+                                    ),
+                                    label: "Quant.",
+                                    inputType: InputType.EXTRA_SMALL,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            color: Colors.white,
+                            margin: EdgeInsets.only(top: 16),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: OutlinedTextEdit(
+                                    prefixIcon: Icon(Icons.usb),
+                                    keyboardType: TextInputType.number,
+                                    onChanged: (value) => {},
+                                    suffixIcon: IconButton(
+                                      icon: Icon(Icons.content_paste),
+                                    ),
+                                    label: "Geração kWp",
+                                    inputType: InputType.EXTRA_SMALL,
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  flex: 1,
+                                  child: OutlinedTextEdit(
+                                    prefixIcon: Icon(Icons.aspect_ratio),
+                                    keyboardType: TextInputType.number,
+                                    onChanged: (value) => {},
+                                    label: "Área",
+                                    suffixIcon: IconButton(
+                                      icon: Icon(Icons.content_paste),
+                                    ),
+                                    inputType: InputType.EXTRA_SMALL,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            color: Colors.white,
+                            margin: EdgeInsets.only(top: 16),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: OutlinedTextEdit(
+                                    keyboardType: TextInputType.number,
+                                    onChanged: (value) => {},
+                                    label: "Código",
+                                    suffixIcon: IconButton(
+                                      icon: Icon(Icons.content_paste),
+                                    ),
+                                    inputType: InputType.EXTRA_SMALL,
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  flex: 1,
+                                  child: OutlinedTextEdit(
+                                    prefixIcon: Icon(Icons.monetization_on),
+                                    keyboardType: TextInputType.number,
+                                    onChanged: (value) => {},
+                                    label: "R\$ Valor",
+                                    inputType: InputType.EXTRA_SMALL,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            color: Colors.white,
+                            margin: EdgeInsets.only(top: 16),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: OutlinedTextEdit(
+                                    keyboardType: TextInputType.multiline,
+                                    maxLines: 20,
+                                    minLines: 10,
+                                    suffixIcon: IconButton(icon: Icon(Icons.content_paste), onPressed: () {}),
+                                    onChanged: (value) => {},
+                                    label: "Dados da usina",
+                                    inputType: InputType.EXTRA_SMALL,
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 100,
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox()
+                  ],
+                ),
+              )
+            ],
+          )),
+        );
+      }
+    });
+  }
+
   Widget _buildList(BuildContext context, Axis direction) {
     return Observer(builder: (BuildContext context) {
       List list = controller.lista.value;
 
       if (list == null) {
         return Center(child: Container(child: CircularProgressIndicator()));
-      } else {
+      }
+      if (list.isEmpty) {
+        return Center(child: Container(child: CircularProgressIndicator()));
+      }
+      if (list.isNotEmpty) {
         return RefreshIndicator(
           onRefresh: _onRefresh,
           child: Container(
-            child: ListView.builder(
-                itemCount: list.length,
-                itemBuilder: (_, index) {
-                  var item = list[index];
+            child: ListView.separated(
+              itemCount: list.length,
+              itemBuilder: (_, index) {
+                var item = list[index];
 
-                  return _getSlidableWithDelegates(context, index, Axis.horizontal, item.cliente, list);
-                }),
+                return _getSlidableWithDelegates(context, index, Axis.horizontal, item.cliente, list);
+              },
+              separatorBuilder: (context, index) {
+                return Divider();
+              },
+            ),
           ),
         );
       }
@@ -119,7 +437,7 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
 
   Widget _getSlidableWithDelegates(BuildContext context, int index, Axis direction, String value, list) {
     final PowerPlantsOnline item = list[index];
-
+    var xa = index;
     return Slidable.builder(
       key: Key(list[index].toString()),
       controller: slidableController,
@@ -160,15 +478,15 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
       ),
       actionPane: _getActionPane(index),
       actionExtentRatio: 0.25,
-      child: VerticalListItem(list[index], value, index),
+      child: VerticalListItem(list[index], value, xa, list),
       actionDelegate: SlideActionBuilderDelegate(
           actionCount: 2,
           builder: (context, index, animation, renderingMode) {
             if (index == 0) {
               return IconSlideAction(
-                caption: 'Archive',
+                caption: 'Negociar',
                 color: renderingMode == SlidableRenderingMode.slide ? Colors.blue.withOpacity(animation.value) : (renderingMode == SlidableRenderingMode.dismiss ? Colors.blue : Colors.green),
-                icon: Icons.archive,
+                icon: Icons.assistant,
                 onTap: () async {
                   var state = Slidable.of(context);
                   var dismiss = await showDialog<bool>(
@@ -210,10 +528,14 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
           builder: (context, index, animation, renderingMode) {
             if (index == 0) {
               return IconSlideAction(
-                caption: 'More',
+                caption: 'Editar',
                 color: renderingMode == SlidableRenderingMode.slide ? Colors.grey.shade200.withOpacity(animation.value) : Colors.grey.shade200,
-                icon: Icons.more_horiz,
-                onTap: () => _showSnackBar(context, 'More'),
+                icon: Icons.mode_edit,
+                // onTap: () => print(list[xa]),
+
+                onTap: () {
+                  Modular.to.pushNamed('/plants', arguments: {'mode': 'edit', 'id': list[xa].id});
+                },
                 closeOnTap: false,
               );
             } else {
@@ -229,18 +551,7 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
   }
 
   static Widget _getActionPane(int index) {
-    switch (index % 4) {
-      case 0:
-        return SlidableBehindActionPane();
-      case 1:
-        return SlidableStrechActionPane();
-      case 2:
-        return SlidableScrollActionPane();
-      case 3:
-        return SlidableDrawerActionPane();
-      default:
-        return null;
-    }
+    return SlidableStrechActionPane();
   }
 
   void _showSnackBar(BuildContext context, String text) {
@@ -249,25 +560,35 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
 }
 
 class VerticalListItem extends StatelessWidget {
-  VerticalListItem(this.item, this.cliente, this.counter);
+  VerticalListItem(this.item, this.cliente, this.counter, this.list);
   final item;
   final String cliente;
   final counter;
+  List<PowerPlantsOnline> list;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Slidable.of(context)?.renderingMode == SlidableRenderingMode.none ? Slidable.of(context)?.open() : Slidable.of(context)?.close(),
       child: Container(
-        color: Colors.white,
+        color: (counter % 2 == 0) ? Colors.white70 : Colors.white30,
         child: ListTile(
           leading: CircleAvatar(
             backgroundColor: Colors.blue,
-            child: Text('$counter'),
+            child: Text('${list.length - counter}'),
             foregroundColor: Colors.white,
           ),
-          title: Text('$cliente'),
-          subtitle: Text('$cliente'),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [Text(list[counter].cliente), Text(list[counter].data_cadastroUnused.split("T")[0].split("-")[2] + "/" + list[counter].data_cadastroUnused.split("T")[0].split("-")[1] + "/" + list[counter].data_cadastroUnused.split("T")[0].split("-")[0])],
+          ),
+          subtitle: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Potência: ' + list[counter].potencia + ' kWp'),
+              Text(list[counter].valor),
+            ],
+          ),
         ),
       ),
     );

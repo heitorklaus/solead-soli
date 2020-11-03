@@ -24,6 +24,38 @@ mixin _$PlantsController on _PlantsControllerBase, Store {
     });
   }
 
+  final _$lista2Atom = Atom(name: '_PlantsControllerBase.lista2');
+
+  @override
+  ObservableFuture<dynamic> get lista2 {
+    _$lista2Atom.reportRead();
+    return super.lista2;
+  }
+
+  @override
+  set lista2(ObservableFuture<dynamic> value) {
+    _$lista2Atom.reportWrite(value, super.lista2, () {
+      super.lista2 = value;
+    });
+  }
+
+  final _$editClienteControllerAtom =
+      Atom(name: '_PlantsControllerBase.editClienteController');
+
+  @override
+  TextEditingController get editClienteController {
+    _$editClienteControllerAtom.reportRead();
+    return super.editClienteController;
+  }
+
+  @override
+  set editClienteController(TextEditingController value) {
+    _$editClienteControllerAtom.reportWrite(value, super.editClienteController,
+        () {
+      super.editClienteController = value;
+    });
+  }
+
   final _$_PlantsControllerBaseActionController =
       ActionController(name: '_PlantsControllerBase');
 
@@ -39,9 +71,22 @@ mixin _$PlantsController on _PlantsControllerBase, Store {
   }
 
   @override
+  dynamic fillEditText(dynamic id) {
+    final _$actionInfo = _$_PlantsControllerBaseActionController.startAction(
+        name: '_PlantsControllerBase.fillEditText');
+    try {
+      return super.fillEditText(id);
+    } finally {
+      _$_PlantsControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-lista: ${lista}
+lista: ${lista},
+lista2: ${lista2},
+editClienteController: ${editClienteController}
     ''';
   }
 }
