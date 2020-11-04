@@ -126,6 +126,7 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
                         prefixIcon: Icon(Icons.chat),
                         keyboardType: TextInputType.number,
                         onChanged: (value) => {},
+                        controller: controller.editCPFController,
                         label: "CPF do cliente",
                         inputType: InputType.EXTRA_SMALL,
                         suffixIcon: IconButton(
@@ -144,6 +145,7 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
                               keyboardType: TextInputType.number,
                               onChanged: (value) => {},
                               label: "CEP",
+                              controller: controller.editCEPController,
                               inputType: InputType.EXTRA_SMALL,
                               suffixIcon: IconButton(
                                 icon: Icon(Icons.content_paste),
@@ -157,6 +159,7 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
                               keyboardType: TextInputType.text,
                               onChanged: (value) => {},
                               label: "Bairro",
+                              controller: controller.editBairroController,
                               suffixIcon: IconButton(
                                 icon: Icon(Icons.content_paste),
                               ),
@@ -178,6 +181,7 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
                               keyboardType: TextInputType.text,
                               onChanged: (value) => {},
                               label: "Endereço",
+                              controller: controller.editEnderecoController,
                               inputType: InputType.EXTRA_SMALL,
                               suffixIcon: IconButton(
                                 icon: Icon(Icons.content_paste),
@@ -189,9 +193,10 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
                             flex: 1,
                             child: OutlinedTextEdit(
                               prefixIcon: Icon(Icons.texture),
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.text,
                               onChanged: (value) => {},
                               label: "Número",
+                              controller: controller.editNumeroController,
                               inputType: InputType.EXTRA_SMALL,
                             ),
                           ),
@@ -236,6 +241,7 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
                                     keyboardType: TextInputType.text,
                                     onChanged: (value) => {},
                                     label: "Inversor",
+                                    controller: controller.editInversorController,
                                     suffixIcon: IconButton(
                                       icon: Icon(Icons.content_paste),
                                     ),
@@ -249,6 +255,7 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
                                     keyboardType: TextInputType.text,
                                     onChanged: (value) => {},
                                     label: "Garantia",
+                                    controller: controller.editGarantiaController,
                                     inputType: InputType.EXTRA_SMALL,
                                   ),
                                 ),
@@ -259,6 +266,7 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
                                     keyboardType: TextInputType.number,
                                     onChanged: (value) => {},
                                     label: "Potência",
+                                    controller: controller.editPotenciaController,
                                     inputType: InputType.EXTRA_SMALL,
                                   ),
                                 ),
@@ -277,6 +285,7 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
                                     keyboardType: TextInputType.text,
                                     onChanged: (value) => {},
                                     label: "Módulos",
+                                    controller: controller.editModulosController,
                                     suffixIcon: IconButton(
                                       icon: Icon(Icons.content_paste),
                                     ),
@@ -294,6 +303,7 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
                                       icon: Icon(Icons.content_paste),
                                     ),
                                     label: "Quant.",
+                                    controller: controller.editQuantidadeController,
                                     inputType: InputType.EXTRA_SMALL,
                                   ),
                                 ),
@@ -315,6 +325,7 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
                                       icon: Icon(Icons.content_paste),
                                     ),
                                     label: "Geração kWp",
+                                    controller: controller.editGeracaoController,
                                     inputType: InputType.EXTRA_SMALL,
                                   ),
                                 ),
@@ -326,6 +337,7 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
                                     keyboardType: TextInputType.number,
                                     onChanged: (value) => {},
                                     label: "Área",
+                                    controller: controller.editAreaController,
                                     suffixIcon: IconButton(
                                       icon: Icon(Icons.content_paste),
                                     ),
@@ -346,6 +358,7 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
                                     keyboardType: TextInputType.number,
                                     onChanged: (value) => {},
                                     label: "Código",
+                                    controller: controller.editCodigoController,
                                     suffixIcon: IconButton(
                                       icon: Icon(Icons.content_paste),
                                     ),
@@ -359,6 +372,7 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
                                     prefixIcon: Icon(Icons.monetization_on),
                                     keyboardType: TextInputType.number,
                                     onChanged: (value) => {},
+                                    controller: controller.editValorController,
                                     label: "R\$ Valor",
                                     inputType: InputType.EXTRA_SMALL,
                                   ),
@@ -380,6 +394,7 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
                                     suffixIcon: IconButton(icon: Icon(Icons.content_paste), onPressed: () {}),
                                     onChanged: (value) => {},
                                     label: "Dados da usina",
+                                    controller: controller.editDadosController,
                                     inputType: InputType.EXTRA_SMALL,
                                   ),
                                 ),

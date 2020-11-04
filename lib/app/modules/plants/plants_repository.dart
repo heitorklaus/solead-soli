@@ -26,6 +26,10 @@ class PlantsRepository implements IPlantsRepository {
 
     return all;
   }
+  /*
+{"id":1080,"geracao":null,"cpf":"","cep":"","bairro":"","numero":"null","area":"64","codigo":"2002080018","inversor":"SGROW, REFUSOL, GROWATT SG8K3","marcaDoModulo":"BYD","numeroDeModulo":"32","peso":"787","potencia":"10.72","potenciaDoModulo":null,"valor":"R$ 43.290,00","potenciaNovo":null,"consumoEmReais":"1200.0","consumoEmKw":"1318.6813186813185","cliente":"João Carlos Clean","endereco":"","data_cadastro":"2020-11-03T13:33:02.521+0000","dados":"Peso kg\t810 52\nTipo de Telhado\tTelhado Colonial\nPotncia kWp\t1072\nQuantidade de Mdulos\t32\nModelo do Inversor\tSG8K3D\nQuantidade de Cabo\t60m Preto  60m Vermelho\nQuantidade de Grampo Final\t16\nQuantidade de Grampo Intermedirio\t56\nMonitoramento Incluso\tSim\nrea Necessria Aproximada m\t64\nPeso Sobre o Telhado Aproximado kg\t767\nPar Conector MC4\t3\nQuantidade de Perfil 4 2m\t16\nQuantidade de Perfil 2 1m\t0\nQuantidade de Juno de Perfil\t8\nQuantidade de Bases de Fixao\t48\nFabricante do Mdulo\tBYD\nPotncia do Mdulo Wp\t335","usuario":{"id":1,"name":"Heitor Klaus","username":"heitorklaus@hotmail.com","company":"Soli Energia Solar","email":"heitorklaus@hotmail.com","foto":null,"avatar":null,"roles":[{"id":1,"name":"ROLE_ADMIN"}]}}
+
+  */
 
   @override
   Future getLeadSelected(id) async {

@@ -2290,7 +2290,7 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
                                 children: [
                                   Container(
                                     color: Colors.white,
-                                    margin: EdgeInsets.only(bottom: 50),
+                                    margin: EdgeInsets.only(bottom: 90),
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
@@ -2739,37 +2739,28 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
                             ),
                           ),
                           floatingActionButton: showFab
-                              ? Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Observer(builder: (BuildContext context) {
-                                      return Container(
-                                        color: Colors.white,
-                                        margin: EdgeInsets.only(left: 32),
-                                        child: DangerButton(
+                              ? Container(
+                                  padding: EdgeInsets.only(top: 30),
+                                  color: Colors.white,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      SizedBox(width: 29),
+                                      Expanded(
+                                        child: PrimaryButton(
                                           child: Text(
-                                            'Voltar',
+                                            'Gerar PDF',
                                             style: buttonLargeWhite,
                                           ),
+                                          //onPressed:controller.loginWithGoogle,
 
-                                          ////onPressed:controller.loginWithGoogle,
+                                          // SETANDO NOVA
 
-                                          onPressed: !_loaderGenerateGraph ? Navigator.of(context).pop : null,
+                                          onPressed: !_loaderGenerateGraph ? goGeneratePDF : null,
                                         ).getLarge(),
-                                      );
-                                    }),
-                                    PrimaryButton(
-                                      child: Text(
-                                        'Gerar PDF',
-                                        style: buttonLargeWhite,
                                       ),
-                                      //onPressed:controller.loginWithGoogle,
-
-                                      // SETANDO NOVA
-
-                                      onPressed: !_loaderGenerateGraph ? goGeneratePDF : null,
-                                    ).getLarge(),
-                                  ],
+                                    ],
+                                  ),
                                 )
                               : null,
                         ),
