@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:framework/config/main_colors.dart';
 
 import 'package:framework/ui/form/buttons/primary_button.dart';
 import 'package:framework/ui/form/inputs/outlined_text_edit.dart';
@@ -25,16 +26,18 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
       body: Stack(
         children: <Widget>[
           Container(
-              decoration: BoxDecoration(color: Colors.blue[400]),
+              decoration: BoxDecoration(color: MainColors.cielo),
               child: LayoutBuilder(
                 builder: (context, constraint) {
                   return ConstrainedBox(
                     constraints: BoxConstraints(minHeight: constraint.maxHeight),
                     child: IntrinsicHeight(
                       child: Column(
+
                         children: <Widget>[
                           Expanded(
                             child: Container(
+
                               child: Image.asset(
                                 'lib/app/shared/assets/images/logo1.png',
                                 width: 150,

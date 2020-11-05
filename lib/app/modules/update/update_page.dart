@@ -44,6 +44,7 @@ class _UpdatePageState extends ModularState<UpdatePage, UpdateController> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+
             Center(
               child: Container(
                 margin: EdgeInsets.only(top: 60),

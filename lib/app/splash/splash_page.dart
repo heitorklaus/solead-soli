@@ -77,7 +77,7 @@ class _SplashPageState extends State<SplashPage> {
 
             if (l != "" && permissao == 'PermissionStatus.granted') {
               print("[ LOGGED ]");
-              Modular.to.pushReplacementNamed('/home');
+             Modular.to.pushReplacementNamed('/home');
             } else if (permissao == 'PermissionStatus.granted') {
               print("[ NOT LOGGED ]");
               Modular.to.pushReplacementNamed('/login');
@@ -176,12 +176,13 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.blue[400], //or set color with: Color(0xFF0000FF)
+      statusBarColor: MainColors.cielo,
+       //oset color with: Color(0xFF0000FF)
     ));
     return Scaffold(
-      backgroundColor: Colors.blue[400],
+      backgroundColor: MainColors.cielo,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[

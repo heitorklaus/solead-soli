@@ -43,7 +43,7 @@ class DatabaseHelper {
   static const String csvKitsFileName = "nexendata.csv";
 
   static const String _localZipFileName = 'images_to_pdf.zip';
-  static const String dbase = "soleads7.2.db";
+  static const String dbase = "soleadsa0.1.db";
   static const double version = 7.5;
 
   // not mexer! KKKK
