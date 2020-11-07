@@ -41,6 +41,23 @@ class PlantsRepository implements IPlantsRepository {
     return data;
   }
 
+  @override
+  Future updateLead(body) async {
+    var token = await AuthRepository().getAcessToken();
+    Map<String, String> headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    final encodedResults = jsonEncode(body).replaceAll("\n", "");
+
+    final auth = await http.put('https://soleadapp.herokuapp.com/api/update', headers: headers, body: encodedResults);
+
+    final data = PowerPlantsOnline.fromJson(json.decode(auth.body));
+    return data;
+  }
+
   //dispose will be called automatically
   @override
   void dispose() {}

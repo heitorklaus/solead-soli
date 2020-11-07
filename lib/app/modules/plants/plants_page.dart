@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:framework/ui/form/buttons/primary_button.dart';
 import 'package:framework/ui/form/inputs/input_type.dart';
 import 'package:framework/ui/form/inputs/outlined_text_edit.dart';
 import 'package:login/app/shared/repositories/entities/powerPlantsOnline.dart';
@@ -408,7 +409,32 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
                         ],
                       ),
                     ),
-                    SizedBox()
+                    SizedBox(),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 15.0, right: 22, bottom: 30),
+                child: Row(
+                  children: [
+                    Observer(builder: (BuildContext context) {
+                      if (controller.disableAdd == false) {
+                        return Expanded(child: Center(child: CircularProgressIndicator()));
+                      } else {
+                        return Expanded(
+                          child: PrimaryButton(
+                              child: Text(
+                                'Atualizar',
+                                style: buttonLargeWhite,
+                              ),
+                              //onPressed:controller.loginWithGoogle,
+
+                              onPressed: () {
+                                controller.updatePlant(id);
+                              }).getLarge(),
+                        );
+                      }
+                    })
                   ],
                 ),
               )

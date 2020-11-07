@@ -15,10 +15,16 @@ abstract class _PlantsControllerBase with Store {
   final IPlantsRepository repository;
 
   @observable
+  bool disableAdd = true;
+
+  @observable
   ObservableFuture lista;
 
   @observable
   ObservableFuture lista2;
+
+  @observable
+  ObservableFuture u;
 
   @observable
   var editClienteController = TextEditingController();
@@ -61,6 +67,35 @@ abstract class _PlantsControllerBase with Store {
   @action
   getAll() {
     lista = repository.getAllLeads().asObservable();
+  }
+
+  @action
+  updatePlant(id) {
+    disableAdd = false;
+
+    var update = PowerPlantsOnline();
+    update.cliente = editClienteController.text;
+    update.cep = editCEPController.text;
+    update.area = editAreaController.text;
+    update.bairro = editBairroController.text;
+    update.cpf = editCPFController.text;
+    update.dados = editDadosController.text;
+    update.codigo = editCodigoController.text;
+    update.endereco = editEnderecoController.text;
+    update.geracao = editGeracaoController.text;
+    update.inversor = editInversorController.text;
+    update.marcaDoModulo = editModulosController.text;
+    update.numero = editNumeroController.text;
+    update.potencia = editPotenciaController.text;
+    update.numeroDeModulo = int.parse(editQuantidadeController.text);
+    update.valor = editValorController.text;
+    update.id = id;
+
+    u = repository.updateLead(update).asObservable().then((value) {
+      fillEditText(id);
+      getAll();
+      disableAdd = true;
+    });
   }
 
   @action

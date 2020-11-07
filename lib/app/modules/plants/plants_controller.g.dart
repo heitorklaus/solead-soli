@@ -9,6 +9,21 @@ part of 'plants_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$PlantsController on _PlantsControllerBase, Store {
+  final _$disableAddAtom = Atom(name: '_PlantsControllerBase.disableAdd');
+
+  @override
+  bool get disableAdd {
+    _$disableAddAtom.reportRead();
+    return super.disableAdd;
+  }
+
+  @override
+  set disableAdd(bool value) {
+    _$disableAddAtom.reportWrite(value, super.disableAdd, () {
+      super.disableAdd = value;
+    });
+  }
+
   final _$listaAtom = Atom(name: '_PlantsControllerBase.lista');
 
   @override
@@ -36,6 +51,21 @@ mixin _$PlantsController on _PlantsControllerBase, Store {
   set lista2(ObservableFuture<dynamic> value) {
     _$lista2Atom.reportWrite(value, super.lista2, () {
       super.lista2 = value;
+    });
+  }
+
+  final _$uAtom = Atom(name: '_PlantsControllerBase.u');
+
+  @override
+  ObservableFuture<dynamic> get u {
+    _$uAtom.reportRead();
+    return super.u;
+  }
+
+  @override
+  set u(ObservableFuture<dynamic> value) {
+    _$uAtom.reportWrite(value, super.u, () {
+      super.u = value;
     });
   }
 
@@ -321,6 +351,17 @@ mixin _$PlantsController on _PlantsControllerBase, Store {
   }
 
   @override
+  dynamic updatePlant(dynamic id) {
+    final _$actionInfo = _$_PlantsControllerBaseActionController.startAction(
+        name: '_PlantsControllerBase.updatePlant');
+    try {
+      return super.updatePlant(id);
+    } finally {
+      _$_PlantsControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic fillEditText(dynamic id) {
     final _$actionInfo = _$_PlantsControllerBaseActionController.startAction(
         name: '_PlantsControllerBase.fillEditText');
@@ -334,8 +375,10 @@ mixin _$PlantsController on _PlantsControllerBase, Store {
   @override
   String toString() {
     return '''
+disableAdd: ${disableAdd},
 lista: ${lista},
 lista2: ${lista2},
+u: ${u},
 editClienteController: ${editClienteController},
 editCPFController: ${editCPFController},
 editCEPController: ${editCEPController},

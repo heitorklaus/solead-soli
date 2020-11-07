@@ -64,16 +64,18 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
       onWillPop: _onWillPop,
       child: PDFViewerScaffold(
           appBar: AppBar(
-            iconTheme: IconThemeData(
-              color: Colors.black, //change your color here
+            // automaticallyImplyLeading: false,
+            title: Text(
+              "Proposta Gerada",
+              style: ubuntu17WhiteBold500,
             ),
-            backgroundColor: Colors.white,
+
             actions: <Widget>[
               IconButton(
                 icon: Icon(
                   Icons.share,
-                  size: 25,
-                  color: Colors.black,
+                  size: 30,
+                  color: Colors.white,
                 ),
                 onPressed: () {
                   share();

@@ -22,6 +22,12 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
+  Future getAcessToken() async {
+    var token = await Prefs.getString("TOKEN");
+    return token;
+  }
+
+  @override
   Future getFacebookLogin() {
     // TODO: implement getFacebookLogin
     throw UnimplementedError();

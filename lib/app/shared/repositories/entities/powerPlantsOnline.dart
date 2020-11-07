@@ -7,7 +7,7 @@ part 'powerPlantsOnline.g.dart';
 class PowerPlantsOnline extends _PowerPlantsOnline with _$PowerPlantsOnline {
   PowerPlantsOnline({int id, String usuario_id, String data_cadastroUnused, String geracao, String cpf, String cep, String bairro, String numero, String area, String codigo, String dados, String inversor, String marcaDoModulo, int numeroDeModulo, String peso, String potencia, String potenciaDoModulo, String valor, String potenciaNovo, String consumoEmReais, String consumoEmKw, String cliente, String endereco, Usuario usuario}) : super(id: id, data_cadastroUnused: data_cadastroUnused, usuario_id: usuario_id, geracao: geracao, cpf: cpf, cep: cep, bairro: bairro, numero: numero, area: area, codigo: codigo, dados: dados, inversor: inversor, marcaDoModulo: marcaDoModulo, numeroDeModulo: numeroDeModulo, peso: peso, potencia: potencia, potenciaDoModulo: potenciaDoModulo, valor: valor, potenciaNovo: potenciaNovo, consumoEmReais: consumoEmReais, consumoEmKw: consumoEmKw, cliente: cliente, endereco: endereco, usuario: usuario);
 
-  toJson() {
+  Map<String, dynamic> toJson() {
     return {
       "id": id,
       "data_cadastroUnused": data_cadastroUnused,
