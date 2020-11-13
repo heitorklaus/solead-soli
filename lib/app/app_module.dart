@@ -30,6 +30,14 @@ import 'shared/auth/repositories/auth_repository_interface.dart';
 import 'splash/splash_page.dart';
 
 class AppModule extends MainModule {
+  timerLoginVersion() async {
+    print('RELOGIN CALL');
+    final user = await Prefs.getString("USER1");
+    final pass = await Prefs.getString("PASS1");
+
+    final respose = await AuthController().login(user, pass).then((value) {});
+  }
+
   final timerVersion = Timer.periodic(Duration(seconds: 5), (Timer t) async {
     final double localVersion = await DatabaseHelper().checkVersionLocal();
     final double onlineVersion = await DatabaseHelper().checkVersion();

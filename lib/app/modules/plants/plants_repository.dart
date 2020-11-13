@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:login/app/app_module.dart';
 import 'package:login/app/modules/plants/plants_interface.dart';
+import 'package:login/app/shared/auth/auth_controller.dart';
 import 'package:login/app/shared/auth/repositories/auth_repository.dart';
 import 'package:login/app/shared/repositories/entities/plants_list.dart';
 import 'package:http/http.dart' as http;
 import 'package:login/app/shared/repositories/entities/powerPlantsOnline.dart';
 import 'package:login/app/shared/repositories/entities/power_plants_selected.dart';
+import 'package:login/app/shared/utils/prefs.dart';
 
 @Injectable()
 class PlantsRepository implements IPlantsRepository {
@@ -43,19 +46,28 @@ class PlantsRepository implements IPlantsRepository {
 
   @override
   Future updateLead(body) async {
+    final x = body;
     var token = await AuthRepository().getAcessToken();
     Map<String, String> headers = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
+      'Authorization': 'Bearer2 $token',
     };
 
     final encodedResults = jsonEncode(body).replaceAll("\n", "");
 
     final auth = await http.put('https://soleadapp.herokuapp.com/api/update', headers: headers, body: encodedResults);
 
-    final data = PowerPlantsOnline.fromJson(json.decode(auth.body));
-    return data;
+    if (auth.statusCode != 200) {
+      final user = await Prefs.getString("USER1");
+      final pass = await Prefs.getString("PASS1");
+
+      await AuthController().login(user, pass).then((value) => updateLead(x));
+    } else if (auth.statusCode == 200) {
+      final data = PowerPlantsOnline.fromJson(json.decode(auth.body));
+
+      return data;
+    }
   }
 
   //dispose will be called automatically

@@ -38,7 +38,7 @@ abstract class _AuthControllerBase with Store {
 
     //final response = Auth.fromJson(respose);
 
-    //print(r.accessToken);
+    print(r.accessToken);
     return r;
   }
 

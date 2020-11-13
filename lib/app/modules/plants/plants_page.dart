@@ -6,6 +6,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:framework/ui/form/buttons/primary_button.dart';
 import 'package:framework/ui/form/inputs/input_type.dart';
 import 'package:framework/ui/form/inputs/outlined_text_edit.dart';
+import 'package:login/app/app_module.dart';
 import 'package:login/app/shared/repositories/entities/powerPlantsOnline.dart';
 import 'package:login/app/shared/styles/main_colors.dart';
 import 'package:login/app/shared/styles/main_style.dart';
@@ -63,7 +64,8 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
               color: Colors.white,
             ),
             onPressed: () {
-              controller.getAll();
+              AppModule().timerLoginVersion();
+              //controller.getAll();
             },
           ),
         ],
