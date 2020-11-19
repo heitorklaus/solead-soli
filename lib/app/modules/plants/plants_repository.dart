@@ -51,7 +51,7 @@ class PlantsRepository implements IPlantsRepository {
     Map<String, String> headers = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': 'Bearer2 $token',
+      'Authorization': 'Bearer $token',
     };
 
     final encodedResults = jsonEncode(body).replaceAll("\n", "");
