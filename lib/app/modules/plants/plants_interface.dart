@@ -5,4 +5,5 @@ abstract class IPlantsRepository {
   Future getAllLeads();
   Future getLeadSelected(val);
   Future updateLead(body);
+  Future deleteLead(val);
 }

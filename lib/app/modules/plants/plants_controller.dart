@@ -99,6 +99,13 @@ abstract class _PlantsControllerBase with Store {
   }
 
   @action
+  delete(id) async {
+    await repository.deleteLead(id).then((value) {
+      // getAll();
+    });
+  }
+
+  @action
   fillEditText(id) {
     lista2 = repository.getLeadSelected(id).asObservable().then((value) {
       PowerPlantsOnline model = value;

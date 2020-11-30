@@ -64,8 +64,8 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
               color: Colors.white,
             ),
             onPressed: () {
-              AppModule().timerLoginVersion();
-              //controller.getAll();
+              //AppModule().timerLoginVersion();
+              controller.getAll();
             },
           ),
         ],
@@ -512,7 +512,8 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
                 );
               },
         onDismissed: (actionType) {
-          _showSnackBar(context, actionType == SlideActionType.primary ? 'Dismiss Archive' : 'Dimiss Delete');
+          controller.delete(list[xa].id);
+          _showSnackBar(context, actionType == SlideActionType.primary ? 'Orçamento Used' : 'Orçamento deletado');
           setState(() {
             //  items.removeAt(index);
             list.removeAt(index);
@@ -554,6 +555,7 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
 
                   if (dismiss) {
                     state.dismiss();
+                    print('ttt');
                   }
                 },
               );
@@ -586,7 +588,9 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
                 caption: 'Delete',
                 color: renderingMode == SlidableRenderingMode.slide ? Colors.red.withOpacity(animation.value) : Colors.red,
                 icon: Icons.delete,
-                onTap: () => _showSnackBar(context, 'Delete'),
+                onTap: () async {
+                  controller.delete(list[xa].id);
+                },
               );
             }
           }),

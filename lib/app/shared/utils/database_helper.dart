@@ -246,8 +246,11 @@ class DatabaseHelper {
     var db = await openDatabase(path, version: 2);
 
     try {
+
       await db.execute("INSERT INTO TAX (ID, BANCO, TAX3X, TAX6X, TAX12X, TAX24X, TAX36X, TAX48X, TAX60X, TAX72X, TAX) VALUES ($id,'$banco','$tax3x','$tax6x','$tax12x','$tax24x','$tax36x','$tax48x','$tax60x','$tax72x',$tax)");
+    
     } catch (e) {
+
       print('[ERROR]' + e.toString());
 
       //print(e.toString());

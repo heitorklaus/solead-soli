@@ -45,6 +45,21 @@ class PlantsRepository implements IPlantsRepository {
   }
 
   @override
+  Future deleteLead(id) async {
+    var token = await AuthRepository().getAcessToken();
+    Map<String, String> headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    final auth = await http.delete('https://soleadapp.herokuapp.com/api/posts/delete/?id=$id', headers: headers);
+
+    final data = auth.body;
+    return auth.statusCode;
+  }
+
+  @override
   Future updateLead(body) async {
     final x = body;
     var token = await AuthRepository().getAcessToken();
