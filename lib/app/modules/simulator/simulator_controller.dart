@@ -2159,9 +2159,9 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
 
                           Future.delayed(const Duration(milliseconds: 4000), () async {
                             await runChartGenerateImage1("grafico-1");
-                            print(randomAlphaNumeric(10)); // random sequence of 10 alpha numeric i.e. aRztC1y32B
+                            print(randomAlphaNumeric(4)); // random sequence of 10 alpha numeric i.e. aRztC1y32B
 
-                            final String file = "${randomAlphaNumeric(10)} Pré-Proposta($returnGenerationKW kWh) ";
+                            final String file = "Pré-Proposta - Soli Energia Solar";
 
                             await writeOnPdf(file);
 
