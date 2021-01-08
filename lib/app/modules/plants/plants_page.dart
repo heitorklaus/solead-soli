@@ -56,23 +56,39 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
 
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.refresh,
-              color: Colors.white,
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.refresh,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                //AppModule().timerLoginVersion();
+                controller.getAll();
+              },
             ),
-            onPressed: () {
-              //AppModule().timerLoginVersion();
-              controller.getAll();
-            },
-          ),
-        ],
-        title: Text(widget.title),
-      ),
-      body: arguments['mode'] == 'edit' ? _buildEdit(context, arguments['id']) : _buildList(context, Axis.vertical),
-    );
+          ],
+          title: Text(widget.title),
+        ),
+        //body:  arguments['mode'] == 'edit' ? _buildEdit(context, arguments['id']) : _buildList(context, Axis.vertical)
+
+        body: returnT(arguments['mode'], arguments['id'])
+
+        // arguments['mode'] == 'edit' ? _buildEdit(context, arguments['id']) : _buildList(context, Axis.vertical),
+        );
+  }
+
+  returnT(mode, id) {
+    print(mode);
+    print(id);
+    if (mode == null && id == null) {
+      return _buildList(context, Axis.vertical);
+    } else if (mode == 'edit') {
+      return _buildEdit(context, id, 'edit');
+    } else if (mode == 'contract') {
+      return _buildEdit(context, id, 'contract');
+    }
   }
 
   // simulate a http request
@@ -80,7 +96,7 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
     controller.getAll();
   }
 
-  Widget _buildEdit(BuildContext context, id) {
+  Widget _buildEdit(BuildContext context, id, tipo) {
     controller.fillEditText(id);
     return Observer(builder: (BuildContext context) {
       final PowerPlantsOnline list = controller.lista2.value;
@@ -494,19 +510,28 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
                 return showDialog<bool>(
                   context: context,
                   builder: (context) {
-                    return AlertDialog(
-                      title: Text('Delete'),
-                      content: Text('Item will be deleted'),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text('Cancel'),
-                          onPressed: () => Navigator.of(context).pop(false),
+                    return Scaffold(
+                      appBar: AppBar(
+                        // automaticallyImplyLeading: false,
+                        title: Text(
+                          "Carregando...",
+                          style: ubuntu17WhiteBold500,
                         ),
-                        FlatButton(
-                          child: Text('Ok'),
-                          onPressed: () => Navigator.of(context).pop(true),
-                        ),
-                      ],
+                      ),
+                      body: AlertDialog(
+                        title: Text('Delete'),
+                        content: Text('Item will be deleted'),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text('Cancel'),
+                            onPressed: () => Navigator.of(context).pop(false),
+                          ),
+                          FlatButton(
+                            child: Text('Ok'),
+                            onPressed: () => Navigator.of(context).pop(true),
+                          ),
+                        ],
+                      ),
                     );
                   },
                 );
@@ -528,35 +553,44 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
           builder: (context, index, animation, renderingMode) {
             if (index == 0) {
               return IconSlideAction(
-                caption: 'Negociar',
+                caption: 'Gerar Contrato',
                 color: renderingMode == SlidableRenderingMode.slide ? Colors.blue.withOpacity(animation.value) : (renderingMode == SlidableRenderingMode.dismiss ? Colors.blue : Colors.green),
                 icon: Icons.assistant,
                 onTap: () async {
-                  var state = Slidable.of(context);
-                  var dismiss = await showDialog<bool>(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text('Delete'),
-                        content: Text('Item will be deleted'),
-                        actions: <Widget>[
-                          FlatButton(
-                            child: Text('Cancel'),
-                            onPressed: () => Navigator.of(context).pop(false),
-                          ),
-                          FlatButton(
-                            child: Text('Ok'),
-                            onPressed: () => Navigator.of(context).pop(true),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-
-                  if (dismiss) {
-                    state.dismiss();
-                    print('ttt');
-                  }
+                  Modular.to.pushNamed('/plants', arguments: {'mode': 'contract', 'id': list[xa].id});
+                  // var state = Slidable.of(context);
+                  // var dismiss = await showDialog<bool>(
+                  //   context: context,
+                  //   builder: (context) {
+                  //     return AlertDialog(
+                  //       contentPadding: EdgeInsets.all(0.0),
+                  //        content: Scaffold(
+                  //           appBar: AppBar(
+                  //             // automaticallyImplyLeading: false,
+                  //             title: Text(
+                  //               "Proposta...",
+                  //               style: ubuntu17WhiteBold500,
+                  //             ),
+                  //           ),
+                  //           body: Text('Item will be deleted')),
+                  //       actions: <Widget>[
+                  //         FlatButton(
+                  //           child: Text('Cancel'),
+                  //           onPressed: () => Navigator.of(context).pop(false),
+                  //         ),
+                  //         FlatButton(
+                  //           child: Text('Ok'),
+                  //           onPressed: () => Navigator.of(context).pop(true),
+                  //         ),
+                  //       ],
+                  //     );
+                  //   },
+                  // );
+                  //
+                  // if (dismiss) {
+                  //   state.dismiss();
+                  //   print('ttt');
+                  // }
                 },
               );
             } else {
@@ -627,12 +661,12 @@ class VerticalListItem extends StatelessWidget {
           ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Text(list[counter].cliente), Text(list[counter].data_cadastroUnused.split("T")[0].split("-")[2] + "/" + list[counter].data_cadastroUnused.split("T")[0].split("-")[1] + "/" + list[counter].data_cadastroUnused.split("T")[0].split("-")[0])],
+            children: [Text(list[counter].cliente.split(' ')[0] + ' / ' + list[counter].potencia + ' kWp'), Text(list[counter].data_cadastroUnused.split("T")[0].split("-")[2] + "/" + list[counter].data_cadastroUnused.split("T")[0].split("-")[1] + "/" + list[counter].data_cadastroUnused.split("T")[0].split("-")[0])],
           ),
           subtitle: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Potência: ' + list[counter].potencia + ' kWp'),
+              Text('Criado por: ${list[counter].usuario.name} '),
               Text(list[counter].valor),
             ],
           ),

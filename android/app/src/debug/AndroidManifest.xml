@@ -17,8 +17,8 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="Soli Leads"
-        
-        android:icon="@mipmap/ic_launcher">
+         android:icon="@mipmap/ic_launcher"
+        >
     <provider
         android:name="androidx.core.content.FileProvider"
         android:authorities="${applicationId}.provider"
