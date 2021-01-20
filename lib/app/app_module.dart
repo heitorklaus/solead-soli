@@ -26,6 +26,7 @@ import 'package:login/app/shared/utils/database_helper.dart';
 import 'package:login/app/shared/utils/prefs.dart';
 
 import 'modules/login/login_module.dart';
+import 'modules/simulatorPlant/simulator_plant_module.dart';
 import 'shared/auth/repositories/auth_repository_interface.dart';
 import 'splash/splash_page.dart';
 
@@ -101,6 +102,7 @@ class AppModule extends MainModule {
         ModularRouter('/login', module: LoginModule(), transition: TransitionType.noTransition),
         ModularRouter('/home', module: HomeModule()),
         ModularRouter('/simulator', module: SimulatorModule()),
+        ModularRouter('/simulatorPlant', module: SimulatorPlantModule()),
         ModularRouter('/simulator-edit', module: SimulatorModuleEdit()),
         ModularRouter('/plants', module: PlantsModule()),
         ModularRouter('/update', module: UpdateModule()),

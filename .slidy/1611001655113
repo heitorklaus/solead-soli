@@ -1,0 +1,7 @@
+lib/app/modules/my_module/my_module_module.dart
+lib/app/modules/my_module/my_module_page.dart
+test/app/modules/my_module/my_module_page_test.dart
+lib/app/modules/my_module/repositories/my_module_repository.dart
+lib/app/modules/my_module/my_module_controller.dart
+test/app/modules/my_module/repositories/my_module_repository_test.dart
+test/app/modules/my_module/my_module_controller_test.dart

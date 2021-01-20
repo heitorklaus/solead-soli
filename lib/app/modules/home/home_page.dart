@@ -772,7 +772,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
         onPressed: () async {
           Modular.to.pushNamed('/simulator');
         },
-        tooltip: 'Incrsdement',
+        tooltip: 'Simulator',
         child: Icon(Icons.add),
         elevation: 2.0,
       ), // This trailing comma makes auto-formatting nicer for build methods.

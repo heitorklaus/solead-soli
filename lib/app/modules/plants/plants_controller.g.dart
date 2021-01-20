@@ -336,6 +336,13 @@ mixin _$PlantsController on _PlantsControllerBase, Store {
     });
   }
 
+  final _$deleteAsyncAction = AsyncAction('_PlantsControllerBase.delete');
+
+  @override
+  Future delete(dynamic id) {
+    return _$deleteAsyncAction.run(() => super.delete(id));
+  }
+
   final _$_PlantsControllerBaseActionController =
       ActionController(name: '_PlantsControllerBase');
 

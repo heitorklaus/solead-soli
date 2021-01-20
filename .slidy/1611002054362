@@ -1,0 +1,7 @@
+lib/app/modules/simulator-new/simulator_new_module.dart
+lib/app/modules/simulator-new/simulator_new_page.dart
+test/app/modules/simulator-new/simulator_new_page_test.dart
+lib/app/modules/simulator-new/repositories/simulator_new_repository.dart
+lib/app/modules/simulator-new/simulator_new_controller.dart
+test/app/modules/simulator-new/simulator_new_controller_test.dart
+test/app/modules/simulator-new/repositories/simulator_new_repository_test.dart
