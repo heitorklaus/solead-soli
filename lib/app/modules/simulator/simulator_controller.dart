@@ -622,7 +622,6 @@ abstract class _SimulatorControllerBase with Store {
 
       final irradiation = await AuthRepository().getIrradiation();
       final efficiency = await AuthRepository().getEfficiency();
-
       final result = (int.parse(mediaKW.text).toInt() / 30) / double.parse(irradiation.replaceAll(',', '.')).toDouble() / efficiency;
 
       potencia.text = result.toStringAsFixed(2);

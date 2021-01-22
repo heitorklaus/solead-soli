@@ -770,7 +770,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> with SingleT
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          Modular.to.pushNamed('/simulator');
+          Modular.to.pushNamed('/simulatorPlant');
         },
         tooltip: 'Simulator',
         child: Icon(Icons.add),
