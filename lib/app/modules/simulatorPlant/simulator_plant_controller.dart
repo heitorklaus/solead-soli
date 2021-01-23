@@ -12,13 +12,19 @@ abstract class _SimulatorPlantControllerBase with Store {
   final inputKwh = TextEditingController();
   final inputR$ = TextEditingController();
 
+  var inputPotenciaNecessaria = TextEditingController();
+  var inputPotenciaIndicadaMenor = TextEditingController();
+  var inputPotenciaIndicadaMaior = TextEditingController();
+  var inputValorKitMenor = TextEditingController();
+  var inputValorKitMaior = TextEditingController();
+
   _SimulatorPlantControllerBase() {
     // fica escutando cada INPUT nos campos de simulacao
     inputKwh.addListener(() async {
-      inputKwh.text.length > 2 ? calculate() : print('nao tem 3 caracteres ainda');
+      inputKwh.text.length > 2 ? calculate() : clearKwh();
     });
     inputR$.addListener(() async {
-      inputR$.text.length > 2 ? calculate() : print('nao tem 3 caracteres ainda');
+      inputR$.text.length > 2 ? calculate() : clearR$();
     });
   }
 
@@ -27,41 +33,58 @@ abstract class _SimulatorPlantControllerBase with Store {
     final irradiation = await AuthRepository().getIrradiation();
     final efficiency = await AuthRepository().getEfficiency();
     final tarifa = await AuthRepository().getPrice();
-    // Aqui ternario SE TIVER VALOR NO INPUT KWP entao POTENCIA ASSUME a conta com KWP SENAO COM R$
+    // Aqui IF SE TIVER VALOR NO INPUT KWP entao POTENCIA ASSUME a conta com KWP SENAO COM R$
     dynamic potency;
 
     // Se estou simulando EM KWH
     if (inputKwh.text.length > 2) {
-      // potencia NECESSARIA
       potency = ((int.parse(inputKwh.text).toInt() / 30) / double.parse(irradiation.replaceAll(',', '.')).toDouble() / efficiency).toStringAsFixed(2);
     } else {
       // Se estou simulando em REAIS
       potency = ((int.parse(inputR$.text).toInt() * double.parse(tarifa.replaceAll(',', '.')).toDouble() / (30)) / double.parse(irradiation.replaceAll(',', '.')).toDouble() / efficiency).toStringAsFixed(2);
     }
 
-    // Envio a potencia necessaria para fazer uma busca la MENOR e MAIOR
+    //#TODO: Mudar essa busca no DAO (Criar um serviço)
+    // Envio a potencia necessaria para fazer uma busca la no DAO (LUGAR INFELIZ DE COLOCAR) MENOR e MAIOR
     var potenciaProximaMaior = await ProposalStringsDao().findPotenciaKit(potency);
     var potenciaProximaMenor = await ProposalStringsDao().findPotenciaKitMenor(potency);
 
-    // Pego o retorno e faco o processo pra descobrir a geracao baseada na potencia encontrada
-    // POTENCIA * 30 * IRRADIACAO * EFICIENCIA
-    var kwhMenor = (potenciaProximaMenor.potencia.toDouble() * 30 * efficiency * double.parse(irradiation.replaceAll(',', '.'))).round();
-    var kwhMaior = (potenciaProximaMaior.potencia.toDouble() * 30 * efficiency * double.parse(irradiation.replaceAll(',', '.'))).round();
+    // Só EXECUTA O BLOCO SE TIVER ENCONTRADO RESULTADO NA BUSCA
+    if (potenciaProximaMenor != null) {
+      // Pego o retorno e faco o processo pra descobrir a geracao baseada na potencia encontrada
+      // POTENCIA * 30 * IRRADIACAO * EFICIENCIA
+      var kwhMenor = (potenciaProximaMenor.potencia.toDouble() * 30 * efficiency * double.parse(irradiation.replaceAll(',', '.'))).round();
+      var kwhMaior = (potenciaProximaMaior.potencia.toDouble() * 30 * efficiency * double.parse(irradiation.replaceAll(',', '.'))).round();
 
-    var valorKitMenor = potenciaProximaMenor.valor;
-    var valorKitMaior = potenciaProximaMaior.valor;
+      // Inputs da pagina
+      inputPotenciaNecessaria.text = potency;
+      inputPotenciaIndicadaMenor.text = "${potenciaProximaMenor.potencia}";
+      inputPotenciaIndicadaMaior.text = "${potenciaProximaMaior.potencia}";
+      inputValorKitMenor.text = potenciaProximaMenor.valor;
+      inputValorKitMaior.text = potenciaProximaMaior.valor;
 
-    print(" Potencia MENOR encontrada: ${potenciaProximaMenor.potencia} | $kwhMenor kWh | Valor Kit: $valorKitMenor ");
-    print(" Potencia MAIOR encontrada: ${potenciaProximaMaior.potencia} | $kwhMaior kWh | Valor Kit: $valorKitMaior ");
+      print(" Potencia MENOR encontrada: ${potenciaProximaMenor.potencia} | $kwhMenor kWh | Valor Kit: $inputValorKitMenor ");
+      print(" Potencia MAIOR encontrada: ${potenciaProximaMaior.potencia} | $kwhMaior kWh | Valor Kit: $inputValorKitMaior ");
+    }
   }
 
   @observable
   clearKwh() async {
     inputR$.text = '';
+    inputPotenciaNecessaria.text = "";
+    inputPotenciaIndicadaMenor.text = "";
+    inputPotenciaIndicadaMaior.text = "";
+    inputValorKitMenor.text = "";
+    inputValorKitMaior.text = "";
   }
 
   @observable
   clearR$() async {
     inputKwh.text = '';
+    inputPotenciaNecessaria.text = "";
+    inputPotenciaIndicadaMenor.text = "";
+    inputPotenciaIndicadaMaior.text = "";
+    inputValorKitMenor.text = "";
+    inputValorKitMaior.text = "";
   }
 }

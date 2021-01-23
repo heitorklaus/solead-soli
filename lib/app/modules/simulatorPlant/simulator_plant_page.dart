@@ -151,6 +151,7 @@ class _SimulatorPlantPageState extends ModularState<SimulatorPlantPage, Simulato
                                                 onChanged: (value) => {},
                                                 label: "Potência ",
                                                 inputType: InputType.EXTRA_SMALL,
+                                                controller: controller.inputPotenciaNecessaria,
                                               ),
                                             ),
                                           ],
@@ -183,6 +184,7 @@ class _SimulatorPlantPageState extends ModularState<SimulatorPlantPage, Simulato
                                             Container(
                                               width: 120,
                                               child: OutlinedTextEdit(
+                                                controller: controller.inputPotenciaIndicadaMenor,
                                                 keyboardType: TextInputType.number,
                                                 readOnly: true,
                                                 onChanged: (value) => {},
@@ -196,6 +198,7 @@ class _SimulatorPlantPageState extends ModularState<SimulatorPlantPage, Simulato
                                             Container(
                                               width: 165,
                                               child: OutlinedTextEdit(
+                                                controller: controller.inputValorKitMenor,
                                                 prefixIcon: Icon(Icons.monetization_on),
                                                 keyboardType: TextInputType.number,
                                                 onChanged: (value) => {},
@@ -249,6 +252,7 @@ class _SimulatorPlantPageState extends ModularState<SimulatorPlantPage, Simulato
                                             Container(
                                               width: 120,
                                               child: OutlinedTextEdit(
+                                                controller: controller.inputPotenciaIndicadaMaior,
                                                 keyboardType: TextInputType.number,
                                                 onChanged: (value) => {},
                                                 readOnly: true,
@@ -262,6 +266,7 @@ class _SimulatorPlantPageState extends ModularState<SimulatorPlantPage, Simulato
                                             Container(
                                               width: 165,
                                               child: OutlinedTextEdit(
+                                                controller: controller.inputValorKitMaior,
                                                 prefixIcon: Icon(Icons.monetization_on),
                                                 keyboardType: TextInputType.number,
                                                 onChanged: (value) => {},
