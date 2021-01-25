@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:login/app/shared/auth/repositories/auth_repository.dart';
+import 'package:login/app/shared/repositories/entities/dados_kits.dart';
+import 'package:login/app/shared/repositories/entities/power_plants.dart';
 import 'package:login/app/shared/repositories/proposal_strings.dart';
 import 'package:mobx/mobx.dart';
-import 'package:flutter_modular/flutter_modular.dart';
+//import 'package:flutter_modular/flutter_modular.dart';
 
 part 'simulator_plant_controller.g.dart';
 
 class SimulatorPlantController = _SimulatorPlantControllerBase with _$SimulatorPlantController;
 
 abstract class _SimulatorPlantControllerBase with Store {
+  // Campos do simulador INPUT EM kWh e INPUT EM R$
   final inputKwh = TextEditingController();
   final inputR$ = TextEditingController();
-
+  // Campos de retorno pós INPUT
   var inputPotenciaNecessaria = TextEditingController();
   var inputPotenciaIndicadaMenor = TextEditingController();
   var inputPotenciaIndicadaMaior = TextEditingController();
@@ -19,7 +22,7 @@ abstract class _SimulatorPlantControllerBase with Store {
   var inputValorKitMaior = TextEditingController();
 
   _SimulatorPlantControllerBase() {
-    // fica escutando cada INPUT nos campos de simulacao
+    // fica escutando cada INPUT nos campos de simulacao OU FAZ CALCULO OU CLEAR
     inputKwh.addListener(() async {
       inputKwh.text.length > 2 ? calculate() : clearKwh();
     });
@@ -46,8 +49,8 @@ abstract class _SimulatorPlantControllerBase with Store {
 
     //#TODO: Mudar essa busca no DAO (Criar um serviço)
     // Envio a potencia necessaria para fazer uma busca la no DAO (LUGAR INFELIZ DE COLOCAR) MENOR e MAIOR
-    var potenciaProximaMaior = await ProposalStringsDao().findPotenciaKit(potency);
-    var potenciaProximaMenor = await ProposalStringsDao().findPotenciaKitMenor(potency);
+    DadosKits potenciaProximaMaior = await ProposalStringsDao().findPotenciaKit(potency);
+    DadosKits potenciaProximaMenor = await ProposalStringsDao().findPotenciaKitMenor(potency);
 
     // Só EXECUTA O BLOCO SE TIVER ENCONTRADO RESULTADO NA BUSCA
     if (potenciaProximaMenor != null) {
@@ -68,6 +71,7 @@ abstract class _SimulatorPlantControllerBase with Store {
     }
   }
 
+  // Clear Fields, Limpa os campos quando é clicado em um campo diferente
   @observable
   clearKwh() async {
     inputR$.text = '';
@@ -78,6 +82,7 @@ abstract class _SimulatorPlantControllerBase with Store {
     inputValorKitMaior.text = "";
   }
 
+// Clear Fields, Limpa os campos quando é clicado em um campo diferente
   @observable
   clearR$() async {
     inputKwh.text = '';
