@@ -95,17 +95,28 @@ class _SimulatorPlantPageState extends ModularState<SimulatorPlantPage, Simulato
         appBar: AppBar(
           title: Text(widget.title),
         ),
-        body: Stepper(
-          //physics: ClampingScrollPhysics(),
-          steps: _stepper(),
+        body: Stack(
+          children: [
+            Container(
+              decoration: new BoxDecoration(
+                  image: new DecorationImage(
+                image: new AssetImage('lib/app/shared/assets/images/bg.jpg'),
+                fit: BoxFit.cover,
+              )),
+            ),
+            Stepper(
+              //physics: ClampingScrollPhysics(),
+              steps: _stepper(),
 
-          type: stepperType,
-          currentStep: this._currentStep,
-          onStepTapped: (step) {
-            setState(() {
-              //   this._currentStep = step;
-            });
-          },
+              type: stepperType,
+              currentStep: this._currentStep,
+              onStepTapped: (step) {
+                setState(() {
+                  //   this._currentStep = step;
+                });
+              },
+            ),
+          ],
         ),
       ),
     );
@@ -113,233 +124,231 @@ class _SimulatorPlantPageState extends ModularState<SimulatorPlantPage, Simulato
   }
 
   buildFormSimulator() {
-    return Stack(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(
-                  top: 15,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      width: 100,
-                      height: 50,
-                      child: OutlinedTextEdit(
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(bottom: 10, left: 8),
-                          hintText: "Média kWp",
-                          hintStyle: TextStyle(fontSize: 12.0),
-                          border: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(10.0),
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.teal,
-                            ),
-                          ),
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.only(left: 8.0, right: 8, top: 8, bottom: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Container(
+            color: Colors.white,
+            margin: EdgeInsets.only(
+              top: 15,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  width: 100,
+                  height: 50,
+                  child: OutlinedTextEdit(
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.only(bottom: 10, left: 8),
+                      hintText: "Média kWp",
+                      hintStyle: TextStyle(fontSize: 12.0),
+                      border: OutlineInputBorder(
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
                         ),
-                        keyboardType: TextInputType.number,
-                        onTap: controller.clearKwh,
-                        controller: controller.inputKwh,
-                        inputType: InputType.EXTRA_SMALL,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 2,
-                    ),
-                    Container(
-                      width: 100,
-                      height: 50,
-                      child: OutlinedTextEdit(
-                        controller: controller.inputR$,
-                        keyboardType: TextInputType.number,
-                        onTap: controller.clearR$,
-                        inputType: InputType.EXTRA_SMALL,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(bottom: 10, left: 13),
-                          hintText: "Média R\$",
-                          hintStyle: TextStyle(fontSize: 12.0),
-                          border: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(10.0),
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.teal,
-                            ),
-                          ),
+                        borderSide: BorderSide(
+                          color: Colors.teal,
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: 2,
-                    ),
-                    Container(
-                      width: 125,
-                      child: OutlinedTextEdit(
-                        prefixIcon: Icon(Icons.equalizer),
-                        keyboardType: TextInputType.number,
-                        readOnly: true,
-                        onChanged: (value) => {},
-                        label: "Potência ",
-                        inputType: InputType.EXTRA_SMALL,
-                        controller: controller.inputPotenciaNecessaria,
-                      ),
-                    ),
-                  ],
+                    keyboardType: TextInputType.number,
+                    onTap: controller.clearKwh,
+                    controller: controller.inputKwh,
+                    inputType: InputType.EXTRA_SMALL,
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 8),
-                child: Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.equalizer,
-                      size: 20,
-                      textDirection: TextDirection.ltr,
-                    ),
-                    Text(
-                      '  Potência/Kit indicado (Opção 1)',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                    )
-                  ],
+                SizedBox(
+                  width: 2,
                 ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 8, bottom: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Container(
-                      width: 120,
-                      child: OutlinedTextEdit(
-                        controller: controller.inputPotenciaIndicadaMenor,
-                        keyboardType: TextInputType.number,
-                        readOnly: true,
-                        onChanged: (value) => {},
-                        label: "Potência",
-                        inputType: InputType.EXTRA_SMALL,
+                Container(
+                  width: 100,
+                  height: 50,
+                  child: OutlinedTextEdit(
+                    controller: controller.inputR$,
+                    keyboardType: TextInputType.number,
+                    onTap: controller.clearR$,
+                    inputType: InputType.EXTRA_SMALL,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.only(bottom: 10, left: 13),
+                      hintText: "Média R\$",
+                      hintStyle: TextStyle(fontSize: 12.0),
+                      border: OutlineInputBorder(
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                        borderSide: BorderSide(
+                          color: Colors.teal,
+                        ),
                       ),
                     ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Container(
-                      width: 165,
-                      child: OutlinedTextEdit(
-                        controller: controller.inputValorKitMenor,
-                        prefixIcon: Icon(Icons.monetization_on),
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) => {},
-                        label: "R\$ Valor",
-                        readOnly: true,
-                        inputType: InputType.EXTRA_SMALL,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Container(
-                      width: 65,
-                      child: Observer(
-                        builder: (BuildContext context) {
-                          return PrimaryButton(
-                            child: Icon(Icons.assignment),
-                            onPressed: () {
-                              nextStep();
-                            },
-                            //onPressed:controller.loginWithGoogle,
-                          ).getLarge();
-                        },
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 0, bottom: 0),
-                child: Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.equalizer,
-                      size: 20,
-                      textDirection: TextDirection.ltr,
-                    ),
-                    Text(
-                      '  Potência/Kit indicado (Opção 2)',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                    )
-                  ],
+                SizedBox(
+                  width: 2,
                 ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Container(
-                      width: 120,
-                      child: OutlinedTextEdit(
-                        controller: controller.inputPotenciaIndicadaMaior,
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) => {},
-                        readOnly: true,
-                        label: "Potência",
-                        inputType: InputType.EXTRA_SMALL,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Container(
-                      width: 165,
-                      child: OutlinedTextEdit(
-                        controller: controller.inputValorKitMaior,
-                        prefixIcon: Icon(Icons.monetization_on),
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) => {},
-                        label: "R\$ Valor",
-                        readOnly: true,
-                        inputType: InputType.EXTRA_SMALL,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Container(
-                      width: 65,
-                      child: Observer(
-                        builder: (BuildContext context) {
-                          return PrimaryButton(
-                            child: Icon(Icons.assignment),
-                            onPressed: () {
-                              prevStep();
-                              // controller.showDialogKitMaior(context);
-                            },
-                            //onPressed:controller.loginWithGoogle,
-                          ).getLarge();
-                        },
-                      ),
-                    ),
-                  ],
+                Container(
+                  width: 125,
+                  child: OutlinedTextEdit(
+                    prefixIcon: Icon(Icons.equalizer),
+                    keyboardType: TextInputType.number,
+                    readOnly: true,
+                    onChanged: (value) => {},
+                    label: "Potência ",
+                    inputType: InputType.EXTRA_SMALL,
+                    controller: controller.inputPotenciaNecessaria,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 8),
+            child: Row(
+              children: <Widget>[
+                Icon(
+                  Icons.equalizer,
+                  size: 20,
+                  textDirection: TextDirection.ltr,
+                ),
+                Text(
+                  '  Potência/Kit indicado (Opção 1)',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                )
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 8, bottom: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Container(
+                  width: 120,
+                  child: OutlinedTextEdit(
+                    controller: controller.inputPotenciaIndicadaMenor,
+                    keyboardType: TextInputType.number,
+                    readOnly: true,
+                    onChanged: (value) => {},
+                    label: "Potência",
+                    inputType: InputType.EXTRA_SMALL,
+                  ),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Container(
+                  width: 165,
+                  child: OutlinedTextEdit(
+                    controller: controller.inputValorKitMenor,
+                    prefixIcon: Icon(Icons.monetization_on),
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) => {},
+                    label: "R\$ Valor",
+                    readOnly: true,
+                    inputType: InputType.EXTRA_SMALL,
+                  ),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Container(
+                  width: 65,
+                  child: Observer(
+                    builder: (BuildContext context) {
+                      return PrimaryButton(
+                        child: Icon(Icons.assignment),
+                        onPressed: () {
+                          nextStep();
+                        },
+                        //onPressed:controller.loginWithGoogle,
+                      ).getLarge();
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 0, bottom: 0),
+            child: Row(
+              children: <Widget>[
+                Icon(
+                  Icons.equalizer,
+                  size: 20,
+                  textDirection: TextDirection.ltr,
+                ),
+                Text(
+                  '  Potência/Kit indicado (Opção 2)',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                )
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Container(
+                  width: 120,
+                  child: OutlinedTextEdit(
+                    controller: controller.inputPotenciaIndicadaMaior,
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) => {},
+                    readOnly: true,
+                    label: "Potência",
+                    inputType: InputType.EXTRA_SMALL,
+                  ),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Container(
+                  width: 165,
+                  child: OutlinedTextEdit(
+                    controller: controller.inputValorKitMaior,
+                    prefixIcon: Icon(Icons.monetization_on),
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) => {},
+                    label: "R\$ Valor",
+                    readOnly: true,
+                    inputType: InputType.EXTRA_SMALL,
+                  ),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Container(
+                  width: 65,
+                  child: Observer(
+                    builder: (BuildContext context) {
+                      return PrimaryButton(
+                        child: Icon(Icons.assignment),
+                        onPressed: () {
+                          prevStep();
+                          // controller.showDialogKitMaior(context);
+                        },
+                        //onPressed:controller.loginWithGoogle,
+                      ).getLarge();
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
