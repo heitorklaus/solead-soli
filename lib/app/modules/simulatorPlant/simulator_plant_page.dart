@@ -54,21 +54,8 @@ class _SimulatorPlantPageState extends ModularState<SimulatorPlantPage, Simulato
 
   List<Step> _stepper() {
     List<Step> _steps = [
-      Step(title: Text('Simulador'), content: buildFormSimulator(), isActive: _currentStep >= 0, state: StepState.complete),
-      Step(
-          title: Text('Equipamento'),
-          content: Column(
-            children: <Widget>[
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Email Address'),
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Recovery Email'),
-              ),
-            ],
-          ),
-          isActive: _currentStep >= 1,
-          state: StepState.disabled),
+      Step(title: Text('Simulador'), content: buildFormSimulator(), isActive: _currentStep >= 0, state: StepState.complete, pos: 1),
+      Step(title: Text('Equipamento'), content: buildViewPlant(), isActive: _currentStep >= 1, state: StepState.disabled, pos: 2),
       Step(
           title: Text('Proposta'),
           content: Column(
@@ -123,16 +110,42 @@ class _SimulatorPlantPageState extends ModularState<SimulatorPlantPage, Simulato
     // body: buildFormSimulator());
   }
 
+  buildViewPlant() {
+    return Row(
+      children: [
+        Expanded(child: Container(color: Colors.white, child: Text('Teste'))),
+      ],
+    );
+  }
+
   buildFormSimulator() {
     return Container(
-      color: Colors.white,
+      decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 3, // has the effect of softening the shadow
+              spreadRadius: 0.2, // has the effect of extending the shadow
+              offset: Offset(
+                0, // horizontal, move right 10
+                -3, // vertical, move down 10
+              ),
+            )
+          ],
+          color: Colors.white,
+          borderRadius: new BorderRadius.only(
+            topRight: Radius.circular(20.0),
+            topLeft: Radius.circular(20.0),
+            bottomRight: Radius.circular(0.0),
+            bottomLeft: Radius.circular(0.0),
+          )),
       padding: const EdgeInsets.only(left: 8.0, right: 8, top: 8, bottom: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           Container(
-            color: Colors.white,
+            // color: Colors.white,
             margin: EdgeInsets.only(
               top: 15,
             ),
