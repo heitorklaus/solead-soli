@@ -4,6 +4,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:framework/ui/form/buttons/primary_button.dart';
 import 'package:framework/ui/form/inputs/input_type.dart';
 import 'package:framework/ui/form/inputs/outlined_text_edit.dart';
+import 'package:login/app/modules/simulatorPlant/widgets/viewPlantSimulated.dart';
 import 'simulator_plant_controller.dart';
 
 class SimulatorPlantPage extends StatefulWidget {
@@ -86,22 +87,28 @@ class _SimulatorPlantPageState extends ModularState<SimulatorPlantPage, Simulato
           children: [
             Container(
               decoration: new BoxDecoration(
+                  color: Colors.red,
                   image: new DecorationImage(
-                image: new AssetImage('lib/app/shared/assets/images/bg.jpg'),
-                fit: BoxFit.cover,
-              )),
+                    image: new AssetImage('lib/app/shared/assets/images/bg.jpg'),
+                    fit: BoxFit.cover,
+                  )),
             ),
-            Stepper(
-              //physics: ClampingScrollPhysics(),
-              steps: _stepper(),
-
-              type: stepperType,
-              currentStep: this._currentStep,
-              onStepTapped: (step) {
-                setState(() {
-                  //   this._currentStep = step;
-                });
-              },
+            Theme(
+              data: ThemeData(
+                accentColor: Colors.blueAccent,
+                backgroundColor: Colors.red,
+              ),
+              child: Stepper(
+                physics: ClampingScrollPhysics(),
+                steps: _stepper(),
+                type: stepperType,
+                currentStep: this._currentStep,
+                onStepTapped: (step) {
+                  setState(() {
+                    //   this._currentStep = step;
+                  });
+                },
+              ),
             ),
           ],
         ),
@@ -111,10 +118,17 @@ class _SimulatorPlantPageState extends ModularState<SimulatorPlantPage, Simulato
   }
 
   buildViewPlant() {
-    return Row(
-      children: [
-        Expanded(child: Container(color: Colors.white, child: Text('Teste'))),
-      ],
+    // return Row(
+    //   children: [
+    //     Expanded(child: Container(color: Colors.white, child: Text('Teste'))),
+    //   ],
+    // );
+    return Expanded(
+      child: SingleChildScrollView(
+        child: ViewPlantSimulatedWidget(
+          equipamento: Text('Heitor Klaus'),
+        ),
+      ),
     );
   }
 
