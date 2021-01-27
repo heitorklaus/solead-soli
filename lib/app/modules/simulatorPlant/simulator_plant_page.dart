@@ -87,7 +87,7 @@ class _SimulatorPlantPageState extends ModularState<SimulatorPlantPage, Simulato
           children: [
             Container(
               decoration: new BoxDecoration(
-                  color: Colors.red,
+                  color: Colors.white,
                   image: new DecorationImage(
                     image: new AssetImage('lib/app/shared/assets/images/bg.jpg'),
                     fit: BoxFit.cover,
