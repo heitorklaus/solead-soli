@@ -1,4 +1,5 @@
 import 'package:login/app/modules/plants/plants_interface.dart';
+import 'package:login/app/splash/splash_module.dart';
 
 import 'modules/plants/plants_repository.dart';
 import 'package:dio/dio.dart';
@@ -29,7 +30,7 @@ import 'modules/login/login_module.dart';
 import 'shared/auth/repositories/auth_repository_interface.dart';
 import 'splash/splash_page.dart';
 
-class AppModule extends MainModule {
+class AppModule extends Module {
   timerLoginVersion() async {
     print('RELOGIN CALL');
     final user = await Prefs.getString("USER1");
@@ -86,28 +87,34 @@ class AppModule extends MainModule {
     });
   });
 
-  @override
-  List<Bind> get binds => [
-        Bind((i) => AppController()),
-        Bind<ILocalStorage>((i) => LocalStorageShared()),
-        Bind<IAuthRepository>((i) => AuthRepository()),
-        Bind<IPlantsRepository>((i) => PlantsRepository()),
-        Bind((i) => AuthController()),
-      ];
+  // @override
+  // final List<ModularRouter>  routes = [
+  //       ModularRouter('/', child: (_, args) => SplashPage()),
+  //       ModularRouter('/login', module: LoginModule(), transition: TransitionType.noTransition),
+  //       ModularRouter('/home', module: HomeModule()),
+  //       ModularRouter('/simulator', module: SimulatorModule()),
+  //       ModularRouter('/simulator-edit', module: SimulatorModuleEdit()),
+  //       ModularRouter('/plants', module: PlantsModule()),
+  //       ModularRouter('/update', module: UpdateModule()),
+  //     ];
 
   @override
-  List<ModularRouter> get routers => [
-        ModularRouter('/', child: (_, args) => SplashPage()),
-        ModularRouter('/login', module: LoginModule(), transition: TransitionType.noTransition),
-        ModularRouter('/home', module: HomeModule()),
-        ModularRouter('/simulator', module: SimulatorModule()),
-        ModularRouter('/simulator-edit', module: SimulatorModuleEdit()),
-        ModularRouter('/plants', module: PlantsModule()),
-        ModularRouter('/update', module: UpdateModule()),
-      ];
+  final List<Bind> binds = [
+    Bind((i) => AppController()),
+    Bind<ILocalStorage>((i) => LocalStorageShared()),
+    Bind<IAuthRepository>((i) => AuthRepository()),
+    Bind<IPlantsRepository>((i) => PlantsRepository()),
+    Bind((i) => AuthController()),
+  ];
 
   @override
-  Widget get bootstrap => AppWidget();
-
-  static Inject get to => Inject.of();
+  final List<ModularRoute> routes = [
+    ModuleRoute(Modular.initialRoute, module: SplashModule()),
+    ModuleRoute('/login', module: LoginModule()),
+    ModuleRoute('/home', module: HomeModule()),
+    ModuleRoute('/simulator', module: SimulatorModule()),
+    ModuleRoute('/simulator-edit', module: SimulatorModuleEdit()),
+    ModuleRoute('/plants', module: PlantsModule()),
+    ModuleRoute('/update', module: UpdateModule()),
+  ];
 }

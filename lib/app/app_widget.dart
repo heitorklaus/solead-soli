@@ -18,11 +18,9 @@ class _AppWidgetState extends State<AppWidget> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      navigatorKey: Modular.navigatorKey,
       title: 'App Solead',
       theme: mainTheme,
       initialRoute: '/',
-      onGenerateRoute: Modular.generateRoute,
-    );
+    ).modular();
   }
 }

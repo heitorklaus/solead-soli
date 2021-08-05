@@ -1348,7 +1348,7 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
     Directory tempDir = await getExternalStorageDirectory();
     String tempPath = tempDir.path;
 
-    returnImg(img) {
+    returnImg2(img) {
       final image = PdfImage.file(
         pdf.document,
         bytes: File('$tempPath/img/$img.png').readAsBytesSync(),
@@ -1357,10 +1357,17 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
       return image;
     }
 
+    returnImg(img) {
+      final image = pwa.MemoryImage(
+        File('$tempPath/img/$img.png').readAsBytesSync(),
+      );
+
+      return image;
+    }
+
     returnImageChart(img) {
-      final image = PdfImage.file(
-        pdf.document,
-        bytes: File(('/storage/emulated/0/Soli Leads/$img.jpg')).readAsBytesSync(),
+      final image = pwa.MemoryImage(
+        File(('/storage/emulated/0/Soli Leads/$img.jpg')).readAsBytesSync(),
       );
 
       return image;
@@ -1374,538 +1381,605 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
 
     print('CHAMMMMMMM');
 
-    pdf.addPage(
-      pwa.MultiPage(
-        crossAxisAlignment: pwa.CrossAxisAlignment.start,
-        pageTheme: pwa.PageTheme(
-          margin: pwa.EdgeInsets.zero,
-          buildBackground: (context) {
-            return pwa.Container(
-              decoration: pwa.BoxDecoration(
-                image: pwa.DecorationImage(
-                  image: returnImg('pagina-1'),
-                  fit: pwa.BoxFit.cover,
-                ),
-              ),
-              child: pwa.Container(),
-            );
-          },
-          pageFormat: PdfPageFormat.a4,
-        ),
-        header: (pwa.Context context) {
-          return null;
-        },
-        footer: (pwa.Context context) {
-          return pwa.Container(
-            alignment: pwa.Alignment.centerRight,
-            child: pwa.Text(
-              '${context.pageNumber} / ${context.pagesCount}',
-              textAlign: pwa.TextAlign.right,
-              style: pwa.TextStyle(
-                color: PdfColors.white,
-              ),
-            ),
-          );
-        },
-        build: (pwa.Context context) => <pwa.Widget>[
-          pwa.Container(
-              margin: pwa.EdgeInsets.only(
-                top: 200,
-              ),
-              child: pwa.Stack(children: <pwa.Widget>[
-                pwa.Container(
-                  width: 535,
-                  // FINANCIAMENTO financiamento
-                  margin: pwa.EdgeInsets.only(top: 432, left: 44),
-                  child: pwa.Column(crossAxisAlignment: pwa.CrossAxisAlignment.start, mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[
-                    pwa.Row(children: <pwa.Widget>[pwa.Text(cliente.text, style: pwa.TextStyle(fontSize: 35, fontWeight: pwa.FontWeight.bold, color: PdfColor.fromHex("#FFFFFF")))]),
-                    pwa.SizedBox(
-                      height: 7,
-                    ),
-                    pwa.Row(children: <pwa.Widget>[
-                      pwa.Text(endereco.text, style: pwa.TextStyle(fontSize: 22, color: PdfColor.fromHex("#FFFFFF"))),
-                    ]),
-                  ]),
-                ),
-              ])),
-        ],
-      ),
-    );
+    // pdf.addPage(
+    //   pwa.Page(build: (pwa.Context context) {
+    //     return pwa.Center(child: pwa.MultiPage(build: (context)))
+    //   })
 
-    pdf.addPage(
-      pwa.MultiPage(
-        crossAxisAlignment: pwa.CrossAxisAlignment.start,
-        pageTheme: pwa.PageTheme(
-          margin: pwa.EdgeInsets.zero,
-          buildBackground: (context) {
-            return pwa.Container(
-              decoration: pwa.BoxDecoration(
-                image: pwa.DecorationImage(
-                  image: returnImg('pagina-2'),
-                  fit: pwa.BoxFit.cover,
-                ),
-              ),
-              child: pwa.Container(),
-            );
-          },
-          pageFormat: PdfPageFormat.a4,
-        ),
-        header: (pwa.Context context) {
-          return null;
-        },
-        footer: (pwa.Context context) {
-          return pwa.Container(
-            alignment: pwa.Alignment.centerRight,
-            child: pwa.Text(
-              '${context.pageNumber} / ${context.pagesCount}',
-              textAlign: pwa.TextAlign.right,
-              style: pwa.TextStyle(
-                color: PdfColors.grey,
-              ),
-            ),
-          );
-        },
-        build: (pwa.Context context) => <pwa.Widget>[
-          pwa.Container(),
-        ],
-      ),
-    );
+    //     );
 
-    pdf.addPage(
-      pwa.MultiPage(
-        crossAxisAlignment: pwa.CrossAxisAlignment.start,
-        pageTheme: pwa.PageTheme(
-          margin: pwa.EdgeInsets.zero,
-          buildBackground: (context) {
-            return pwa.Container(
-              decoration: pwa.BoxDecoration(
-                image: pwa.DecorationImage(
-                  image: returnImg('pagina-3'),
-                  fit: pwa.BoxFit.cover,
-                ),
-              ),
-              child: pwa.Container(),
-            );
-          },
-          pageFormat: PdfPageFormat.a4,
-        ),
-        header: (pwa.Context context) {
-          return null;
-        },
-        footer: (pwa.Context context) {
-          return pwa.Container(
-            margin: pwa.EdgeInsets.only(right: 154, bottom: 5),
-            alignment: pwa.Alignment.centerRight,
-            child: pwa.Text(
-              consumoMostrar.toString(),
-              textAlign: pwa.TextAlign.right,
-              style: pwa.TextStyle(
-                color: PdfColors.white,
-              ),
+    Future _myPageTheme(PdfPageFormat format) async {
+      return pwa.PageTheme(
+        pageFormat: format.applyMargin(left: 2.0 * PdfPageFormat.cm, top: 0.0, right: 2.0 * PdfPageFormat.cm, bottom: 0),
+        theme: pwa.ThemeData.withFont(
+//      base: pw.Font.ttf(await rootBundle.load('assets/fonts/nexa_bold.otf')),
+//      bold:
+//          pw.Font.ttf(await rootBundle.load('assets/fonts/raleway_medium.ttf')),
+            ),
+        buildBackground: (pwa.Context context) {
+          return pwa.FullPage(
+            ignoreMargins: true,
+            child: pwa.CustomPaint(
+              size: PdfPoint(format.width, format.height),
+              painter: (PdfGraphics canvas, PdfPoint size) {
+                context.canvas
+                  ..setColor(PdfColor.fromInt(0xffe06c6c))
+                  ..moveTo(0, size.y)
+                  ..lineTo(0, size.y - 230)
+                  ..lineTo(60, size.y)
+                  ..fillPath()
+                  ..setColor(PdfColor.fromInt(0xffe06c6c))
+                  ..moveTo(0, size.y)
+                  ..lineTo(0, size.y - 100)
+                  ..lineTo(100, size.y)
+                  ..fillPath()
+                  ..setColor(PdfColor.fromInt(0xffe06c6c))
+                  ..moveTo(30, size.y)
+                  ..lineTo(110, size.y - 50)
+                  ..lineTo(150, size.y)
+                  ..fillPath()
+                  ..moveTo(size.x, 0)
+                  ..lineTo(size.x, 230)
+                  ..lineTo(size.x - 60, 0)
+                  ..fillPath()
+                  ..setColor(PdfColor.fromInt(0xffe06c6c))
+                  ..moveTo(size.x, 0)
+                  ..lineTo(size.x, 100)
+                  ..lineTo(size.x - 100, 0)
+                  ..fillPath()
+                  ..setColor(PdfColor.fromInt(0xffe06c6c))
+                  ..moveTo(size.x - 30, 0)
+                  ..lineTo(size.x - 110, 50)
+                  ..lineTo(size.x - 150, 0)
+                  ..fillPath();
+              },
             ),
           );
         },
-        build: (pwa.Context context) => <pwa.Widget>[
-          pwa.Container(
-              child: pwa.Row(
-                  // mainAxisAlignment: pwa.MainAxisAlignment.end,
-                  crossAxisAlignment: pwa.CrossAxisAlignment.end,
-                  children: <pwa.Widget>[
-                pwa.Container(
-                  width: 145,
-                  //color: PdfColor.fromHex("#FFC000"),
-                  //
-                  margin: pwa.EdgeInsets.only(top: 369, left: 400),
-                  child: pwa.Text(potencia.text + ' kWp', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
-                ),
-              ])),
-          pwa.Container(
-              child: pwa.Row(
-                  // mainAxisAlignment: pwa.MainAxisAlignment.end,
-                  crossAxisAlignment: pwa.CrossAxisAlignment.end,
-                  children: <pwa.Widget>[
-                pwa.Container(
-                  width: 145,
-                  //color: PdfColor.fromHex("#FFC000"),
-                  //
-                  margin: pwa.EdgeInsets.only(top: 25, left: 400),
-                  child: pwa.Text(qtdModulos.text, style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
-                ),
-              ])),
-          pwa.Container(
-              child: pwa.Row(
-                  // mainAxisAlignment: pwa.MainAxisAlignment.end,
-                  crossAxisAlignment: pwa.CrossAxisAlignment.end,
-                  children: <pwa.Widget>[
-                pwa.Container(
-                  width: 145,
-                  //color: PdfColor.fromHex("#FFC000"),
-                  //f
-                  margin: pwa.EdgeInsets.only(top: 25, left: 400),
-                  child: pwa.Text(geracao.text + ' kWh', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
-                ),
-              ])),
-          pwa.Container(
-              child: pwa.Row(
-                  // mainAxisAlignment: pwa.MainAxisAlignment.end,
-                  crossAxisAlignment: pwa.CrossAxisAlignment.end,
-                  children: <pwa.Widget>[
-                pwa.Container(
-                  width: 145,
-                  //color: PdfColor.fromHex("#FFC000"),
-                  //
-                  margin: pwa.EdgeInsets.only(top: 20, left: 400),
-                  child: pwa.Text('${area.text} m²', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
-                ),
-              ])),
-          pwa.Container(
-              child: pwa.Row(
-                  // mainAxisAlignment: pwa.MainAxisAlignment.end,
-                  crossAxisAlignment: pwa.CrossAxisAlignment.end,
-                  children: <pwa.Widget>[
-                pwa.Container(
-                  width: 500,
-                  //color: PdfColor.fromHex("#FFC000"),
-                  //
-                  margin: pwa.EdgeInsets.only(top: 20, left: 44),
-                  child: pwa.Center(child: pwa.Image(returnImageChart('grafico-1'))),
-                ),
-              ])),
-        ],
-      ),
-    );
+      );
+    }
 
-    pdf.addPage(
-      pwa.MultiPage(
+    final pwa.PageTheme pageTheme = await _myPageTheme(PdfPageFormat.a3);
+
+    pdf.addPage(pwa.MultiPage(
+        pageTheme: pageTheme, //set the document theme
         crossAxisAlignment: pwa.CrossAxisAlignment.start,
-        pageTheme: pwa.PageTheme(
-          margin: pwa.EdgeInsets.zero,
-          buildBackground: (context) {
-            return pwa.Container(
-              decoration: pwa.BoxDecoration(
-                image: pwa.DecorationImage(
-                  image: returnImg('pagina-4'),
-                  fit: pwa.BoxFit.cover,
-                ),
-              ),
-              child: pwa.Container(),
-            );
-          },
-          pageFormat: PdfPageFormat.a4,
-        ),
-        header: (pwa.Context context) {
-          return null;
-        },
-        footer: (pwa.Context context) {
-          return pwa.Container(
-            alignment: pwa.Alignment.centerRight,
-            child: pwa.Text(
-              '${context.pageNumber} / ${context.pagesCount}',
-              textAlign: pwa.TextAlign.right,
-              style: pwa.TextStyle(
-                color: PdfColors.grey,
-              ),
-            ),
-          );
-        },
         build: (pwa.Context context) => <pwa.Widget>[
-          pwa.Container(
-              child: pwa.Stack(children: <pwa.Widget>[
-            pwa.Row(
-                // mainAxisAlignment: pwa.MainAxisAlignment.end,
-                crossAxisAlignment: pwa.CrossAxisAlignment.end,
-                children: <pwa.Widget>[
-                  pwa.Container(
-                    width: 185,
-                    //color: PdfColor.fromHex("#FFC000"),
-                    alignment: pwa.Alignment.center,
-                    //
-                    margin: pwa.EdgeInsets.only(top: 145, left: 15),
-                    child: pwa.Text('R\$ $valor_paga_ano_pdf', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+              //This will be the body of our document
+              // Header(//our header will be added here
+              // ),
+              pwa.Container(
+                width: 333,
+                height: 888,
+                decoration: pwa.BoxDecoration(
+                  image: pwa.DecorationImage(
+                    image: returnImg('pagina-1'),
+                    fit: pwa.BoxFit.cover,
                   ),
-                  pwa.Container(
-                    width: 185,
-                    // color: PdfColor.fromHex("#FFC000"),
-                    alignment: pwa.Alignment.center,
-                    //
-                    margin: pwa.EdgeInsets.only(top: 0, left: 0),
-                    child: pwa.Text('R\$ $valor_ira_paga_ano_pdf', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
-                  ),
-                ]),
-            // SUA ECONOMIA ANUAL
-            pwa.Container(
-              width: 185,
-              //color: PdfColor.fromHex("#FFC000"),
-
-              //
-              margin: pwa.EdgeInsets.only(top: 110, left: 392),
-              child: pwa.Text('R\$ $valor_economia_1_ano', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 20, fontWeight: pwa.FontWeight.bold)),
-            ),
-            pwa.Container(
-              width: 185,
-              //color: PdfColor.fromHex("#FFC000"),
-
-              //
-              margin: pwa.EdgeInsets.only(top: 154, left: 392),
-              child: pwa.Text('R\$ $valor_economia_25_anos', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 20, fontWeight: pwa.FontWeight.bold)),
-            ),
-            pwa.Container(
-                margin: pwa.EdgeInsets.only(
-                  top: 200,
                 ),
-                child: pwa.Stack(children: <pwa.Widget>[
-                  pwa.Row(
-                      // mainAxisAlignment: pwa.MainAxisAlignment.end,
-                      crossAxisAlignment: pwa.CrossAxisAlignment.end,
-                      children: <pwa.Widget>[
-                        pwa.Container(
-                          width: 535,
-                          //color: PdfColor.fromHex("#FFC000"),
-                          //
-                          margin: pwa.EdgeInsets.only(top: 67, left: 38),
-                          child: pwa.Center(child: pwa.Image(returnImg('investimento'))),
-                        ),
-                      ]),
-                  pwa.Row(children: <pwa.Widget>[
-                    pwa.Container(
-                        margin: pwa.EdgeInsets.only(left: 420, top: 71),
-                        child: pwa.Text(valor.text,
-                            style: pwa.TextStyle(
-                              fontSize: 20,
-                              fontWeight: pwa.FontWeight.bold,
-                              color: PdfColor.fromHex("#FFFFFF"),
-                            )))
-                  ]),
-                  pwa.Container(
-                    width: 535,
-                    // FINANCIAMENTO financiamento
-                    margin: pwa.EdgeInsets.only(top: 168, left: 26),
-                    child: pwa.Row(crossAxisAlignment: pwa.CrossAxisAlignment.start, mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[
-                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 20), pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 2), child: pwa.Text('R\$ ${val.format(sicredi24x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi36x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi48x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi60x)}'))]),
-                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 15), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 6), child: pwa.Text('R\$ ${val.format(santanderEntrada)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 5), child: pwa.Text('R\$ ${val.format(santander12x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 4), child: pwa.Text('R\$ ${val.format(santander18x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 1), child: pwa.Text('R\$ ${val.format(santander24x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 3), child: pwa.Text('R\$ ${val.format(santander36x)}'))]),
-                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 1), pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 5), child: pwa.Text('R\$ ${val.format(bvFinanceira24x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 8), child: pwa.Text('R\$ ${val.format(bvFinanceira36x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 8), child: pwa.Text('R\$ ${val.format(bvFinanceira48x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 7), child: pwa.Text('R\$ ${val.format(bvFinanceira60x)}')), pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 7), child: pwa.Text('R\$ ${val.format(bvFinanceira72x)}'))]),
-                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 17), pwa.Container(margin: pwa.EdgeInsets.only(left: 28, top: 60), child: pwa.Text('R\$ ${val.format(cartaoCredito12x)}', style: pwa.TextStyle(fontSize: 20)))]),
-                    ]),
-                  ),
-                  pwa.Row(
-                      // mainAxisAlignment: pwa.MainAxisAlignment.end,
-                      crossAxisAlignment: pwa.CrossAxisAlignment.end,
-                      children: <pwa.Widget>[
-                        pwa.Container(
-                          width: 535,
-                          // color: PdfColor.fromHex("#FFC000"),
-                          //
-                          margin: pwa.EdgeInsets.only(top: 347, left: 38),
-                          //#TODO SE A QUANTIDADE DE DADOS DO SISTEMA FOR MUITO GRANDE VAI QUEBRAR O PDF
-                          child: pwa.Text(dados.text.replaceAll('\n', '\n'), style: pwa.TextStyle(lineSpacing: 5, fontSize: 8)),
-                        ),
-                      ]),
-                ])),
-          ])),
-        ],
-      ),
-    );
+              )
+            ]));
 
-    pdf.addPage(
-      pwa.MultiPage(
-        crossAxisAlignment: pwa.CrossAxisAlignment.start,
-        pageTheme: pwa.PageTheme(
-          margin: pwa.EdgeInsets.zero,
-          buildBackground: (context) {
-            return pwa.Container(
-              decoration: pwa.BoxDecoration(
-                image: pwa.DecorationImage(
-                  image: returnImg('pagina-5'),
-                  fit: pwa.BoxFit.cover,
-                ),
-              ),
-              child: pwa.Container(),
-            );
-          },
-          pageFormat: PdfPageFormat.a4,
-        ),
-        header: (pwa.Context context) {
-          return null;
-        },
-        build: (pwa.Context context) => <pwa.Widget>[
-          pwa.Container(
-              child: pwa.Stack(children: <pwa.Widget>[
-            pwa.Row(
-                // mainAxisAlignment: pwa.MainAxisAlignment.end,
-                crossAxisAlignment: pwa.CrossAxisAlignment.end,
-                children: <pwa.Widget>[]),
-            // SUA ECONOMIA ANUAL
+    // Page
 
-            pwa.Container(
-                margin: pwa.EdgeInsets.only(
-                  top: 200,
-                ),
-                child: pwa.Stack(children: <pwa.Widget>[
-                  pwa.Row(
-                      // mainAxisAlignment: pwa.MainAxisAlignment.end,
-                      crossAxisAlignment: pwa.CrossAxisAlignment.end,
-                      children: <pwa.Widget>[
-                        pwa.Container(
-                          width: 310,
-                          color: PdfColor.fromHex("#FFFFFF"),
-                          margin: pwa.EdgeInsets.only(top: 188, left: 210),
-                          child: pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[pwa.Text(inversor.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)), pwa.Text(garantia.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold))]),
-                        ),
-                      ]),
-                  pwa.Row(
-                      // mainAxisAlignment: pwa.MainAxisAlignment.end,
-                      crossAxisAlignment: pwa.CrossAxisAlignment.end,
-                      children: <pwa.Widget>[
-                        pwa.Container(
-                          width: 310,
-                          color: PdfColor.fromHex("#FFFFFF"),
-                          //
-                          margin: pwa.EdgeInsets.only(top: 243, left: 210),
-                          child: pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[pwa.Text(marcaModulos.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)), pwa.Text("25 Anos", style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold))]),
-                        ),
-                      ]),
-                ])),
-          ])),
-        ],
-      ),
-    );
+    // pdf.addPage(pwa.Page(
+    //     pageFormat: PdfPageFormat.a4,
+    //     build: (pwa.Context context) {
+    //       return pw.Center(
+    //         child: pwa.MultiPage(
+    //           crossAxisAlignment: pwa.CrossAxisAlignment.start,
+    //           pageTheme: pwa.PageTheme(
+    //             margin: pwa.EdgeInsets.zero,
+    //             buildBackground: (context) {
+    //               return pwa.Container(
+    //                 decoration: pwa.BoxDecoration(
+    //                   image: pwa.DecorationImage(
+    //                     image: returnImg('pagina-2'),
+    //                     fit: pwa.BoxFit.cover,
+    //                   ),
+    //                 ),
+    //                 child: pwa.Container(),
+    //               );
+    //             },
+    //             pageFormat: PdfPageFormat.a4,
+    //           ),
+    //           header: (pwa.Context context) {
+    //             return null;
+    //           },
+    //           footer: (pwa.Context context) {
+    //             return pwa.Container(
+    //               alignment: pwa.Alignment.centerRight,
+    //               child: pwa.Text(
+    //                 '${context.pageNumber} / ${context.pagesCount}',
+    //                 textAlign: pwa.TextAlign.right,
+    //                 style: pwa.TextStyle(
+    //                   color: PdfColors.grey,
+    //                 ),
+    //               ),
+    //             );
+    //           },
+    //           build: (pwa.Context context) => <pwa.Widget>[
+    //             pwa.Container(),
+    //           ],
+    //         ),
+    //       ); // Center
+    //     })); //
 
-    pdf.addPage(
-      pwa.MultiPage(
-        crossAxisAlignment: pwa.CrossAxisAlignment.start,
-        pageTheme: pwa.PageTheme(
-          margin: pwa.EdgeInsets.zero,
-          buildBackground: (context) {
-            return pwa.Container(
-              decoration: pwa.BoxDecoration(
-                image: pwa.DecorationImage(
-                  image: returnImg('pagina-6'),
-                  fit: pwa.BoxFit.cover,
-                ),
-              ),
-              child: pwa.Container(),
-            );
-          },
-          pageFormat: PdfPageFormat.a4,
-        ),
-        header: (pwa.Context context) {
-          return null;
-        },
-        footer: (pwa.Context context) {
-          return pwa.Container(
-            alignment: pwa.Alignment.centerRight,
-            child: pwa.Text(
-              '${context.pageNumber} / ${context.pagesCount}',
-              textAlign: pwa.TextAlign.right,
-              style: pwa.TextStyle(
-                color: PdfColors.grey,
-              ),
-            ),
-          );
-        },
-        build: (pwa.Context context) => <pwa.Widget>[
-          pwa.Container(),
-        ],
-      ),
-    );
+    // pdf.addPage(pwa.Page(
+    //     pageFormat: PdfPageFormat.a4,
+    //     build: (pwa.Context context) {
+    //       return pw.Center(
+    //         child: pwa.MultiPage(
+    //           crossAxisAlignment: pwa.CrossAxisAlignment.start,
+    //           pageTheme: pwa.PageTheme(
+    //             margin: pwa.EdgeInsets.zero,
+    //             buildBackground: (context) {
+    //               return pwa.Container(
+    //                 decoration: pwa.BoxDecoration(
+    //                   image: pwa.DecorationImage(
+    //                     image: returnImg('pagina-3'),
+    //                     fit: pwa.BoxFit.cover,
+    //                   ),
+    //                 ),
+    //                 child: pwa.Container(),
+    //               );
+    //             },
+    //             pageFormat: PdfPageFormat.a4,
+    //           ),
+    //           header: (pwa.Context context) {
+    //             return null;
+    //           },
+    //           footer: (pwa.Context context) {
+    //             return pwa.Container(
+    //               margin: pwa.EdgeInsets.only(right: 154, bottom: 5),
+    //               alignment: pwa.Alignment.centerRight,
+    //               child: pwa.Text(
+    //                 consumoMostrar.toString(),
+    //                 textAlign: pwa.TextAlign.right,
+    //                 style: pwa.TextStyle(
+    //                   color: PdfColors.white,
+    //                 ),
+    //               ),
+    //             );
+    //           },
+    //           build: (pwa.Context context) => <pwa.Widget>[
+    //             pwa.Container(
+    //                 child: pwa.Row(
+    //                     // mainAxisAlignment: pwa.MainAxisAlignment.end,
+    //                     crossAxisAlignment: pwa.CrossAxisAlignment.end,
+    //                     children: <pwa.Widget>[
+    //                   pwa.Container(
+    //                     width: 145,
+    //                     //color: PdfColor.fromHex("#FFC000"),
+    //                     //
+    //                     margin: pwa.EdgeInsets.only(top: 369, left: 400),
+    //                     child: pwa.Text(potencia.text + ' kWp', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+    //                   ),
+    //                 ])),
+    //             pwa.Container(
+    //                 child: pwa.Row(
+    //                     // mainAxisAlignment: pwa.MainAxisAlignment.end,
+    //                     crossAxisAlignment: pwa.CrossAxisAlignment.end,
+    //                     children: <pwa.Widget>[
+    //                   pwa.Container(
+    //                     width: 145,
+    //                     //color: PdfColor.fromHex("#FFC000"),
+    //                     //
+    //                     margin: pwa.EdgeInsets.only(top: 25, left: 400),
+    //                     child: pwa.Text(qtdModulos.text, style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+    //                   ),
+    //                 ])),
+    //             pwa.Container(
+    //                 child: pwa.Row(
+    //                     // mainAxisAlignment: pwa.MainAxisAlignment.end,
+    //                     crossAxisAlignment: pwa.CrossAxisAlignment.end,
+    //                     children: <pwa.Widget>[
+    //                   pwa.Container(
+    //                     width: 145,
+    //                     //color: PdfColor.fromHex("#FFC000"),
+    //                     //f
+    //                     margin: pwa.EdgeInsets.only(top: 25, left: 400),
+    //                     child: pwa.Text(geracao.text + ' kWh', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+    //                   ),
+    //                 ])),
+    //             pwa.Container(
+    //                 child: pwa.Row(
+    //                     // mainAxisAlignment: pwa.MainAxisAlignment.end,
+    //                     crossAxisAlignment: pwa.CrossAxisAlignment.end,
+    //                     children: <pwa.Widget>[
+    //                   pwa.Container(
+    //                     width: 145,
+    //                     //color: PdfColor.fromHex("#FFC000"),
+    //                     //
+    //                     margin: pwa.EdgeInsets.only(top: 20, left: 400),
+    //                     child: pwa.Text('${area.text} m²', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+    //                   ),
+    //                 ])),
+    //             pwa.Container(
+    //                 child: pwa.Row(
+    //                     // mainAxisAlignment: pwa.MainAxisAlignment.end,
+    //                     crossAxisAlignment: pwa.CrossAxisAlignment.end,
+    //                     children: <pwa.Widget>[
+    //                   pwa.Container(
+    //                     width: 500,
+    //                     //color: PdfColor.fromHex("#FFC000"),
+    //                     //
+    //                     margin: pwa.EdgeInsets.only(top: 20, left: 44),
+    //                     child: pwa.Center(child: pwa.Image(returnImageChart('grafico-1'))),
+    //                   ),
+    //                 ])),
+    //           ],
+    //         ),
+    //       ); // Center
+    //     }));
 
-    pdf.addPage(
-      pwa.MultiPage(
-        crossAxisAlignment: pwa.CrossAxisAlignment.start,
-        pageTheme: pwa.PageTheme(
-          margin: pwa.EdgeInsets.zero,
-          buildBackground: (context) {
-            return pwa.Container(
-              decoration: pwa.BoxDecoration(
-                image: pwa.DecorationImage(
-                  image: returnImg('pagina-7'),
-                  fit: pwa.BoxFit.cover,
-                ),
-              ),
-              child: pwa.Container(),
-            );
-          },
-          pageFormat: PdfPageFormat.a4,
-        ),
-        header: (pwa.Context context) {
-          return null;
-        },
-        footer: (pwa.Context context) {
-          return pwa.Container(
-            alignment: pwa.Alignment.centerRight,
-            child: pwa.Text(
-              '${context.pageNumber} / ${context.pagesCount}',
-              textAlign: pwa.TextAlign.right,
-              style: pwa.TextStyle(
-                color: PdfColors.grey,
-              ),
-            ),
-          );
-        },
-        build: (pwa.Context context) => <pwa.Widget>[
-          pwa.Container(
-              margin: pwa.EdgeInsets.only(
-                top: 200,
-              ),
-              child: pwa.Stack(children: <pwa.Widget>[
-                pwa.Row(
-                    // mainAxisAlignment: pwa.MainAxisAlignment.end,
-                    crossAxisAlignment: pwa.CrossAxisAlignment.end,
-                    children: <pwa.Widget>[
-                      pwa.Container(
-                        // color: PdfColors.red,
-                        width: 16,
-                        margin: pwa.EdgeInsets.only(top: 117, left: 106),
-                        alignment: pwa.Alignment.topRight,
-                        child: pwa.Text(
-                          arvoresSalvas.round().toString(),
-                          textAlign: pwa.TextAlign.right,
-                          style: pwa.TextStyle(
-                            color: PdfColor.fromHex("#5F5E5E"),
-                          ),
-                        ),
-                      ),
-                    ]),
-                pwa.Row(
-                    // mainAxisAlignment: pwa.MainAxisAlignment.end,
-                    crossAxisAlignment: pwa.CrossAxisAlignment.end,
-                    children: <pwa.Widget>[
-                      pwa.Container(
-                        //color: PdfColors.red,
-                        width: 105,
-                        margin: pwa.EdgeInsets.only(top: 176, left: 35),
-                        alignment: pwa.Alignment.topRight,
-                        child: pwa.Text(
-                          co2.round().toString(),
-                          textAlign: pwa.TextAlign.right,
-                          style: pwa.TextStyle(
-                            color: PdfColor.fromHex("#5F5E5E"),
-                          ),
-                        ),
-                      ),
-                    ]),
-                pwa.Row(
-                    // mainAxisAlignment: pwa.MainAxisAlignment.end,
-                    crossAxisAlignment: pwa.CrossAxisAlignment.end,
-                    children: <pwa.Widget>[
-                      pwa.Container(
-                        // color: PdfColors.red,
-                        width: 16,
-                        margin: pwa.EdgeInsets.only(top: 240, left: 119),
-                        alignment: pwa.Alignment.topRight,
-                        child: pwa.Text(
-                          anoscarro.round().toString(),
-                          textAlign: pwa.TextAlign.right,
-                          style: pwa.TextStyle(
-                            color: PdfColor.fromHex("#5F5E5E"),
-                          ),
-                        ),
-                      ),
-                    ]),
-              ])),
-        ],
-      ),
-    );
+    // pdf.addPage(pwa.Page(
+    //     pageFormat: PdfPageFormat.a4,
+    //     build: (pwa.Context context) {
+    //       return pw.Center(
+    //         child: pwa.MultiPage(
+    //           crossAxisAlignment: pwa.CrossAxisAlignment.start,
+    //           pageTheme: pwa.PageTheme(
+    //             margin: pwa.EdgeInsets.zero,
+    //             buildBackground: (context) {
+    //               return pwa.Container(
+    //                 decoration: pwa.BoxDecoration(
+    //                   image: pwa.DecorationImage(
+    //                     image: returnImg('pagina-4'),
+    //                     fit: pwa.BoxFit.cover,
+    //                   ),
+    //                 ),
+    //                 child: pwa.Container(),
+    //               );
+    //             },
+    //             pageFormat: PdfPageFormat.a4,
+    //           ),
+    //           header: (pwa.Context context) {
+    //             return null;
+    //           },
+    //           footer: (pwa.Context context) {
+    //             return pwa.Container(
+    //               alignment: pwa.Alignment.centerRight,
+    //               child: pwa.Text(
+    //                 '${context.pageNumber} / ${context.pagesCount}',
+    //                 textAlign: pwa.TextAlign.right,
+    //                 style: pwa.TextStyle(
+    //                   color: PdfColors.grey,
+    //                 ),
+    //               ),
+    //             );
+    //           },
+    //           build: (pwa.Context context) => <pwa.Widget>[
+    //             pwa.Container(
+    //                 child: pwa.Stack(children: <pwa.Widget>[
+    //               pwa.Row(
+    //                   // mainAxisAlignment: pwa.MainAxisAlignment.end,
+    //                   crossAxisAlignment: pwa.CrossAxisAlignment.end,
+    //                   children: <pwa.Widget>[
+    //                     pwa.Container(
+    //                       width: 185,
+    //                       //color: PdfColor.fromHex("#FFC000"),
+    //                       alignment: pwa.Alignment.center,
+    //                       //
+    //                       margin: pwa.EdgeInsets.only(top: 145, left: 15),
+    //                       child: pwa.Text('R\$ $valor_paga_ano_pdf', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+    //                     ),
+    //                     pwa.Container(
+    //                       width: 185,
+    //                       // color: PdfColor.fromHex("#FFC000"),
+    //                       alignment: pwa.Alignment.center,
+    //                       //
+    //                       margin: pwa.EdgeInsets.only(top: 0, left: 0),
+    //                       child: pwa.Text('R\$ $valor_ira_paga_ano_pdf', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+    //                     ),
+    //                   ]),
+    //               // SUA ECONOMIA ANUAL
+    //               pwa.Container(
+    //                 width: 185,
+    //                 //color: PdfColor.fromHex("#FFC000"),
+
+    //                 //
+    //                 margin: pwa.EdgeInsets.only(top: 110, left: 392),
+    //                 child: pwa.Text('R\$ $valor_economia_1_ano', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 20, fontWeight: pwa.FontWeight.bold)),
+    //               ),
+    //               pwa.Container(
+    //                 width: 185,
+    //                 //color: PdfColor.fromHex("#FFC000"),
+
+    //                 //
+    //                 margin: pwa.EdgeInsets.only(top: 154, left: 392),
+    //                 child: pwa.Text('R\$ $valor_economia_25_anos', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 20, fontWeight: pwa.FontWeight.bold)),
+    //               ),
+    //               pwa.Container(
+    //                   margin: pwa.EdgeInsets.only(
+    //                     top: 200,
+    //                   ),
+    //                   child: pwa.Stack(children: <pwa.Widget>[
+    //                     pwa.Row(
+    //                         // mainAxisAlignment: pwa.MainAxisAlignment.end,
+    //                         crossAxisAlignment: pwa.CrossAxisAlignment.end,
+    //                         children: <pwa.Widget>[
+    //                           pwa.Container(
+    //                             width: 535,
+    //                             //color: PdfColor.fromHex("#FFC000"),
+    //                             //
+    //                             margin: pwa.EdgeInsets.only(top: 67, left: 38),
+    //                             child: pwa.Center(child: pwa.Image(returnImg('investimento'))),
+    //                           ),
+    //                         ]),
+    //                     pwa.Row(children: <pwa.Widget>[
+    //                       pwa.Container(
+    //                           margin: pwa.EdgeInsets.only(left: 420, top: 71),
+    //                           child: pwa.Text(valor.text,
+    //                               style: pwa.TextStyle(
+    //                                 fontSize: 20,
+    //                                 fontWeight: pwa.FontWeight.bold,
+    //                                 color: PdfColor.fromHex("#FFFFFF"),
+    //                               )))
+    //                     ]),
+    //                     pwa.Container(
+    //                       width: 535,
+    //                       // FINANCIAMENTO financiamento
+    //                       margin: pwa.EdgeInsets.only(top: 168, left: 26),
+    //                       child: pwa.Row(crossAxisAlignment: pwa.CrossAxisAlignment.start, mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[
+    //                         pwa.Column(children: <pwa.Widget>[
+    //                           pwa.SizedBox(height: 20),
+    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 2), child: pwa.Text('R\$ ${val.format(sicredi24x)}')),
+    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi36x)}')),
+    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi48x)}')),
+    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi60x)}'))
+    //                         ]),
+    //                         pwa.Column(children: <pwa.Widget>[
+    //                           pwa.SizedBox(height: 15),
+    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 6), child: pwa.Text('R\$ ${val.format(santanderEntrada)}')),
+    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 5), child: pwa.Text('R\$ ${val.format(santander12x)}')),
+    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 4), child: pwa.Text('R\$ ${val.format(santander18x)}')),
+    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 1), child: pwa.Text('R\$ ${val.format(santander24x)}')),
+    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 3), child: pwa.Text('R\$ ${val.format(santander36x)}'))
+    //                         ]),
+    //                         pwa.Column(children: <pwa.Widget>[
+    //                           pwa.SizedBox(height: 1),
+    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 5), child: pwa.Text('R\$ ${val.format(bvFinanceira24x)}')),
+    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 8), child: pwa.Text('R\$ ${val.format(bvFinanceira36x)}')),
+    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 8), child: pwa.Text('R\$ ${val.format(bvFinanceira48x)}')),
+    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 7), child: pwa.Text('R\$ ${val.format(bvFinanceira60x)}')),
+    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 7), child: pwa.Text('R\$ ${val.format(bvFinanceira72x)}'))
+    //                         ]),
+    //                         pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 17), pwa.Container(margin: pwa.EdgeInsets.only(left: 28, top: 60), child: pwa.Text('R\$ ${val.format(cartaoCredito12x)}', style: pwa.TextStyle(fontSize: 20)))]),
+    //                       ]),
+    //                     ),
+    //                     pwa.Row(
+    //                         // mainAxisAlignment: pwa.MainAxisAlignment.end,
+    //                         crossAxisAlignment: pwa.CrossAxisAlignment.end,
+    //                         children: <pwa.Widget>[
+    //                           pwa.Container(
+    //                             width: 535,
+    //                             // color: PdfColor.fromHex("#FFC000"),
+    //                             //
+    //                             margin: pwa.EdgeInsets.only(top: 347, left: 38),
+    //                             //#TODO SE A QUANTIDADE DE DADOS DO SISTEMA FOR MUITO GRANDE VAI QUEBRAR O PDF
+    //                             child: pwa.Text(dados.text.replaceAll('\n', '\n'), style: pwa.TextStyle(lineSpacing: 5, fontSize: 8)),
+    //                           ),
+    //                         ]),
+    //                   ])),
+    //             ])),
+    //           ],
+    //         ),
+    //       ); // Center
+    //     }));
+
+    // pdf.addPage(pwa.Page(
+    //     pageFormat: PdfPageFormat.a4,
+    //     build: (pwa.Context context) {
+    //       return pw.Center(
+    //         child: pwa.MultiPage(
+    //           crossAxisAlignment: pwa.CrossAxisAlignment.start,
+    //           pageTheme: pwa.PageTheme(
+    //             margin: pwa.EdgeInsets.zero,
+    //             buildBackground: (context) {
+    //               return pwa.Container(
+    //                 decoration: pwa.BoxDecoration(
+    //                   image: pwa.DecorationImage(
+    //                     image: returnImg('pagina-5'),
+    //                     fit: pwa.BoxFit.cover,
+    //                   ),
+    //                 ),
+    //                 child: pwa.Container(),
+    //               );
+    //             },
+    //             pageFormat: PdfPageFormat.a4,
+    //           ),
+    //           header: (pwa.Context context) {
+    //             return null;
+    //           },
+    //           build: (pwa.Context context) => <pwa.Widget>[
+    //             pwa.Container(
+    //                 child: pwa.Stack(children: <pwa.Widget>[
+    //               pwa.Row(
+    //                   // mainAxisAlignment: pwa.MainAxisAlignment.end,
+    //                   crossAxisAlignment: pwa.CrossAxisAlignment.end,
+    //                   children: <pwa.Widget>[]),
+    //               // SUA ECONOMIA ANUAL
+
+    //               pwa.Container(
+    //                   margin: pwa.EdgeInsets.only(
+    //                     top: 200,
+    //                   ),
+    //                   child: pwa.Stack(children: <pwa.Widget>[
+    //                     pwa.Row(
+    //                         // mainAxisAlignment: pwa.MainAxisAlignment.end,
+    //                         crossAxisAlignment: pwa.CrossAxisAlignment.end,
+    //                         children: <pwa.Widget>[
+    //                           pwa.Container(
+    //                             width: 310,
+    //                             color: PdfColor.fromHex("#FFFFFF"),
+    //                             margin: pwa.EdgeInsets.only(top: 188, left: 210),
+    //                             child: pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[pwa.Text(inversor.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)), pwa.Text(garantia.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold))]),
+    //                           ),
+    //                         ]),
+    //                     pwa.Row(
+    //                         // mainAxisAlignment: pwa.MainAxisAlignment.end,
+    //                         crossAxisAlignment: pwa.CrossAxisAlignment.end,
+    //                         children: <pwa.Widget>[
+    //                           pwa.Container(
+    //                             width: 310,
+    //                             color: PdfColor.fromHex("#FFFFFF"),
+    //                             //
+    //                             margin: pwa.EdgeInsets.only(top: 243, left: 210),
+    //                             child: pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[pwa.Text(marcaModulos.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)), pwa.Text("25 Anos", style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold))]),
+    //                           ),
+    //                         ]),
+    //                   ])),
+    //             ])),
+    //           ],
+    //         ),
+    //       ); // Center
+    //     }));
+
+    // pdf.addPage(pwa.Page(
+    //     pageFormat: PdfPageFormat.a4,
+    //     build: (pwa.Context context) {
+    //       return pw.Center(
+    //         child: pwa.MultiPage(
+    //           crossAxisAlignment: pwa.CrossAxisAlignment.start,
+    //           pageTheme: pwa.PageTheme(
+    //             margin: pwa.EdgeInsets.zero,
+    //             buildBackground: (context) {
+    //               return pwa.Container(
+    //                 decoration: pwa.BoxDecoration(
+    //                   image: pwa.DecorationImage(
+    //                     image: returnImg('pagina-6'),
+    //                     fit: pwa.BoxFit.cover,
+    //                   ),
+    //                 ),
+    //                 child: pwa.Container(),
+    //               );
+    //             },
+    //             pageFormat: PdfPageFormat.a4,
+    //           ),
+    //           header: (pwa.Context context) {
+    //             return null;
+    //           },
+    //           footer: (pwa.Context context) {
+    //             return pwa.Container(
+    //               alignment: pwa.Alignment.centerRight,
+    //               child: pwa.Text(
+    //                 '${context.pageNumber} / ${context.pagesCount}',
+    //                 textAlign: pwa.TextAlign.right,
+    //                 style: pwa.TextStyle(
+    //                   color: PdfColors.grey,
+    //                 ),
+    //               ),
+    //             );
+    //           },
+    //           build: (pwa.Context context) => <pwa.Widget>[
+    //             pwa.Container(),
+    //           ],
+    //         ),
+    //       ); // Center
+    //     }));
+
+    // pdf.addPage(pwa.Page(
+    //     pageFormat: PdfPageFormat.a4,
+    //     build: (pwa.Context context) {
+    //       return pw.Center(
+    //         child: pwa.MultiPage(
+    //           crossAxisAlignment: pwa.CrossAxisAlignment.start,
+    //           pageTheme: pwa.PageTheme(
+    //             margin: pwa.EdgeInsets.zero,
+    //             buildBackground: (context) {
+    //               return pwa.Container(
+    //                 decoration: pwa.BoxDecoration(
+    //                   image: pwa.DecorationImage(
+    //                     image: returnImg('pagina-7'),
+    //                     fit: pwa.BoxFit.cover,
+    //                   ),
+    //                 ),
+    //                 child: pwa.Container(),
+    //               );
+    //             },
+    //             pageFormat: PdfPageFormat.a4,
+    //           ),
+    //           header: (pwa.Context context) {
+    //             return null;
+    //           },
+    //           footer: (pwa.Context context) {
+    //             return pwa.Container(
+    //               alignment: pwa.Alignment.centerRight,
+    //               child: pwa.Text(
+    //                 '${context.pageNumber} / ${context.pagesCount}',
+    //                 textAlign: pwa.TextAlign.right,
+    //                 style: pwa.TextStyle(
+    //                   color: PdfColors.grey,
+    //                 ),
+    //               ),
+    //             );
+    //           },
+    //           build: (pwa.Context context) => <pwa.Widget>[
+    //             pwa.Container(
+    //                 margin: pwa.EdgeInsets.only(
+    //                   top: 200,
+    //                 ),
+    //                 child: pwa.Stack(children: <pwa.Widget>[
+    //                   pwa.Row(
+    //                       // mainAxisAlignment: pwa.MainAxisAlignment.end,
+    //                       crossAxisAlignment: pwa.CrossAxisAlignment.end,
+    //                       children: <pwa.Widget>[
+    //                         pwa.Container(
+    //                           // color: PdfColors.red,
+    //                           width: 16,
+    //                           margin: pwa.EdgeInsets.only(top: 117, left: 106),
+    //                           alignment: pwa.Alignment.topRight,
+    //                           child: pwa.Text(
+    //                             arvoresSalvas.round().toString(),
+    //                             textAlign: pwa.TextAlign.right,
+    //                             style: pwa.TextStyle(
+    //                               color: PdfColor.fromHex("#5F5E5E"),
+    //                             ),
+    //                           ),
+    //                         ),
+    //                       ]),
+    //                   pwa.Row(
+    //                       // mainAxisAlignment: pwa.MainAxisAlignment.end,
+    //                       crossAxisAlignment: pwa.CrossAxisAlignment.end,
+    //                       children: <pwa.Widget>[
+    //                         pwa.Container(
+    //                           //color: PdfColors.red,
+    //                           width: 105,
+    //                           margin: pwa.EdgeInsets.only(top: 176, left: 35),
+    //                           alignment: pwa.Alignment.topRight,
+    //                           child: pwa.Text(
+    //                             co2.round().toString(),
+    //                             textAlign: pwa.TextAlign.right,
+    //                             style: pwa.TextStyle(
+    //                               color: PdfColor.fromHex("#5F5E5E"),
+    //                             ),
+    //                           ),
+    //                         ),
+    //                       ]),
+    //                   pwa.Row(
+    //                       // mainAxisAlignment: pwa.MainAxisAlignment.end,
+    //                       crossAxisAlignment: pwa.CrossAxisAlignment.end,
+    //                       children: <pwa.Widget>[
+    //                         pwa.Container(
+    //                           // color: PdfColors.red,
+    //                           width: 16,
+    //                           margin: pwa.EdgeInsets.only(top: 240, left: 119),
+    //                           alignment: pwa.Alignment.topRight,
+    //                           child: pwa.Text(
+    //                             anoscarro.round().toString(),
+    //                             textAlign: pwa.TextAlign.right,
+    //                             style: pwa.TextStyle(
+    //                               color: PdfColor.fromHex("#5F5E5E"),
+    //                             ),
+    //                           ),
+    //                         ),
+    //                       ]),
+    //                 ])),
+    //           ],
+    //         ),
+    //       ); // Center
+    //     }));
 
     Directory documentDirectory = await getExternalStorageDirectory();
 
@@ -1913,7 +1987,7 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
 
     File file = File("$documentPath/$nameFile.pdf");
 
-    file.writeAsBytesSync(pdf.save());
+    await file.writeAsBytes(await pdf.save());
   }
 
   /////////////////////// PDF //////////////////////////////////////
@@ -2270,7 +2344,7 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
                               ),
                             ),
                             backgroundColor: Colors.white,
-                            resizeToAvoidBottomPadding: true,
+                            // resizeToAvoidBottomPadding: true,
                             body: SingleChildScrollView(
                               controller: scrollController,
                               child: Container(

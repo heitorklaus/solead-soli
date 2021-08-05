@@ -5,7 +5,7 @@ import 'plants_controller.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'plants_repository.dart';
 
-class PlantsModule extends ChildModule {
+class PlantsModule extends Module {
   @override
   List<Bind> get binds => [
         Bind((i) => PlantsRepository()),
@@ -14,9 +14,7 @@ class PlantsModule extends ChildModule {
       ];
 
   @override
-  List<ModularRouter> get routers => [
-        ModularRouter('/', child: (_, args) => PlantsPage()),
-      ];
-
-  static Inject get to => Inject<PlantsModule>.of();
+  List<ModularRoute> routes = [
+    ChildRoute('/', child: (_, args) => PlantsPage()),
+  ];
 }

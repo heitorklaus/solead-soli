@@ -37,13 +37,13 @@ class DatabaseHelper {
   static const String updateAppPath = 'https://drive.google.com/u/0/uc?export=download&confirm=dJsT&id=1tuzvj-V1Vt9WuLPvbEz-_heBjP9wiKLy';
 
 // LOCAL DO CSV COM OS VALORES DOS KITS
-  static const String csvKitsPath = "http://www.klausmetal.com.br/nexendata.csv";
+  static const String csvKitsPath = "https://www.solienergiasolar.com.br/nexendata.csv";
 
   // name imported
   static const String csvKitsFileName = "nexendata.csv";
 
   static const String _localZipFileName = 'images_to_pdf.zip';
-  static const String dbase = "soleadsa0.1.db";
+  static const String dbase = "soleadsa0.2.db";
   static const double version = 7.5;
 
   // not mexer! KKKK
@@ -85,11 +85,13 @@ class DatabaseHelper {
     //String marcaDoModulo, int numeroDeModulo, String peso, double potencia, String
     //potenciaDoModulo, String valor, String potenciaNovo, String consumoEmReais,
     //String consumoEmKw, String cliente, String endereco})
-    await db.execute('CREATE TABLE PLANTS_BUDGET (id INTEGER PRIMARY KEY   AUTOINCREMENT, data_cadastro DATETIME, usuario_id TEXT, saveOnline INT,  status TEXT, cpf TEXT, cep TEXT, bairro TEXT, numero INT, area TEXT, codigo TEXT, dados TEXT, inversor TEXT, marca_do_modulo TEXT, numero_de_modulo INT, peso TEXT, potencia REAL, potencia_do_modulo TEXT, valor TEXT, potencianovo TEXT, consumoemreais TEXT, consumoemkw TEXT, cliente TEXT,endereco TEXT)');
+    await db
+        .execute('CREATE TABLE PLANTS_BUDGET (id INTEGER PRIMARY KEY   AUTOINCREMENT, data_cadastro DATETIME, usuario_id TEXT, saveOnline INT,  status TEXT, cpf TEXT, cep TEXT, bairro TEXT, numero INT, area TEXT, codigo TEXT, dados TEXT, inversor TEXT, marca_do_modulo TEXT, numero_de_modulo INT, peso TEXT, potencia REAL, potencia_do_modulo TEXT, valor TEXT, potencianovo TEXT, consumoemreais TEXT, consumoemkw TEXT, cliente TEXT,endereco TEXT)');
 
     await db.execute("insert  into CITIES_IRRADIATION (ID,CITY,DEF,N,L,O,S,NE,NO,SE,SO,PRICE) VALUES (1,'CUIABÁ','5,11','5,25','4,95','4,96','4,53','5,21','5,22','4,66','4,68','0,91')");
 
-    await db.execute("INSERT INTO tb_dados_kits (id,area,codigo,dados,inversor,marca_do_modulo,numero_de_modulo,peso,potencia,potencia_do_modulo,valor) VALUES (200,'0000000','000000000','4 STAUBLI CONECTOR MC4 320016P0001-UR PV-KBT4/6II-UR ACOPLADOR FEMEA 4 STAUBLI CONECTOR MC4 32.0017P0001-UR PV-KST4/6II-UR ACOPLADOR MACHO 1 STRING BOX PROAUTO DEHN 20387 SB-1E/2E-1S-1000DC QUADRO 2 ENTRADAS/1 SAIDA 1 MPPT 50 CABO SOLAR NEXANS 47064 ENERGYFLEX AFITOX 0,6/1KV 1500V DC PRETO 50 CABO SOLAR NEXANS 43221 ENERGYFLEX AFITOX 0,6/1KV 1500V DC VERMELHO 6 PAINEL SOLAR TRINASOLAR TSM-DE15MII TALLMAX 144 CEL. MONO PERC HALF CELL 19,7% EFICIENCIA 2 ESTRUTURA SOLAR GROUP KTHTC420X000MD04 PERFIL THUNDER TELHA COLONIAL 4,20M 2 ESTRUTURA SOLAR GROUP ATHTC420X000MD04 4 PAINEIS FIXADOR GANCHO TELHA COLONIAL 1 INVERSOR SOLAR REFUSOL 801P1K6100 1.6KW MONOFASICO 220V 1MPPT MONITORAMENTO WLAN','REFUSOL 1,6KW','TRINASOLAR',6,'150','2,4',400,' 14.071,36 ') ");
+    await db.execute(
+        "INSERT INTO tb_dados_kits (id,area,codigo,dados,inversor,marca_do_modulo,numero_de_modulo,peso,potencia,potencia_do_modulo,valor) VALUES (200,'0000000','000000000','4 STAUBLI CONECTOR MC4 320016P0001-UR PV-KBT4/6II-UR ACOPLADOR FEMEA 4 STAUBLI CONECTOR MC4 32.0017P0001-UR PV-KST4/6II-UR ACOPLADOR MACHO 1 STRING BOX PROAUTO DEHN 20387 SB-1E/2E-1S-1000DC QUADRO 2 ENTRADAS/1 SAIDA 1 MPPT 50 CABO SOLAR NEXANS 47064 ENERGYFLEX AFITOX 0,6/1KV 1500V DC PRETO 50 CABO SOLAR NEXANS 43221 ENERGYFLEX AFITOX 0,6/1KV 1500V DC VERMELHO 6 PAINEL SOLAR TRINASOLAR TSM-DE15MII TALLMAX 144 CEL. MONO PERC HALF CELL 19,7% EFICIENCIA 2 ESTRUTURA SOLAR GROUP KTHTC420X000MD04 PERFIL THUNDER TELHA COLONIAL 4,20M 2 ESTRUTURA SOLAR GROUP ATHTC420X000MD04 4 PAINEIS FIXADOR GANCHO TELHA COLONIAL 1 INVERSOR SOLAR REFUSOL 801P1K6100 1.6KW MONOFASICO 220V 1MPPT MONITORAMENTO WLAN','REFUSOL 1,6KW','TRINASOLAR',6,'150','2,4',400,' 14.071,36 ') ");
 
     await db.execute("INSERT INTO CITIES_IRRADIATION_MONTH (ID,INCLINACAO,JAN,FEV,MAR,ABR,MAI,JUN,JUL,AGO,SEP,OUT,NOV,DEZ,MEDIA) VALUES (1,'0','5.37','5.23','5.02','4.77','4.24','4.14','4.31','5.20','4.93','5.17','5.45','5.54','4.95') ");
 
@@ -217,7 +219,8 @@ class DatabaseHelper {
 
     try {
       final int idUsuario = await Prefs.getInt("USERID");
-      await db.execute('INSERT INTO PLANTS_BUDGET (usuario_id,data_cadastro,saveOnline,status,cpf,cep,bairro,numero,area,codigo,dados,inversor,marca_do_modulo,numero_de_modulo,peso,potencia,potencia_do_modulo,valor,potencianovo,consumoemreais,consumoemkw,cliente,endereco) VALUES  ($idUsuario,"$formattedDate",0,"ORÇAMENTO","${powerPlant.cpf}","${powerPlant.cep}","${powerPlant.bairro}",${powerPlant.numero},"${powerPlant.area}",${powerPlant.codigo},"$dadosfinal","${powerPlant.inversor}","${powerPlant.marcaDoModulo}",${powerPlant.numeroDeModulo},"${powerPlant.peso}","${powerPlant.potencia}","N","${powerPlant.valor}","${powerPlant.potencia}","${powerPlant.consumoEmKw}","${powerPlant.consumoEmReais}","${powerPlant.cliente}","${powerPlant.endereco}" )');
+      await db.execute(
+          'INSERT INTO PLANTS_BUDGET (usuario_id,data_cadastro,saveOnline,status,cpf,cep,bairro,numero,area,codigo,dados,inversor,marca_do_modulo,numero_de_modulo,peso,potencia,potencia_do_modulo,valor,potencianovo,consumoemreais,consumoemkw,cliente,endereco) VALUES  ($idUsuario,"$formattedDate",0,"ORÇAMENTO","${powerPlant.cpf}","${powerPlant.cep}","${powerPlant.bairro}",${powerPlant.numero},"${powerPlant.area}",${powerPlant.codigo},"$dadosfinal","${powerPlant.inversor}","${powerPlant.marcaDoModulo}",${powerPlant.numeroDeModulo},"${powerPlant.peso}","${powerPlant.potencia}","N","${powerPlant.valor}","${powerPlant.potencia}","${powerPlant.consumoEmKw}","${powerPlant.consumoEmReais}","${powerPlant.cliente}","${powerPlant.endereco}" )');
       //
     } catch (e) {
       print('[ERROR]');
@@ -246,11 +249,8 @@ class DatabaseHelper {
     var db = await openDatabase(path, version: 2);
 
     try {
-
       await db.execute("INSERT INTO TAX (ID, BANCO, TAX3X, TAX6X, TAX12X, TAX24X, TAX36X, TAX48X, TAX60X, TAX72X, TAX) VALUES ($id,'$banco','$tax3x','$tax6x','$tax12x','$tax24x','$tax36x','$tax48x','$tax60x','$tax72x',$tax)");
-    
     } catch (e) {
-
       print('[ERROR]' + e.toString());
 
       //print(e.toString());
