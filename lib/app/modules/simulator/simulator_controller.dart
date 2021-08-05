@@ -1390,75 +1390,58 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
 
     Future _myPageTheme(PdfPageFormat format) async {
       return pwa.PageTheme(
-        pageFormat: format.applyMargin(left: 2.0 * PdfPageFormat.cm, top: 0.0, right: 2.0 * PdfPageFormat.cm, bottom: 0),
-        theme: pwa.ThemeData.withFont(
-//      base: pw.Font.ttf(await rootBundle.load('assets/fonts/nexa_bold.otf')),
-//      bold:
-//          pw.Font.ttf(await rootBundle.load('assets/fonts/raleway_medium.ttf')),
-            ),
+        margin: pwa.EdgeInsets.zero,
         buildBackground: (pwa.Context context) {
-          return pwa.FullPage(
-            ignoreMargins: true,
-            child: pwa.CustomPaint(
-              size: PdfPoint(format.width, format.height),
-              painter: (PdfGraphics canvas, PdfPoint size) {
-                context.canvas
-                  ..setColor(PdfColor.fromInt(0xffe06c6c))
-                  ..moveTo(0, size.y)
-                  ..lineTo(0, size.y - 230)
-                  ..lineTo(60, size.y)
-                  ..fillPath()
-                  ..setColor(PdfColor.fromInt(0xffe06c6c))
-                  ..moveTo(0, size.y)
-                  ..lineTo(0, size.y - 100)
-                  ..lineTo(100, size.y)
-                  ..fillPath()
-                  ..setColor(PdfColor.fromInt(0xffe06c6c))
-                  ..moveTo(30, size.y)
-                  ..lineTo(110, size.y - 50)
-                  ..lineTo(150, size.y)
-                  ..fillPath()
-                  ..moveTo(size.x, 0)
-                  ..lineTo(size.x, 230)
-                  ..lineTo(size.x - 60, 0)
-                  ..fillPath()
-                  ..setColor(PdfColor.fromInt(0xffe06c6c))
-                  ..moveTo(size.x, 0)
-                  ..lineTo(size.x, 100)
-                  ..lineTo(size.x - 100, 0)
-                  ..fillPath()
-                  ..setColor(PdfColor.fromInt(0xffe06c6c))
-                  ..moveTo(size.x - 30, 0)
-                  ..lineTo(size.x - 110, 50)
-                  ..lineTo(size.x - 150, 0)
-                  ..fillPath();
-              },
+          return pwa.Container(
+            decoration: pwa.BoxDecoration(
+              image: pwa.DecorationImage(
+                image: returnImg('pagina-1'),
+                fit: pwa.BoxFit.cover,
+              ),
             ),
           );
         },
       );
     }
 
-    final pwa.PageTheme pageTheme = await _myPageTheme(PdfPageFormat.a3);
+    final pwa.PageTheme pageTheme = await _myPageTheme(PdfPageFormat.a4.applyMargin(left: 0, top: 0, right: 0, bottom: 0));
 
-    pdf.addPage(pwa.MultiPage(
+    pdf.addPage(
+      pwa.MultiPage(
         pageTheme: pageTheme, //set the document theme
         crossAxisAlignment: pwa.CrossAxisAlignment.start,
         build: (pwa.Context context) => <pwa.Widget>[
-              //This will be the body of our document
-              // Header(//our header will be added here
-              // ),
-              pwa.Container(
-                width: 333,
-                height: 888,
-                decoration: pwa.BoxDecoration(
-                  image: pwa.DecorationImage(
-                    image: returnImg('pagina-1'),
-                    fit: pwa.BoxFit.cover,
-                  ),
-                ),
-              )
-            ]));
+          pwa.Container(color: PdfColor.fromInt(0xff000000), width: 200, height: 299),
+        ],
+      ),
+    );
+    pdf.addPage(
+      pwa.MultiPage(
+        pageTheme: pageTheme, //set the document theme
+        crossAxisAlignment: pwa.CrossAxisAlignment.start,
+        build: (pwa.Context context) => <pwa.Widget>[
+          pwa.Container(color: PdfColor.fromInt(0xff000000), width: 200, height: 299),
+        ],
+      ),
+    );
+    pdf.addPage(
+      pwa.MultiPage(
+        pageTheme: pageTheme, //set the document theme
+        crossAxisAlignment: pwa.CrossAxisAlignment.start,
+        build: (pwa.Context context) => <pwa.Widget>[
+          pwa.Container(color: PdfColor.fromInt(0xff000000), width: 200, height: 299),
+        ],
+      ),
+    );
+    pdf.addPage(
+      pwa.MultiPage(
+        pageTheme: pageTheme, //set the document theme
+        crossAxisAlignment: pwa.CrossAxisAlignment.start,
+        build: (pwa.Context context) => <pwa.Widget>[
+          pwa.Container(color: PdfColor.fromInt(0xff000000), width: 200, height: 299),
+        ],
+      ),
+    );
 
     // Page
 
