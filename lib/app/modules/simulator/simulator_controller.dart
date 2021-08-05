@@ -1388,14 +1388,14 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
 
     //     );
 
-    Future _myPageTheme(PdfPageFormat format) async {
+    Future _myPageTheme(PdfPageFormat format, String pagina) async {
       return pwa.PageTheme(
         margin: pwa.EdgeInsets.zero,
         buildBackground: (pwa.Context context) {
           return pwa.Container(
             decoration: pwa.BoxDecoration(
               image: pwa.DecorationImage(
-                image: returnImg('pagina-1'),
+                image: returnImg(pagina),
                 fit: pwa.BoxFit.cover,
               ),
             ),
@@ -1404,420 +1404,379 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
       );
     }
 
-    final pwa.PageTheme pageTheme = await _myPageTheme(PdfPageFormat.a4.applyMargin(left: 0, top: 0, right: 0, bottom: 0));
-
+    final pwa.PageTheme pageTheme1 = await _myPageTheme(PdfPageFormat.a4.applyMargin(left: 0, top: 0, right: 0, bottom: 0), 'pagina-1');
     pdf.addPage(
       pwa.MultiPage(
-        pageTheme: pageTheme, //set the document theme
+        pageTheme: pageTheme1, //set the document theme
         crossAxisAlignment: pwa.CrossAxisAlignment.start,
         build: (pwa.Context context) => <pwa.Widget>[
-          pwa.Container(color: PdfColor.fromInt(0xff000000), width: 200, height: 299),
-        ],
-      ),
-    );
-    pdf.addPage(
-      pwa.MultiPage(
-        pageTheme: pageTheme, //set the document theme
-        crossAxisAlignment: pwa.CrossAxisAlignment.start,
-        build: (pwa.Context context) => <pwa.Widget>[
-          pwa.Container(color: PdfColor.fromInt(0xff000000), width: 200, height: 299),
-        ],
-      ),
-    );
-    pdf.addPage(
-      pwa.MultiPage(
-        pageTheme: pageTheme, //set the document theme
-        crossAxisAlignment: pwa.CrossAxisAlignment.start,
-        build: (pwa.Context context) => <pwa.Widget>[
-          pwa.Container(color: PdfColor.fromInt(0xff000000), width: 200, height: 299),
-        ],
-      ),
-    );
-    pdf.addPage(
-      pwa.MultiPage(
-        pageTheme: pageTheme, //set the document theme
-        crossAxisAlignment: pwa.CrossAxisAlignment.start,
-        build: (pwa.Context context) => <pwa.Widget>[
-          pwa.Container(color: PdfColor.fromInt(0xff000000), width: 200, height: 299),
+          pwa.Container(
+              margin: pwa.EdgeInsets.only(
+                top: 200,
+              ),
+              child: pwa.Stack(children: <pwa.Widget>[
+                pwa.Container(
+                  width: 535,
+                  // FINANCIAMENTO financiamento
+                  margin: pwa.EdgeInsets.only(top: 432, left: 44),
+                  child: pwa.Column(crossAxisAlignment: pwa.CrossAxisAlignment.start, mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[
+                    pwa.Row(children: <pwa.Widget>[pwa.Text(cliente.text, style: pwa.TextStyle(fontSize: 35, fontWeight: pwa.FontWeight.bold, color: PdfColor.fromHex("#FFFFFF")))]),
+                    pwa.SizedBox(
+                      height: 7,
+                    ),
+                    pwa.Row(children: <pwa.Widget>[
+                      pwa.Text(endereco.text, style: pwa.TextStyle(fontSize: 22, color: PdfColor.fromHex("#FFFFFF"))),
+                    ]),
+                  ]),
+                ),
+              ])),
         ],
       ),
     );
 
-    // Page
+    final pwa.PageTheme pageTheme2 = await _myPageTheme(PdfPageFormat.a4.applyMargin(left: 0, top: 0, right: 0, bottom: 0), 'pagina-2');
+    pdf.addPage(
+      pwa.MultiPage(
+        pageTheme: pageTheme2, //set the document theme
+        crossAxisAlignment: pwa.CrossAxisAlignment.start,
+        build: (pwa.Context context) => <pwa.Widget>[
+          pwa.Container(
+              margin: pwa.EdgeInsets.only(
+                top: 200,
+              ),
+              child: pwa.Stack(children: <pwa.Widget>[
+                pwa.Container(),
+              ])),
+        ],
+      ),
+    );
 
-    // pdf.addPage(pwa.Page(
-    //     pageFormat: PdfPageFormat.a4,
-    //     build: (pwa.Context context) {
-    //       return pw.Center(
-    //         child: pwa.MultiPage(
-    //           crossAxisAlignment: pwa.CrossAxisAlignment.start,
-    //           pageTheme: pwa.PageTheme(
-    //             margin: pwa.EdgeInsets.zero,
-    //             buildBackground: (context) {
-    //               return pwa.Container(
-    //                 decoration: pwa.BoxDecoration(
-    //                   image: pwa.DecorationImage(
-    //                     image: returnImg('pagina-2'),
-    //                     fit: pwa.BoxFit.cover,
-    //                   ),
-    //                 ),
-    //                 child: pwa.Container(),
-    //               );
-    //             },
-    //             pageFormat: PdfPageFormat.a4,
-    //           ),
-    //           header: (pwa.Context context) {
-    //             return null;
-    //           },
-    //           footer: (pwa.Context context) {
-    //             return pwa.Container(
-    //               alignment: pwa.Alignment.centerRight,
-    //               child: pwa.Text(
-    //                 '${context.pageNumber} / ${context.pagesCount}',
-    //                 textAlign: pwa.TextAlign.right,
-    //                 style: pwa.TextStyle(
-    //                   color: PdfColors.grey,
-    //                 ),
-    //               ),
-    //             );
-    //           },
-    //           build: (pwa.Context context) => <pwa.Widget>[
-    //             pwa.Container(),
-    //           ],
-    //         ),
-    //       ); // Center
-    //     })); //
+    final pwa.PageTheme pageTheme3 = await _myPageTheme(PdfPageFormat.a4.applyMargin(left: 0, top: 0, right: 0, bottom: 0), 'pagina-3');
+    pdf.addPage(
+      pwa.MultiPage(
+        pageTheme: pageTheme3, //set the document theme
+        crossAxisAlignment: pwa.CrossAxisAlignment.start,
+        build: (pwa.Context context) => <pwa.Widget>[
+          pwa.Container(
+              child: pwa.Row(
+                  // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                  crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                  children: <pwa.Widget>[
+                pwa.Container(
+                  width: 145,
+                  //color: PdfColor.fromHex("#FFC000"),
+                  //
+                  margin: pwa.EdgeInsets.only(top: 369, left: 400),
+                  child: pwa.Text(potencia.text + ' kWp', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                ),
+              ])),
+          pwa.Container(
+              child: pwa.Row(
+                  // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                  crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                  children: <pwa.Widget>[
+                pwa.Container(
+                  width: 145,
+                  //color: PdfColor.fromHex("#FFC000"),
+                  //
+                  margin: pwa.EdgeInsets.only(top: 25, left: 400),
+                  child: pwa.Text(qtdModulos.text, style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                ),
+              ])),
+          pwa.Container(
+              child: pwa.Row(
+                  // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                  crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                  children: <pwa.Widget>[
+                pwa.Container(
+                  width: 145,
+                  //color: PdfColor.fromHex("#FFC000"),
+                  //f
+                  margin: pwa.EdgeInsets.only(top: 25, left: 400),
+                  child: pwa.Text(geracao.text + ' kWh', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                ),
+              ])),
+          pwa.Container(
+              child: pwa.Row(
+                  // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                  crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                  children: <pwa.Widget>[
+                pwa.Container(
+                  width: 145,
+                  //color: PdfColor.fromHex("#FFC000"),
+                  //
+                  margin: pwa.EdgeInsets.only(top: 20, left: 400),
+                  child: pwa.Text('${area.text} m²', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                ),
+              ])),
+          pwa.Container(
+              child: pwa.Row(
+                  // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                  crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                  children: <pwa.Widget>[
+                pwa.Container(
+                  width: 500,
+                  //color: PdfColor.fromHex("#FFC000"),
+                  //
+                  margin: pwa.EdgeInsets.only(top: 20, left: 44),
+                  child: pwa.Center(child: pwa.Image(returnImageChart('grafico-1'))),
+                ),
+              ])),
+        ],
+      ),
+    );
 
-    // pdf.addPage(pwa.Page(
-    //     pageFormat: PdfPageFormat.a4,
-    //     build: (pwa.Context context) {
-    //       return pw.Center(
-    //         child: pwa.MultiPage(
-    //           crossAxisAlignment: pwa.CrossAxisAlignment.start,
-    //           pageTheme: pwa.PageTheme(
-    //             margin: pwa.EdgeInsets.zero,
-    //             buildBackground: (context) {
-    //               return pwa.Container(
-    //                 decoration: pwa.BoxDecoration(
-    //                   image: pwa.DecorationImage(
-    //                     image: returnImg('pagina-3'),
-    //                     fit: pwa.BoxFit.cover,
-    //                   ),
-    //                 ),
-    //                 child: pwa.Container(),
-    //               );
-    //             },
-    //             pageFormat: PdfPageFormat.a4,
-    //           ),
-    //           header: (pwa.Context context) {
-    //             return null;
-    //           },
-    //           footer: (pwa.Context context) {
-    //             return pwa.Container(
-    //               margin: pwa.EdgeInsets.only(right: 154, bottom: 5),
-    //               alignment: pwa.Alignment.centerRight,
-    //               child: pwa.Text(
-    //                 consumoMostrar.toString(),
-    //                 textAlign: pwa.TextAlign.right,
-    //                 style: pwa.TextStyle(
-    //                   color: PdfColors.white,
-    //                 ),
-    //               ),
-    //             );
-    //           },
-    //           build: (pwa.Context context) => <pwa.Widget>[
-    //             pwa.Container(
-    //                 child: pwa.Row(
-    //                     // mainAxisAlignment: pwa.MainAxisAlignment.end,
-    //                     crossAxisAlignment: pwa.CrossAxisAlignment.end,
-    //                     children: <pwa.Widget>[
-    //                   pwa.Container(
-    //                     width: 145,
-    //                     //color: PdfColor.fromHex("#FFC000"),
-    //                     //
-    //                     margin: pwa.EdgeInsets.only(top: 369, left: 400),
-    //                     child: pwa.Text(potencia.text + ' kWp', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
-    //                   ),
-    //                 ])),
-    //             pwa.Container(
-    //                 child: pwa.Row(
-    //                     // mainAxisAlignment: pwa.MainAxisAlignment.end,
-    //                     crossAxisAlignment: pwa.CrossAxisAlignment.end,
-    //                     children: <pwa.Widget>[
-    //                   pwa.Container(
-    //                     width: 145,
-    //                     //color: PdfColor.fromHex("#FFC000"),
-    //                     //
-    //                     margin: pwa.EdgeInsets.only(top: 25, left: 400),
-    //                     child: pwa.Text(qtdModulos.text, style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
-    //                   ),
-    //                 ])),
-    //             pwa.Container(
-    //                 child: pwa.Row(
-    //                     // mainAxisAlignment: pwa.MainAxisAlignment.end,
-    //                     crossAxisAlignment: pwa.CrossAxisAlignment.end,
-    //                     children: <pwa.Widget>[
-    //                   pwa.Container(
-    //                     width: 145,
-    //                     //color: PdfColor.fromHex("#FFC000"),
-    //                     //f
-    //                     margin: pwa.EdgeInsets.only(top: 25, left: 400),
-    //                     child: pwa.Text(geracao.text + ' kWh', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
-    //                   ),
-    //                 ])),
-    //             pwa.Container(
-    //                 child: pwa.Row(
-    //                     // mainAxisAlignment: pwa.MainAxisAlignment.end,
-    //                     crossAxisAlignment: pwa.CrossAxisAlignment.end,
-    //                     children: <pwa.Widget>[
-    //                   pwa.Container(
-    //                     width: 145,
-    //                     //color: PdfColor.fromHex("#FFC000"),
-    //                     //
-    //                     margin: pwa.EdgeInsets.only(top: 20, left: 400),
-    //                     child: pwa.Text('${area.text} m²', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
-    //                   ),
-    //                 ])),
-    //             pwa.Container(
-    //                 child: pwa.Row(
-    //                     // mainAxisAlignment: pwa.MainAxisAlignment.end,
-    //                     crossAxisAlignment: pwa.CrossAxisAlignment.end,
-    //                     children: <pwa.Widget>[
-    //                   pwa.Container(
-    //                     width: 500,
-    //                     //color: PdfColor.fromHex("#FFC000"),
-    //                     //
-    //                     margin: pwa.EdgeInsets.only(top: 20, left: 44),
-    //                     child: pwa.Center(child: pwa.Image(returnImageChart('grafico-1'))),
-    //                   ),
-    //                 ])),
-    //           ],
-    //         ),
-    //       ); // Center
-    //     }));
+    final pwa.PageTheme pageTheme4 = await _myPageTheme(PdfPageFormat.a4.applyMargin(left: 0, top: 0, right: 0, bottom: 0), 'pagina-4');
+    pdf.addPage(
+      pwa.MultiPage(
+        pageTheme: pageTheme4, //set the document theme
+        crossAxisAlignment: pwa.CrossAxisAlignment.start,
+        build: (pwa.Context context) => <pwa.Widget>[
+          pwa.Container(
+              child: pwa.Stack(children: <pwa.Widget>[
+            pwa.Row(
+                // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                children: <pwa.Widget>[
+                  pwa.Container(
+                    width: 185,
+                    //color: PdfColor.fromHex("#FFC000"),
+                    alignment: pwa.Alignment.center,
+                    //
+                    margin: pwa.EdgeInsets.only(top: 145, left: 15),
+                    child: pwa.Text('R\$ $valor_paga_ano_pdf', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                  ),
+                  pwa.Container(
+                    width: 185,
+                    // color: PdfColor.fromHex("#FFC000"),
+                    alignment: pwa.Alignment.center,
+                    //
+                    margin: pwa.EdgeInsets.only(top: 0, left: 0),
+                    child: pwa.Text('R\$ $valor_ira_paga_ano_pdf', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
+                  ),
+                ]),
+            // SUA ECONOMIA ANUAL
+            pwa.Container(
+              width: 185,
+              //color: PdfColor.fromHex("#FFC000"),
 
-    // pdf.addPage(pwa.Page(
-    //     pageFormat: PdfPageFormat.a4,
-    //     build: (pwa.Context context) {
-    //       return pw.Center(
-    //         child: pwa.MultiPage(
-    //           crossAxisAlignment: pwa.CrossAxisAlignment.start,
-    //           pageTheme: pwa.PageTheme(
-    //             margin: pwa.EdgeInsets.zero,
-    //             buildBackground: (context) {
-    //               return pwa.Container(
-    //                 decoration: pwa.BoxDecoration(
-    //                   image: pwa.DecorationImage(
-    //                     image: returnImg('pagina-4'),
-    //                     fit: pwa.BoxFit.cover,
-    //                   ),
-    //                 ),
-    //                 child: pwa.Container(),
-    //               );
-    //             },
-    //             pageFormat: PdfPageFormat.a4,
-    //           ),
-    //           header: (pwa.Context context) {
-    //             return null;
-    //           },
-    //           footer: (pwa.Context context) {
-    //             return pwa.Container(
-    //               alignment: pwa.Alignment.centerRight,
-    //               child: pwa.Text(
-    //                 '${context.pageNumber} / ${context.pagesCount}',
-    //                 textAlign: pwa.TextAlign.right,
-    //                 style: pwa.TextStyle(
-    //                   color: PdfColors.grey,
-    //                 ),
-    //               ),
-    //             );
-    //           },
-    //           build: (pwa.Context context) => <pwa.Widget>[
-    //             pwa.Container(
-    //                 child: pwa.Stack(children: <pwa.Widget>[
-    //               pwa.Row(
-    //                   // mainAxisAlignment: pwa.MainAxisAlignment.end,
-    //                   crossAxisAlignment: pwa.CrossAxisAlignment.end,
-    //                   children: <pwa.Widget>[
-    //                     pwa.Container(
-    //                       width: 185,
-    //                       //color: PdfColor.fromHex("#FFC000"),
-    //                       alignment: pwa.Alignment.center,
-    //                       //
-    //                       margin: pwa.EdgeInsets.only(top: 145, left: 15),
-    //                       child: pwa.Text('R\$ $valor_paga_ano_pdf', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
-    //                     ),
-    //                     pwa.Container(
-    //                       width: 185,
-    //                       // color: PdfColor.fromHex("#FFC000"),
-    //                       alignment: pwa.Alignment.center,
-    //                       //
-    //                       margin: pwa.EdgeInsets.only(top: 0, left: 0),
-    //                       child: pwa.Text('R\$ $valor_ira_paga_ano_pdf', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 25, fontWeight: pwa.FontWeight.bold)),
-    //                     ),
-    //                   ]),
-    //               // SUA ECONOMIA ANUAL
-    //               pwa.Container(
-    //                 width: 185,
-    //                 //color: PdfColor.fromHex("#FFC000"),
+              //
+              margin: pwa.EdgeInsets.only(top: 110, left: 392),
+              child: pwa.Text('R\$ $valor_economia_1_ano', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 20, fontWeight: pwa.FontWeight.bold)),
+            ),
+            pwa.Container(
+              width: 185,
+              //color: PdfColor.fromHex("#FFC000"),
 
-    //                 //
-    //                 margin: pwa.EdgeInsets.only(top: 110, left: 392),
-    //                 child: pwa.Text('R\$ $valor_economia_1_ano', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 20, fontWeight: pwa.FontWeight.bold)),
-    //               ),
-    //               pwa.Container(
-    //                 width: 185,
-    //                 //color: PdfColor.fromHex("#FFC000"),
+              //
+              margin: pwa.EdgeInsets.only(top: 154, left: 392),
+              child: pwa.Text('R\$ $valor_economia_25_anos', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 20, fontWeight: pwa.FontWeight.bold)),
+            ),
+            pwa.Container(
+                margin: pwa.EdgeInsets.only(
+                  top: 200,
+                ),
+                child: pwa.Stack(children: <pwa.Widget>[
+                  pwa.Row(
+                      // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                      crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                      children: <pwa.Widget>[
+                        pwa.Container(
+                          width: 535,
+                          //color: PdfColor.fromHex("#FFC000"),
+                          //
+                          margin: pwa.EdgeInsets.only(top: 67, left: 38),
+                          child: pwa.Center(child: pwa.Image(returnImg('investimento'))),
+                        ),
+                      ]),
+                  pwa.Row(children: <pwa.Widget>[
+                    pwa.Container(
+                        margin: pwa.EdgeInsets.only(left: 420, top: 71),
+                        child: pwa.Text(valor.text,
+                            style: pwa.TextStyle(
+                              fontSize: 20,
+                              fontWeight: pwa.FontWeight.bold,
+                              color: PdfColor.fromHex("#FFFFFF"),
+                            )))
+                  ]),
+                  pwa.Container(
+                    width: 535,
+                    // FINANCIAMENTO financiamento
+                    margin: pwa.EdgeInsets.only(top: 168, left: 26),
+                    child: pwa.Row(crossAxisAlignment: pwa.CrossAxisAlignment.start, mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[
+                      pwa.Column(children: <pwa.Widget>[
+                        pwa.SizedBox(height: 20),
+                        pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 2), child: pwa.Text('R\$ ${val.format(sicredi24x)}')),
+                        pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi36x)}')),
+                        pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi48x)}')),
+                        pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi60x)}'))
+                      ]),
+                      pwa.Column(children: <pwa.Widget>[
+                        pwa.SizedBox(height: 15),
+                        pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 6), child: pwa.Text('R\$ ${val.format(santanderEntrada)}')),
+                        pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 5), child: pwa.Text('R\$ ${val.format(santander12x)}')),
+                        pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 4), child: pwa.Text('R\$ ${val.format(santander18x)}')),
+                        pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 1), child: pwa.Text('R\$ ${val.format(santander24x)}')),
+                        pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 3), child: pwa.Text('R\$ ${val.format(santander36x)}'))
+                      ]),
+                      pwa.Column(children: <pwa.Widget>[
+                        pwa.SizedBox(height: 1),
+                        pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 5), child: pwa.Text('R\$ ${val.format(bvFinanceira24x)}')),
+                        pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 8), child: pwa.Text('R\$ ${val.format(bvFinanceira36x)}')),
+                        pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 8), child: pwa.Text('R\$ ${val.format(bvFinanceira48x)}')),
+                        pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 7), child: pwa.Text('R\$ ${val.format(bvFinanceira60x)}')),
+                        pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 7), child: pwa.Text('R\$ ${val.format(bvFinanceira72x)}'))
+                      ]),
+                      pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 17), pwa.Container(margin: pwa.EdgeInsets.only(left: 28, top: 60), child: pwa.Text('R\$ ${val.format(cartaoCredito12x)}', style: pwa.TextStyle(fontSize: 20)))]),
+                    ]),
+                  ),
+                  pwa.Row(
+                      // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                      crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                      children: <pwa.Widget>[
+                        pwa.Container(
+                          width: 535,
+                          // color: PdfColor.fromHex("#FFC000"),
+                          //
+                          margin: pwa.EdgeInsets.only(top: 347, left: 38),
+                          //#TODO SE A QUANTIDADE DE DADOS DO SISTEMA FOR MUITO GRANDE VAI QUEBRAR O PDF
+                          child: pwa.Text(dados.text.replaceAll('\n', '\n'), style: pwa.TextStyle(lineSpacing: 5, fontSize: 8)),
+                        ),
+                      ]),
+                ])),
+          ])),
+        ],
+      ),
+    );
 
-    //                 //
-    //                 margin: pwa.EdgeInsets.only(top: 154, left: 392),
-    //                 child: pwa.Text('R\$ $valor_economia_25_anos', style: pwa.TextStyle(color: PdfColor.fromHex("#FFFFFF"), fontSize: 20, fontWeight: pwa.FontWeight.bold)),
-    //               ),
-    //               pwa.Container(
-    //                   margin: pwa.EdgeInsets.only(
-    //                     top: 200,
-    //                   ),
-    //                   child: pwa.Stack(children: <pwa.Widget>[
-    //                     pwa.Row(
-    //                         // mainAxisAlignment: pwa.MainAxisAlignment.end,
-    //                         crossAxisAlignment: pwa.CrossAxisAlignment.end,
-    //                         children: <pwa.Widget>[
-    //                           pwa.Container(
-    //                             width: 535,
-    //                             //color: PdfColor.fromHex("#FFC000"),
-    //                             //
-    //                             margin: pwa.EdgeInsets.only(top: 67, left: 38),
-    //                             child: pwa.Center(child: pwa.Image(returnImg('investimento'))),
-    //                           ),
-    //                         ]),
-    //                     pwa.Row(children: <pwa.Widget>[
-    //                       pwa.Container(
-    //                           margin: pwa.EdgeInsets.only(left: 420, top: 71),
-    //                           child: pwa.Text(valor.text,
-    //                               style: pwa.TextStyle(
-    //                                 fontSize: 20,
-    //                                 fontWeight: pwa.FontWeight.bold,
-    //                                 color: PdfColor.fromHex("#FFFFFF"),
-    //                               )))
-    //                     ]),
-    //                     pwa.Container(
-    //                       width: 535,
-    //                       // FINANCIAMENTO financiamento
-    //                       margin: pwa.EdgeInsets.only(top: 168, left: 26),
-    //                       child: pwa.Row(crossAxisAlignment: pwa.CrossAxisAlignment.start, mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[
-    //                         pwa.Column(children: <pwa.Widget>[
-    //                           pwa.SizedBox(height: 20),
-    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 2), child: pwa.Text('R\$ ${val.format(sicredi24x)}')),
-    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi36x)}')),
-    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi48x)}')),
-    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 58, top: 8), child: pwa.Text('R\$ ${val.format(sicredi60x)}'))
-    //                         ]),
-    //                         pwa.Column(children: <pwa.Widget>[
-    //                           pwa.SizedBox(height: 15),
-    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 6), child: pwa.Text('R\$ ${val.format(santanderEntrada)}')),
-    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 5), child: pwa.Text('R\$ ${val.format(santander12x)}')),
-    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 4), child: pwa.Text('R\$ ${val.format(santander18x)}')),
-    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 1), child: pwa.Text('R\$ ${val.format(santander24x)}')),
-    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 85, top: 3), child: pwa.Text('R\$ ${val.format(santander36x)}'))
-    //                         ]),
-    //                         pwa.Column(children: <pwa.Widget>[
-    //                           pwa.SizedBox(height: 1),
-    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 5), child: pwa.Text('R\$ ${val.format(bvFinanceira24x)}')),
-    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 8), child: pwa.Text('R\$ ${val.format(bvFinanceira36x)}')),
-    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 8), child: pwa.Text('R\$ ${val.format(bvFinanceira48x)}')),
-    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 7), child: pwa.Text('R\$ ${val.format(bvFinanceira60x)}')),
-    //                           pwa.Container(margin: pwa.EdgeInsets.only(left: 48, top: 7), child: pwa.Text('R\$ ${val.format(bvFinanceira72x)}'))
-    //                         ]),
-    //                         pwa.Column(children: <pwa.Widget>[pwa.SizedBox(height: 17), pwa.Container(margin: pwa.EdgeInsets.only(left: 28, top: 60), child: pwa.Text('R\$ ${val.format(cartaoCredito12x)}', style: pwa.TextStyle(fontSize: 20)))]),
-    //                       ]),
-    //                     ),
-    //                     pwa.Row(
-    //                         // mainAxisAlignment: pwa.MainAxisAlignment.end,
-    //                         crossAxisAlignment: pwa.CrossAxisAlignment.end,
-    //                         children: <pwa.Widget>[
-    //                           pwa.Container(
-    //                             width: 535,
-    //                             // color: PdfColor.fromHex("#FFC000"),
-    //                             //
-    //                             margin: pwa.EdgeInsets.only(top: 347, left: 38),
-    //                             //#TODO SE A QUANTIDADE DE DADOS DO SISTEMA FOR MUITO GRANDE VAI QUEBRAR O PDF
-    //                             child: pwa.Text(dados.text.replaceAll('\n', '\n'), style: pwa.TextStyle(lineSpacing: 5, fontSize: 8)),
-    //                           ),
-    //                         ]),
-    //                   ])),
-    //             ])),
-    //           ],
-    //         ),
-    //       ); // Center
-    //     }));
+    final pwa.PageTheme pageTheme5 = await _myPageTheme(PdfPageFormat.a4.applyMargin(left: 0, top: 0, right: 0, bottom: 0), 'pagina-5');
+    pdf.addPage(
+      pwa.MultiPage(
+        pageTheme: pageTheme5, //set the document theme
+        crossAxisAlignment: pwa.CrossAxisAlignment.start,
+        build: (pwa.Context context) => <pwa.Widget>[
+          pwa.Container(
+              child: pwa.Stack(children: <pwa.Widget>[
+            pwa.Row(
+                // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                children: <pwa.Widget>[]),
+            // SUA ECONOMIA ANUAL
 
-    // pdf.addPage(pwa.Page(
-    //     pageFormat: PdfPageFormat.a4,
-    //     build: (pwa.Context context) {
-    //       return pw.Center(
-    //         child: pwa.MultiPage(
-    //           crossAxisAlignment: pwa.CrossAxisAlignment.start,
-    //           pageTheme: pwa.PageTheme(
-    //             margin: pwa.EdgeInsets.zero,
-    //             buildBackground: (context) {
-    //               return pwa.Container(
-    //                 decoration: pwa.BoxDecoration(
-    //                   image: pwa.DecorationImage(
-    //                     image: returnImg('pagina-5'),
-    //                     fit: pwa.BoxFit.cover,
-    //                   ),
-    //                 ),
-    //                 child: pwa.Container(),
-    //               );
-    //             },
-    //             pageFormat: PdfPageFormat.a4,
-    //           ),
-    //           header: (pwa.Context context) {
-    //             return null;
-    //           },
-    //           build: (pwa.Context context) => <pwa.Widget>[
-    //             pwa.Container(
-    //                 child: pwa.Stack(children: <pwa.Widget>[
-    //               pwa.Row(
-    //                   // mainAxisAlignment: pwa.MainAxisAlignment.end,
-    //                   crossAxisAlignment: pwa.CrossAxisAlignment.end,
-    //                   children: <pwa.Widget>[]),
-    //               // SUA ECONOMIA ANUAL
+            pwa.Container(
+                margin: pwa.EdgeInsets.only(
+                  top: 200,
+                ),
+                child: pwa.Stack(children: <pwa.Widget>[
+                  pwa.Row(
+                      // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                      crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                      children: <pwa.Widget>[
+                        pwa.Container(
+                          width: 310,
+                          color: PdfColor.fromHex("#FFFFFF"),
+                          margin: pwa.EdgeInsets.only(top: 188, left: 210),
+                          child: pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[pwa.Text(inversor.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)), pwa.Text(garantia.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold))]),
+                        ),
+                      ]),
+                  pwa.Row(
+                      // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                      crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                      children: <pwa.Widget>[
+                        pwa.Container(
+                          width: 310,
+                          color: PdfColor.fromHex("#FFFFFF"),
+                          //
+                          margin: pwa.EdgeInsets.only(top: 243, left: 210),
+                          child: pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[pwa.Text(marcaModulos.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)), pwa.Text("25 Anos", style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold))]),
+                        ),
+                      ]),
+                ])),
+          ])),
+        ],
+      ),
+    );
 
-    //               pwa.Container(
-    //                   margin: pwa.EdgeInsets.only(
-    //                     top: 200,
-    //                   ),
-    //                   child: pwa.Stack(children: <pwa.Widget>[
-    //                     pwa.Row(
-    //                         // mainAxisAlignment: pwa.MainAxisAlignment.end,
-    //                         crossAxisAlignment: pwa.CrossAxisAlignment.end,
-    //                         children: <pwa.Widget>[
-    //                           pwa.Container(
-    //                             width: 310,
-    //                             color: PdfColor.fromHex("#FFFFFF"),
-    //                             margin: pwa.EdgeInsets.only(top: 188, left: 210),
-    //                             child: pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[pwa.Text(inversor.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)), pwa.Text(garantia.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold))]),
-    //                           ),
-    //                         ]),
-    //                     pwa.Row(
-    //                         // mainAxisAlignment: pwa.MainAxisAlignment.end,
-    //                         crossAxisAlignment: pwa.CrossAxisAlignment.end,
-    //                         children: <pwa.Widget>[
-    //                           pwa.Container(
-    //                             width: 310,
-    //                             color: PdfColor.fromHex("#FFFFFF"),
-    //                             //
-    //                             margin: pwa.EdgeInsets.only(top: 243, left: 210),
-    //                             child: pwa.Row(mainAxisAlignment: pwa.MainAxisAlignment.spaceBetween, children: <pwa.Widget>[pwa.Text(marcaModulos.text, style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold)), pwa.Text("25 Anos", style: pwa.TextStyle(color: PdfColor.fromHex("#666666"), fontSize: 14, fontWeight: pwa.FontWeight.bold))]),
-    //                           ),
-    //                         ]),
-    //                   ])),
-    //             ])),
-    //           ],
-    //         ),
-    //       ); // Center
-    //     }));
+    final pwa.PageTheme pageTheme6 = await _myPageTheme(PdfPageFormat.a4.applyMargin(left: 0, top: 0, right: 0, bottom: 0), 'pagina-6');
+    pdf.addPage(
+      pwa.MultiPage(
+        pageTheme: pageTheme6, //set the document theme
+        crossAxisAlignment: pwa.CrossAxisAlignment.start,
+        build: (pwa.Context context) => <pwa.Widget>[
+          pwa.Container(),
+        ],
+      ),
+    );
+
+    final pwa.PageTheme pageTheme7 = await _myPageTheme(PdfPageFormat.a4.applyMargin(left: 0, top: 0, right: 0, bottom: 0), 'pagina-7');
+    pdf.addPage(
+      pwa.MultiPage(
+        pageTheme: pageTheme7, //set the document theme
+        crossAxisAlignment: pwa.CrossAxisAlignment.start,
+        build: (pwa.Context context) => <pwa.Widget>[
+          pwa.Container(
+              margin: pwa.EdgeInsets.only(
+                top: 200,
+              ),
+              child: pwa.Stack(children: <pwa.Widget>[
+                pwa.Row(
+                    // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                    crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                    children: <pwa.Widget>[
+                      pwa.Container(
+                        // color: PdfColors.red,
+                        width: 16,
+                        margin: pwa.EdgeInsets.only(top: 117, left: 106),
+                        alignment: pwa.Alignment.topRight,
+                        child: pwa.Text(
+                          arvoresSalvas.round().toString(),
+                          textAlign: pwa.TextAlign.right,
+                          style: pwa.TextStyle(
+                            color: PdfColor.fromHex("#5F5E5E"),
+                          ),
+                        ),
+                      ),
+                    ]),
+                pwa.Row(
+                    // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                    crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                    children: <pwa.Widget>[
+                      pwa.Container(
+                        //color: PdfColors.red,
+                        width: 105,
+                        margin: pwa.EdgeInsets.only(top: 176, left: 35),
+                        alignment: pwa.Alignment.topRight,
+                        child: pwa.Text(
+                          co2.round().toString(),
+                          textAlign: pwa.TextAlign.right,
+                          style: pwa.TextStyle(
+                            color: PdfColor.fromHex("#5F5E5E"),
+                          ),
+                        ),
+                      ),
+                    ]),
+                pwa.Row(
+                    // mainAxisAlignment: pwa.MainAxisAlignment.end,
+                    crossAxisAlignment: pwa.CrossAxisAlignment.end,
+                    children: <pwa.Widget>[
+                      pwa.Container(
+                        // color: PdfColors.red,
+                        width: 16,
+                        margin: pwa.EdgeInsets.only(top: 240, left: 119),
+                        alignment: pwa.Alignment.topRight,
+                        child: pwa.Text(
+                          anoscarro.round().toString(),
+                          textAlign: pwa.TextAlign.right,
+                          style: pwa.TextStyle(
+                            color: PdfColor.fromHex("#5F5E5E"),
+                          ),
+                        ),
+                      ),
+                    ]),
+              ])),
+        ],
+      ),
+    );
 
     // pdf.addPage(pwa.Page(
     //     pageFormat: PdfPageFormat.a4,

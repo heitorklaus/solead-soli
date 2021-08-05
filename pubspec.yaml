@@ -22,6 +22,8 @@ environment:
 
 dependencies:
   shared_preferences: ^0.5.6+1
+  flutter_launcher_icons: ^0.9.1
+
   #google_sign_in: ^4.1.1
   framework:
     path: ../framework/
