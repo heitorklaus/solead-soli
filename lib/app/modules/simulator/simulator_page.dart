@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:framework/config/main_colors.dart';
 import 'package:framework/config/styles/button_styles.dart';
 import 'package:framework/ui/form/buttons/primary_button.dart';

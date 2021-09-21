@@ -19,19 +19,18 @@
          FlutterApplication and put your custom class here.
          android:icon="@mipmap/launcher_icon"
           -->
-           <!-- USE ASSIM PARA DEBUCAR
+            
     <application
-        android:name="io.flutter.app.FlutterApplication"
+    android:usesCleartextTraffic="true"
         android:label="Soli Leads"
-        android:icon="@mipmap/launcher_icon"
-       >
-       -->
+        android:icon="@mipmap/ic_launcher">
+        
        <!-- OU USE ASSIM PARA COMPILAR-->
-    <application
+    <!-- <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="Soli Leads"
         android:icon="@mipmap/launcher_icon"
-       >
+       > -->
          
 
         <activity

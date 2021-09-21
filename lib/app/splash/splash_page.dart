@@ -65,19 +65,17 @@ class _SplashPageState extends State<SplashPage> {
       }
 
       try {
-        await DatabaseHelper()
-            .downloadFile(
-                DatabaseHelper.csvKitsPath, DatabaseHelper.csvKitsFileName)
-            .then((value) async {
+        await DatabaseHelper().downloadFile(DatabaseHelper.csvKitsPath, DatabaseHelper.csvKitsFileName).then((value) async {
           if (value.statusCode == 200) {
             print('[ LOADED DATA FROM KLAUSMETAL]');
             loadCitiesIrradiationData();
 
             final l = await Prefs.getString("TOKEN");
+            Modular.to.pushReplacementNamed('/home');
 
             if (l != "" && permissao == 'PermissionStatus.granted') {
               print("[ LOGGED ]");
-             Modular.to.pushReplacementNamed('/home');
+              Modular.to.pushReplacementNamed('/home');
             } else if (permissao == 'PermissionStatus.granted') {
               print("[ NOT LOGGED ]");
               Modular.to.pushReplacementNamed('/login');
@@ -123,8 +121,7 @@ class _SplashPageState extends State<SplashPage> {
 
   Future loadCitiesIrradiationData() async {
     var dbClient = await db;
-    final list = await dbClient
-        .rawQuery('select * from CITIES_IRRADIATION_MONTH where id = 1');
+    final list = await dbClient.rawQuery('select * from CITIES_IRRADIATION_MONTH where id = 1');
 
     if (list.length > 0) {
       final eco = await CitiesData.fromJson(list.first);
@@ -151,8 +148,7 @@ class _SplashPageState extends State<SplashPage> {
 
       Prefs.setStringList("CITIES", someMap);
 
-      final list_citi = await dbClient
-          .rawQuery('select * from CITIES_IRRADIATION where id = 1');
+      final list_citi = await dbClient.rawQuery('select * from CITIES_IRRADIATION where id = 1');
 
       final first = PrefIrradiation.fromJson(list_citi.first);
 
@@ -176,10 +172,9 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: MainColors.cielo,
-       //oset color with: Color(0xFF0000FF)
+      //oset color with: Color(0xFF0000FF)
     ));
     return Scaffold(
       backgroundColor: MainColors.cielo,
@@ -205,8 +200,7 @@ class _SplashPageState extends State<SplashPage> {
                     child: CircularProgressIndicator(
                       strokeWidth: 1,
                       backgroundColor: Colors.blue[500],
-                      valueColor:
-                          new AlwaysStoppedAnimation<Color>(Color(0xFFFFFFFF)),
+                      valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFFFFFFF)),
                     ),
                   ),
                 ),

@@ -11,7 +11,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:framework/config/main_colors.dart';
 import 'package:framework/ui/form/inputs/input_type.dart';
 import 'package:framework/ui/form/inputs/outlined_text_edit.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+//import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:intl/intl.dart';
 import 'package:login/app/shared/styles/main_colors.dart' as main;
 import 'package:date_util/date_util.dart';
@@ -1337,9 +1337,13 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
     RenderRepaintBoundary boundary = globalKey.currentContext.findRenderObject();
     ui.Image image = await boundary.toImage();
     ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    final result = await ImageGallerySaver.saveImage(byteData.buffer.asUint8List(), name: img);
+    //final result = await ImageGallerySaver.saveImage(byteData.buffer.asUint8List(), name: img);
 
-    return result;
+    final buffer = byteData.buffer;
+    Directory tempDir = (await getApplicationDocumentsDirectory());
+    String tempPath = tempDir.path;
+    var filePath = tempPath + '/' + img + '.png'; // file_01.tmp is dump file, can be anything
+    return new File(filePath).writeAsBytes(buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
   }
 
   writeOnPdf(String nameFile) async {
@@ -1367,7 +1371,7 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
 
     returnImageChart(img) {
       final image = pwa.MemoryImage(
-        File(('/storage/emulated/0/Soli Leads/$img.jpg')).readAsBytesSync(),
+        File(('/data/user/0/br.soleadsoli.app/app_flutter/$img.png')).readAsBytesSync(),
       );
 
       return image;

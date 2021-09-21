@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_full_pdf_viewer/flutter_full_pdf_viewer.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 
 import 'package:login/app/shared/repositories/entities/power_plants.dart';
 import 'package:path_provider/path_provider.dart';
@@ -60,30 +60,59 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
       Navigator.of(context).pop();
     }
 
-    return WillPopScope(
-      onWillPop: _onWillPop,
-      child: PDFViewerScaffold(
-          appBar: AppBar(
-            // automaticallyImplyLeading: false,
-            title: Text(
-              "Proposta Gerada",
-              style: ubuntu17WhiteBold500,
+    return Scaffold(
+      appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.share,
+              size: 30,
+              color: Colors.white,
             ),
-
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(
-                  Icons.share,
-                  size: 30,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  share();
-                },
-              ),
-            ],
+            onPressed: () {
+              share();
+            },
           ),
-          path: widget.path),
+        ],
+        // automaticallyImplyLeading: false,
+        title: Text(
+          "Proposta Gerada",
+          style: ubuntu17WhiteBold500,
+        ),
+      ),
+      body: WillPopScope(
+        onWillPop: _onWillPop,
+        child: PDFView(
+          filePath: widget.path,
+          enableSwipe: true,
+          swipeHorizontal: false,
+          autoSpacing: false,
+          pageFling: true,
+        ),
+
+// PDFViewerScaffold(
+//           appBar: AppBar(
+//             // automaticallyImplyLeading: false,
+//             title: Text(
+//               "Proposta Gerada",
+//               style: ubuntu17WhiteBold500,
+//             ),
+
+//             actions: <Widget>[
+//               IconButton(
+//                 icon: Icon(
+//                   Icons.share,
+//                   size: 30,
+//                   color: Colors.white,
+//                 ),
+//                 onPressed: () {
+//                   share();
+//                 },
+//               ),
+//             ],
+//           ),
+//           path: widget.path),
+      ),
     );
   }
 }
