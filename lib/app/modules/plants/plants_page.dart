@@ -118,7 +118,7 @@ class _PlantsPageState extends ModularState<PlantsPage, PlantsController> {
                         Icon(Icons.verified_user, color: Colors.blue),
                         SizedBox(width: 10),
                         Text(
-                          'Dados do cliente',
+                          'Dados do clientes',
                           style: ubuntu16BlueBold500,
                         ),
                       ],

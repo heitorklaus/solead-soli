@@ -259,7 +259,7 @@ abstract class _SimulatorControllerBase with Store {
                                   Icon(Icons.verified_user, color: Colors.blue),
                                   SizedBox(width: 10),
                                   Text(
-                                    'Dados do cliente',
+                                    'Dados do clientea',
                                     style: ubuntu16BlueBold500,
                                   ),
                                 ],
@@ -1140,7 +1140,7 @@ int returnDaysOfMonth(xx) {
 // DIALOG GERADA
 @override
 buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, consumo, returnTax, setState, role) {
-  final inversor = TextEditingController();
+  final inversor = TextEditingController(text: 'PREENCHA');
 
   final garantia = TextEditingController();
   final potencia = TextEditingController();
@@ -1161,27 +1161,40 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
 
   final endereco = TextEditingController();
 
-  if (valora[6] != "null") inversor.text = valora[6];
+  if (valora[6] != "null") inversor.text = 'valora[6]';
   if (valora[7] != "null") marcaModulos.text = valora[7];
   if (valora[8] != "null") qtdModulos.text = valora[8];
   if (valora[9] != "null") area.text = valora[9];
   if (valora[10] != "null") dados.text = valora[10];
   if (valora[12] != "null") potencia.text = valora[12];
-  if (valora[13] != "null") valor.text = valora[13];
+  //if (valora[13] != "null" || valora[13] != "") valor.text = valora[13];
   if (valora[14] != "null") geracao.text = valora[14];
 
-  inversor.text = pw.inversor;
-  potencia.text = pw.potencia.toString();
-  marcaModulos.text = pw.marcaDoModulo.toString();
-  qtdModulos.text = pw.numeroDeModulo.toString();
+  // inversor.text = pw.inversor;
+  // potencia.text = pw.potencia.toString();
+  // marcaModulos.text = pw.marcaDoModulo.toString();
+  // qtdModulos.text = pw.numeroDeModulo.toString();
 
-  geracao.text = returnGenerationKW.toString();
-  marcaModulos.text = pw.marcaDoModulo.toString();
-  qtdModulos.text = pw.numeroDeModulo.toString();
-  area.text = pw.area.toString();
-  codigo.text = pw.codigo.toString();
+  // geracao.text = returnGenerationKW.toString();
+  // marcaModulos.text = pw.marcaDoModulo.toString();
+  // qtdModulos.text = pw.numeroDeModulo.toString();
+  // area.text = pw.area.toString();
+  // codigo.text = pw.codigo.toString();
+  // valor.text = pw.valor.toString();
+  // garantia.text = "5 anos";
+
+  inversor.text = '';
+  potencia.text = pw.potencia.toString();
+  marcaModulos.text = '';
+  qtdModulos.text = '';
+
+  geracao.text = '';
+  marcaModulos.text = '';
+  qtdModulos.text = '';
+  area.text = '';
+  codigo.text = '';
   valor.text = pw.valor.toString();
-  garantia.text = "5 anos";
+  garantia.text = "";
 
   pw.geracao = "${returnGenerationKW.toString()}";
 
@@ -2300,7 +2313,7 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
                                   children: [
                                     Container(
                                       color: Colors.white,
-                                      margin: EdgeInsets.only(bottom: 90),
+                                      margin: EdgeInsets.only(bottom: 20),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
@@ -2310,11 +2323,15 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
                                               children: [
                                                 Row(
                                                   children: [
-                                                    Icon(Icons.verified_user, color: Colors.blue),
+                                                    Icon(
+                                                      Icons.verified_user,
+                                                      color: Colors.blue,
+                                                      size: 18,
+                                                    ),
                                                     SizedBox(width: 10),
                                                     Text(
                                                       'Dados do cliente',
-                                                      style: ubuntu16BlueBold500,
+                                                      style: ubuntu16BlueBold500.copyWith(fontSize: 12),
                                                     ),
                                                   ],
                                                 ),
@@ -2334,62 +2351,62 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
                                                         }),
                                                   ),
                                                 ),
-                                                Container(
-                                                  color: Colors.white,
-                                                  margin: EdgeInsets.only(top: 18),
-                                                  child: OutlinedTextEdit(
-                                                    prefixIcon: Icon(Icons.chat),
-                                                    keyboardType: TextInputType.number,
-                                                    onChanged: (value) => {},
-                                                    label: "CPF do cliente",
-                                                    controller: cpf,
-                                                    inputType: InputType.EXTRA_SMALL,
-                                                    suffixIcon: IconButton(
-                                                        icon: Icon(Icons.content_paste),
-                                                        onPressed: () {
-                                                          paste("cpf");
-                                                        }),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  color: Colors.white,
-                                                  margin: EdgeInsets.only(top: 18),
-                                                  child: Row(
-                                                    children: [
-                                                      Expanded(
-                                                        child: OutlinedTextEdit(
-                                                          prefixIcon: Icon(Icons.assistant_photo),
-                                                          keyboardType: TextInputType.number,
-                                                          onChanged: (value) => {},
-                                                          label: "CEP",
-                                                          controller: cep,
-                                                          inputType: InputType.EXTRA_SMALL,
-                                                          suffixIcon: IconButton(
-                                                              icon: Icon(Icons.content_paste),
-                                                              onPressed: () {
-                                                                paste("cep");
-                                                              }),
-                                                        ),
-                                                      ),
-                                                      SizedBox(width: 10),
-                                                      Expanded(
-                                                        child: OutlinedTextEdit(
-                                                          prefixIcon: Icon(Icons.dialpad),
-                                                          keyboardType: TextInputType.text,
-                                                          onChanged: (value) => {},
-                                                          label: "Bairro",
-                                                          controller: bairro,
-                                                          suffixIcon: IconButton(
-                                                              icon: Icon(Icons.content_paste),
-                                                              onPressed: () {
-                                                                paste("bairro");
-                                                              }),
-                                                          inputType: InputType.EXTRA_SMALL,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
+                                                // Container(
+                                                //   color: Colors.white,
+                                                //   margin: EdgeInsets.only(top: 18),
+                                                //   child: OutlinedTextEdit(
+                                                //     prefixIcon: Icon(Icons.chat),
+                                                //     keyboardType: TextInputType.number,
+                                                //     onChanged: (value) => {},
+                                                //     label: "CPF do cliente",
+                                                //     controller: cpf,
+                                                //     inputType: InputType.EXTRA_SMALL,
+                                                //     suffixIcon: IconButton(
+                                                //         icon: Icon(Icons.content_paste),
+                                                //         onPressed: () {
+                                                //           paste("cpf");
+                                                //         }),
+                                                //   ),
+                                                // ),
+                                                // Container(
+                                                //   color: Colors.white,
+                                                //   margin: EdgeInsets.only(top: 18),
+                                                //   child: Row(
+                                                //     children: [
+                                                //       Expanded(
+                                                //         child: OutlinedTextEdit(
+                                                //           prefixIcon: Icon(Icons.assistant_photo),
+                                                //           keyboardType: TextInputType.number,
+                                                //           onChanged: (value) => {},
+                                                //           label: "CEP",
+                                                //           controller: cep,
+                                                //           inputType: InputType.EXTRA_SMALL,
+                                                //           suffixIcon: IconButton(
+                                                //               icon: Icon(Icons.content_paste),
+                                                //               onPressed: () {
+                                                //                 paste("cep");
+                                                //               }),
+                                                //         ),
+                                                //       ),
+                                                //       SizedBox(width: 10),
+                                                //       Expanded(
+                                                //         child: OutlinedTextEdit(
+                                                //           prefixIcon: Icon(Icons.dialpad),
+                                                //           keyboardType: TextInputType.text,
+                                                //           onChanged: (value) => {},
+                                                //           label: "Bairro",
+                                                //           controller: bairro,
+                                                //           suffixIcon: IconButton(
+                                                //               icon: Icon(Icons.content_paste),
+                                                //               onPressed: () {
+                                                //                 paste("bairro");
+                                                //               }),
+                                                //           inputType: InputType.EXTRA_SMALL,
+                                                //         ),
+                                                //       ),
+                                                //     ],
+                                                //   ),
+                                                // ),
                                                 Container(
                                                   color: Colors.white,
                                                   margin: EdgeInsets.only(top: 18),
@@ -2401,7 +2418,7 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
                                                           prefixIcon: Icon(Icons.dvr),
                                                           keyboardType: TextInputType.text,
                                                           onChanged: (value) => {},
-                                                          label: "Endereço",
+                                                          label: "Geração kWh",
                                                           controller: endereco,
                                                           inputType: InputType.EXTRA_SMALL,
                                                           suffixIcon: IconButton(
@@ -2409,18 +2426,6 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
                                                               onPressed: () {
                                                                 paste("endereco");
                                                               }),
-                                                        ),
-                                                      ),
-                                                      SizedBox(width: 10),
-                                                      Expanded(
-                                                        flex: 1,
-                                                        child: OutlinedTextEdit(
-                                                          prefixIcon: Icon(Icons.texture),
-                                                          keyboardType: TextInputType.number,
-                                                          controller: numero,
-                                                          onChanged: (value) => {},
-                                                          label: "Número",
-                                                          inputType: InputType.EXTRA_SMALL,
                                                         ),
                                                       ),
                                                     ],
@@ -2439,11 +2444,15 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
                                                           child: Row(
                                                             mainAxisAlignment: MainAxisAlignment.start,
                                                             children: [
-                                                              Icon(Icons.view_module, color: Colors.blue),
+                                                              Icon(
+                                                                Icons.view_module,
+                                                                color: Colors.blue,
+                                                                size: 18,
+                                                              ),
                                                               SizedBox(width: 10),
                                                               Text(
                                                                 'Dados da Usina',
-                                                                style: ubuntu16BlueBold500,
+                                                                style: ubuntu16BlueBold500.copyWith(fontSize: 12),
                                                               ),
                                                               Spacer(),
                                                               IconButton(
@@ -2461,7 +2470,7 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
                                                     : SizedBox(),
                                                 role == "ROLE_ADMIN"
                                                     ? Visibility(
-                                                        visible: dadosDaUsina_view,
+                                                        visible: !dadosDaUsina_view,
                                                         child: Wrap(
                                                           children: [
                                                             Container(
@@ -2653,7 +2662,7 @@ buildDialog(valora, tarifa, context, pw, returnGenerationKW, returnAllMonths, co
                                                               ),
                                                             ),
                                                             SizedBox(
-                                                              height: 100,
+                                                              height: 500,
                                                             )
                                                           ],
                                                         ),
